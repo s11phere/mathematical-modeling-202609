@@ -1,0 +1,47 @@
+% =====================================================================
+%  附录（页数不限）
+%  依据 2026 规范：附录必须包含支撑材料的文件列表、建模所用全部完整可运行的
+%  源程序代码；如确无程序须注明“本论文没有用到程序”。
+% =====================================================================
+\begin{appendices}
+
+\section{支撑材料文件列表}
+本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径）。
+
+\begin{table}[!htbp]
+    \caption{支撑材料文件列表}\label{tab:files}
+    \centering
+    \begin{tabular}{cll}
+        \toprule
+        序号 & 文件路径 & 说明 \\
+        \midrule
+        1 & \texttt{code/main.py}      & 主程序（测向与搜索策略） \\
+        2 & \texttt{code/}…            & 【待填充：其余源程序】 \\
+        3 & \texttt{data/}…            & 【待填充：自主查阅使用的数据资料】 \\
+        4 & \texttt{figures/}…         & 【待填充：较大篇幅中间结果图表】 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\textbf{【待填充：最终按实际支撑材料逐项填写；如确无支撑材料，则注明“本论文没有
+支撑材料”。】}
+
+\section{主要源程序}
+\textbf{【待填充：放入建模所用到的全部完整、可运行的源程序代码（含 EXCEL、SPSS
+等交互命令）。下方为占位示例。】}
+
+\begin{lstlisting}[language=python, caption={测向与搜索策略主程序（占位示例）}]
+# -*- coding: utf-8 -*-
+# 占位示例：B 题测向机在线搜索与清除策略的主流程骨架
+def main():
+    # TODO: 建立到模拟器的连接，发送 /enter 进入任务
+    # TODO: 粗扫建立「频道 -> 射线束」台账
+    # TODO: 对交会区域收敛的频道进行精确定位
+    # TODO: 逐个 /clear 清除干扰源，并在时间预算内返回
+    pass
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\end{appendices}
