@@ -1,0 +1,23 @@
+{
+  "problem": 1,
+  "N": 200,
+  "hm_mode": "prescribed",
+  "sample_dt": 1.0,
+  "n_samples": 1801,
+  "wall_s": 42.6243851184845,
+  "git": "ffa2747",
+  "md5": {
+    "src/mol_solver.py": "2eb3864abda8d13299a4e13eb0643f78",
+    "src/model_problems.py": "f21e6f0d6d1febc944ca8d53ba51abf0",
+    "scripts/run_problems.py": "1d7b6bc8cf1d6f6b2530aaa15e3a5281",
+    "src/write_result.py": "09a4c8f33447408af5487774e1a99865"
+  },
+  "host": "ThinkBook16p",
+  "python": "3.13.5",
+  "Tsurf_end_C": 36.78101190724976,
+  "Tc_end_C": 33.58423980105118,
+  "Csurf_end": 2.547413905854561,
+  "Cc_end": 2.5499996293062575,
+  "W0": 0.7401769282992966,
+  "W_end": 0.7399922219858244
+}
