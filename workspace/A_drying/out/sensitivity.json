@@ -1,0 +1,80 @@
+[
+  {
+    "label": "prescribed",
+    "mode": "prescribed",
+    "hm_scale": null,
+    "phase_switch_s": 1800.0,
+    "amb": "hold",
+    "t_end_h": null,
+    "Cmax_end": 1.4592220899523154,
+    "Cc_end": 1.4592220899523154,
+    "Cs_end": 1.4592187746626863,
+    "wall": 11.174547910690308,
+    "n": 1926
+  },
+  {
+    "label": "heat_limited",
+    "mode": "heat_limited",
+    "hm_scale": null,
+    "phase_switch_s": 1800.0,
+    "amb": "hold",
+    "t_end_h": 4.5,
+    "Cmax_end": 0.0,
+    "Cc_end": -1.5046551744956638e-26,
+    "Cs_end": 0.0,
+    "wall": 11.18866777420044,
+    "n": 1926
+  },
+  {
+    "label": "scaled:100",
+    "mode": "scaled",
+    "hm_scale": 100.0,
+    "phase_switch_s": 1800.0,
+    "amb": "hold",
+    "t_end_h": null,
+    "Cmax_end": 1.4591178818925714,
+    "Cc_end": 1.4591178818925714,
+    "Cs_end": 1.4591178818925714,
+    "wall": 7.709450960159302,
+    "n": 1926
+  },
+  {
+    "label": "scaled:1000",
+    "mode": "scaled",
+    "hm_scale": 1000.0,
+    "phase_switch_s": 1800.0,
+    "amb": "hold",
+    "t_end_h": null,
+    "Cmax_end": 1.4591178818925714,
+    "Cc_end": 1.4591178818925714,
+    "Cs_end": 1.4591178818925714,
+    "wall": 14.907451868057251,
+    "n": 1926
+  },
+  {
+    "label": "heat_limited@switch1200",
+    "mode": "heat_limited",
+    "hm_scale": null,
+    "phase_switch_s": 1200.0,
+    "amb": "hold",
+    "t_end_h": 4.833333333333333,
+    "Cmax_end": 0.0,
+    "Cc_end": -1.4591764263402278e-18,
+    "Cs_end": 0.0,
+    "wall": 11.98656439781189,
+    "n": 1925
+  },
+  {
+    "label": "heat_limited@switch2400",
+    "mode": "heat_limited",
+    "hm_scale": null,
+    "phase_switch_s": 2400.0,
+    "amb": "hold",
+    "t_end_h": 4.166666666666667,
+    "Cmax_end": 0.0,
+    "Cc_end": -1.2488597244342883e-20,
+    "Cs_end": 0.0,
+    "wall": 10.100329399108887,
+    "n": 1928
+  }
+]

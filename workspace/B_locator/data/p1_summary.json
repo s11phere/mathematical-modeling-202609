@@ -1,0 +1,10 @@
+{
+  "n_cases": 5,
+  "n_bounded": 5,
+  "diameter_m_range": [
+    10.5912,
+    25.6424
+  ],
+  "n_diameter_circle_misses": 2,
+  "n_truth_inside_region": 5
+}
