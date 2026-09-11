@@ -106,7 +106,7 @@ def color_table():
 # 数值网格
 # ---------------------------------------------------------------------
 def compute_grid():
-    """整个 (a,b) 上的 Dbar；|P2|>x_max 或近共线处为 NaN（不参与成像）。"""
+    """整个 (a,b) 上的 Dbar；|S2|>x_max 或近共线处为 NaN（不参与成像）。"""
     a_axis = np.linspace(A_LO, A_HI, NA)
     b_axis = np.linspace(B_LO, B_HI, NB)
     z = np.full((NB, NA), np.nan)
@@ -187,13 +187,13 @@ def draw_panel_a(ax, a_axis, b_axis, z, d_min):
     ax.axhline(0.0, color="k", lw=0.7)
     ax.axvline(0.0, color="k", lw=0.7)
     ax.plot([0.0], [0.0], "o", color="red", ms=2.8)
-    ax.annotate("$P_1(0,0)$", xy=(0.0, 0.0), xytext=(120, -230), fontsize=7,
+    ax.annotate("$S_1(0,0)$", xy=(0.0, 0.0), xytext=(120, -230), fontsize=7,
                 color="red", arrowprops=dict(arrowstyle="-", color="red", lw=0.5))
     ax.plot([d_min["a"]], [d_min["b"]], "o", color="k", ms=2.8)
     ax.annotate("$(a^*,b^*)$", xy=(d_min["a"], d_min["b"]), xytext=(430, 1000),
                 fontsize=7, arrowprops=dict(arrowstyle="->", color="k", lw=0.5))
     ax.text(-1500, 1470,
-            "white: $|P_2P_1|>x_{max}$ or near-collinear\n"
+            "white: $|S_2S_1|>x_{max}$ or near-collinear\n"
             "blue: optimal band  $\\bar D<60$ m",
             fontsize=6.2, va="top", ha="left", color="0.25")
     ax.set_xlabel("$a$ (m)")
@@ -219,13 +219,13 @@ def _band(inner, outer):
 def draw_panel_b(ax, d_min, cand, tight):
     inner, outer = cand
     t_in, t_out = tight
-    # 可行域（|P2|<=x_max）
+    # 可行域（|S2|<=x_max）
     tt = np.linspace(-math.pi / 2, math.pi / 2, 400)
     ax.fill_between(X_MAX * np.cos(tt), X_MAX * np.sin(tt), color="0.94",
                     edgecolor="0.7", lw=0.5, zorder=1)
     ax.plot(X_MAX * np.cos(tt), X_MAX * np.sin(tt), color="0.55", lw=0.6,
             ls="--", zorder=2)
-    ax.text(1400, 300, "$|P_2P_1|=x_{max}$", fontsize=6.5, rotation=90,
+    ax.text(1400, 300, "$|S_2S_1|=x_{max}$", fontsize=6.5, rotation=90,
             color="0.35", va="bottom", ha="center")
     ax.axhline(0.0, color="k", lw=0.7, zorder=2)
     # 最优带（5%）与候选区域（20%）
@@ -241,10 +241,10 @@ def draw_panel_b(ax, d_min, cand, tight):
                 zorder=3)
         ax.plot(outer[:, 0], outer[:, 1], color="#1976d2", lw=0.8, zorder=4)
         ax.plot(inner[:, 0], inner[:, 1], color="#1976d2", lw=0.8, zorder=4)
-    # 示意：P1 的视线、源点 S 与最优 P2
+    # 示意：S1 的视线、源点 T 与最优 S2
     ax.plot([0.0, X_S_DEMO], [0.0, 0.0], color="red", lw=0.8, ls="-.", zorder=5)
     ax.plot([X_S_DEMO], [0.0], "s", color="red", ms=3.0, zorder=6)
-    ax.annotate("$S$", xy=(X_S_DEMO, 0.0), xytext=(X_S_DEMO - 190, 80),
+    ax.annotate("$T$", xy=(X_S_DEMO, 0.0), xytext=(X_S_DEMO - 190, 80),
                 fontsize=7, color="red")
     ax.annotate("$\\psi_1$", xy=(0.45 * X_S_DEMO, 0.0), xytext=(560, 70),
                 fontsize=7, color="red")
@@ -252,7 +252,7 @@ def draw_panel_b(ax, d_min, cand, tight):
     ax.annotate("$(a^*,b^*)$", xy=(d_min["a"], d_min["b"]), xytext=(700, 1090),
                 fontsize=7, arrowprops=dict(arrowstyle="->", color="k", lw=0.5))
     ax.plot([0.0], [0.0], "o", color="red", ms=2.8, zorder=6)
-    ax.annotate("$P_1$", xy=(0.0, 0.0), xytext=(60, -150), fontsize=7, color="red")
+    ax.annotate("$S_1$", xy=(0.0, 0.0), xytext=(60, -150), fontsize=7, color="red")
     ax.text(60, 1440, "dark: $\\bar D\\leq1.05\\,\\bar D_{\\min}$", fontsize=6.5,
             color="#0d47a1")
     ax.text(60, 1300, "light: $\\bar D\\leq1.20\\,\\bar D_{\\min}$", fontsize=6.5,

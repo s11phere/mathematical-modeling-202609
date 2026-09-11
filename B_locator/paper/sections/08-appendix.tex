@@ -31,15 +31,16 @@
         10 & \texttt{Q2/figures/make\_q2\_figures.py} & 问题二插图生成脚本 \\
         11 & \texttt{Q2/src/results/q2\_summary.json} & 问题二最优点、等值区域与自检汇总（本文数值来源） \\
         12 & \texttt{figures/}\mbox{\texttt{p2-expected-diameter.png}} & 期望直径等值图与候选区域（图~\ref{fig:p2-heat}） \\
-        13 & \texttt{figures/}\mbox{\texttt{p2-wedge-geometry.png}} & 两探测束交会与探测域直径构造（图~\ref{fig:p2-wedge}） \\
+        13 & \texttt{figures/}\mbox{\texttt{p2-wedge-geometry.png}} & 两探测束交会与定位区域直径构造（图~\ref{fig:p2-wedge}） \\
         14 & \texttt{Q2/Q2modeling.md} 等 & 问题二建模手稿、参考热力图与 Mathematica 校验脚本 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
 \section{问题一主要源程序}\label{app:code}
-问题一的完整源程序（支撑材料 \texttt{code/p1\_locator.py}）见下；其中凸包采用 Andrew
-单调链，仅列出与正文式~\eqref{eq:wedge}--\eqref{eq:cover} 直接对应的部分。
+问题一的完整源程序（支撑材料 \texttt{code/p1\_locator.py}）见下；其中定位区域由半平面
+Sutherland--Hodgman 裁剪构造、顶点表再用 Andrew 单调链求凸包规范化，仅列出与正文式
+~\eqref{eq:wedge}--\eqref{eq:cover} 直接对应的部分。
 
 \begin{lstlisting}[language=python, caption={问题一：交会定位区域直径与直径圆覆盖判定（Python 3）}]
 import math
@@ -166,27 +167,27 @@ X_MAX, ALPHA_DEG = 1500.0, 1.0        # 有效接收半径；示向度误差界
 ALPHA = math.radians(ALPHA_DEG)       # 探测束半张角
 
 
-def quad_vertices(x_s, a, b, alpha=ALPHA):
-    """P1 的两条边界射线（与 x 轴成 +-alpha）与 P2 的两条边界射线
-    （绕 P2->S 方向成 +-alpha）两两求交，得交会四边形 ABCD 的四个顶点。"""
-    p2 = np.array([a, b])
-    psi = math.atan2(-b, x_s - a)      # S 相对 P2 的方位角
+def quad_vertices(x_t, a, b, alpha=ALPHA):
+    """S1 的两条边界射线（与 x 轴成 +-alpha）与 S2 的两条边界射线
+    （绕 S2->S 方向成 +-alpha）两两求交，得交会四边形 ABCD 的四个顶点。"""
+    s2 = np.array([a, b])
+    psi = math.atan2(-b, x_t - a)      # S 相对 S2 的方位角
     pts = []
     for t1 in (alpha, -alpha):
         u1 = np.array([math.cos(t1), math.sin(t1)])
         for t2 in (psi + alpha, psi - alpha):
             u2 = np.array([math.cos(t2), math.sin(t2)])
             den = u1[0] * u2[1] - u1[1] * u2[0]
-            if abs(den) < 1e-14:       # 两射线平行：探测域无界
+            if abs(den) < 1e-14:       # 两射线平行：定位区域无界
                 return None
-            s = (p2[0] * u2[1] - p2[1] * u2[0]) / den
+            s = (s2[0] * u2[1] - s2[1] * u2[0]) / den
             pts.append(s * u1)
     return np.array(pts)
 
 
-def quad_diameter(x_s, a, b, alpha=ALPHA):
-    """探测域直径 D = 四边形顶点两两距离的最大值。"""
-    p = quad_vertices(x_s, a, b, alpha)
+def quad_diameter(x_t, a, b, alpha=ALPHA):
+    """定位区域直径 D = 四边形顶点两两距离的最大值。"""
+    p = quad_vertices(x_t, a, b, alpha)
     if p is None:
         return math.inf
     d = p[:, None, :] - p[None, :, :]
@@ -194,12 +195,12 @@ def quad_diameter(x_s, a, b, alpha=ALPHA):
 
 
 def dbar(a, b, n=800, alpha=ALPHA):
-    """期望定位区域直径：按 P_S(x_S|P1) = 2 x_S / x_max^2 加权求和。"""
+    """期望定位区域直径：按 P_T(x_T|S1) = 2 x_T / x_max^2 加权求和。"""
     if abs(b) < 1e-9:                  # 两点与源点共线，区域无界
         return math.inf
-    x_s = X_MAX * (np.arange(n) + 0.5) / n
-    w = 2.0 * x_s / X_MAX ** 2
-    d = np.array([quad_diameter(float(x), a, b, alpha) for x in x_s])
+    x_t = X_MAX * (np.arange(n) + 0.5) / n
+    w = 2.0 * x_t / X_MAX ** 2
+    d = np.array([quad_diameter(float(x), a, b, alpha) for x in x_t])
     if not np.isfinite(d).all():
         return math.inf
     return float((w * d).sum() / w.sum())

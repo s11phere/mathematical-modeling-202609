@@ -197,7 +197,7 @@ grep -rn "待填充" sections/
 
 - 图 1（算法流程图）由 `../Q1/figures/make_p1_flowchart.py` 生成；图 2（覆盖判定对照）由
   `../Q1/figures/make_p1_figures.py` 生成，数据来自 `../Q1/src/p1_solution.py`。
-- 图 3（两探测束交会与探测域直径）由 `../Q2/figures/make_q2_wedge_figure.py` 生成，为示意
+- 图 3（两探测束交会与定位区域直径）由 `../Q2/figures/make_q2_wedge_figure.py` 生成，为示意
   构图（半张角放大到 $2^\circ$），不依赖数值；图 4（期望直径等值图 + 候选区域）由
   `../Q2/figures/make_q2_figures.py` 生成，数值来自 `../Q2/src/q2_solution.py`。
 - `p1-wedge-intersection.png`（**备选图，正文未引用**）由 `../Q1/figures/make_p1_wedge_figure.py`

@@ -2,13 +2,13 @@
 # 问题二：第二个检测点的选择模型 —— 求解与汇总
 #
 # 模型（与 Q2modeling.md 一致）：
-#   P1 置于原点、其示向度方向取为 x 轴正方向；P2 置于 (a, b)。
-#   源点 S 位于 (x_S, 0)，后验分布 P_S(x_S|P1) = 2 x_S / x_max^2。
-#   D(x_S, a, b) = 两探测束交会四边形 ABCD 的对角线长度最大值
+#   S1 置于原点、其示向度方向取为 x 轴正方向；S2 置于 (a, b)。
+#   源点 T 位于 (x_T, 0)，后验分布 P_T(x_T|S1) = 2 x_T / x_max^2。
+#   D(x_T, a, b) = 两探测束交会四边形 ABCD 的对角线长度最大值
 #                = max_{A,B,C,D} 两两距离
-#   其中 ABCD 由 P1 的两条边界射线（与 x 轴夹角 ±alpha）
-#   与 P2 的两条边界射线（绕“P2 -> S”方向 ±alpha）两两相交得到。
-#   价值函数 Dbar(a,b) = ∫ P_S(x_S|P1) D(x_S,a,b) dx_S（重心法数值积分）。
+#   其中 ABCD 由 S1 的两条边界射线（与 x 轴夹角 ±alpha）
+#   与 S2 的两条边界射线（绕“S2 -> T”方向 ±alpha）两两相交得到。
+#   价值函数 Dbar(a,b) = ∫ P_T(x_T|S1) D(x_T,a,b) dx_T（重心法数值积分）。
 #
 # 运行（仓库根目录）：
 #   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/src/q2_solution.py
@@ -32,7 +32,7 @@ X_MAX = 1500.0                # 有效接收半径上限，单位 m
 ALPHA_DEG = 1.0               # 示向度误差界（度）= 探测束半张角
 ALPHA = math.radians(ALPHA_DEG)
 
-# 数值积分：求期望时 x_S 的分点个数（论文正文用 800）
+# 数值积分：求期望时 x_T 的分点个数（论文正文用 800）
 NX_EXPECT = 800
 # 求最优点时用的较粗分点数（仅用于扫描与细化）
 NX_SCAN = 200
@@ -42,17 +42,17 @@ NX_REFINE = 800
 # ---------------------------------------------------------------------
 # 1. 单点计算：交会四边形与它的直径
 # ---------------------------------------------------------------------
-def quad_vertices(x_s, a, b, alpha=ALPHA):
+def quad_vertices(x_t, a, b, alpha=ALPHA):
     """返回两探测束交会四边形的四个顶点（4x2 数组）。
 
-    四个顶点 = P1 的两条边界射线 × P2 的两条边界射线 的两两交点。
-    P2 的边界射线绕 "P2 -> S" 方向 (psi) 张开 ±alpha，
-    psi = atan2(-b, x_S - a)（S 相对 P2 的方位角）。
+    四个顶点 = S1 的两条边界射线 × S2 的两条边界射线 的两两交点。
+    S2 的边界射线绕 "S2 -> T" 方向 (psi) 张开 ±alpha，
+    psi = atan2(-b, x_T - a)（T 相对 S2 的方位角）。
 
     退化情形（两条射线平行）返回 None。
     """
-    p2 = np.array([a, b])
-    psi = math.atan2(-b, x_s - a)
+    s2 = np.array([a, b])
+    psi = math.atan2(-b, x_t - a)
     pts = []
     for t1 in (alpha, -alpha):
         u1 = np.array([math.cos(t1), math.sin(t1)])
@@ -61,31 +61,31 @@ def quad_vertices(x_s, a, b, alpha=ALPHA):
             den = u1[0] * u2[1] - u1[1] * u2[0]
             if abs(den) < 1e-14:
                 return None
-            # P1 + s u1 = P2 + t u2  =>  s = cross(P2, u2)/cross(u1, u2)
-            s = (p2[0] * u2[1] - p2[1] * u2[0]) / den
+            # S1 + s u1 = S2 + t u2  =>  s = cross(S2, u2)/cross(u1, u2)
+            s = (s2[0] * u2[1] - s2[1] * u2[0]) / den
             pts.append(s * u1)
     return np.array(pts)
 
 
-def quad_diameter(x_s, a, b, alpha=ALPHA):
-    """单次构型的探测域直径 D(x_S, a, b) = 四边形顶点两两距离的最大值。"""
-    p = quad_vertices(x_s, a, b, alpha)
+def quad_diameter(x_t, a, b, alpha=ALPHA):
+    """单次构型的定位区域直径 D(x_T, a, b) = 四边形顶点两两距离的最大值。"""
+    p = quad_vertices(x_t, a, b, alpha)
     if p is None:
         return math.inf
     d = p[:, None, :] - p[None, :, :]
     return float(np.sqrt((d ** 2).sum(-1)).max())
 
 
-def _diam_batch(a, b, x_s, alpha=ALPHA):
-    """向量化：一次给出同一 (a,b) 上所有 x_S 的 D 值（长度 n 的数组）。
+def _diam_batch(a, b, x_t, alpha=ALPHA):
+    """向量化：一次给出同一 (a,b) 上所有 x_T 的 D 值（长度 n 的数组）。
 
-    P1 的两条边界射线固定，P2 的两条边界射线随 x_S 变化，
-    故四个交点可在 x_S 方向上一次算完；再对 4 个顶点取两两距离最大值。
+    S1 的两条边界射线固定，S2 的两条边界射线随 x_T 变化，
+    故四个交点可在 x_T 方向上一次算完；再对 4 个顶点取两两距离最大值。
     """
-    x_s = np.asarray(x_s, dtype=float)
-    n = x_s.size
-    p2 = np.array([a, b])
-    psi = np.arctan2(-b, x_s - a)
+    x_t = np.asarray(x_t, dtype=float)
+    n = x_t.size
+    s2 = np.array([a, b])
+    psi = np.arctan2(-b, x_t - a)
     verts = np.zeros((n, 4, 2))
     k = 0
     for t1 in (alpha, -alpha):
@@ -95,7 +95,7 @@ def _diam_batch(a, b, x_s, alpha=ALPHA):
             den = u1[0] * u2y - u1[1] * u2x
             if np.any(np.abs(den) < 1e-14):         # 探测束近共线：直径无界
                 return np.full(n, math.inf)
-            s = (p2[0] * u2y - p2[1] * u2x) / den
+            s = (s2[0] * u2y - s2[1] * u2x) / den
             verts[:, k, 0] = s * u1[0]
             verts[:, k, 1] = s * u1[1]
             k += 1
@@ -107,10 +107,10 @@ def _diam_batch(a, b, x_s, alpha=ALPHA):
 # 2. 价值函数 Dbar(a, b)
 # ---------------------------------------------------------------------
 def _nodes(n):
-    """x_S 的重心法分点与权重 w = P_S(x_S|P1) = 2 x_S / x_max^2。"""
-    x_s = X_MAX * (np.arange(n) + 0.5) / n
-    w = 2.0 * x_s / X_MAX ** 2
-    return x_s, w
+    """x_T 的重心法分点与权重 w = P_T(x_T|S1) = 2 x_T / x_max^2。"""
+    x_t = X_MAX * (np.arange(n) + 0.5) / n
+    w = 2.0 * x_t / X_MAX ** 2
+    return x_t, w
 
 
 def dbar(a, b, n=NX_EXPECT, alpha=ALPHA):
@@ -120,8 +120,8 @@ def dbar(a, b, n=NX_EXPECT, alpha=ALPHA):
     """
     if abs(b) < 1e-9:
         return math.inf
-    x_s, w = _nodes(n)
-    d = _diam_batch(a, b, x_s, alpha)
+    x_t, w = _nodes(n)
+    d = _diam_batch(a, b, x_t, alpha)
     if not np.isfinite(d).all():
         return math.inf
     return float((w * d).sum() / w.sum())
@@ -132,7 +132,7 @@ def dbar(a, b, n=NX_EXPECT, alpha=ALPHA):
 # ---------------------------------------------------------------------
 def optimize(n_grid=NX_SCAN, r_max=X_MAX, a_range=(-400.0, 1800.0),
              b_range=(60.0, 1500.0)):
-    """在 |P2| <= r_max 内求 Dbar 的最小值（先粗扫再逐步细化）。"""
+    """在 |S2| <= r_max 内求 Dbar 的最小值（先粗扫再逐步细化）。"""
     best = (math.inf, 0.0, 0.0)
     step = 60.0
     for a in np.arange(a_range[0], a_range[1] + 1e-9, step):
@@ -216,10 +216,10 @@ def dbar_closed(a, b):
 
 
 def dbar_simple(a, b, n=NX_EXPECT):
-    """进一步把 kappa 近似为 |b| 后的值：E[pi x_S r2S /(90 |b|)]。"""
-    x_s, w = _nodes(n)
-    r2 = np.hypot(x_s - a, b)
-    phi = math.pi * x_s * r2 / (90.0 * abs(b))
+    """进一步把 kappa 近似为 |b| 后的值：E[pi x_T r2T /(90 |b|)]。"""
+    x_t, w = _nodes(n)
+    r2 = np.hypot(x_t - a, b)
+    phi = math.pi * x_t * r2 / (90.0 * abs(b))
     return float((w * phi).sum() / w.sum())
 
 
@@ -238,7 +238,7 @@ if __name__ == "__main__":
 
     print("[2/4] 核心表格 …")
     table = [
-        ("P2 与 P1 重合", 0.0, 0.0),
+        ("S2 与 S1 重合", 0.0, 0.0),
         ("沿视线 500 m", 500.0 * math.cos(ALPHA), 500.0 * math.sin(ALPHA)),
         ("沿视线 1000 m", 1000.0 * math.cos(ALPHA), 1000.0 * math.sin(ALPHA)),
         ("最优位置", a_star, b_star),
@@ -246,7 +246,7 @@ if __name__ == "__main__":
         ("(1000, 700)", 1000.0, 700.0),
         ("(1100, 600)", 1100.0, 600.0),
         ("(1200, 700)", 1200.0, 700.0),
-        ("垂距 700 m（正对 P1）", 0.0, 700.0),
+        ("垂距 700 m（正对 S1）", 0.0, 700.0),
         ("(500, 700)", 500.0, 700.0),
     ]
     rows = []
