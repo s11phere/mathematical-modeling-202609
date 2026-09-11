@@ -1,8 +1,11 @@
 # B 题论文工程 —— 人工修改 & 手动编译指南
 
 > 题目：**无线电干扰源的快速自动定位与清除模型**（2026 全国大学生数学建模竞赛 B 题）
-> 当前状态：**问题一（5.1 节）、问题二（5.2 节）已定稿**，摘要、问题背景与重述、问题分析、
-> 5.1、5.2 已按“语言精修”重新校订；编译产物 `main.pdf` 共 **16 页**；
+> 当前状态：**问题一（5.1 节）、问题二（5.2 节）均已定稿且数据已对齐**：问题一的全部数值、
+> 图表与附录 B 粘贴的代码，均由 `B_locator/Q1/p1_intersection.py`（求解）与
+> `p1_experiments.py`（算例生成 + 逐例求解 + 两组随机扫描）的运行结果产出，汇总见
+> `B_locator/Q1/p1_summary.json`；正文改数值前请先重跑该脚本并同步附录 B。
+> 摘要、问题背景与重述、问题分析、5.1、5.2 已按“语言精修”重新校订；
 > 问题三、四与模型评价章尚有 **9 处 `【待填充：…】`** 待补（清单见第 5 节）。
 > 格式（字体 / 间距 / 图表）已定稿，**改文字不会影响排版**。
 
@@ -44,7 +47,7 @@ bash tmp/paper-build/build-pdf.sh      # 产物 tmp/paper-build/bld/main.pdf，�
 应急产物与 XeLaTeX 结果版式一致（同样的类文件、字体、体例），但**正式交付仍以
 XeLaTeX + `build.sh` 的结果为准**。
 
-**本机已用这条路子产出一份 `main.pdf`（16 页、无缺字、无报错），并已回填为 `paper/main.pdf`。**
+**本机已用这条路子产出一份 `main.pdf`（21 页、无缺字、无报错），并已回填为 `paper/main.pdf`。**
 之后改完正文要重新出 `main.pdf`，直接跑仓库里现成的脚本即可（`tmp/` 不入库，本机工具链）：
 
 ```bash
@@ -81,7 +84,7 @@ B_locator/paper/
 │   └── 08-appendix.tex     附录：支撑材料文件列表 + 源程序
 ├── figures/            # 论文插图（png）+ 其用法说明，见 figures/README.md
 ├── fonts/              # 中文字体 simsun.ttc（宋体）/ simkai.ttf（楷体）—— 模板依赖，勿删勿改名
-├── code/               # 附录引用的源程序（p1_locator.py / main.py）
+├── code/               # 附录 B 引用的问题一源码副本（与 Q1/ 下同名文件一致）+ main.py（问题三、四）
 ├── cumcmthesis.cls     # 竞赛论文模板类（只改过两处字体路径，其余勿动）
 ├── FORMAT-GUIDE.md     # 格式红线与写作约定（改内容前建议先读第 3 节以外的部分）
 ├── build.sh            # 一键编译/自检/清理脚本
@@ -92,7 +95,8 @@ B_locator/paper/
 问题一、问题二的建模材料与 `paper/` 同级，正文的图与数字都出自这里：
 
 ```
-B_locator/Q1/           # 问题一：src/p1_solution.py（求解）、figures/（插图）、simulation/（算例数据）
+B_locator/Q1/           # 问题一（扁平）：p1_intersection.py（求解）、p1_experiments.py（算例生成+扫描）、
+                        #   p1_selftest.py（自检）、4 个插图脚本、p1_case*.csv 算例、p1_*.json 结果、7 张 png
 B_locator/Q2/           # 问题二：src/q2_solution.py（求解）、figures/（两张插图脚本）、
                         #         src/results/q2_summary.json（正文表 3 的数值来源）
 ```
@@ -108,11 +112,11 @@ B_locator/Q2/           # 问题二：src/q2_solution.py（求解）、figures/�
 | 二、问题分析 | `sections/02-analysis.tex` | 逐问分小节，每节只讲“考虑什么、建什么模型、为何这样选” |
 | 三、模型假设 | `sections/03-assumptions.tex` | |
 | 四、符号说明（表 1） | `sections/04-symbols.tex` | 三线表 |
-| 五、5.1 问题一：建模思路 | `sections/05-model.tex` 第 8~12 行 | 已定稿 |
-| 　  5.1.2 模型建立（式 1~3） | `sections/05-model.tex` 第 14~42 行 | 已定稿 |
-| 　  5.1.3 模型求解算法（**图 1** 流程图） | `sections/05-model.tex` 第 44~75 行 | 图在 `figures/p1-algorithm-flow.png` |
-| 　  5.1.4 求解结果与分析（**表 2**、**图 2**） | `sections/05-model.tex` 第 78~116 行 | 图在 `figures/p1-coverage-contrast.png` |
-| 　  5.2 问题二（式 4~21、**图 3**、**图 4**、**表 3**） | `sections/05-model.tex` 第 119~386 行 | 已定稿；图在 `figures/p2-wedge-geometry.png`、`figures/p2-expected-diameter.png` |
+| 五、5.1 问题一：建模思路 | `sections/05-model.tex` 第 8 行起 | 已定稿 |
+| 　  5.1.2 模型建立（式 1~3、**图 1** 角楔交会示意） | `sections/05-model.tex` 第 9~55 行 | 图在 `figures/multi_sensor_wedge_diagram.png`（`.62\textwidth`） |
+| 　  5.1.3 模型求解算法（**图 2** 流程图） | `sections/05-model.tex` 第 57~93 行 | 图在 `figures/p1-algorithm-flow.png`（`.61\textwidth`） |
+| 　  5.1.4 求解结果与分析（**表 2**、**图 3**） | `sections/05-model.tex` 第 95~142 行 | 图在 `figures/p1-coverage-contrast.png` |
+| 　  5.2 问题二（式 4~21、**图 4**、**图 5**、**表 3**） | `sections/05-model.tex` 第 144 行起 | 已定稿；图在 `figures/p2-wedge-geometry.png`、`figures/p2-expected-diameter.png` |
 | 　  5.3 问题三 | `sections/05-model.tex` 第 388 行起 | **待填充** |
 | 　  5.4 问题四 | `sections/05-model.tex` 第 396 行起 | **待填充** |
 | 六、模型评价与改进 | `sections/06-evaluation.tex` | **待填充** |
@@ -162,7 +166,7 @@ grep -rn "待填充" sections/
 总评**必须等四问齐备后再写，否则会把摘要写成只讲问题一的摘要。
 
 > 问题二已定稿，其数值口径与自检见 `../Q2/src/q2_solution.py`（运行后刷新
-> `../Q2/src/results/q2_summary.json`）；正文表 3、图 4 的数字与之一一对应。
+> `../Q2/src/results/q2_summary.json`）；正文表 3、图 5 的数字与之一一对应。
 
 ---
 
@@ -178,8 +182,9 @@ grep -rn "待填充" sections/
 | 图题/表题 | 宋体小四、不加粗（与正文同字重） |
 | 正文行距 | 1.25（模板默认 1.38） |
 | 三线表行距 / 列表间距 / 公式上下距 | 1.0 / 0 / 8pt |
-| 图 1 宽度 | `.58\textwidth`（`p1-algorithm-flow.png`，265×171 pt 设计、1:1 插入） |
-| 图 2 宽度 | `.88\textwidth`（`p1-coverage-contrast.png`，(a)(b) 双面板） |
+| 图 1 宽度 | `.62\textwidth`（`multi_sensor_wedge_diagram.png`，2004×2126 px） |
+| 图 2 宽度 | `.61\textwidth`（`p1-algorithm-flow.png`，277.8×167.1 pt 设计、1:1 插入） |
+| 图 3 宽度 | `.88\textwidth`（`p1-coverage-contrast.png`，(a)(b) 双面板） |
 
 **四条容易踩的坑**（都已在全篇处理，手改时别破坏）：
 1. **缺字方框**：`①②③`、`Ⅰ Ⅱ Ⅲ`、全角字母数字会被交给 Times New Roman，显示成方框。
@@ -195,20 +200,24 @@ grep -rn "待填充" sections/
 
 ## 7. 图从哪来 / 怎么重新生成
 
-- 图 1（算法流程图）由 `../Q1/figures/make_p1_flowchart.py` 生成；图 2（覆盖判定对照）由
-  `../Q1/figures/make_p1_figures.py` 生成，数据来自 `../Q1/src/p1_solution.py`。
-- 图 3（两探测束交会与定位区域直径）由 `../Q2/figures/make_q2_wedge_figure.py` 生成，为示意
-  构图（半张角放大到 $2^\circ$），不依赖数值；图 4（期望直径等值图 + 候选区域）由
+- 图 1（多检测点角楔交会定位示意）由 `../Q1/illustration_plot_Q1.py` 生成，为按真实
+  $\varepsilon=1^\circ$ 绘制的示意图，含区域局部放大，不依赖数值。
+- 图 2（算法流程图）由 `../Q1/make_p1_flowchart.py` 生成；图 3（覆盖判定对照）由
+  `../Q1/make_p1_figures.py` 生成，数据来自算例 `../Q1/p1_case01~05.csv`，由
+  `../Q1/p1_intersection.py` 求解（数值汇总见 `../Q1/p1_summary.json`）。
+- 图 4（两探测束交会与定位区域直径）由 `../Q2/figures/make_q2_wedge_figure.py` 生成，为示意
+  构图（半张角放大到 $2^\circ$），不依赖数值；图 5（期望直径等值图 + 候选区域）由
   `../Q2/figures/make_q2_figures.py` 生成，数值来自 `../Q2/src/q2_solution.py`。
-- `p1-wedge-intersection.png`（**备选图，正文未引用**）由 `../Q1/figures/make_p1_wedge_figure.py`
+- `p1-wedge-intersection.png`（**备选图，正文未引用**）由 `../Q1/make_p1_wedge_figure.py`
   生成：(a) 用示意构图（两站分居两侧、半张角按 5:1 放大）画“角楔 → 交集多边形 → 直径测量”，
   (b) 用真实算例 $A_2$ 画覆盖失效；脚本末尾带断言（四顶点必须共圆、直径必须等于 $2R$）。
   若将来要用它替 5.1.2 节的文字描述，把它插进该节并调整图号即可；当前正文不使用。
 - 重新生成需要 Python + matplotlib + numpy；本机已有隔离环境（仓库根目录 `tmp/venv`）：
   ```bash
   cd /path/to/repo
-  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_wedge_figure.py
-  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_flowchart.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/make_p1_wedge_figure.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/make_p1_flowchart.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/make_p1_figures.py
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/src/q2_solution.py
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_figures.py
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_wedge_figure.py

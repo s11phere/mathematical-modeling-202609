@@ -12,6 +12,7 @@
 """
 from __future__ import annotations
 
+import csv
 import os
 import sys
 
@@ -23,12 +24,24 @@ import numpy as np                       # noqa: E402
 from matplotlib import font_manager      # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), "src"))
-from p1_solution import (                # noqa: E402
-    CASES, analyse_case, region_by_halfplane, angle_interval_common, EPS_DEG,
-)
+# 求解代码与本脚本同在扁平的 Q1/ 目录下，直接按同目录导入
+from p1_intersection import analyse, region_is_unbounded, BEARING_ERR   # noqa: E402
 
-OUT = os.path.normpath(os.path.join(HERE, "..", "..", "paper", "figures"))
+OUT = os.path.normpath(os.path.join(HERE, os.pardir, "paper", "figures"))
+
+
+def load_cases(case_dir=HERE):
+    """读入扁平的 Q1/ 下的算例：p1_case01..05.csv -> A1..A5 -> [(x, y, theta), ...]"""
+    cases = {}
+    for k in range(1, 6):
+        with open(os.path.join(case_dir, "p1_case%02d.csv" % k), encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        cases["A%d" % k] = [(float(r["x_m"]), float(r["y_m"]), float(r["svd_deg"]))
+                            for r in rows]
+    return cases
+
+
+CASES = load_cases()
 
 
 def _pick_serif():
@@ -69,13 +82,17 @@ C_WEDGE = "#90a4ae"       # 角楔边界
 
 
 def _prep_case(key):
-    """返回 (闭合顶点序列, 直径端点, 圆心, 半径, 最大顶点距, 是否覆盖)。"""
-    r = analyse_case(CASES[key]["det"])
+    """返回 (结果, 闭合顶点序列, 直径端点, 圆心, 半径, 最大顶点距, 是否覆盖)。"""
+    det = CASES[key]
+    r = analyse([(x, y) for (x, y, _) in det], [th for (_, _, th) in det])
     assert r["status"] == "bounded", r["status"]
+    # 面板契约：图 2 的 (a) 必须是覆盖成立、图 2/备选图的 (b) 必须是覆盖失败
+    assert r["diameter_circle_covers"] == (key == "A1"), \
+        "面板契约被破坏：%s cover=%s" % (key, r["diameter_circle_covers"])
     V = np.array(r["vertices"] + [r["vertices"][0]])
     A, B = np.array(r["diameter_endpoints"])
     M, rad = np.array(r["circle_center"]), r["circle_radius_m"]
-    return r, V, A, B, M, rad, r["max_vertex_dist_m"], r["coverage"]
+    return r, V, A, B, M, rad, r["max_vertex_dist_m"], r["diameter_circle_covers"]
 
 
 def fig_region_bounded():
@@ -85,9 +102,9 @@ def fig_region_bounded():
 
     x0, y0 = M
     span = 1.55 * rad
-    for (x, y, th) in CASES["A1"]["det"]:      # 角楔边界（裁剪到视野内）
+    for (x, y, th) in CASES["A1"]:      # 角楔边界（裁剪到视野内）
         for s in (-1.0, 1.0):
-            a = np.radians(th + s * EPS_DEG)
+            a = np.radians(th + s * BEARING_ERR)
             t = np.linspace(0.0, 1.0, 300)
             # 由检测点向该方向延伸，只画落在视野内的部分
             L = 4.0 * span
@@ -107,7 +124,7 @@ def fig_region_bounded():
             label="diameter $D=|AB|$")
     ax.plot([A[0], B[0]], [A[1], B[1]], "o", ms=3.0, mfc="w", mec="k", mew=0.8, zorder=6)
     ax.plot(*M, marker="+", color="k", ms=5, mew=0.9, zorder=6)
-    for (x, y, th_) in CASES["A1"]["det"]:
+    for (x, y, th_) in CASES["A1"]:
         ax.plot(x, y, marker="^", color=C_DET, ms=3.6, zorder=6)
 
     D = r["diameter_m"]
@@ -119,7 +136,7 @@ def fig_region_bounded():
     ax.annotate("$A$", xy=A, xytext=(A[0] - 0.10 * span, A[1] + 0.10 * span), fontsize=8)
     ax.annotate("$B$", xy=B, xytext=(B[0] - 0.46 * span, B[1] + 0.10 * span), fontsize=8)
     ax.annotate("detecting points\nand $\\pm\\varepsilon$ wedges",
-                xy=CASES["A1"]["det"][3][:2], xytext=(x0 - 1.00 * span, y0 + 0.80 * span),
+                xy=CASES["A1"][3][:2], xytext=(x0 - 1.00 * span, y0 + 0.80 * span),
                 fontsize=6.4, color="#37474f",
                 arrowprops=dict(arrowstyle="->", lw=0.5, color="#37474f"))
 
@@ -139,9 +156,9 @@ def fig_region_bounded():
 
     # 论文正文用简版：去掉标题与图例（图例信息移入图题），构图与配色不变
     fig, ax = plt.subplots(figsize=(2.95, 2.72))
-    for (x, y, thi) in CASES["A1"]["det"]:
+    for (x, y, thi) in CASES["A1"]:
         for s in (-1.0, 1.0):
-            a = np.radians(thi + s * EPS_DEG)
+            a = np.radians(thi + s * BEARING_ERR)
             t = np.linspace(0.0, 1.0, 300)
             L = 4.0 * span
             xs, ys = x + L * t * np.cos(a), y + L * t * np.sin(a)
@@ -255,13 +272,13 @@ def fig_unbounded():
     """
     dets = [(1500.0, 0.0, 180.0), (600.0, 0.0, 180.6)]
     svds = [d[2] for d in dets]
-    segs = angle_interval_common(svds, EPS_DEG)
+    assert region_is_unbounded(svds) is not None, "示例构型应为无界"
 
     fig, ax = plt.subplots(figsize=(3.15, 2.15))
     L = 6.0e3
     for (x, y, thi) in dets:                      # 角楔边界（示意：纵向放大 0.6°）
         for s in (-1.0, 1.0):
-            a = np.radians(thi + s * EPS_DEG)
+            a = np.radians(thi + s * BEARING_ERR)
             t = np.linspace(0.0, 1.0, 200)
             ax.plot(x - L * t * np.cos(a), y + 0.06 * L * t * np.sin(a),
                     color=C_WEDGE, lw=0.6, ls=(0, (4, 2)), zorder=1)

@@ -119,8 +119,8 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
 ### 3.8 附录源程序
 - 用 `lstlisting`（已加载）：`\begin{lstlisting}[language=python, caption={...}]…\end{lstlisting}`，
   语言可设 `python/matlab/c`。
-- 支撑材料文件列表（`08-appendix.tex` 里的表）**必须与 `code/`、`figures/` 实际文件
-  一一对应**。
+- 支撑材料文件列表（`08-appendix.tex` 里的编号清单）**必须与 `Q1/`、`code/`、`figures/` 实际文件
+  一一对应**（问题一已扁平化为 `Q1/` 下的 `.py` 与 `.png`，不再有子目录）。
 
 ## 4. 已配置的排版与字体（勿在各节重复设置）
 
@@ -159,9 +159,11 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
   为什么采用最终这一做法；推导与结论细节留给第五章。
 - 尚未完成的问（问题三、四与第六章）一律保留 `\textrm{【待填充：…】}` 中性占位，
   **不要预设算法、不要写未经计算的结论**。
-- 已完成的问（问题一、二）中的每个数字都要能追溯到脚本：问题一对应
-  `../Q1/src/p1_solution.py`，问题二对应 `../Q2/src/q2_solution.py` 及其
-  `src/results/q2_summary.json`；改数值前先重跑脚本。
+- 已完成的问中的每个数字都要能追溯到脚本：问题一对应
+  `../Q1/p1_intersection.py`（求解）与 `../Q1/p1_experiments.py`（算例生成 + 两组随机扫描），
+  数值汇总在 `../Q1/p1_summary.json`，附录 B 粘贴的代码必须与 `../Q1/p1_intersection.py`
+  逐字节一致；问题二对应 `../Q2/src/q2_solution.py` 及其 `src/results/q2_summary.json`；
+  改数值前先重跑脚本。
 - **配图要画“怎么来的”**：图的作用是把公式里的构造画清楚（角楔怎么张开、交集怎么形成、
   直径由哪两点给出、点与点如何对应），而不是把结论多边形再抄一遍；示意图若放大了角度或
   尺量，必须在图题里写明放大倍数与真实值。

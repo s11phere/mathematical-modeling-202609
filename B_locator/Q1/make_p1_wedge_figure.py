@@ -32,11 +32,26 @@ from matplotlib import font_manager, rcParams                     # noqa: E402
 from matplotlib.patches import Polygon as MplPolygon, Wedge, Arc  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), "src"))
-from p1_solution import analyse_case, CASES                       # noqa: E402
+# 求解代码与本脚本同在扁平的 Q1/ 目录下，直接按同目录导入
+from p1_intersection import analyse                               # noqa: E402
 
-OUT = os.path.normpath(os.path.join(HERE, "..", "..", "paper", "figures"))
-SIMSUN = os.path.normpath(os.path.join(HERE, "..", "..", "paper", "fonts", "simsun.ttc"))
+OUT = os.path.normpath(os.path.join(HERE, os.pardir, "paper", "figures"))
+SIMSUN = os.path.normpath(os.path.join(HERE, os.pardir, "paper", "fonts", "simsun.ttc"))
+
+
+def load_cases(case_dir=HERE):
+    """读入扁平的 Q1/ 下的算例：p1_case01..05.csv -> A1..A5 -> [(x, y, theta), ...]"""
+    import csv
+    cases = {}
+    for k in range(1, 6):
+        with open(os.path.join(case_dir, "p1_case%02d.csv" % k), encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        cases["A%d" % k] = [(float(r["x_m"]), float(r["y_m"]), float(r["svd_deg"]))
+                            for r in rows]
+    return cases
+
+
+CASES = load_cases()
 
 # ---- 示意构图 (a)：两检测点分居源的两侧，各给一个角楔 ----
 S1 = (0.0, 0.0)
@@ -144,7 +159,9 @@ def panel_a(ax):
 
 def panel_b(ax):
     """(b) 真实算例 A2：直径圆无法覆盖区域，越界顶点为 P。"""
-    r = analyse_case(CASES["A2"]["det"], 1.0)
+    det = CASES["A2"]
+    r = analyse([(x, y) for (x, y, _) in det], [th for (_, _, th) in det])
+    assert not r["diameter_circle_covers"], "面板契约：算例 A2 必须是覆盖失败"
     V = np.array(r["vertices"])
     A, B = np.array(r["diameter_endpoints"])
     M = np.array(r["circle_center"])

@@ -8,151 +8,35 @@
         basicstyle=\ttfamily\footnotesize}
 
 \section{支撑材料文件列表}\label{app:files}
-本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径），问题一、
-问题二的全部算例、结果与插图均由附表中的脚本运行生成，不依赖第三方库与网络。
+本论文支撑材料所包含的文件如下（路径均位于 \texttt{B\_locator/} 目录下），问题一、
+问题二的全部算例、结果与插图均由清单中的脚本运行生成；数值计算仅依赖 NumPy，插图另需
+Matplotlib，全过程离线。
 
-\begin{table}[!htbp]
-    \caption{支撑材料文件列表（示例均位于 \texttt{B\_locator/} 目录下）}
-    \label{tab:files}
-    \centering
-    \begin{tabular}{clp{6.2cm}}
-        \toprule
-        序号 & 文件路径 & 说明 \\
-        \midrule
-        1 & \texttt{code/p1\_locator.py} & 问题一源程序（附录~\ref{app:code}） \\
-        2 & \texttt{code/main.py} & 问题三、四主程序：模拟器交互与搜索清除 \\
-        3 & \texttt{Q1/src/p1\_solution.py} & 问题一求解与稳健性扫描（本文数值来源） \\
-        4 & \texttt{Q1/figures/} 下三个脚本 & 问题一插图与算法流程图生成脚本 \\
-        5 & \texttt{data/p1\_case01}$\sim$\texttt{05.csv} 等 & 问题一算例数据与真值（真值仅自检用） \\
-        6 & \texttt{data/p1\_summary.json} & 问题一求解结果与稳健性统计汇总 \\
-        7 & \texttt{figures/}\mbox{\texttt{p1-coverage-contrast.png}} & 直径圆覆盖判定对照（图~\ref{fig:p1-coverage}） \\
-        8 & \texttt{figures/p1-*.png} & 角楔交会与直径测量、定位区域与直径圆、算法流程图（图~\ref{fig:p1-flow}）、无界情形示意图 \\
-        9 & \texttt{Q2/src/q2\_solution.py} & 问题二源程序：期望直径、寻优与候选区域（附录~\ref{app:q2code}） \\
-        10 & \texttt{Q2/figures/make\_q2\_figures.py} & 问题二插图生成脚本 \\
-        11 & \texttt{Q2/src/results/q2\_summary.json} & 问题二最优点、等值区域与自检汇总（本文数值来源） \\
-        12 & \texttt{figures/}\mbox{\texttt{p2-expected-diameter.png}} & 期望直径等值图与候选区域（图~\ref{fig:p2-heat}） \\
-        13 & \texttt{figures/}\mbox{\texttt{p2-wedge-geometry.png}} & 两探测束交会与定位区域直径构造（图~\ref{fig:p2-wedge}） \\
-        14 & \texttt{Q2/Q2modeling.md} 等 & 问题二建模手稿、参考热力图与 Mathematica 校验脚本 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\begin{enumerate}[label=\arabic*., leftmargin=2.6em, itemsep=0.12ex, topsep=0.2ex,
+                  parsep=0pt, before=\sloppy]
+    \item \texttt{Q1/p1\_intersection.py}：问题一源程序，含定位区域、直径与覆盖判定（附录~\ref{app:code}；正文数值来源）。
+    \item \texttt{code/main.py}：问题三、四主程序，负责模拟器交互与搜索清除。
+    \item \texttt{Q1/p1\_experiments.py}：算例生成、逐例求解与两组随机扫描（失败率与最坏比值来源）。
+    \item \texttt{Q1/p1\_selftest.py}：自检，含真值包含、凸性、直径双算法、两套区域实现交叉校验。
+    \item \texttt{Q1/p1\_case01}$\sim$\texttt{05.csv}（含 \texttt{.truth.json}）：问题一算例与真值（固定种子生成，真值仅自检用）。
+    \item \texttt{Q1/p1\_results.jsonl}、\texttt{Q1/p1\_summary.json}：逐例结果与汇总统计（含两组随机扫描）。
+    \item \texttt{Q1/} 下 \texttt{make\_p1\_figures.py}、\texttt{make\_p1\_flowchart.py}、\texttt{make\_p1\_wedge\_figure.py}、\texttt{illustration\_plot\_Q1.py}：问题一插图脚本，输出图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
+    \item \texttt{figures/} 下的 7 张问题一插图（\texttt{Q1/} 下有同名副本，逐字节一致），含图~\ref{fig:p1-wedge}、图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
+    \item \texttt{Q2/src/q2\_solution.py}：问题二源程序，期望直径、寻优与候选区域（附录~\ref{app:q2code}）。
+    \item \texttt{Q2/figures/make\_q2\_figures.py}：问题二插图生成脚本。
+    \item \texttt{Q2/src/results/q2\_summary.json}：问题二最优点、等值区域与自检汇总（本文数值来源）。
+    \item \texttt{figures/p2-expected-diameter.png}：期望直径等值图与候选区域（图~\ref{fig:p2-heat}）。
+    \item \texttt{figures/p2-wedge-geometry.png}：两探测束交会与定位区域直径构造（图~\ref{fig:p2-wedge}）。
+    \item \texttt{Q2/Q2modeling.md} 等：问题二建模手稿、参考热力图与 Mathematica 校验脚本。
+\end{enumerate}
 
 \section{问题一主要源程序}\label{app:code}
-问题一的完整源程序（支撑材料 \texttt{code/p1\_locator.py}）见下；其中定位区域由半平面
-Sutherland--Hodgman 裁剪构造、顶点表再用 Andrew 单调链求凸包规范化，仅列出与正文式
-~\eqref{eq:wedge}--\eqref{eq:cover} 直接对应的部分。
+问题一的完整求解源程序（支撑材料 \texttt{Q1/p1\_intersection.py}）全文见下；定位区域按
+“顶点枚举 $+$ 半平面筛选 $+$ 凸包规范化”构造，另有 Sutherland--Hodgman 裁剪的等价实现
+用于交叉校验。算例生成与两组随机扫描见 \texttt{Q1/p1\_experiments.py}，不变量自检见
+\texttt{Q1/p1\_selftest.py}，插图脚本见 \texttt{Q1/make\_p1\_*.py}（清单见附录~\ref{app:files}）。
 
-\begin{lstlisting}[language=python, caption={问题一：交会定位区域直径与直径圆覆盖判定（Python 3）}]
-import math
-EPS, BOX = 1.0, 1.0e7          # 示向度误差界；裁剪初始包围盒
-
-
-def rot(v, deg):
-    a = math.radians(deg)
-    return (v[0] * math.cos(a) - v[1] * math.sin(a),
-            v[0] * math.sin(a) + v[1] * math.cos(a))
-
-
-def dist(p, q):
-    return math.hypot(p[0] - q[0], p[1] - q[1])
-
-
-def bounded(svds, eps=EPS):
-    """角楔交集有界 <=> 有向方位角区间公共交集为空。"""
-    segs = [(max(0.0, (svds[0] - eps) % 360.0), min(360.0, (svds[0] + eps) % 360.0))]
-    for th in svds[1:]:
-        lo, hi = (th - eps) % 360.0, (th + eps) % 360.0
-        parts = [(lo, hi)] if lo <= hi else [(lo, 360.0), (0.0, hi)]
-        new = []
-        for a, b in segs:
-            for c, d in parts:
-                if max(a, c) <= min(b, d) + 1e-12:
-                    new.append((max(a, c), min(b, d)))
-        segs = new
-        if not segs:
-            return True
-    return False
-
-
-def clip(poly, n, b):
-    """保留半平面 {x : n.x + b >= 0}。"""
-    out, k = [], len(poly)
-    for i in range(k):
-        p, q = poly[i], poly[(i + 1) % k]
-        fp = n[0] * p[0] + n[1] * p[1] + b
-        fq = n[0] * q[0] + n[1] * q[1] + b
-        if fp >= 0.0:
-            out.append(p)
-        if (fp < 0.0 < fq) or (fp > 0.0 > fq):
-            t = fp / (fp - fq)
-            out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
-    return out
-
-
-def region(dets, eps=EPS):
-    """定位区域 = 全部角楔之交。dets = [(x, y, theta), ...]"""
-    poly = [(-BOX, -BOX), (BOX, -BOX), (BOX, BOX), (-BOX, BOX)]
-    for (x, y, th) in dets:
-        for s in (-1.0, 1.0):
-            a = math.radians(th + s * eps)
-            r = (math.cos(a), math.sin(a))        # 边界射线方向
-            n = rot(r, -90.0 * s)                 # 指向楔内的法向量
-            poly = clip(poly, n, -(n[0] * x + n[1] * y))
-            if not poly:
-                return []
-    return poly
-
-
-def cross(o, a, b):
-    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-
-
-def hull(pts):
-    """Andrew 单调链（逆时针，弹出共线中间点）。"""
-    pts = sorted(set(pts))
-    if len(pts) <= 2:
-        return pts
-    lo, hi = [], []
-    for p in pts:
-        while len(lo) >= 2 and cross(lo[-2], lo[-1], p) <= 0:
-            lo.pop()
-        lo.append(p)
-    for p in reversed(pts):
-        while len(hi) >= 2 and cross(hi[-2], hi[-1], p) <= 0:
-            hi.pop()
-        hi.append(p)
-    return lo[:-1] + hi[:-1]
-
-
-def solve(dets, eps=EPS):
-    """返回直径、直径端点、圆心与覆盖结论。"""
-    if not bounded([d[2] for d in dets], eps):
-        return {"status": "unbounded"}
-    V = hull(region(dets, eps))
-    if len(V) < 3:
-        return {"status": "degenerate", "vertices": V}
-    best, (A, B) = -1.0, (V[0], V[0])
-    for i in range(len(V)):
-        for j in range(i + 1, len(V)):
-            if dist(V[i], V[j]) > best:
-                best, (A, B) = dist(V[i], V[j]), (V[i], V[j])
-    M = ((A[0] + B[0]) / 2.0, (A[1] + B[1]) / 2.0)      # 直径圆圆心
-    mx = max(dist(M, p) for p in V)
-    scale = max(1.0, max(max(abs(x), abs(y)) for (x, y, _) in dets))
-    return {"status": "bounded", "vertices": V, "diameter": best,
-            "endpoints": (A, B), "center": M, "radius": best / 2.0,
-            "max_vertex_dist": mx,
-            "coverage": mx <= best / 2.0 + 1e-9 * scale}
-
-
-if __name__ == "__main__":                      # 以算例 A1 自检
-    dets = [(-432.855, -596.368, 91.86), (-290.614, -501.995, 121.82),
-            (474.860, -160.806, 186.02), (461.755, 349.174, 212.80),
-            (-444.749, -62.142, 269.79), (-958.142, 736.087, 298.12)]
-    r = solve(dets)
-    print("D = %.4f m, max|P-M| = %.4f m, covers = %s"
-          % (r["diameter"], r["max_vertex_dist"], r["coverage"]))
-\end{lstlisting}
+\lstinputlisting[language=python, caption={问题一：定位区域、区域直径与直径圆覆盖判定（Python 3）}]{code/p1_intersection.py}
 
 \section{问题二主要源程序}\label{app:q2code}
 问题二的完整源程序（支撑材料 \texttt{Q2/src/q2\_solution.py}）见下，仅保留与正文

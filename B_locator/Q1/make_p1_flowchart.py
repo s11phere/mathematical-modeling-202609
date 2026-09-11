@@ -34,7 +34,7 @@ from matplotlib import font_manager, rcParams                      # noqa: E402
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAPER = os.path.normpath(os.path.join(HERE, "..", "..", "paper"))
+PAPER = os.path.normpath(os.path.join(HERE, os.pardir, "paper"))
 OUT = os.path.join(PAPER, "figures")
 SIMSUN = os.path.join(PAPER, "fonts", "simsun.ttc")  # 与正文 \setCJKfamilyfont 同源
 
@@ -70,7 +70,7 @@ NODES = [
      C_IO, "box"),
     ("有界性预判：各方位角区间求交，非空则区域无界", C_BOX, "box"),
     ("无界？", C_DEC, "dec"),
-    ("区域构造：$2m$ 个半平面依次裁剪得 $\\mathcal{R}$（式 (1)）", C_BOX, "box"),
+    ("区域构造：$2m$ 条边界直线求交、半平面筛选得 $\\mathcal{R}$（式 (1)）", C_BOX, "box"),
     ("求直径：枚举最远点对得 $D$、端点 $A,B$（式 (2)）", C_BOX, "box"),
     ("覆盖判定：比较 $\\max\\|P-M\\|$ 与 $D/2$（式 (3)）", C_BOX, "box"),
     ("输出：顶点集 $V$、$D$、$A,B$、圆心 $M$ 与是否覆盖", C_IO, "box"),

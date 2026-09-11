@@ -1,0 +1,251 @@
+{
+  "meta": {
+    "seed": 20260901,
+    "n_cases": 5,
+    "arena_radius_m": 1800.0,
+    "bearing_error_bound_deg": 1.0,
+    "r_recv_range_m": [
+      1000.0,
+      1500.0
+    ],
+    "case_files": [
+      "p1_case01.csv",
+      "p1_case02.csv",
+      "p1_case03.csv",
+      "p1_case04.csv",
+      "p1_case05.csv"
+    ],
+    "sweeps": {
+      "two_point": {
+        "n_trials": 20000,
+        "seed": 17,
+        "r_max_m": 1800.0
+      },
+      "well_conditioned": {
+        "n_trials": 4000,
+        "seed": 5,
+        "min_gap_deg": 3.0,
+        "dist_range_m": [
+          300.0,
+          1500.0
+        ],
+        "m_choices": [
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    }
+  },
+  "cases_summary": {
+    "n_cases": 5,
+    "n_bounded": 5,
+    "n_unbounded": 0,
+    "n_degenerate": 0,
+    "n_empty": 0,
+    "diameter_m_range": [
+      10.5912,
+      25.6424
+    ],
+    "n_diameter_circle_misses": 2,
+    "min_circle_over_half_diameter_max": 1.005127,
+    "n_truth_inside_region": 5
+  },
+  "per_case": [
+    {
+      "case": "p1_case01.csv",
+      "label": "A1",
+      "n_bearings": 6,
+      "n_vertices": 6,
+      "diameter_m": 17.6414,
+      "circle_radius_m": 8.8207,
+      "max_vertex_dist_m": 8.8207,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 3.673,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case02.csv",
+      "label": "A2",
+      "n_bearings": 5,
+      "n_vertices": 5,
+      "diameter_m": 18.6112,
+      "circle_radius_m": 9.3056,
+      "max_vertex_dist_m": 10.2875,
+      "ratio": 1.105518,
+      "excess_m": 0.9819,
+      "excess_pct": 10.5518,
+      "coverage": false,
+      "min_circle_over_half_diameter": 1.005127,
+      "worst_vertex_angle_deg": 84.21,
+      "center_error_vs_truth_m": 3.568,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case03.csv",
+      "label": "A3",
+      "n_bearings": 4,
+      "n_vertices": 5,
+      "diameter_m": 25.6424,
+      "circle_radius_m": 12.8212,
+      "max_vertex_dist_m": 13.7471,
+      "ratio": 1.072215,
+      "excess_m": 0.9259,
+      "excess_pct": 7.2215,
+      "coverage": false,
+      "min_circle_over_half_diameter": 1.003051,
+      "worst_vertex_angle_deg": 85.53,
+      "center_error_vs_truth_m": 3.675,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case04.csv",
+      "label": "A4",
+      "n_bearings": 5,
+      "n_vertices": 4,
+      "diameter_m": 21.1168,
+      "circle_radius_m": 10.5584,
+      "max_vertex_dist_m": 10.5584,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 1.528,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case05.csv",
+      "label": "A5",
+      "n_bearings": 6,
+      "n_vertices": 5,
+      "diameter_m": 10.5912,
+      "circle_radius_m": 5.2956,
+      "max_vertex_dist_m": 5.2956,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 1.416,
+      "truth_inside_region": true
+    }
+  ],
+  "sweeps": {
+    "two_point": {
+      "n_trials": 20000,
+      "seed": 17,
+      "r_max_m": 1800.0,
+      "n_bounded": 20000,
+      "n_fail": 231,
+      "fail_pct": 1.155,
+      "worst_ratio": 1.033554,
+      "worst_config": {
+        "S1": [
+          1716.346,
+          507.869,
+          196.4836
+        ],
+        "S2": [
+          -467.779,
+          1570.528,
+          286.5861
+        ],
+        "D_m": 84.7682,
+        "max_vertex_dist_m": 43.8062,
+        "ratio": 1.033554,
+        "covers": false
+      }
+    },
+    "well_conditioned": {
+      "n_trials": 4000,
+      "seed": 5,
+      "min_gap_deg": 3.0,
+      "dist_range_m": [
+        300.0,
+        1500.0
+      ],
+      "m_choices": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "n_bounded": 3472,
+      "n_fail": 113,
+      "fail_pct": 3.2546082949308754,
+      "worst_ratio": 1.030373,
+      "worst_config": {
+        "m": 6,
+        "pts": [
+          [
+            891.427,
+            347.624
+          ],
+          [
+            -477.822,
+            1336.814
+          ],
+          [
+            -262.697,
+            -1325.856
+          ],
+          [
+            28.729,
+            -1073.429
+          ],
+          [
+            232.816,
+            -608.976
+          ],
+          [
+            1024.006,
+            -480.403
+          ]
+        ],
+        "svds_deg": [
+          201.304,
+          289.6686,
+          78.7929,
+          91.5331,
+          110.9222,
+          154.8668
+        ],
+        "D_m": 40.3878,
+        "max_vertex_dist_m": 20.8073,
+        "ratio": 1.030373,
+        "covers": false
+      },
+      "per_m": {
+        "3": {
+          "bounded": 966,
+          "fail": 30,
+          "fail_pct": 3.1056
+        },
+        "4": {
+          "bounded": 859,
+          "fail": 24,
+          "fail_pct": 2.7939
+        },
+        "5": {
+          "bounded": 897,
+          "fail": 31,
+          "fail_pct": 3.456
+        },
+        "6": {
+          "bounded": 750,
+          "fail": 28,
+          "fail_pct": 3.7333
+        }
+      }
+    }
+  }
+}
