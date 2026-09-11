@@ -1,0 +1,16 @@
+{
+  "source": {
+    "source_xy": [
+      -232.938,
+      886.644
+    ],
+    "r_recv_m": 1312.027
+  },
+  "first_detection": {
+    "det_id": 1,
+    "x_m": 838.352,
+    "y_m": 432.698,
+    "svd_deg": 156.6,
+    "true_svd_deg": 157.0358
+  }
+}
