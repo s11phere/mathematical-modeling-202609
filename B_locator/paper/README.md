@@ -1,8 +1,9 @@
 # B 题论文工程 —— 人工修改 & 手动编译指南
 
 > 题目：**无线电干扰源的快速自动定位与清除模型**（2026 全国大学生数学建模竞赛 B 题）
-> 当前状态：**问题一（5.1 节）已定稿**，编译产物 `main.pdf` 共 10 页；
-> 问题二~四、模型评价章共 **17 处 `【待填充：…】`** 待补（清单见第 5 节）。
+> 当前状态：**问题一（5.1 节）已定稿**，摘要、问题背景与重述、问题分析、5.1 已按“语言
+> 精修”重新校订；编译产物 `main.pdf` 共 **11 页**；
+> 问题二~四、模型评价章共 **13 处 `【待填充：…】`** 待补（清单见第 5 节）。
 > 格式（字体 / 间距 / 图表）已定稿，**改文字不会影响排版**。
 
 ---
@@ -29,6 +30,19 @@ bash build.sh clean    # 只清理编译中间文件（*.aux *.log *.out *.toc �
    ```
 
 产物就是本目录的 **`main.pdf`**。编译后请确认两点：**没有 `Missing character`（缺字方框）**、**没有报错**。
+
+### 没有装 XeLaTeX 时的应急编译（tectonic）
+仓库 `tmp/` 下自带 tectonic 与缓存，可在**不改动本目录任何文件**的前提下产出一份可阅览的
+PDF（在 `tmp/paper-build/bld/` 里搭影子目录；`cumcmthesis.cls`、`fonts/`、`figures/`、`code/`
+以符号链接引用，`sections/` 与 `main.tex` 复制后只做两处 tectonic 兼容补丁：临时指定
+等宽中文字体、把 `\AtBeginDocument` 内联为等效的 `\setlength`）：
+
+```bash
+bash tmp/paper-build/build-pdf.sh      # 产物 tmp/paper-build/bld/main.pdf，并打印缺字/报错/页数自检
+```
+
+应急产物与 XeLaTeX 结果版式一致（同样的类文件、字体、体例），但**正式交付仍以
+XeLaTeX + `build.sh` 的结果为准**。
 
 > 目录必须是 `paper`（`build.sh` 会自动 `cd` 到脚本所在目录）。字体、图片、章节都是相对本目录引用的，
 > 换目录编译会因为找不到 `fonts/`、`sections/` 而失败。
@@ -66,18 +80,18 @@ B_locator/paper/
 
 | 论文里看到的内容 | 打开这个文件 | 备注 |
 |---|---|---|
-| 标题、摘要、关键词 | `sections/00-abstract.tex` | 论文标题在 `main.tex` 的 `\title{...}` |
-| 一、问题重述 | `sections/01-restate.tex` | |
-| 二、问题分析 | `sections/02-analysis.tex` | |
+| 标题、摘要、关键词 | `sections/00-abstract.tex` | 论文标题在 `main.tex` 的 `\title{...}`；摘要开头/结尾两段留待四问齐备后再写 |
+| 一、问题背景与重述 | `sections/01-restate.tex` | 1.1 背景（描述性语言）/ 1.2 重述（不抄题干数据） |
+| 二、问题分析 | `sections/02-analysis.tex` | 逐问分小节，每节只讲“考虑什么、建什么模型、为何这样选” |
 | 三、模型假设 | `sections/03-assumptions.tex` | |
 | 四、符号说明（表 1） | `sections/04-symbols.tex` | 三线表 |
-| 五、5.1 问题一：建模思路 | `sections/05-model.tex` 第 8~13 行 | 已定稿 |
-| 　  5.1.2 模型建立（式 1~3） | `sections/05-model.tex` 第 14~46 行 | 已定稿 |
-| 　  5.1.3 模型求解算法（**图 1** 流程图） | `sections/05-model.tex` 第 47~72 行 | 图在 `figures/p1-algorithm-flow.png` |
-| 　  5.1.4 求解结果与分析（**表 2**、**图 2**） | `sections/05-model.tex` 第 73~116 行 | 图在 `figures/p1-coverage-contrast.png` |
-| 　  5.2 问题二 | `sections/05-model.tex` 第 117~127 行 | **待填充** |
-| 　  5.3 问题三 | `sections/05-model.tex` 第 128~138 行 | **待填充** |
-| 　  5.4 问题四 | `sections/05-model.tex` 第 139~147 行 | **待填充** |
+| 五、5.1 问题一：建模思路 | `sections/05-model.tex` 第 8~12 行 | 已定稿 |
+| 　  5.1.2 模型建立（式 1~3） | `sections/05-model.tex` 第 14~42 行 | 已定稿 |
+| 　  5.1.3 模型求解算法（**图 1** 流程图） | `sections/05-model.tex` 第 44~75 行 | 图在 `figures/p1-algorithm-flow.png` |
+| 　  5.1.4 求解结果与分析（**表 2**、**图 2**） | `sections/05-model.tex` 第 78~116 行 | 图在 `figures/p1-coverage-contrast.png` |
+| 　  5.2 问题二 | `sections/05-model.tex` 第 117~126 行 | **待填充** |
+| 　  5.3 问题三 | `sections/05-model.tex` 第 128~137 行 | **待填充** |
+| 　  5.4 问题四 | `sections/05-model.tex` 第 139~148 行 | **待填充** |
 | 六、模型评价与改进 | `sections/06-evaluation.tex` | **待填充** |
 | 七、参考文献 | `sections/07-references.tex` | |
 | 附录 A 文件列表 / 附录 B、C 源程序 | `sections/08-appendix.tex` | 附录 C 待补 |
@@ -100,7 +114,7 @@ B_locator/paper/
 
 ---
 
-## 5. 还没写的地方（17 处 `【待填充：…】`）
+## 5. 还没写的地方（20 处 `【待填充：…】`）
 
 在 `paper/` 目录下用一条命令列出最新清单：
 
@@ -112,16 +126,18 @@ grep -rn "待填充" sections/
 
 | 文件 | 行号 | 待写内容 |
 |---|---|---|
-| `00-abstract.tex` | 14 / 16 / 18 | 摘要里问题二、三、四的结论句 |
-| `02-analysis.tex` | 24 | 问题二、三、四的具体分析 |
-| `05-model.tex` | 119 / 122 / 125 | 5.2 问题二：思路 / 模型 / 结果 |
-| `05-model.tex` | 130 / 133 / 136 | 5.3 问题三：思路 / 模型 / 结果 |
-| `05-model.tex` | 141 / 144 / 147 | 5.4 问题四：思路 / 模型 / 结果 |
-| `06-evaluation.tex` | 7 / 14 / 17 / 20 | 灵敏度分析 / 优点 / 缺点 / 改进方向 |
+| `00-abstract.tex` | 13 / 27 / 29 / 31 / 33 | 开头总述、问题二~四的结论句（各留 3~4 行版面）、结尾总评 |
+| `02-analysis.tex` | 40 / 51 / 61 | 问题二、三、四的补充分析 |
+| `05-model.tex` | 132 / 135 / 138 | 5.2 问题二：思路 / 模型 / 结果 |
+| `05-model.tex` | 143 / 146 / 149 | 5.3 问题三：思路 / 模型 / 结果 |
+| `05-model.tex` | 154 / 157 / 160 | 5.4 问题四：思路 / 模型 / 结果 |
+| `06-evaluation.tex` | 8 / 11 / 14 / 17 | 灵敏度分析 / 优点 / 缺点 / 改进方向 |
 | `07-references.tex` | 10 | 参考文献条目 |
 | `08-appendix.tex` | 150 起 | 附录 C：问题三、四主程序 |
 
 占位文字用 `\textrm{【待填充：…】}` 包裹是有意为之（保证占位也按正文字体显示），替换时整块删掉即可。
+问题二~四的具体算法一律留空，**不要按论文里残留的提示去预设方法**；摘要的**开头总述与结尾
+总评**必须等四问齐备后再写，否则会把摘要写成只讲问题一的摘要。
 
 ---
 
@@ -137,26 +153,33 @@ grep -rn "待填充" sections/
 | 图题/表题 | 宋体小四、不加粗（与正文同字重） |
 | 正文行距 | 1.25（模板默认 1.38） |
 | 三线表行距 / 列表间距 / 公式上下距 | 1.0 / 0 / 8pt |
-| 图 1 宽度 | `.58\textwidth`（图 1 为 265×171 pt 设计、1:1 插入） |
-| 图 2 宽度 | `.88\textwidth` |
+| 图 1 宽度 | `.58\textwidth`（`p1-algorithm-flow.png`，265×171 pt 设计、1:1 插入） |
+| 图 2 宽度 | `.88\textwidth`（`p1-coverage-contrast.png`，(a)(b) 双面板） |
 
-**三条容易踩的坑**（都已在全篇处理，手改时别破坏）：
+**四条容易踩的坑**（都已在全篇处理，手改时别破坏）：
 1. **缺字方框**：`①②③`、`Ⅰ Ⅱ Ⅲ`、全角字母数字会被交给 Times New Roman，显示成方框。
    用 `(1)(2)(3)`、`I/II/III`、半角写法替代；`build.sh` 会自检 `Missing character`。
-2. **不要再引入第二种宋体**：`\songti`、正文、题注都已统一到 `fonts/simsun.ttc`，
+2. **不要在正文里用 Markdown 语法**：`**加粗**`、`#` 标题、`-` 列表在 LaTeX 里会**原样打印**。
+3. **强调中文一律用黑体**：写成 `{\heiti 关键词}\songti`——末尾的 `\songti` 必须写，
+   把字体切回宋体，否则该处之后的文字会全部变成黑体。例：`{\heiti 针对问题一}\songti，……`。
+   不要用 `\textbf`（宋体伪粗，与全篇黑体强调不一致）。
+4. **不要再引入第二种宋体**：`\songti`、正文、题注都已统一到 `fonts/simsun.ttc`，
    新写内容不要加 `\setCJKfamilyfont` 之类的字体声明。
-3. **中文强调用黑体**：写 `{\heiti 文字}`，不要写 `\textbf{文字}`（宋体没有粗体字形）、
-   也不要写 `\heiti{文字}`（`\heiti` 是声明式命令，不接收参数）。
 
 ---
 
 ## 7. 图从哪来 / 怎么重新生成
 
-- 图 1（算法流程图）、图 2（覆盖判定对照）由 `../Q1/figures/make_p1_figures.py` 与
-  `make_p1_flowchart.py` 生成，数据来自 `../Q1/src/p1_solution.py`。
+- 图 1（算法流程图）由 `../Q1/figures/make_p1_flowchart.py` 生成；图 2（覆盖判定对照）由
+  `../Q1/figures/make_p1_figures.py` 生成，数据来自 `../Q1/src/p1_solution.py`。
+- `p1-wedge-intersection.png`（**备选图，正文未引用**）由 `../Q1/figures/make_p1_wedge_figure.py`
+  生成：(a) 用示意构图（两站分居两侧、半张角按 5:1 放大）画“角楔 → 交集多边形 → 直径测量”，
+  (b) 用真实算例 $A_2$ 画覆盖失效；脚本末尾带断言（四顶点必须共圆、直径必须等于 $2R$）。
+  若将来要用它替 5.1.2 节的文字描述，把它插进该节并调整图号即可；当前正文不使用。
 - 重新生成需要 Python + matplotlib + numpy；本机已有隔离环境（仓库根目录 `tmp/venv`）：
   ```bash
   cd /path/to/repo
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_wedge_figure.py
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_flowchart.py
   ```
 - 只想改论文文字时**完全不需要** Python，改 `sections/*.tex` 后重新编译即可。
@@ -171,8 +194,8 @@ grep -rn "待填充" sections/
 |---|---|
 | 电子版第一页 = 摘要页 | `\documentclass[withoutpreface]{cumcmthesis}` |
 | 承诺书 / 编号页不得出现 | `withoutpreface` 已去除（纸质版另见 `纸质版/`） |
-| 摘要 ≤1 页、无需英文 | 见 `00-abstract.tex` |
-| 正文不要目录、≤30 页 | 未加目录，当前 10 页 |
+| 摘要 ≤1 页、无需英文 | 见 `00-abstract.tex`（开头总述、问题二~四、结尾总评三段待补） |
+| 正文不要目录、≤30 页 | 未加目录，当前 11 页 |
 | 附录含支撑材料清单 + 全部源程序 | 见 `08-appendix.tex` |
 | 全篇匿名 | 不得出现学校/姓名/队号等身份信息 |
 | 电子版单个 PDF ≤20MB、不压缩 | 当前约 0.6MB |

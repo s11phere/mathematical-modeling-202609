@@ -22,11 +22,11 @@
         1 & \texttt{code/p1\_locator.py} & 问题一源程序（附录~\ref{app:code}） \\
         2 & \texttt{code/main.py} & 问题三、四主程序：模拟器交互与搜索清除 \\
         3 & \texttt{Q1/src/p1\_solution.py} & 问题一求解与稳健性扫描（本文数值来源） \\
-        4 & \texttt{Q1/figures/} 下两个脚本 & 问题一插图与算法流程图生成脚本 \\
+        4 & \texttt{Q1/figures/} 下三个脚本 & 问题一插图与算法流程图生成脚本 \\
         5 & \texttt{data/p1\_case01}$\sim$\texttt{05.csv} 等 & 问题一算例数据与真值（真值仅自检用） \\
         6 & \texttt{data/p1\_summary.json} & 问题一求解结果与稳健性统计汇总 \\
         7 & \texttt{figures/}\mbox{\texttt{p1-coverage-contrast.png}} & 直径圆覆盖判定对照（图~\ref{fig:p1-coverage}） \\
-        8 & \texttt{figures/p1-*.png} & 算法流程图、定位区域与无界情形示意图 \\
+        8 & \texttt{figures/p1-*.png} & 角楔交会与直径测量、定位区域与直径圆、算法流程图（图~\ref{fig:p1-flow}）、无界情形示意图 \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -148,6 +148,6 @@ if __name__ == "__main__":                      # 以算例 A1 自检
 \end{lstlisting}
 
 \section{问题三、四主程序（待补）}
-该部分随三次正式测试完成后补充（文件为 \texttt{code/main.py}）：与模拟器建立连接，
-粗扫建立“频道—射线束”台账，对交会区域收敛的频道精确定位，逐个清除并在预算内退出。
+问题三、问题四的策略与算法完成后，其完整可运行源程序将补充于此（对应支撑材料
+\texttt{code/main.py}）；该程序负责与模拟器交互，完成多源搜索、定位与清除的全过程。
 \end{appendices}
