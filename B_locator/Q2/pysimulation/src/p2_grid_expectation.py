@@ -67,6 +67,12 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
+# p1_intersection 的规范位置是 Q1 目录（B_locator/Q1/p1_intersection.py）。
+# 这里只补一条搜索路径，避免复制文件造成两份实现漂移。
+_Q1_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "Q1"))
+if os.path.isdir(_Q1_DIR) and _Q1_DIR not in sys.path:
+    sys.path.insert(0, _Q1_DIR)
+
 from p1_intersection import (  # noqa: E402
     BEARING_ERR, ang_diff, bearing, convex_hull, diameter as poly_diameter,
     region_by_vertices,
@@ -1191,7 +1197,7 @@ def main(argv=None):
         r = selfcheck()
         if a.out:
             os.makedirs(a.out, exist_ok=True)
-            with open(os.path.join(a.out, "p2_grid_selfcheck.json"), "w", encoding="utf-8") as f:
+            with open(os.path.join(a.out, "p2_grid_selftest.json"), "w", encoding="utf-8") as f:
                 json.dump(r, f, ensure_ascii=False, indent=2)
         return 0 if r["ok"] else 1
     run(theta1=a.theta1, step=a.step, n_t=a.n_t, n_e=a.n_e, weight=a.weight,

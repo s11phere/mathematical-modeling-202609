@@ -1,5 +1,15 @@
 # B 题 问题 1、2 建模路线 + 问题 1 现有实现审核
 
+> **文件状态说明（后续整理）**：本报告成文时的目录结构与当前 `pysimulation/` 已不同。
+> 已移除的内容包括：思路②「最坏情形 / 鲁棒设计」的全部实现（`src/p2_siting.py`、
+> `review/{q2_design.py, explain_p2.py}`、`out/p2/`、`out/p2_time/` 及其输出记录），
+> 以及 `review/p1_fixed.py`（其 `region_from_bearings` 已并入 `B_locator/Q1/p1_intersection.py`）。
+> 下文提到这些文件处即为**历史记录**，不再是可运行路径。
+> 自检脚本与输出已统一加 `_selftest` 后缀：
+> `q2_formula_selftest.py` / `out_formula_selftest.txt`、
+> `q2_wellposed_selftest.py` / `out_wellposed_selftest.txt`、
+> 网格自检输出 `out/p2_grid/p2_grid_selftest.json`。
+
 > 审核对象：`B_locator/src/p1_intersection.py`（含 `scripts/b_testdata.py`、`tests/selftest_p1.py`）
 > 审核方式：两个**独立参考实现**交叉验证 + 1800 组随机/病态算例回归 + 最小反例复现
 > 结论：**建模路线正确；代码在"良态有界"算例上结果正确（已发布的 5 个算例数值一字不差），
@@ -263,7 +273,7 @@ $\Delta\theta=\theta_2-\theta_1$（两条**读数**之差）。
 | 定位区域直径 | $\displaystyle D\approx\frac{2\tan\varepsilon\ \sqrt{d_1^2+d_2^2+2d_1d_2\lvert\cos\gamma\rvert}}{\lvert\sin\gamma\rvert}$ | 误差 < 1% |
 
 > 注意两个常见错误（我们实测过）：
-> ① 用 $\sigma_\theta d_2/\lvert\sin\phi\rvert$（$\phi$ 为 $S_1$ 处视视角）会**低估 2–3 倍**（`out_formula.txt`）；
+> ① 用 $\sigma_\theta d_2/\lvert\sin\phi\rvert$（$\phi$ 为 $S_1$ 处视视角）会**低估 2–3 倍**（自检输出 `out_formula_selftest.txt`）；
 > ② 用"面积 $\propto d_1d_2/\sin\gamma$"虽然对，但**面积最优与直径最优不完全等价**，论文里要说明选哪个作为目标。
 
 **推荐**：主目标取 **定位区域直径 $D$**（它直接决定搜索/清除代价，且与问题 1 的结论无缝衔接），
@@ -271,7 +281,7 @@ $\Delta\theta=\theta_2-\theta_1$（两条**读数**之差）。
 
 ### 3.3 目标函数与约束：为什么**必须**加约束
 
-若只写 $\min_{S_2} J(S_2)$，问题**不适定**（`out_wellposed.txt`）：
+若只写 $\min_{S_2} J(S_2)$，问题**不适定**（自检输出 `out_wellposed_selftest.txt`）：
 
 * 已知源距 $t$ 时，RMS 随基线 $b=|S_1S_2|$ 单调下降（$b=100,200,400,800$ m 时最优 RMS
   $=90.7,44.6,20.8,8.06$ m，最优视角 $\phi^*=79^\circ,69^\circ,49^\circ,1^\circ$）——
@@ -317,10 +327,10 @@ $$
 
 * 排除**前/后窄锥**（数值上 $b=700$ m 时 $|\varphi|\lesssim10^\circ$ 或 $\gtrsim168^\circ$ 会出现
   $J_{\max}=+\infty$：存在某个可能的源位置/误差组合使两次示向度互不相容或定位区域无界）；
-* 由 $J_{\max}$ 数值图（`out_q2.txt`）可见：$b=700$ m 时 $\varphi\in[30^\circ,90^\circ]$ 内
+* 由 $J_{\max}$ 数值图（【已移除】`out_q2.txt`）可见：$b=700$ m 时 $\varphi\in[30^\circ,90^\circ]$ 内
   $J_{\max}$ 只在 **234–298 m** 的很窄区间内浮动（存在很宽的最优平台），而 $\varphi=10^\circ$ 时 1248 m、
   $\varphi=145^\circ$ 时 994 m——**故工程上可把 $\Omega$ 取成 $\varphi\in[30^\circ,75^\circ]$（左右对称），稳健、易实现**；
-* 若要"严格最优集合"，取水平集 $\Omega_\epsilon=\{S_2: J(S_2)\le(1+\epsilon)J^*\}$（`review/q2_design.py` 已实现）。
+* 若要"严格最优集合"，取水平集 $\Omega_\epsilon=\{S_2: J(S_2)\le(1+\epsilon)J^*\}$（【已移除】`review/q2_design.py` 已实现）。
 * 推荐单点（若只能给一个）：$r=B$、$\varphi=\varphi^*(B)$，取左/右两侧中使 $\hat t$ 更接近 $b\cos\varphi$ 的一侧。
 
 ### 3.5 序贯版本与问题 3/4 的衔接
@@ -357,9 +367,9 @@ python bug_weight.py                   # bug 命中率 + GDOP 适用性
 python extra_checks.py                 # 已发布 5 算例不受影响 + 物理可容许区域尺寸
 python counterexample_q1.py            # 第二小问：对称三点反例
 python triangle_search.py              # 第二小问：定位区域为三角形的实用反例（Thales 检验）
-python q2_design.py                    # 问题 2：J_max/J_avg 网格、闭式近似检验、无界性判据
-python q2_formula.py                   # 问题 2：精度公式三重校验 + 最优视角表
-python q2_wellposed.py                 # 问题 2：无约束时最优解发散（说明必须加约束）
+python q2_design.py                    # 【已移除】问题 2：J_max/J_avg 网格、闭式近似检验、无界性判据
+python q2_formula_selftest.py          # 问题 2：精度公式三重校验 + 最优视角表
+python q2_wellposed_selftest.py        # 问题 2：无约束时最优解发散（说明必须加约束）
 ```
 
 | 文件 | 内容 |
@@ -370,7 +380,7 @@ python q2_wellposed.py                 # 问题 2：无约束时最优解发散�
 | `bug_weight.py` / `out_weight.txt` | bug 在真实场景中的命中率、GDOP 适用性 |
 | `extra_checks.py` / `out_extra.txt` | 已发布算例不变性 + 物理区域尺寸 |
 | `counterexample_q1.py`, `triangle_search.py` / `out_counterexample.txt`, `out_triangle.txt` | 第二小问反例 |
-| `q2_design.py`, `q2_formula.py`, `q2_wellposed.py` / `out_q2.txt`, `out_formula.txt`, `out_wellposed.txt` | 问题 2 的数值支撑 |
+| `q2_formula_selftest.py`, `q2_wellposed_selftest.py` / `out_formula_selftest.txt`, `out_wellposed_selftest.txt` | 问题 2 的数值支撑（自检） |
 | `debug_p1.py` | 失败算例的分case诊断（含 scipy `HalfspaceIntersection` 第三方仲裁） |
 
 > 环境备注：本机 `B_locator\data`、`B_locator\scripts`、`B_locator\tests`（以及 `A_drying\docs` 等）

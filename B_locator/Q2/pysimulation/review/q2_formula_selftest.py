@@ -16,7 +16,13 @@ import os
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from p1_fixed import region_from_bearings
+# region_from_bearings 的规范实现已并入 Q1（B_locator/Q1/p1_intersection.py），
+# 原先依赖的 review/p1_fixed.py 已移除；这里改为直接引用 Q1 的实现。
+_Q1_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                        "..", "..", "..", "Q1"))
+if os.path.isdir(_Q1_DIR) and _Q1_DIR not in sys.path:
+    sys.path.insert(0, _Q1_DIR)
+from p1_intersection import region_from_bearings
 
 S1 = np.array([0.0, 0.0])
 G = np.array([800.0, 0.0])

@@ -1,6 +1,6 @@
 """Q2 良态性检查：不加约束时最优解发散（问题必须加约束才适定）。
 
-1) 修正 q2_formula 中有限差分列的单位（J 是 dX/d(度)）。
+1) 修正 q2_formula_selftest 中有限差分列的单位（J 是 dX/d(度)）。
 2) 已知精确源距 t 时，最优 (b, phi) 随 b 单调变好 => 无内点最优 => 必须加
    移动预算 / 可检测性 / 目标区域约束。
 """
@@ -8,7 +8,7 @@ import math, os, sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from q2_formula import bearing, ray_intersection, SIG, ERR, S1
+from q2_formula_selftest import bearing, ray_intersection, SIG, ERR, S1
 
 print("=== 有限差分校验（修正单位：J 对“度”求导，sigma 用度）===")
 print("   b  phi   FD-RMS  (sigma_deg^2*tr(JJ^T))^0.5   公式A   蒙特卡洛")
