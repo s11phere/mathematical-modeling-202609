@@ -15,7 +15,8 @@
 
 > 未进正文的 4 张**属于支撑材料**（附录 A 表里的 `figures/p1-*.png`），**不要删除或移动**。
 > 问题二的原始材料（`Q2modeling.md` 里的参考热力图 `Q2_expected_diameter_heatmap.png`、
-> `wedge_diagram.png` 及 Mathematica 脚本）保留在 `../Q2/`，正文用的是上面两张重绘图。
+> `wedge_diagram.png` 及 Mathematica 脚本）保留在 `../Q2/`；其中 Mathematica 脚本与其导出的
+> 数据、图表统一存放于 `../Q2/MMAcode/`，正文用的是上面两张重绘图。
 
 ## 2. 怎么生成
 

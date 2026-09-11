@@ -55,7 +55,7 @@ $$\bar{D}(a,b) = \frac{\pi}{45 x_{max}^2 |b|} \Big[ F(x_{max} - a; a, b) - F(-a;
 $$\bar{D}(a,b) = \left[ \frac{(x_{max}-a)^3}{4} + \frac{a(x_{max}-a)^2}{3} + \frac{(2a^2+b^2)(x_{max}-a)}{8} + \frac{a b^2}{3} \right] \sqrt{(x_{max}-a)^2 + b^2} + \frac{b^2(4a^2 - b^2)}{8} \ln \left( x_{max} - a + \sqrt{(x_{max}-a)^2 + b^2} \right)$$
 
 绘制理论解，可以得到$\bar{D}(a,b)$的函数图像
-![定位直径期望热力图](Q2_expected_diameter_heatmap.png)
+![定位直径期望热力图](MMAcode/Q2_expected_diameter_heatmap.png)
 使用了非线性颜色映射，重点关注50-100区间
 # 数值模拟求解
 
