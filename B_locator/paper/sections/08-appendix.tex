@@ -8,8 +8,8 @@
         basicstyle=\ttfamily\footnotesize}
 
 \section{支撑材料文件列表}\label{app:files}
-本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径），问题一的
-全部算例、结果与插图均由附表中的脚本运行生成，不依赖第三方库与网络。
+本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径），问题一、
+问题二的全部算例、结果与插图均由附表中的脚本运行生成，不依赖第三方库与网络。
 
 \begin{table}[!htbp]
     \caption{支撑材料文件列表（示例均位于 \texttt{B\_locator/} 目录下）}
@@ -27,6 +27,12 @@
         6 & \texttt{data/p1\_summary.json} & 问题一求解结果与稳健性统计汇总 \\
         7 & \texttt{figures/}\mbox{\texttt{p1-coverage-contrast.png}} & 直径圆覆盖判定对照（图~\ref{fig:p1-coverage}） \\
         8 & \texttt{figures/p1-*.png} & 角楔交会与直径测量、定位区域与直径圆、算法流程图（图~\ref{fig:p1-flow}）、无界情形示意图 \\
+        9 & \texttt{Q2/src/q2\_solution.py} & 问题二源程序：期望直径、寻优与候选区域（附录~\ref{app:q2code}） \\
+        10 & \texttt{Q2/figures/make\_q2\_figures.py} & 问题二插图生成脚本 \\
+        11 & \texttt{Q2/src/results/q2\_summary.json} & 问题二最优点、等值区域与自检汇总（本文数值来源） \\
+        12 & \texttt{figures/}\mbox{\texttt{p2-expected-diameter.png}} & 期望直径等值图与候选区域（图~\ref{fig:p2-heat}） \\
+        13 & \texttt{figures/}\mbox{\texttt{p2-wedge-geometry.png}} & 两探测束交会与探测域直径构造（图~\ref{fig:p2-wedge}） \\
+        14 & \texttt{Q2/Q2modeling.md} 等 & 问题二建模手稿、参考热力图与 Mathematica 校验脚本 \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -145,6 +151,65 @@ if __name__ == "__main__":                      # 以算例 A1 自检
     r = solve(dets)
     print("D = %.4f m, max|P-M| = %.4f m, covers = %s"
           % (r["diameter"], r["max_vertex_dist"], r["coverage"]))
+\end{lstlisting}
+
+\section{问题二主要源程序}\label{app:q2code}
+问题二的完整源程序（支撑材料 \texttt{Q2/src/q2\_solution.py}）见下，仅保留与正文
+式~\eqref{eq:value-1d}--\eqref{eq:value-integral} 直接对应的部分：交会四边形顶点、
+四边形直径与加权期望；寻优与等值区域统计略去，完整脚本见支撑材料。
+
+\begin{lstlisting}[language=python, caption={问题二：期望定位区域直径与最优点、候选区域（Python 3）}]
+import math
+import numpy as np
+
+X_MAX, ALPHA_DEG = 1500.0, 1.0        # 有效接收半径；示向度误差界
+ALPHA = math.radians(ALPHA_DEG)       # 探测束半张角
+
+
+def quad_vertices(x_s, a, b, alpha=ALPHA):
+    """P1 的两条边界射线（与 x 轴成 +-alpha）与 P2 的两条边界射线
+    （绕 P2->S 方向成 +-alpha）两两求交，得交会四边形 ABCD 的四个顶点。"""
+    p2 = np.array([a, b])
+    psi = math.atan2(-b, x_s - a)      # S 相对 P2 的方位角
+    pts = []
+    for t1 in (alpha, -alpha):
+        u1 = np.array([math.cos(t1), math.sin(t1)])
+        for t2 in (psi + alpha, psi - alpha):
+            u2 = np.array([math.cos(t2), math.sin(t2)])
+            den = u1[0] * u2[1] - u1[1] * u2[0]
+            if abs(den) < 1e-14:       # 两射线平行：探测域无界
+                return None
+            s = (p2[0] * u2[1] - p2[1] * u2[0]) / den
+            pts.append(s * u1)
+    return np.array(pts)
+
+
+def quad_diameter(x_s, a, b, alpha=ALPHA):
+    """探测域直径 D = 四边形顶点两两距离的最大值。"""
+    p = quad_vertices(x_s, a, b, alpha)
+    if p is None:
+        return math.inf
+    d = p[:, None, :] - p[None, :, :]
+    return float(np.sqrt((d ** 2).sum(-1)).max())
+
+
+def dbar(a, b, n=800, alpha=ALPHA):
+    """期望定位区域直径：按 P_S(x_S|P1) = 2 x_S / x_max^2 加权求和。"""
+    if abs(b) < 1e-9:                  # 两点与源点共线，区域无界
+        return math.inf
+    x_s = X_MAX * (np.arange(n) + 0.5) / n
+    w = 2.0 * x_s / X_MAX ** 2
+    d = np.array([quad_diameter(float(x), a, b, alpha) for x in x_s])
+    if not np.isfinite(d).all():
+        return math.inf
+    return float((w * d).sum() / w.sum())
+
+
+if __name__ == "__main__":             # 自检：粗网格上的最优相对位形
+    best = min(((dbar(x * 1.0, y * 1.0), x, y)
+                for x in range(950, 1251, 25) for y in range(500, 901, 25)),
+               key=lambda t: t[0])
+    print("Dbar_min = %.2f m at (a,b) = (%.0f, %.0f) m" % best)
 \end{lstlisting}
 
 \section{问题三、四主程序（待补）}

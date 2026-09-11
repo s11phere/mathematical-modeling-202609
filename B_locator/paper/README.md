@@ -1,9 +1,9 @@
 # B 题论文工程 —— 人工修改 & 手动编译指南
 
 > 题目：**无线电干扰源的快速自动定位与清除模型**（2026 全国大学生数学建模竞赛 B 题）
-> 当前状态：**问题一（5.1 节）已定稿**，摘要、问题背景与重述、问题分析、5.1 已按“语言
-> 精修”重新校订；编译产物 `main.pdf` 共 **11 页**；
-> 问题二~四、模型评价章共 **13 处 `【待填充：…】`** 待补（清单见第 5 节）。
+> 当前状态：**问题一（5.1 节）、问题二（5.2 节）已定稿**，摘要、问题背景与重述、问题分析、
+> 5.1、5.2 已按“语言精修”重新校订；编译产物 `main.pdf` 共 **16 页**；
+> 问题三、四与模型评价章尚有 **9 处 `【待填充：…】`** 待补（清单见第 5 节）。
 > 格式（字体 / 间距 / 图表）已定稿，**改文字不会影响排版**。
 
 ---
@@ -44,6 +44,21 @@ bash tmp/paper-build/build-pdf.sh      # 产物 tmp/paper-build/bld/main.pdf，�
 应急产物与 XeLaTeX 结果版式一致（同样的类文件、字体、体例），但**正式交付仍以
 XeLaTeX + `build.sh` 的结果为准**。
 
+**本机已用这条路子产出一份 `main.pdf`（16 页、无缺字、无报错），并已回填为 `paper/main.pdf`。**
+之后改完正文要重新出 `main.pdf`，直接跑仓库里现成的脚本即可（`tmp/` 不入库，本机工具链）：
+
+```bash
+cd /path/to/repo
+bash tmp/paper-build/regen-main-pdf.sh            # 出 PDF 并回填 B_locator/paper/main.pdf
+bash tmp/paper-build/regen-main-pdf.sh --no-install   # 只出 tmp/paper-build/canon/main.pdf
+```
+
+脚本与 `build-pdf.sh` 同源（影子目录 + 符号链接 + 复制 `main.tex`/`sections/`），
+但**只做一处补丁**：把 `\AtBeginDocument{...}` 外壳去掉并内联等价的 `\setlength`
+（tectonic 不允许在正文里再执行 preamble 命令），公式上下距仍是原文的 8pt；
+自检包含缺字、报错、页数，以及 PDF 元数据与正文**无身份信息**。
+**不要**再补 `\setCJKmonofont`：加了以后附录代码清单行距变小，与 XeLaTeX 结果不一致（当前差异就在这里）。
+
 > 目录必须是 `paper`（`build.sh` 会自动 `cd` 到脚本所在目录）。字体、图片、章节都是相对本目录引用的，
 > 换目录编译会因为找不到 `fonts/`、`sections/` 而失败。
 
@@ -74,6 +89,14 @@ B_locator/paper/
 └── 纸质版/承诺书与编号页.tex   # 打印版承诺书+编号页，电子版不使用
 ```
 
+问题一、问题二的建模材料与 `paper/` 同级，正文的图与数字都出自这里：
+
+```
+B_locator/Q1/           # 问题一：src/p1_solution.py（求解）、figures/（插图）、simulation/（算例数据）
+B_locator/Q2/           # 问题二：src/q2_solution.py（求解）、figures/（两张插图脚本）、
+                        #         src/results/q2_summary.json（正文表 3 的数值来源）
+```
+
 ---
 
 ## 3. 改论文去哪改（论文结构 ↔ 源文件对照）
@@ -89,12 +112,12 @@ B_locator/paper/
 | 　  5.1.2 模型建立（式 1~3） | `sections/05-model.tex` 第 14~42 行 | 已定稿 |
 | 　  5.1.3 模型求解算法（**图 1** 流程图） | `sections/05-model.tex` 第 44~75 行 | 图在 `figures/p1-algorithm-flow.png` |
 | 　  5.1.4 求解结果与分析（**表 2**、**图 2**） | `sections/05-model.tex` 第 78~116 行 | 图在 `figures/p1-coverage-contrast.png` |
-| 　  5.2 问题二 | `sections/05-model.tex` 第 117~126 行 | **待填充** |
-| 　  5.3 问题三 | `sections/05-model.tex` 第 128~137 行 | **待填充** |
-| 　  5.4 问题四 | `sections/05-model.tex` 第 139~148 行 | **待填充** |
+| 　  5.2 问题二（式 4~21、**图 3**、**图 4**、**表 3**） | `sections/05-model.tex` 第 119~386 行 | 已定稿；图在 `figures/p2-wedge-geometry.png`、`figures/p2-expected-diameter.png` |
+| 　  5.3 问题三 | `sections/05-model.tex` 第 388 行起 | **待填充** |
+| 　  5.4 问题四 | `sections/05-model.tex` 第 396 行起 | **待填充** |
 | 六、模型评价与改进 | `sections/06-evaluation.tex` | **待填充** |
 | 七、参考文献 | `sections/07-references.tex` | |
-| 附录 A 文件列表 / 附录 B、C 源程序 | `sections/08-appendix.tex` | 附录 C 待补 |
+| 附录 A 文件列表 / 附录 B、C 源程序 | `sections/08-appendix.tex` | 附录 A、B、C 已写，附录 D（问题三、四主程序）待补 |
 | 页边距、行距、标题字体、图表题注字体 | `main.tex` 顶部「排版紧凑化」块 | 见第 6 节 |
 
 ---
@@ -114,7 +137,7 @@ B_locator/paper/
 
 ---
 
-## 5. 还没写的地方（20 处 `【待填充：…】`）
+## 5. 还没写的地方（9 处 `【待填充：…】`）
 
 在 `paper/` 目录下用一条命令列出最新清单：
 
@@ -124,20 +147,22 @@ grep -rn "待填充" sections/
 
 当前清单（文件:行）：
 
-| 文件 | 行号 | 待写内容 |
-|---|---|---|
-| `00-abstract.tex` | 13 / 27 / 29 / 31 / 33 | 开头总述、问题二~四的结论句（各留 3~4 行版面）、结尾总评 |
-| `02-analysis.tex` | 40 / 51 / 61 | 问题二、三、四的补充分析 |
-| `05-model.tex` | 132 / 135 / 138 | 5.2 问题二：思路 / 模型 / 结果 |
-| `05-model.tex` | 143 / 146 / 149 | 5.3 问题三：思路 / 模型 / 结果 |
-| `05-model.tex` | 154 / 157 / 160 | 5.4 问题四：思路 / 模型 / 结果 |
-| `06-evaluation.tex` | 8 / 11 / 14 / 17 | 灵敏度分析 / 优点 / 缺点 / 改进方向 |
-| `07-references.tex` | 10 | 参考文献条目 |
-| `08-appendix.tex` | 150 起 | 附录 C：问题三、四主程序 |
+| 文件 | 待写内容 |
+|---|---|
+| `00-abstract.tex` | 开头总述、问题三/四的结论句（各留 3~4 行版面）、结尾总评 |
+| `02-analysis.tex` | 问题三、四的补充分析 |
+| `05-model.tex` | 5.3 问题三：思路 / 模型 / 结果 |
+| `05-model.tex` | 5.4 问题四：思路 / 模型 / 结果 |
+| `06-evaluation.tex` | 灵敏度分析 / 优点 / 缺点 / 改进方向 |
+| `07-references.tex` | 参考文献条目 |
+| `08-appendix.tex` | 附录 D：问题三、四主程序 |
 
 占位文字用 `\textrm{【待填充：…】}` 包裹是有意为之（保证占位也按正文字体显示），替换时整块删掉即可。
-问题二~四的具体算法一律留空，**不要按论文里残留的提示去预设方法**；摘要的**开头总述与结尾
+问题三、四的具体算法一律留空，**不要按论文里残留的提示去预设方法**；摘要的**开头总述与结尾
 总评**必须等四问齐备后再写，否则会把摘要写成只讲问题一的摘要。
+
+> 问题二已定稿，其数值口径与自检见 `../Q2/src/q2_solution.py`（运行后刷新
+> `../Q2/src/results/q2_summary.json`）；正文表 3、图 4 的数字与之一一对应。
 
 ---
 
@@ -172,6 +197,9 @@ grep -rn "待填充" sections/
 
 - 图 1（算法流程图）由 `../Q1/figures/make_p1_flowchart.py` 生成；图 2（覆盖判定对照）由
   `../Q1/figures/make_p1_figures.py` 生成，数据来自 `../Q1/src/p1_solution.py`。
+- 图 3（两探测束交会与探测域直径）由 `../Q2/figures/make_q2_wedge_figure.py` 生成，为示意
+  构图（半张角放大到 $2^\circ$），不依赖数值；图 4（期望直径等值图 + 候选区域）由
+  `../Q2/figures/make_q2_figures.py` 生成，数值来自 `../Q2/src/q2_solution.py`。
 - `p1-wedge-intersection.png`（**备选图，正文未引用**）由 `../Q1/figures/make_p1_wedge_figure.py`
   生成：(a) 用示意构图（两站分居两侧、半张角按 5:1 放大）画“角楔 → 交集多边形 → 直径测量”，
   (b) 用真实算例 $A_2$ 画覆盖失效；脚本末尾带断言（四顶点必须共圆、直径必须等于 $2R$）。
@@ -181,6 +209,9 @@ grep -rn "待填充" sections/
   cd /path/to/repo
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_wedge_figure.py
   MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q1/figures/make_p1_flowchart.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/src/q2_solution.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_figures.py
+  MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_wedge_figure.py
   ```
 - 只想改论文文字时**完全不需要** Python，改 `sections/*.tex` 后重新编译即可。
 - 仓库根的 `tmp/` 是本机编译/验证工具链（venv、tectonic、缓存，约 390MB，已在 `.gitignore` 中）；

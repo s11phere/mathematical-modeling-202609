@@ -63,11 +63,15 @@ $m\le20$，亦可改用旋转卡壳在 $O(n)$ 内求解。
 容差随坐标量级取相对量（本文取 $\tau=10^{-9}\max(1,\max_i\|S_i\|_\infty)$），否则相切
 构型会被舍入误差判为不覆盖；若判定不覆盖，同时输出使该值最大的顶点作为越界位置。
 
+四步的先后次序与相互衔接见图~\ref{fig:p1-flow}：无界构型在第 1 步就被拦截，不再进入
+后续计算；有界构型沿“区域构造 → 求直径 → 覆盖判定”单向推进，前一步的输出（顶点集
+$V$、直径端点 $A,B$）正是后一步的输入，任一步判定为不可用即提前返回，故整条流程不会
+在已经失效的构型上继续做无用计算。
+
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.58\textwidth]{p1-algorithm-flow}
-    \caption{问题一求解算法流程：无界构型在第 1 步即被拦截，有界构型依次经过区域构造、
-    求直径与覆盖判定}\label{fig:p1-flow}
+    \caption{问题一求解算法流程}\label{fig:p1-flow}
 \end{figure}
 
 \subsubsection{求解结果与分析}
@@ -75,7 +79,10 @@ $m\le20$，亦可改用旋转卡壳在 $O(n)$ 内求解。
 方位间隔不小于 $25^\circ$、与干扰源距离 $160\sim1300$ m），结果见表
 ~\ref{tab:p1-result}；五组算例的定位区域直径均在 $10\sim26$ m 之间，即两次以上交会已
 能把候选范围从测向距离的百米量级收缩到数十米以内。表中同时给出覆盖判定，其两种结果
-的对照见图~\ref{fig:p1-coverage}。
+的对照见图~\ref{fig:p1-coverage}：左图（算例 $A_1$）的定位区域四个顶点都落在直径圆上，
+最远顶点到圆心 $M$ 的距离恰为 $D/2$（比值 $1.0000$），此时直径圆就是该区域的最小包围
+圆；右图（算例 $A_2$）中，橙色虚线标出的顶点 $P$ 落在圆外，$|PM|=10.29$ m 比
+$D/2=9.31$ m 大 $0.98$ m（比值 $1.1055$），故直径圆覆盖判定的结论为“否”。
 
 \begin{table}[!htbp]
     \caption{问题一算例的计算结果}\label{tab:p1-result}
@@ -101,9 +108,8 @@ $90^\circ$（$A_2$ 中该顶点处的张角为 $84.2^\circ$），因而落在圆
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.88\textwidth]{p1-coverage-contrast}
-    \caption{直径圆覆盖判定的两种结果：(a) 覆盖成立（算例 $A_1$，比值 $1.0000$）；
-    (b) 覆盖不成立（算例 $A_2$，比值 $1.1055$），橙色虚线标出落在圆外的顶点 $P$ 及其
-    $|PM|=10.29\ \mathrm{m}>D/2=9.31\ \mathrm{m}$}\label{fig:p1-coverage}
+    \caption{直径圆覆盖判定的两种结果：(a) 覆盖成立；(b) 覆盖不成立}
+    \label{fig:p1-coverage}
 \end{figure}
 
 为说明这种失败是否偶然，本文以固定随机种子作两组扫描：在目标区域内随机生成 $20000$
@@ -119,10 +125,286 @@ $3.25\%$、最坏比值 $1.0304$，即最坏时直径圆需再放大约 $3\%$ �
 % ---------------------------------------------------------------------
 \subsection{问题二：第二检测点的选择模型}
 \subsubsection{模型建立}
-\textrm{【待填充：给出该问的模型与求解方法。】}
+\noindent\textbf{(a)}\hspace{0.2em}{\heiti 记号与概率描述}\songti
 
-\subsubsection{求解与结果}
-\textrm{【待填充：给出该问的求解结果与分析。】}
+$P_1$ 置于原点，其示向度方向取为 $x$ 轴正方向；$P_2$ 置于 $(a,b)$。已知 $P_1$
+的示向度后，源点 $S(x_S,y_S)$ 服从一个后验分布
+\begin{equation}
+    S\sim \mathrm{P_{S}}\bigl(S\mid P_1\bigr),
+    \label{eq:posterior}
+\end{equation}
+而给定源点位置与 $P_2$ 的位置，$\theta_2$ 又是带误差的读数，服从
+\begin{equation}
+    \theta_2\sim \mathrm{P_{\theta}}\bigl(\theta_2\mid S,a,b\bigr).
+    \label{eq:theta2-dist}
+\end{equation}
+位形参数 $(\theta_2,a,b)$ 一经确定，探测域直径便由几何关系唯一给出：
+\begin{equation}
+    D=D(\theta_2,a,b).
+    \label{eq:D-geometry}
+\end{equation}
+于是 $D$ 服从由几何参量 $(a,b)$ 控制的概率分布，第二个检测点的选择问题即化为求
+如下二维价值函数：
+\begin{equation}
+    \bar D(a,b)=\iint \mathrm{d}^2\vec r_S\,
+    \mathrm{P_S}\bigl(S\mid P_1\bigr)
+    \int \mathrm{d}\theta_2\,
+    D(\theta_2,a,b)\,\mathrm{P_{\theta}}\bigl(\theta_2\mid S,a,b\bigr),
+    \label{eq:value-function}
+\end{equation}
+$\bar D$ 越小，在该点放置第二个探测器所得定位效果越好。
+
+\noindent\textbf{(b)}\hspace{0.2em}{\heiti 理论近似}\songti
+
+式~\eqref{eq:value-function} 含内外两重概率积分，直接使用不便，故作以下四条近似：
+
+\begin{enumerate}
+    \item $P_2$ 距 $P_1$ 的距离 $R$ 不太小。该近似的合理性并非天然成立：$P_2$ 距
+          $P_1$ 过近时两视线的交角趋于零，所得探测域必然很大，这是我们不希望的，
+          故 $R$ 较小的区域本来就不在选择范围之内，而本文关心的区域内该近似成立。
+    \item 认为源点恰好落在 $x$ 轴上，其位置只由一个参数 $x_S$ 描述。因为 $R$ 不小
+          时源点纵坐标 $y_S$ 是小量，将分布对 $y_S$ 作一阶展开：
+          $\mathrm{P_{\theta}}(\theta_2\mid x_S,y_S,a,b)
+          \sim\mathrm{P_{\theta}}(\theta_2\mid x_S,0,a,b)
+          +\frac{\mathrm{d}}{\mathrm{d}y_S}\mathrm{P_{\theta}}
+          \big|_{\,y_S=0}y_S+o(y_S)$，而积分区间关于 $y_S$ 对称，
+          一阶项相互抵消，故 $y_S$ 对 $\bar D$ 的影响是高阶小量。
+    \item 考虑源点落在扇形区域内的面积，可认为先验权重满足
+          $\mathrm{P_S}(x_S\mid P_1)\propto x_S$，归一化后得
+          \begin{equation}
+              \mathrm{P_S}\bigl(x_S\mid P_1\bigr)=\frac{2x_S}{x_{max}^2},
+              \qquad x_S\in[0,x_{max}],
+              \label{eq:ps-x}
+          \end{equation}
+          其中 $x_{max}$ 为干扰源的最大可被有效接收距离。
+    \item 与第 2 条同理，忽略给定 $(a,b,x_S,y_S)$ 时 $\theta_2$ 分布的影响，
+          直接认为第二次探测所得方位{\heiti 正对源点}\songti。
+\end{enumerate}
+
+四条近似把价值函数精简为单个一维积分：
+\begin{equation}
+    \bar D(a,b)=\int_0^{x_{max}}\mathrm{d}x_S\,
+    \mathrm{P_S}\bigl(x_S\mid P_1\bigr)\,D(x_S,a,b).
+    \label{eq:value-1d}
+\end{equation}
+
+\noindent\textbf{(c)}\hspace{0.2em}{\heiti 探测域直径的解析推导}\songti
+
+近似取定 $\theta_2$ 正对源点后，两条探测视线在源点处的交角 $\alpha$ 满足
+\begin{equation}
+    \sin\alpha=\frac{|b|}{r_{2S}},\qquad
+    r_{2S}=\sqrt{(x_S-a)^2+b^2},
+    \label{eq:sin-alpha}
+\end{equation}
+即 $r_{2S}=|P_2S|$。两探测束在空间中相交，所得探测域为图~\ref{fig:p2-wedge}
+中的红色四边形 $ABCD$：顶点 $A,B$ 是 $P_1$ 的上边界射线与 $P_2$ 的两条边界射线
+的交点，$C,D$ 是 $P_1$ 的下边界射线与 $P_2$ 的两条边界射线的交点；沿探测束轴向
+最远的一对顶点是 $B,D$，故该区域的直径即对角线 $|BD|$。
+
+图~\ref{fig:p2-wedge} 为把交会区域画得可见，把两探测束的半张角放大到
+$2^\circ$（实际为 $1^\circ$），并取源点 $S(1500,0)$、第二检测点 $P_2(900,520)$；
+图中点线为两次探测的视线，$\alpha$ 为两视线在源点处的交角，右上角为探测域
+$ABCD$ 的局部放大图。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.72\textwidth]{p2-wedge-geometry}
+    \caption{两探测束交会与探测域直径的构造（半张角放大 $2$ 倍示意）}\label{fig:p2-wedge}
+\end{figure}
+
+本文探测束张角极小（$\Delta\theta=2^\circ\approx0.0349$
+$\mathrm{rad}\ll1$），故源点处 $P_1$ 探测束的横向宽度为
+$w_1=x_S\Delta\theta$。在 $\Delta\theta$ 的一阶近似下，交叉区域沿轴向的拉伸跨度占
+绝对主导，于是探测域直径可近似为该宽度除以交角正弦：
+\begin{equation}
+    D(x_S,a,b)\approx\frac{w_1}{\sin\alpha}
+    =\frac{\Delta\theta\,x_S\,r_{2S}}{|b|}
+    =\frac{\Delta\theta\,x_S\sqrt{(x_S-a)^2+b^2}}{|b|}.
+    \label{eq:D-approx}
+\end{equation}
+代入 $\Delta\theta=2^\circ=\pi/90\ \mathrm{rad}$，得直径函数的解析表达式
+\begin{equation}
+    D(x_S,a,b)\approx\frac{\pi}{90\,|b|}
+    \,x_S\sqrt{(x_S-a)^2+b^2},
+    \label{eq:D-final}
+\end{equation}
+再代回式~\eqref{eq:value-1d} 并利用式~\eqref{eq:ps-x}，即得可直接用于数值积分与
+优化的目标函数
+\begin{equation}
+    \bar D(a,b)=\frac{\pi}{45\,x_{max}^2\,|b|}
+    \int_0^{x_{max}}x_S^2\sqrt{(x_S-a)^2+b^2}\;\mathrm{d}x_S .
+    \label{eq:value-integral}
+\end{equation}
+
+引入无量纲变量 $u=x_S/x_{max}\in[0,1]$ 与 $\hat a=a/x_{max}$、
+$\hat b=b/x_{max}$，式~\eqref{eq:value-integral} 还可写成
+\begin{equation}
+    \bar D(a,b)=\frac{\pi x_{max}}{45\,|\hat b|}
+    \int_0^1u^2\sqrt{(u-\hat a)^2+\hat b^2}\;\mathrm{d}u,
+    \label{eq:value-scaled}
+\end{equation}
+即 $\bar D$ 只依赖 $x_{max}$ 与无量纲位形 $(\hat a,\hat b)$，与绝对尺度无关。
+
+\noindent\textbf{(d)}\hspace{0.2em}{\heiti 价值函数的闭合解}\songti
+
+作平移 $t=x_S-a$（即 $x_S=t+a$），被积无理项可展开为三个标准积分项：
+\begin{equation}
+    \int x_S^2\sqrt{(x_S-a)^2+b^2}\,\mathrm{d}x_S
+    =\int\bigl(t^2+2at+a^2\bigr)\sqrt{t^2+b^2}\,\mathrm{d}t .
+    \label{eq:shift}
+\end{equation}
+逐项积出并按代数无理项与超越对数项合并，得原函数
+\begin{equation}
+    F(t;a,b)=\Bigl(\frac{t^3}{4}+\frac{at^2}{3}
+    +\frac{2a^2+b^2}{8}t+\frac{ab^2}{3}\Bigr)\sqrt{t^2+b^2}
+    +\frac{b^2(4a^2-b^2)}{8}\ln\Bigl(t+\sqrt{t^2+b^2}\Bigr),
+    \label{eq:antiderivative}
+\end{equation}
+代入上下限 $t=x_{max}-a$ 与 $t=-a$，即消去积分号得到闭合解
+\begin{equation}
+    \bar D(a,b)=\frac{\pi}{45\,x_{max}^2\,|b|}
+    \Bigl[F(x_{max}-a;a,b)-F(-a;a,b)\Bigr].
+    \label{eq:closed-form}
+\end{equation}
+式~\eqref{eq:closed-form} 来自式~\eqref{eq:D-approx} 的一阶近似：它把
+$D$ 中的分母 $|b|$ 当成了与源点无关的常数，而严格的几何分母随 $(x_S,a,b)$ 变化，
+故该闭式在数值上系统性偏小。在本文最优点处其值为 $40.5$ m，比严格值低约 $29\%$。
+因此后面的求解{\heiti 不使用}\songti 式~\eqref{eq:closed-form}，而在式
+\eqref{eq:value-1d} 中直接使用由四边形顶点算出的精确 $D$，以保证与探测器实际
+几何一致；闭式解仅作为量级校核。
+
+\subsubsection{求解算法}
+算法输入为已知示向度方向（用于建立坐标系）、有效接收半径 $x_{max}$ 与误差界
+$\varepsilon$；输出为最优相对位形 $(a^*,b^*)$、最小期望直径 $\bar D_{\min}$ 与
+候选区域，分四步。
+
+第一步建立标准坐标系：$P_1$ 置于原点，其示向度方向取为 $x$ 轴正向，$P_2=(a,b)$；
+于是几何量 $|b|$、$r_{2S}$、$\alpha$ 都可用 $a,b,x_S$ 写出。
+
+第二步 $D$ 的精确计算：对给定 $(a,b,x_S)$，作 $P_1$ 的两条边界射线（与 $x$ 轴成
+$\pm\varepsilon$）与 $P_2$ 的两条边界射线（绕“$P_2\!\to\!S$”方向成
+$\pm\varepsilon$），两两求交得交会四边形 $ABCD$，取
+$D=\max_{P,Q\in\{A,B,C,D\}}|PQ|$；两条射线平行（视线共线）时 $D$ 无界，直接舍弃
+该射线方向。
+
+第三步求期望：按重心法在 $[0,x_{max}]$ 上取 $n$ 个分点 $x_S^{(k)}$，以
+$w_k\propto x_S^{(k)}$（即式~\eqref{eq:ps-x}）加权：
+\begin{equation}
+    \bar D(a,b)\approx\frac{\sum_{k}w_kD\bigl(x_S^{(k)},a,b\bigr)}{\sum_k w_k},
+    \label{eq:quadrature}
+\end{equation}
+数值上该式对分点数收敛很快，$n$ 取 $200\sim800$ 已稳定到 $0.01$ m 以内。
+
+第四步寻优：在可行域 $|P_2P_1|\le x_{max}$（两次探测都须能有效接收信号）内先粗
+扫描、再逐步细化网格，取 $\bar D$ 的最小点即 $(a^*,b^*)$。由式
+\eqref{eq:value-scaled}，$(\hat a^*,\hat b^*)$ 与 $x_{max}$ 无关，整张 $\bar D$
+曲面只差一个线性尺度，故最优相对位形对任意目标区域通用。
+
+\subsubsection{求解结果与分析}
+按上述算法取 $x_{max}=1500$ m、$\varepsilon=1^\circ$，$\bar D(a,b)$ 的完整图像
+如\cref{fig:p2-heat}(a) 所示。由于 $\bar D$ 在水平方向上变化剧烈、而在最优带附近
+变化平缓，图~\cref{fig:p2-heat}(a) 采用非线性色标：把 $50\sim100$ m 一段拉开、
+$100$ m 以上压缩，使 $57\sim70$ m 的差别看得清楚；图中虚线为等值线，数字为
+其对应的 $\bar D$ 值（单位均为 m）。由图可见，$\bar D\le60$ m 的最优带位于
+$P_1$ 视线前方偏侧的一小片区域，其余方位上等值线迅速向高值区攀升——这正是
+“第二检测点必须偏离视线”的直接体现。
+
+图中的空白区域是不可行区，或为 $|P_2P_1|>x_{max}$（两次探测不可能同时有效接收），
+或为两视线近似共线使 $D$ 无界。图~\cref{fig:p2-heat}(b) 把同一信息画成候选区域：
+红色点划线为 $P_1$ 的示向度方向 $\psi_1$，正方形为按 $x_S=1100$ m 画出的示意
+源点，深、浅两块分别为 $\bar D\le1.05\bar D_{\min}$ 与 $\bar D\le1.20\bar D_{\min}$
+的解集。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.92\textwidth]{p2-expected-diameter}
+    \caption{期望定位区域直径的等值图与第二个检测点的候选区域}\label{fig:p2-heat}
+\end{figure}
+
+按式~\eqref{eq:quadrature}（取 $n=800$ 个分点）算出的若干代表性布点见表
+~\ref{tab:p2-result}。三类位置的对比很鲜明：$P_2$ 与 $P_1$ 重合时两视线平行、
+区域无界；沿视线方向前移（$b\to0$）时区域仍沿视线被拉成极窄的长条，$\bar D$
+达 $10^3$ m 量级；只有把第二点移到视线的一侧、使两次探测的视线夹角足够大
+（约 $55^\circ\sim80^\circ$）时，$\bar D$ 才降到 $57$ m 量级，即交会定位的
+效果由两次探测的{\heiti 视线交角}\songti 主导，而不是由第二点离源点的远近主导。
+
+\begin{table}[!htbp]
+    \caption{不同第二检测点位置的期望定位区域直径}\label{tab:p2-result}
+    \centering
+    \begin{tabular}{cccc}
+        \toprule
+        布点方案 & $a$ (m) & $b$ (m) & $\bar D$ (m) \\
+        \midrule
+        $P_2$ 与 $P_1$ 重合            & 0     & 0     & 无界（视线平行） \\
+        沿视线前移 500 m                & 499.9 & 8.7   & 2647 \\
+        沿视线前移 1000 m               & 999.8 & 17.5  & 5604 \\
+        \midrule
+        最优位置 $(a^*,b^*)$            & 1066.0 & 646.4 & {\heiti 57.2} \\
+        $(1000,600)$                    & 1000   & 600   & 57.8 \\
+        $(1000,700)$                    & 1000   & 700   & 57.7 \\
+        $(1100,600)$                    & 1100   & 600   & 57.4 \\
+        $(1200,700)$                    & 1200   & 700   & 58.9 \\
+        \midrule
+        正对 $P_1$ 侧移 700 m           & 0      & 700   & 141.7 \\
+        $(500,700)$                     & 500    & 700   & 83.0 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+求解得到的最优点是 $(\hat a^*,\hat b^*)\approx(0.71,0.43)$，即
+\begin{equation}
+    a^*\approx0.71\,x_{max},\qquad b^*\approx0.43\,x_{max},
+    \label{eq:optimum}
+\end{equation}
+在本例参数下为 $(a^*,b^*)\approx(1066,646)$ m，$|P_2^*P_1|\approx1247$ m，
+即最优位置在 $P_1$ 视线正前方约 $1066$ m、再向侧向偏约 $646$ m，
+视线夹角约 $31^\circ$ 处，此时
+\begin{equation}
+    \bar D_{\min}=\bar D(a^*,b^*)\approx57.2\ \mathrm{m},
+    \label{eq:dmin}
+\end{equation}
+与目标区域半径（$1800$ m）相比不到 $1/30$。
+
+答案所要求的是范围而不是一个点，故取相对容差 $\delta$，将
+$\bar D\le(1+\delta)\bar D_{\min}$ 的解集作为第二检测点的候选区域。表
+~\ref{tab:p2-region} 给出两个容差下的数值结果，其中 $\beta$ 自 $P_1$ 的视线方向
+量起。可以看出：容差收紧到 $5\%$ 时，可选范围已收缩成一条很窄的环扇区；放宽到
+$20\%$ 时，可行范围几乎铺满视线前方 $R\ge0.62x_{max}$ 的整个扇面，说明 $\bar D$
+在最优带附近相当平坦，允许现场按可达性在相当大的范围内取舍。
+
+\begin{table}[!htbp]
+    \caption{不同容差下的候选区域}\label{tab:p2-region}
+    \centering
+    \begin{tabular}{cccc}
+        \toprule
+        容差 $\delta$ & $R=|P_2P_1|$ 范围 & $\beta$ 范围 & 说明 \\
+        \midrule
+        $5\%$  & $[1071,1484]$ m & $[22.0^\circ,43.1^\circ]$ & 最优带 \\
+        $20\%$ & $[923,1500]$ m  & $[15.0^\circ,57.0^\circ]$ & 候选区域 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+取便于现场执行的矩形外包络，第二个检测点可取在以 $P_1$ 为极点、其示向度方向
+$\psi_1$ 为极轴的环扇区 $\beta\in[15^\circ,57^\circ]$、
+$R\in[0.62\,x_{max},\,x_{max}]$ 之内，即视线前方约 $930\sim1500$ m、且偏离视线约
+$15^\circ\sim57^\circ$ 的区域；该外包络中约 $69\%$ 的点满足
+$\bar D\le1.2\bar D_{\min}$，最优带（$\le1.05\bar D_{\min}$）则集中在
+$\beta\approx22^\circ\sim43^\circ$、$R\approx0.71\sim0.99\,x_{max}$。实际布点时
+优先取 $(a^*,b^*)\approx(0.71\,x_{max},\,0.43\,x_{max})$，并尽量使两次探测的视线
+夹角落在 $55^\circ\sim80^\circ$ 之间。
+
+该结果与模型的四条近似自洽：其一，$\bar D$ 与 $\Delta\theta$ 成正比，最优点处
+$\bar D/\Delta\theta\approx3279$ m 在 $\Delta\theta$ 由 $0.5^\circ$ 变到 $4^\circ$
+时几乎不变，说明候选区域不依赖误差界的具体取法；其二，$b\to0$（两点与源点近似
+共线）时 $\bar D\to\infty$，这与“$P_2$ 距 $P_1$ 太近、所得探测域必然较大”的建模
+前提一致，也说明所作近似并不掩盖几何的退化。需要说明的是，若把式
+\eqref{eq:D-approx} 的一阶近似换成由四边形顶点算出的严格几何，最优带附近的
+$\bar D$ 曲面形状基本不变、最小值位置移动不到 $100$ m，但数值整体抬高约 $50\%$，
+即本文报出的 $\bar D$ 偏保守；此外，若改用一阶近似式~\eqref{eq:D-approx} 独立寻优，
+其最优点会沿“尽量增大 $|b|$”的方向漂到可行域边缘，与严格最优点的距离约 $400$ m
+（约 $0.27\,x_{max}$），但所得候选区域的角向范围与本文基本一致。
+
 
 % ---------------------------------------------------------------------
 \subsection{问题三：多源定位与清除策略}
