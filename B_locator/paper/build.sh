@@ -45,6 +45,15 @@ for f in "${REQUIRED[@]}"; do
     missing=1
   fi
 done
+
+# ---- 预检：附录 B 粘贴的代码必须与 Q1/ 源文件逐字节一致 ----
+# （改 Q1/p1_intersection.py 后请执行：cp ../Q1/p1_intersection.py code/p1_intersection.py）
+if ! cmp -s code/p1_intersection.py ../Q1/p1_intersection.py; then
+  echo "[!] 附录代码未同步：code/p1_intersection.py ≠ Q1/p1_intersection.py"
+  echo "    请先执行：cp ../Q1/p1_intersection.py code/p1_intersection.py"
+  missing=1
+fi
+
 if [ "$missing" -ne 0 ]; then
   echo "    请在 paper/ 目录下运行本脚本，且不要移动/改名 fonts/、figures/、sections/ 里的文件。"
   exit 1

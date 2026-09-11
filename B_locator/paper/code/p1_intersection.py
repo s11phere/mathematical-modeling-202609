@@ -8,7 +8,8 @@
 （两个半平面之交），故 R 是顶点数不超过 2m 的凸多边形；直径由顶点集上的最远点对给出，
 覆盖判定比较 max|P-M| 与 D/2（M 为直径中点）。
 
-入口：算例生成、逐例求解与两组随机扫描见 p1_experiments.py；自检见 p1_selftest.py。
+入口：算例生成、逐例求解与四组扫描（理想构型与实际构型各两组）见 p1_experiments.py；
+自检见 p1_selftest.py。
 """
 from __future__ import annotations
 import csv

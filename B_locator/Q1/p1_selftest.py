@@ -11,7 +11,7 @@
     I5 直径量级合理（0 < D < 200 m）
     I6 两套独立区域实现（顶点枚举 / 半平面裁剪）顶点数相同、逐点偏差 < 1e-6 m
     I7 算例文件可由固定种子逐字节复现
-    I8 p1_summary.json 中的两组随机扫描统计可由固定种子复现
+    I8 p1_summary.json 中的四组随机扫描统计（理想构型 / 实际构型）可由固定种子复现
 """
 from __future__ import annotations
 import csv
@@ -114,6 +114,19 @@ def main():
           (s2["n_bounded"], s2["n_fail"]) == (old2["n_bounded"], old2["n_fail"])
           and abs(s2["worst_ratio"] - old2["worst_ratio"]) <= 1e-12,
           "bounded=%d fail=%d worst=%.6f" % (s2["n_bounded"], s2["n_fail"], s2["worst_ratio"]))
+    s1e = E.sweep_two_point(with_error=True)
+    s2e = E.sweep_well_conditioned(with_error=True)
+    old1e, old2e = summary["sweeps"]["two_point_err"], summary["sweeps"]["well_conditioned_err"]
+    check("I8d 两测点扫描（含 ±1° 测向误差）复现",
+          (s1e["n_bounded"], s1e["n_fail"]) == (old1e["n_bounded"], old1e["n_fail"])
+          and abs(s1e["worst_ratio"] - old1e["worst_ratio"]) <= 1e-12,
+          "bounded=%d fail=%d worst=%.6f" % (s1e["n_bounded"], s1e["n_fail"],
+                                             s1e["worst_ratio"]))
+    check("I8e 3~6 测点扫描（含 ±1° 测向误差）复现",
+          (s2e["n_bounded"], s2e["n_fail"]) == (old2e["n_bounded"], old2e["n_fail"])
+          and abs(s2e["worst_ratio"] - old2e["worst_ratio"]) <= 1e-12,
+          "bounded=%d fail=%d worst=%.6f" % (s2e["n_bounded"], s2e["n_fail"],
+                                             s2e["worst_ratio"]))
     bad = []
     for rec in summary["per_case"]:
         csv_path = os.path.join(HERE, rec["case"])

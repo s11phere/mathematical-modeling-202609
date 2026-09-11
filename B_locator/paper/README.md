@@ -3,7 +3,7 @@
 > 题目：**无线电干扰源的快速自动定位与清除模型**（2026 全国大学生数学建模竞赛 B 题）
 > 当前状态：**问题一（5.1 节）、问题二（5.2 节）均已定稿且数据已对齐**：问题一的全部数值、
 > 图表与附录 B 粘贴的代码，均由 `B_locator/Q1/p1_intersection.py`（求解）与
-> `p1_experiments.py`（算例生成 + 逐例求解 + 两组随机扫描）的运行结果产出，汇总见
+> `p1_experiments.py`（算例生成 + 逐例求解 + 四组随机扫描：理想构型、实际构型各两组）的运行结果产出，汇总见
 > `B_locator/Q1/p1_summary.json`；正文改数值前请先重跑该脚本并同步附录 B。
 > 摘要、问题背景与重述、问题分析、5.1、5.2 已按“语言精修”重新校订；
 > 问题三、四与模型评价章尚有 **9 处 `【待填充：…】`** 待补（清单见第 5 节）。
@@ -34,7 +34,24 @@ bash build.sh clean    # 只清理编译中间文件（*.aux *.log *.out *.toc �
 
 产物就是本目录的 **`main.pdf`**。编译后请确认两点：**没有 `Missing character`（缺字方框）**、**没有报错**。
 
-### 没有装 XeLaTeX 时的应急编译（tectonic）
+### 本机推荐的编译方式（用户级 XeLaTeX，无需 sudo）
+系统里没有 TeX 发行版，但仓库 `tmp/texlive/2026basic/`（`tmp/` 不入库）已放好一份**用户级
+TeX Live 2026basic**：从 CTAN 下载 BasicTeX 后直接解压得到，再用其 `tlmgr` 补装了
+`ctex`、`listings`、`pgf`、`booktabs`、`cleveref` 等宏包。它自带 `xelatex`，编译结果与
+模板预期版式一致，**附录代码清单里的中文注释也能正常显示**。重建 `main.pdf`：
+
+```bash
+cd /path/to/repo
+bash tmp/xelatex-build.sh              # = 把该树的 bin 加进 PATH 后执行 paper/build.sh（含缺字/报错自检）
+bash tmp/xelatex-build.sh clean        # 只清理编译中间文件
+```
+
+等价的手动写法：`export PATH="$PWD/tmp/texlive/2026basic/bin/universal-darwin:$PATH"`，
+再进 `B_locator/paper/` 执行 `bash build.sh`。该树若被清理，可重新下载 BasicTeX
+（`https://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg`，约 133 MB）用
+`pkgutil --expand-full` 解压到 `tmp/texlive/`，再 `tlmgr install <宏包>`。
+
+### 没有 XeLaTeX 时的应急编译（tectonic）
 仓库 `tmp/` 下自带 tectonic 与缓存，可在**不改动本目录任何文件**的前提下产出一份可阅览的
 PDF（在 `tmp/paper-build/bld/` 里搭影子目录；`cumcmthesis.cls`、`fonts/`、`figures/`、`code/`
 以符号链接引用，`sections/` 与 `main.tex` 复制后只做两处 tectonic 兼容补丁：临时指定
@@ -44,11 +61,12 @@ PDF（在 `tmp/paper-build/bld/` 里搭影子目录；`cumcmthesis.cls`、`fonts
 bash tmp/paper-build/build-pdf.sh      # 产物 tmp/paper-build/bld/main.pdf，并打印缺字/报错/页数自检
 ```
 
-应急产物与 XeLaTeX 结果版式一致（同样的类文件、字体、体例），但**正式交付仍以
-XeLaTeX + `build.sh` 的结果为准**。
+注意：**tectonic 路线下代码清单（`lstlisting`）里的中文会是空白**——该影子环境找不到
+CJK 等宽字体，且不会有 `Missing character` 警告；要看到附录代码中的中文注释，请用上面的
+XeLaTeX 路线。**正式交付一律以 XeLaTeX + `build.sh` 的结果为准。**
 
-**本机已用这条路子产出一份 `main.pdf`（21 页、无缺字、无报错），并已回填为 `paper/main.pdf`。**
-之后改完正文要重新出 `main.pdf`，直接跑仓库里现成的脚本即可（`tmp/` 不入库，本机工具链）：
+**当前 `paper/main.pdf`（22 页、无缺字、无报错）即由上面的 XeLaTeX 路线产出。**
+若那棵树不可用，可临时用 tectonic 路线出可阅览版（`tmp/` 不入库，本机工具链）：
 
 ```bash
 cd /path/to/repo
@@ -95,7 +113,7 @@ B_locator/paper/
 问题一、问题二的建模材料与 `paper/` 同级，正文的图与数字都出自这里：
 
 ```
-B_locator/Q1/           # 问题一（扁平）：p1_intersection.py（求解）、p1_experiments.py（算例生成+扫描）、
+B_locator/Q1/           # 问题一（扁平）：p1_intersection.py（求解）、p1_experiments.py（算例生成+四组扫描）、
                         #   p1_selftest.py（自检）、4 个插图脚本、p1_case*.csv 算例、p1_*.json 结果、7 张 png
 B_locator/Q2/           # 问题二：src/q2_solution.py（求解）、figures/（两张插图脚本）、
                         #         src/results/q2_summary.json（正文表 3 的数值来源）

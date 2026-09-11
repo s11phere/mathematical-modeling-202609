@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
-"""B 题问题一：算例生成、逐例求解与两组随机扫描（论文数值的唯一来源）。
+"""B 题问题一：算例生成、逐例求解与四组随机扫描（论文数值的唯一来源）。
 
 运行（在扁平的 Q1/ 目录下）：
-    python p1_experiments.py                  # 生成算例 + 求解 + 两组扫描
+    python p1_experiments.py                  # 生成算例 + 求解 + 四组扫描
     python p1_experiments.py --skip-sweep     # 只跑 5 组算例
 
 产出（默认写到本文件所在目录）：
     p1_case01.csv ~ p1_case05.csv   5 组自造良态算例（后三列为真值，仅自检用）
     p1_case01.truth.json ~ ...      每组算例的真值与方位统计
     p1_results.jsonl                逐例求解结果（全字段）
-    p1_summary.json                 算例汇总 + 两组随机扫描统计 + 元信息
+    p1_summary.json                 算例汇总 + 四组随机扫描统计 + 元信息
 
-算例生成使用固定种子（默认 20260901），同种子下逐字节可复现；两组随机扫描分别使用
-固定种子 17（两测点构型，20000 次）与 5（3~6 个检测点的良态构型，4000 次）。
+算例生成使用固定种子（默认 20260901），同种子下逐字节可复现；随机扫描用固定种子
+17（两测点构型，20000 次）与 5（3~6 个检测点的良态构型，4000 次），各分两种口径：
+理想构型的示向度精确指向源点（无测向误差），实际构型在同一批构型上叠加 ±BEARING_ERR
+的测向误差（与算例生成器 make_case_p1 同分布）。误差取自独立随机流，故两组构型
+逐例配对，只有误差取法不同。
 覆盖判据一律按全精度几何计算（analyse() 落盘的顶点/直径为 4 位小数，直接反算会引入
 约 1e-4 m 的舍入噪声，不能用于统计）。
 """
@@ -37,6 +40,7 @@ DEFAULT_SEED = 20260901
 SWEEP_TWO_POINT = {"n_trials": 20000, "seed": 17, "r_max": 1800.0}
 SWEEP_WELL_COND = {"n_trials": 4000, "seed": 5, "min_gap": 3.0,
                    "dist": (300.0, 1500.0), "m_choices": (3, 4, 5, 6)}
+SWEEP_ERR_SEED_OFFSET = 900001   # 误差随机流与构型随机流分离，保证理想/实际同构型配对
 CASE_FIELDS = ["det_id", "x_m", "y_m", "svd_deg", "true_svd_deg",
                "true_az_err_deg", "dist_m"]
 CASE_LABELS = ["A1", "A2", "A3", "A4", "A5"]
@@ -209,13 +213,20 @@ def run_cases(case_paths):
 
 
 # --------------------------------------------------------------------------
-# 两组随机扫描：统计"直径圆覆盖定位区域"的失败率与最坏比值
+# 四组随机扫描：统计"直径圆覆盖定位区域"的失败率与最坏比值
+#   理想构型（无测向误差）与实际构型（同一批构型 + ±BEARING_ERR 测向误差）各两组
 # --------------------------------------------------------------------------
 def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["seed"],
-                    r_max=SWEEP_TWO_POINT["r_max"]):
-    """两测点构型：检测点落在半径 r_max 的目标区域内，方位差 3°~179°，只统计有界者。"""
+                    r_max=SWEEP_TWO_POINT["r_max"], with_error=False):
+    """两测点构型：检测点落在半径 r_max 的目标区域内，方位差 3°~179°，只统计有界者。
+
+    with_error=False 为理想构型（示向度精确指向源点）；True 为实际构型（在同一批构型上
+    叠加 ±BEARING_ERR 的测向误差）。误差取自独立随机流，两组构型逐例配对。
+    """
     rng = random.Random(seed)
+    erng = random.Random(seed + SWEEP_ERR_SEED_OFFSET)
     n_bounded = n_fail = 0
+    n_unbounded = n_empty = n_degenerate = 0
     worst = None
     for _ in range(n_trials):
         dth = rng.uniform(3.0, 179.0)
@@ -228,8 +239,17 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
              r2 * math.sin(math.radians(th2 + 180.0)))
         if math.hypot(*A) > r_max or math.hypot(*B) > r_max:
             continue
+        if with_error:                       # 测得示向度 = 真方位角 + 误差
+            th1 = (th1 + erng.uniform(-P.BEARING_ERR, P.BEARING_ERR)) % 360.0
+            th2 = (th2 + erng.uniform(-P.BEARING_ERR, P.BEARING_ERR)) % 360.0
         st = solve_full([A, B], [th1, th2])
         if st["status"] != "bounded":
+            if st["status"] == "unbounded":
+                n_unbounded += 1
+            elif st["status"] == "empty":
+                n_empty += 1
+            elif st["status"] == "degenerate":
+                n_degenerate += 1
             continue
         n_bounded += 1
         if worst is None or st["ratio"] > worst["ratio"]:
@@ -240,7 +260,10 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
         if not st["covers"]:
             n_fail += 1
     return {"n_trials": n_trials, "seed": seed, "r_max_m": r_max,
+            "with_error": bool(with_error),
+            "bearing_error_deg": P.BEARING_ERR if with_error else 0.0,
             "n_bounded": n_bounded, "n_fail": n_fail,
+            "n_unbounded": n_unbounded, "n_empty": n_empty, "n_degenerate": n_degenerate,
             "fail_pct": 100.0 * n_fail / max(n_bounded, 1),
             "worst_ratio": None if worst is None else worst["ratio"],
             "worst_config": worst}
@@ -250,10 +273,16 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
                            seed=SWEEP_WELL_COND["seed"],
                            min_gap=SWEEP_WELL_COND["min_gap"],
                            dist=SWEEP_WELL_COND["dist"],
-                           m_choices=SWEEP_WELL_COND["m_choices"]):
-    """3~6 个检测点的良态构型：方位角最小间隔 > min_gap，检测点到原点距离在 dist 内。"""
+                           m_choices=SWEEP_WELL_COND["m_choices"],
+                           with_error=False):
+    """3~6 个检测点的良态构型：方位角最小间隔 > min_gap，检测点到原点距离在 dist 内。
+
+    with_error 的含义同 sweep_two_point：True 时在同一批构型上叠加 ±BEARING_ERR 测向误差。
+    """
     rng = random.Random(seed)
+    erng = random.Random(seed + SWEEP_ERR_SEED_OFFSET)
     n_bounded = n_fail = 0
+    n_unbounded = n_empty = n_degenerate = 0
     per_m = {str(m): {"bounded": 0, "fail": 0} for m in m_choices}
     worst = None
     for _ in range(n_trials):
@@ -267,9 +296,18 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
         for t in angs:
             rr = rng.uniform(dist[0], dist[1])
             pts.append((rr * math.cos(math.radians(t)), rr * math.sin(math.radians(t))))
-            svds.append((t + 180.0) % 360.0)
+            s = t + 180.0
+            if with_error:                   # 测得示向度 = 真方位角 + 误差
+                s += erng.uniform(-P.BEARING_ERR, P.BEARING_ERR)
+            svds.append(s % 360.0)
         st = solve_full(pts, svds)
         if st["status"] != "bounded":
+            if st["status"] == "unbounded":
+                n_unbounded += 1
+            elif st["status"] == "empty":
+                n_empty += 1
+            elif st["status"] == "degenerate":
+                n_degenerate += 1
             continue
         n_bounded += 1
         per_m[str(m)]["bounded"] += 1
@@ -285,7 +323,10 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
         v["fail_pct"] = round(100.0 * v["fail"] / max(v["bounded"], 1), 4)
     return {"n_trials": n_trials, "seed": seed, "min_gap_deg": min_gap,
             "dist_range_m": list(dist), "m_choices": list(m_choices),
+            "with_error": bool(with_error),
+            "bearing_error_deg": P.BEARING_ERR if with_error else 0.0,
             "n_bounded": n_bounded, "n_fail": n_fail,
+            "n_unbounded": n_unbounded, "n_empty": n_empty, "n_degenerate": n_degenerate,
             "fail_pct": 100.0 * n_fail / max(n_bounded, 1),
             "worst_ratio": None if worst is None else worst["ratio"],
             "worst_config": worst, "per_m": per_m}
@@ -294,7 +335,11 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
 # --------------------------------------------------------------------------
 # 汇总与主程序
 # --------------------------------------------------------------------------
-def build_summary(case_paths, results, sweep1, sweep2, seed):
+SWEEP_PARAM_KEYS = ("n_trials", "seed", "r_max_m", "min_gap_deg", "dist_range_m",
+                    "m_choices", "with_error", "bearing_error_deg")
+
+
+def build_summary(case_paths, results, sweeps, seed):
     ok = [r for r in results if r["status"] == "bounded"]
     cases_summary = {
         "n_cases": len(results),
@@ -325,21 +370,36 @@ def build_summary(case_paths, results, sweep1, sweep2, seed):
             "bearing_error_bound_deg": P.BEARING_ERR,
             "r_recv_range_m": [R_RECV_MIN, R_RECV_MAX],
             "case_files": [os.path.basename(c) for c, _ in case_paths],
-            "sweeps": {"two_point": {k: sweep1[k] for k in ("n_trials", "seed", "r_max_m")},
-                       "well_conditioned": {k: sweep2[k] for k in
-                                            ("n_trials", "seed", "min_gap_deg",
-                                             "dist_range_m", "m_choices")}}}
+            "sweeps": {k: {p: s[p] for p in SWEEP_PARAM_KEYS if p in s}
+                       for k, s in sweeps.items()}}
     return {"meta": meta, "cases_summary": cases_summary, "per_case": per_case,
-            "sweeps": {"two_point": sweep1, "well_conditioned": sweep2}}
+            "sweeps": sweeps}
+
+
+def empty_sweep(base, with_error):
+    """--skip-sweep 时的占位结果：字段与真实扫描一致，仅数值为空。"""
+    d = {"n_trials": base["n_trials"], "seed": base["seed"],
+         "with_error": bool(with_error),
+         "bearing_error_deg": P.BEARING_ERR if with_error else 0.0,
+         "n_bounded": 0, "n_fail": 0, "fail_pct": None, "worst_ratio": None,
+         "worst_config": None, "n_unbounded": 0, "n_empty": 0, "n_degenerate": 0}
+    if "r_max" in base:
+        d["r_max_m"] = base["r_max"]
+    if "min_gap" in base:
+        d["min_gap_deg"] = base["min_gap"]
+        d["dist_range_m"] = list(base["dist"])
+        d["m_choices"] = list(base["m_choices"])
+        d["per_m"] = {}
+    return d
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="问题一：算例生成 + 逐例求解 + 两组随机扫描")
+    ap = argparse.ArgumentParser(description="问题一：算例生成 + 逐例求解 + 四组随机扫描")
     ap.add_argument("--out", default=os.path.dirname(os.path.abspath(__file__)),
                     help="算例与结果的输出目录（默认为本文件所在目录）")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED, help="算例生成种子")
     ap.add_argument("--cases", type=int, default=5, help="算例组数")
-    ap.add_argument("--skip-sweep", action="store_true", help="跳过两组随机扫描")
+    ap.add_argument("--skip-sweep", action="store_true", help="跳过四组随机扫描")
     args = ap.parse_args(argv)
 
     out = os.path.abspath(args.out)
@@ -352,16 +412,18 @@ def main(argv=None):
         for r in results:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-    sweep1 = {"n_trials": 0, "seed": SWEEP_TWO_POINT["seed"], "n_bounded": 0,
-              "n_fail": 0, "fail_pct": None, "worst_ratio": None, "worst_config": None}
-    sweep2 = {"n_trials": 0, "seed": SWEEP_WELL_COND["seed"], "n_bounded": 0,
-              "n_fail": 0, "fail_pct": None, "worst_ratio": None,
-              "worst_config": None, "per_m": {}}
-    if not args.skip_sweep:
-        sweep1 = sweep_two_point()
-        sweep2 = sweep_well_conditioned()
+    if args.skip_sweep:
+        sweeps = {"two_point": empty_sweep(SWEEP_TWO_POINT, False),
+                  "two_point_err": empty_sweep(SWEEP_TWO_POINT, True),
+                  "well_conditioned": empty_sweep(SWEEP_WELL_COND, False),
+                  "well_conditioned_err": empty_sweep(SWEEP_WELL_COND, True)}
+    else:
+        sweeps = {"two_point": sweep_two_point(),
+                  "two_point_err": sweep_two_point(with_error=True),
+                  "well_conditioned": sweep_well_conditioned(),
+                  "well_conditioned_err": sweep_well_conditioned(with_error=True)}
 
-    summary = build_summary(case_paths, results, sweep1, sweep2, args.seed)
+    summary = build_summary(case_paths, results, sweeps, args.seed)
     with open(os.path.join(out, "p1_summary.json"), "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
@@ -373,13 +435,18 @@ def main(argv=None):
             r.get("ratio", "-"), r.get("diameter_circle_covers", "-"),
             r.get("min_circle_over_half_diameter", "-")))
     if not args.skip_sweep:
-        print("\n== 随机扫描 ==")
-        print("两测点      : trials=%d bounded=%d fail=%d (%.4f%%) worst_ratio=%.6f" % (
-            sweep1["n_trials"], sweep1["n_bounded"], sweep1["n_fail"],
-            sweep1["fail_pct"], sweep1["worst_ratio"]))
-        print("3~6 测点良态: trials=%d bounded=%d fail=%d (%.4f%%) worst_ratio=%.6f" % (
-            sweep2["n_trials"], sweep2["n_bounded"], sweep2["n_fail"],
-            sweep2["fail_pct"], sweep2["worst_ratio"]))
+        print("\n== 随机扫描（理想构型 / 实际构型：同构型叠加 ±%.0f° 测向误差） =="
+              % P.BEARING_ERR)
+        for key, name in (("two_point", "两测点 理想"),
+                          ("two_point_err", "两测点 实际"),
+                          ("well_conditioned", "3~6 测点 理想"),
+                          ("well_conditioned_err", "3~6 测点 实际")):
+            s = sweeps[key]
+            print("%-14s: trials=%d bounded=%d fail=%d (%.4f%%) worst_ratio=%s "
+                  "[unbounded=%d empty=%d degenerate=%d]" % (
+                      name, s["n_trials"], s["n_bounded"], s["n_fail"], s["fail_pct"],
+                      "-" if s["worst_ratio"] is None else "%.6f" % s["worst_ratio"],
+                      s["n_unbounded"], s["n_empty"], s["n_degenerate"]))
     print("\n== 论文表 2 行 ==")
     for r in results:
         lab = r"A\textsubscript{%s}" % r["label"].lstrip("AC")

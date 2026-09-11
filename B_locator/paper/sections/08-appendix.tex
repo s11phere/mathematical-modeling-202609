@@ -16,10 +16,10 @@ Matplotlib，全过程离线。
                   parsep=0pt, before=\sloppy]
     \item \texttt{Q1/p1\_intersection.py}：问题一源程序，含定位区域、直径与覆盖判定（附录~\ref{app:code}；正文数值来源）。
     \item \texttt{code/main.py}：问题三、四主程序，负责模拟器交互与搜索清除。
-    \item \texttt{Q1/p1\_experiments.py}：算例生成、逐例求解与两组随机扫描（失败率与最坏比值来源）。
+    \item \texttt{Q1/p1\_experiments.py}：算例生成、逐例求解与四组随机扫描（理想构型、实际构型各两组；失败率与最坏比值来源）。
     \item \texttt{Q1/p1\_selftest.py}：自检，含真值包含、凸性、直径双算法、两套区域实现交叉校验。
     \item \texttt{Q1/p1\_case01}$\sim$\texttt{05.csv}（含 \texttt{.truth.json}）：问题一算例与真值（固定种子生成，真值仅自检用）。
-    \item \texttt{Q1/p1\_results.jsonl}、\texttt{Q1/p1\_summary.json}：逐例结果与汇总统计（含两组随机扫描）。
+    \item \texttt{Q1/p1\_results.jsonl}、\texttt{Q1/p1\_summary.json}：逐例结果与汇总统计（含四组随机扫描）。
     \item \texttt{Q1/} 下 \texttt{make\_p1\_figures.py}、\texttt{make\_p1\_flowchart.py}、\texttt{make\_p1\_wedge\_figure.py}、\texttt{illustration\_plot\_Q1.py}：问题一插图脚本，输出图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
     \item \texttt{figures/} 下的 7 张问题一插图（\texttt{Q1/} 下有同名副本，逐字节一致），含图~\ref{fig:p1-wedge}、图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
     \item \texttt{Q2/src/q2\_solution.py}：问题二源程序，期望直径、寻优与候选区域（附录~\ref{app:q2code}）。
@@ -33,7 +33,7 @@ Matplotlib，全过程离线。
 \section{问题一主要源程序}\label{app:code}
 问题一的完整求解源程序（支撑材料 \texttt{Q1/p1\_intersection.py}）全文见下；定位区域按
 “顶点枚举 $+$ 半平面筛选 $+$ 凸包规范化”构造，另有 Sutherland--Hodgman 裁剪的等价实现
-用于交叉校验。算例生成与两组随机扫描见 \texttt{Q1/p1\_experiments.py}，不变量自检见
+用于交叉校验。算例生成与四组随机扫描见 \texttt{Q1/p1\_experiments.py}，不变量自检见
 \texttt{Q1/p1\_selftest.py}，插图脚本见 \texttt{Q1/make\_p1\_*.py}（清单见附录~\ref{app:files}）。
 
 \lstinputlisting[language=python, caption={问题一：定位区域、区域直径与直径圆覆盖判定（Python 3）}]{code/p1_intersection.py}

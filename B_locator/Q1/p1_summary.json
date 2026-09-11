@@ -19,7 +19,16 @@
       "two_point": {
         "n_trials": 20000,
         "seed": 17,
-        "r_max_m": 1800.0
+        "r_max_m": 1800.0,
+        "with_error": false,
+        "bearing_error_deg": 0.0
+      },
+      "two_point_err": {
+        "n_trials": 20000,
+        "seed": 17,
+        "r_max_m": 1800.0,
+        "with_error": true,
+        "bearing_error_deg": 1.0
       },
       "well_conditioned": {
         "n_trials": 4000,
@@ -34,7 +43,26 @@
           4,
           5,
           6
-        ]
+        ],
+        "with_error": false,
+        "bearing_error_deg": 0.0
+      },
+      "well_conditioned_err": {
+        "n_trials": 4000,
+        "seed": 5,
+        "min_gap_deg": 3.0,
+        "dist_range_m": [
+          300.0,
+          1500.0
+        ],
+        "m_choices": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "with_error": true,
+        "bearing_error_deg": 1.0
       }
     }
   },
@@ -144,8 +172,13 @@
       "n_trials": 20000,
       "seed": 17,
       "r_max_m": 1800.0,
+      "with_error": false,
+      "bearing_error_deg": 0.0,
       "n_bounded": 20000,
       "n_fail": 231,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
       "fail_pct": 1.155,
       "worst_ratio": 1.033554,
       "worst_config": {
@@ -165,6 +198,36 @@
         "covers": false
       }
     },
+    "two_point_err": {
+      "n_trials": 20000,
+      "seed": 17,
+      "r_max_m": 1800.0,
+      "with_error": true,
+      "bearing_error_deg": 1.0,
+      "n_bounded": 19996,
+      "n_fail": 246,
+      "n_unbounded": 4,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "fail_pct": 1.230246049209842,
+      "worst_ratio": 1.034573,
+      "worst_config": {
+        "S1": [
+          1525.443,
+          130.586,
+          185.7766
+        ],
+        "S2": [
+          -165.792,
+          1445.028,
+          275.8275
+        ],
+        "D_m": 74.7537,
+        "max_vertex_dist_m": 38.6691,
+        "ratio": 1.034573,
+        "covers": false
+      }
+    },
     "well_conditioned": {
       "n_trials": 4000,
       "seed": 5,
@@ -179,8 +242,13 @@
         5,
         6
       ],
+      "with_error": false,
+      "bearing_error_deg": 0.0,
       "n_bounded": 3472,
       "n_fail": 113,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
       "fail_pct": 3.2546082949308754,
       "worst_ratio": 1.030373,
       "worst_config": {
@@ -244,6 +312,83 @@
           "bounded": 750,
           "fail": 28,
           "fail_pct": 3.7333
+        }
+      }
+    },
+    "well_conditioned_err": {
+      "n_trials": 4000,
+      "seed": 5,
+      "min_gap_deg": 3.0,
+      "dist_range_m": [
+        300.0,
+        1500.0
+      ],
+      "m_choices": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "with_error": true,
+      "bearing_error_deg": 1.0,
+      "n_bounded": 3472,
+      "n_fail": 993,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "fail_pct": 28.600230414746544,
+      "worst_ratio": 1.687604,
+      "worst_config": {
+        "m": 4,
+        "pts": [
+          [
+            -610.816,
+            72.903
+          ],
+          [
+            -652.783,
+            -851.145
+          ],
+          [
+            -134.922,
+            -695.733
+          ],
+          [
+            535.767,
+            -1289.348
+          ]
+        ],
+        "svds_deg": [
+          353.044,
+          53.4397,
+          79.1158,
+          111.7519
+        ],
+        "D_m": 17.6168,
+        "max_vertex_dist_m": 14.8651,
+        "ratio": 1.687604,
+        "covers": false
+      },
+      "per_m": {
+        "3": {
+          "bounded": 966,
+          "fail": 164,
+          "fail_pct": 16.9772
+        },
+        "4": {
+          "bounded": 859,
+          "fail": 243,
+          "fail_pct": 28.2887
+        },
+        "5": {
+          "bounded": 897,
+          "fail": 309,
+          "fail_pct": 34.4482
+        },
+        "6": {
+          "bounded": 750,
+          "fail": 277,
+          "fail_pct": 36.9333
         }
       }
     }
