@@ -34,23 +34,6 @@ bash build.sh clean    # 只清理编译中间文件（*.aux *.log *.out *.toc �
 
 产物就是本目录的 **`main.pdf`**。编译后请确认两点：**没有 `Missing character`（缺字方框）**、**没有报错**。
 
-### 本机推荐的编译方式（用户级 XeLaTeX，无需 sudo）
-系统里没有 TeX 发行版，但仓库 `tmp/texlive/2026basic/`（`tmp/` 不入库）已放好一份**用户级
-TeX Live 2026basic**：从 CTAN 下载 BasicTeX 后直接解压得到，再用其 `tlmgr` 补装了
-`ctex`、`listings`、`pgf`、`booktabs`、`cleveref` 等宏包。它自带 `xelatex`，编译结果与
-模板预期版式一致，**附录代码清单里的中文注释也能正常显示**。重建 `main.pdf`：
-
-```bash
-cd /path/to/repo
-bash tmp/xelatex-build.sh              # = 把该树的 bin 加进 PATH 后执行 paper/build.sh（含缺字/报错自检）
-bash tmp/xelatex-build.sh clean        # 只清理编译中间文件
-```
-
-等价的手动写法：`export PATH="$PWD/tmp/texlive/2026basic/bin/universal-darwin:$PATH"`，
-再进 `B_locator/paper/` 执行 `bash build.sh`。该树若被清理，可重新下载 BasicTeX
-（`https://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg`，约 133 MB）用
-`pkgutil --expand-full` 解压到 `tmp/texlive/`，再 `tlmgr install <宏包>`。
-
 ### 没有 XeLaTeX 时的应急编译（tectonic）
 仓库 `tmp/` 下自带 tectonic 与缓存，可在**不改动本目录任何文件**的前提下产出一份可阅览的
 PDF（在 `tmp/paper-build/bld/` 里搭影子目录；`cumcmthesis.cls`、`fonts/`、`figures/`、`code/`
@@ -61,12 +44,11 @@ PDF（在 `tmp/paper-build/bld/` 里搭影子目录；`cumcmthesis.cls`、`fonts
 bash tmp/paper-build/build-pdf.sh      # 产物 tmp/paper-build/bld/main.pdf，并打印缺字/报错/页数自检
 ```
 
-注意：**tectonic 路线下代码清单（`lstlisting`）里的中文会是空白**——该影子环境找不到
-CJK 等宽字体，且不会有 `Missing character` 警告；要看到附录代码中的中文注释，请用上面的
-XeLaTeX 路线。**正式交付一律以 XeLaTeX + `build.sh` 的结果为准。**
+应急产物与 XeLaTeX 结果版式一致（同样的类文件、字体、体例），但**正式交付仍以
+XeLaTeX + `build.sh` 的结果为准**。
 
-**当前 `paper/main.pdf`（22 页、无缺字、无报错）即由上面的 XeLaTeX 路线产出。**
-若那棵树不可用，可临时用 tectonic 路线出可阅览版（`tmp/` 不入库，本机工具链）：
+**本机已用这条路子产出一份 `main.pdf`（21 页、无缺字、无报错），并已回填为 `paper/main.pdf`。**
+之后改完正文要重新出 `main.pdf`，直接跑仓库里现成的脚本即可（`tmp/` 不入库，本机工具链）：
 
 ```bash
 cd /path/to/repo
