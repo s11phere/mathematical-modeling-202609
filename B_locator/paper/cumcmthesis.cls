@@ -154,9 +154,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \setmainfont{Times New Roman}
 %\setmonofont{Courier New}
 \setsansfont{Arial}
-\setCJKfamilyfont{kai}[AutoFakeBold]{simkai.ttf}
+\setCJKfamilyfont{kai}[AutoFakeBold,Path=fonts/]{simkai.ttf}
 \newcommand*{\kai}{\CJKfamily{kai}}
-\setCJKfamilyfont{song}[AutoFakeBold]{simsun.ttc}
+\setCJKfamilyfont{song}[AutoFakeBold,Path=fonts/]{simsun.ttc}
 \newcommand*{\song}{\CJKfamily{song}}
 
 \renewcommand\normalsize{%

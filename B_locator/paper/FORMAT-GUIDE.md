@@ -1,32 +1,34 @@
-# 论文填充格式规范（供写作 / 求解 Agent 对接）
+# 论文写作格式规范
 
-本文件是 B 题论文工程的**格式与写作约定**。任何负责往 `sections/` 里填充内容的
-Agent，动手前务必通读本文，避免踩格式坑或破坏已配置好的排版。
+本文件是 B 题论文工程的**格式与写作约定**。任何往 `sections/` 里填充内容的人（或 Agent），
+动手前务必通读本文，避免踩格式坑或破坏已配置好的排版。
+
+> 首次上手请先看 **`README.md`**（怎么编译、改哪里、字体与格式现状、待填充清单）。
 
 ---
 
 ## 0. 一句话原则
 
 - **只改 `sections/` 各文件的内容**；不要动 `main.tex`、`cumcmthesis.cls` 里的排版
-  设置（除非明确要调整间距）。
+  设置（除非明确要调整间距/字体）。
 - 占位标记 `【待填充：…】` 就是待替换处，成文时**删除或替换为正文**，别残留。
-- 每次改完，在工程根目录运行 `bash build.sh` 编译自检：**必须无报错、无 `Missing
+- 每次改完，在 `paper/` 目录运行 `bash build.sh` 编译自检：**必须无报错、无 `Missing
   character`（缺字方框）**。
 
 ## 1. 文件分工（改哪、干什么）
 
 | 文件 | 内容 | 状态 |
 |---|---|---|
-| `sections/00-abstract.tex` | 摘要 + 关键词（≤1 页、无需英文） | 占位，**全文定稿后写** |
-| `sections/01-restate.tex` | 一、问题重述（4 问） | 占位 |
-| `sections/02-analysis.tex` | 二、问题分析（总体 + 逐问） | 占位 |
-| `sections/03-assumptions.tex` | 三、模型假设（条目式） | 占位 |
-| `sections/04-symbols.tex` | 四、符号说明（三线表） | 占位 |
-| `sections/05-model.tex` | 五、模型建立与求解（5.1~5.4 对应问题 1~4） | 占位，**核心** |
-| `sections/06-evaluation.tex` | 六、模型评价与改进（灵敏度/优缺点） | 占位 |
-| `sections/07-references.tex` | 七、参考文献 | 占位 |
-| `sections/08-appendix.tex` | 附录：支撑材料文件列表 + 源程序 | 占位 |
-| `main.tex` | 主文件、论文信息、**全部排版覆盖** | **勿改**（可改 `\title` 等） |
+| `sections/00-abstract.tex` | 摘要 + 关键词（≤1 页、无需英文） | 问题一已写；问题二~四待填充 |
+| `sections/01-restate.tex` | 一、问题重述（4 问） | 已完成 |
+| `sections/02-analysis.tex` | 二、问题分析（总体 + 逐问） | 总体已写；问题二~四待填充 |
+| `sections/03-assumptions.tex` | 三、模型假设（条目式） | 已完成 |
+| `sections/04-symbols.tex` | 四、符号说明（三线表，表 1） | 已完成 |
+| `sections/05-model.tex` | 五、模型建立与求解（5.1~5.4 对应问题一~四） | **5.1 已定稿**，5.2~5.4 待填充（核心） |
+| `sections/06-evaluation.tex` | 六、模型评价与改进（灵敏度/优缺点） | 待填充 |
+| `sections/07-references.tex` | 七、参考文献 | 待填充 |
+| `sections/08-appendix.tex` | 附录：支撑材料文件列表 + 源程序 | 附录 A/B 已写，附录 C 待补 |
+| `main.tex` | 主文件、论文信息、**全部排版覆盖**（含标题/题注字体、中文字体统一） | **勿改**（可改 `\title` 等论文信息） |
 
 ## 2. 格式红线（违反可能退稿 / 扣分）
 
@@ -52,9 +54,12 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
 **替代**：用 `(1)(2)(3)`、`I/II/III`、半角 `A/a/1`。写完用 `build.sh` 自检，看到
 `Missing character` 就按提示替换。
 
-### 3.2 中文加粗
-- ✅ 强调中文用黑体：`\heiti{关键词}`
-- ❌ 不要用 `\textbf{中文}`：宋体无粗体字形，加粗不生效（不会报错但看起来没变化）。
+### 3.2 中文加粗 / 中文字体
+- ✅ 强调中文用黑体，写法是 `{\heiti 文字}`（声明式命令，**不接收参数**）
+- ❌ 不要写 `\heiti{文字}`（会被当成 `\heiti` + 普通文本 `{文字}`，多出花括号）
+- ❌ 不要用 `\textbf{中文}`：宋体无粗体字形，加粗不生效（不会报错但看起来没变化）
+- ❌ 不要新增任何字体声明（`\setCJKmainfont`、`\setCJKfamilyfont`、`\songti` 之外的字体）：
+  全篇中文字体已统一，见第 4 节
 
 ### 3.3 表格
 - 一律**三线表**：`\toprule` / `\midrule` / `\bottomrule`（booktabs，已加载）。
@@ -75,7 +80,8 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
   ```
 
 ### 3.4 图片
-- 格式 `jpg/png/pdf`（**勿用 bmp**）；英文命名，放 `figures/`。
+- 格式 `jpg/png/pdf`（**勿用 bmp**）；英文命名，放 `figures/`（现有 5 张图的分工见
+  `figures/README.md`）。
 - 图题 `\caption{...}` 在图片**下方**（模板已配 position=bottom）。
   ```latex
   \begin{figure}[!htbp]
@@ -112,13 +118,17 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
 - 支撑材料文件列表（`08-appendix.tex` 里的表）**必须与 `code/`、`figures/` 实际文件
   一一对应**。
 
-## 4. 已配置的紧凑化排版（勿在各节重复设置）
+## 4. 已配置的排版与字体（勿在各节重复设置）
 
-所有间距覆盖集中在 `main.tex` 顶部「排版紧凑化」块，Agent 写正文时**不要**再
-`\setlength`/`\setlist`。当前参数：
+所有排版覆盖集中在 `main.tex` 顶部「排版紧凑化」块，写正文时**不要**再
+`\setlength`/`\setlist`/设字体。当前参数：
 
 | 项 | 值 |
 |---|---|
+| 中文正文字体 | `fonts/simsun.ttc`（宋体）；全篇只有这一种宋体 |
+| 一/二/三级标题 | 黑体 `\heiti` + 编号数字加粗 |
+| 论文标题、「摘要」二字 | 黑体 |
+| 图题/表题 | 宋体小四、**不加粗**（与正文同字重） |
 | 正文行距 | 1.25（模板默认 1.38） |
 | 三线表行距 | 1.0 |
 | 列表顶部间距 | 0 |
@@ -139,9 +149,12 @@ XeLaTeX 下，以下字符会被交给**西文字体 Times New Roman**渲染，�
 ## 6. 编译与自检
 
 ```bash
-cd B-paper
-bash build.sh      # XeLaTeX 两遍 + 缺字/错误自检
+cd B_locator/paper
+bash build.sh          # XeLaTeX 两遍 + 缺字/错误自检
+bash build.sh clean    # 清理编译中间文件
 ```
+
+Windows/MiKTeX：用编辑器把编译器设为 XeLaTeX，连编两遍（详见 `README.md` 第 1 节）。
 
 自检清单：
 1. 编译无报错、无 `Missing character`（方框）。

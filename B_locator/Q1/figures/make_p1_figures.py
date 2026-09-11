@@ -6,7 +6,8 @@
     p1-coverage-contrast.png 直径圆覆盖成立 / 失败对照（左 A1，右 A2）
     p1-unbounded.png         无界情形：两示向度近似同向，区域是无界条带
 
-说明：图中标注一律使用英文，避免中西文字体混排，同时规避 XeLaTeX 缺字风险。
+说明：图内文字一律使用英文/数学符号，避免中西文字体混排，同时规避 XeLaTeX 缺字风险。
+字体与正文保持一致：拉丁用 Times New Roman，数学用 Computer Modern（正文公式同款）。
 运行：python make_p1_figures.py
 """
 from __future__ import annotations
@@ -19,6 +20,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
 import numpy as np                       # noqa: E402
+from matplotlib import font_manager      # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "src"))
@@ -28,9 +30,25 @@ from p1_solution import (                # noqa: E402
 
 OUT = os.path.normpath(os.path.join(HERE, "..", "..", "paper", "figures"))
 
+
+def _pick_serif():
+    """正文拉丁字体是 Times New Roman，图内取同一字体（缺字则依次回退）。"""
+    for name in ("Times New Roman", "Nimbus Roman", "Liberation Serif", "DejaVu Serif"):
+        try:
+            font_manager.findfont(font_manager.FontProperties(family=name),
+                                  fallback_to_default=False)
+            return name
+        except Exception:
+            continue
+    return "DejaVu Serif"
+
+
+SERIF = _pick_serif()
+
 plt.rcParams.update({
     "font.family": "serif",
-    "font.serif": ["DejaVu Serif"],
+    "font.serif": [SERIF],
+    "mathtext.fontset": "cm",            # 与正文 LaTeX 公式一致
     "font.size": 8,
     "axes.linewidth": 0.6,
     "axes.labelsize": 8,
@@ -161,6 +179,22 @@ def fig_region_bounded():
     print("wrote", path)
 
 
+def _check_inside(fig, ax, artists, tag):
+    """轻量自检：标注必须完全落在坐标区内且留白 ≥ 1pt（避免文字出框/压轴线）。"""
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    ab = ax.get_window_extent(renderer=renderer)
+    out = []
+    for name, art in artists:
+        bb = art.get_window_extent(renderer=renderer)
+        if (bb.x0 < ab.x0 + 1 or bb.x1 > ab.x1 - 1
+                or bb.y0 < ab.y0 + 1 or bb.y1 > ab.y1 - 1):
+            out.append(name)
+    if out:
+        raise SystemExit("[FAIL] %s：标注越出坐标区 %s" % (tag, out))
+    print("[check] %s：标注均在坐标区内" % tag)
+
+
 def fig_coverage_contrast():
     """图 3：直径圆覆盖成立（A1，左）与覆盖失败（A2，右）对照。"""
     fig, axes = plt.subplots(1, 2, figsize=(6.6, 2.95))
@@ -177,20 +211,21 @@ def fig_coverage_contrast():
         ax.plot([A[0], B[0]], [A[1], B[1]], "o", ms=3.0, mfc="w", mec="k",
                 mew=0.8, zorder=6)
         ax.plot(*M, marker="+", color="k", ms=5, mew=0.9, zorder=6)
+        marks = [("$M$", ax.annotate("$M$", xy=M,
+                                     xytext=(M[0] + 0.09 * span, M[1] + 0.07 * span),
+                                     fontsize=8, zorder=8))]
 
-        if not cov:                                        # 标出越界顶点
+        if not cov:                                        # 标出越界顶点 P
             Vv = np.array(r["vertices"])
             far = Vv[np.argmax(np.linalg.norm(Vv - M, axis=1))]
             ax.plot(*far, "o", ms=5.0, mfc="none", mec=C_BAD, mew=0.9, zorder=7)
             ax.plot([M[0], far[0]], [M[1], far[1]], color=C_BAD, lw=0.8,
                     ls=(0, (3, 2)), zorder=6)
-            # 文字紧贴越界顶点（上方偏左），不画引线，避免箭头穿过区域边界
-            ax.text(far[0] - 0.10 * span, far[1] + 0.16 * span,
-                    "$|PM|=%.2f$ m\n$>D/2=%.2f$ m" % (maxvtx, rad),
-                    fontsize=6.8, color=C_BAD, ha="right", va="bottom",
-                    linespacing=1.35, zorder=8,
-                    bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=C_BAD,
-                              lw=0.5, alpha=0.92))
+            # 只标字母：数值见子图标题与图题，图内不再放带框文本框
+            marks.append(("$P$", ax.annotate(
+                "$P$", xy=far,
+                xytext=(far[0] - 0.12 * span, far[1] - 0.05 * span),
+                fontsize=8, color=C_BAD, ha="center", va="top", zorder=8)))
 
         D = r["diameter_m"]
         msg = ("$\\max|P-M|=%.2f\\leq D/2$\ncovering holds"
@@ -206,6 +241,7 @@ def fig_coverage_contrast():
             ax.set_ylabel("$y$ / m")
         else:
             ax.set_yticklabels([])
+        _check_inside(fig, ax, marks, "图 2(%s) 标注" % tag[-2])
     path = os.path.join(OUT, "p1-coverage-contrast.png")
     fig.savefig(path)
     plt.close(fig)

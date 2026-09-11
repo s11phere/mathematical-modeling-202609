@@ -32,18 +32,37 @@
   {\bgroup\renewcommand{\arraystretch}{1.0}\mcm@oldtabular}%
   {\mcm@endoldtabular\egroup}
 % 章节标题前后距（前距 / 后距，单位 ex；数值越小越紧凑）
+% 字体：各级标题中文用黑体（此前 \bfseries 落到「加粗宋体」），编号/英文保持 Times 加粗，
+% 否则会出现「黑体中文 + 细体数字」的粗细不一致。
 \renewcommand\section{\@startsection{section}{1}{\z@}%
   {-2ex \@plus -1ex \@minus -.2ex}%
   {0.8ex \@plus.2ex}%
-  {\centering\normalfont\Large\bfseries}}
+  {\centering\normalfont\heiti\bfseries\Large}}
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
   {-1.5ex\@plus -1ex \@minus -.2ex}%
   {0.5ex \@plus .2ex}%
-  {\normalfont\large\bfseries}}
+  {\normalfont\heiti\bfseries\large}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
   {-1.5ex\@plus -1ex \@minus -.2ex}%
   {0.5ex \@plus .2ex}%
-  {\normalfont\normalsize\bfseries}}
+  {\normalfont\heiti\bfseries\normalsize}}
+% 中文字体统一：ctex 在 macOS 上把 CJK 主字体与 \songti(zhsong 家族) 分别指向系统宋体，
+% 会出现「正文一种宋体、摘要段+关键词+图表题注另一种宋体」两套宋体的混排。这里把两者都钉到
+% 自带字体 fonts/simsun.ttc（与模板 \song/\kai 同源）：Windows/MiKTeX 下本就是 SimSun，视觉不变；
+% macOS/Linux 下则消除第二套宋体（Songti SC / 其他系统宋体）。cls 仅改了字体路径。
+\setCJKmainfont[AutoFakeBold,Path=fonts/]{simsun.ttc}
+\setCJKfamilyfont{zhsong}[AutoFakeBold,Path=fonts/]{simsun.ttc}
+% 论文标题与「摘要」二字同样用黑体。
+% 「摘要」二字在 \abstract 里，可直接打补丁；论文标题在 \@maketitle 里（其定义含 \par，
+% etoolbox 的 \patchcmd 无法打补丁），改为给 \@maketitle 套一层 \heiti——标题行没有显式
+% 指定中文字族，因此会继承黑体；cls 未改动。
+\let\mcm@orig@maketitle\@maketitle
+\def\@maketitle{\begingroup\heiti\mcm@orig@maketitle\endgroup}
+\patchcmd{\abstract}{\zihao{4}\bfseries \abstractname}{\zihao{4}\heiti \abstractname}%
+  {\typeout{[font] abstract heading -> heiti}}{\PackageWarning{mcm}{abstract heading patch failed}}
+% 图题/表题：模板为「宋体 小四 加粗」，加粗宋体与正文宋体不一致，改为宋体小四（与正文同字重）
+\captionsetup[figure]{font={song,minusfour}}
+\captionsetup[table]{font={song,minusfour}}
 % 参考文献：收紧条目间距（thebibliography 用原生 \list，不受上面 \setlist 影响）
 \renewenvironment{thebibliography}[1]
      {\section*{\refname}%
