@@ -23,7 +23,7 @@
 | `sections/01-restate.tex` | 一、问题背景与重述（1.1 背景 / 1.2 重述） | 已完成 |
 | `sections/02-analysis.tex` | 二、问题分析（总体 + 2.1~2.4 逐问） | 总体与问题一、二已写；问题三、四待补充 |
 | `sections/03-assumptions.tex` | 三、模型假设（条目式） | 已完成 |
-| `sections/04-symbols.tex` | 四、符号说明（三线表，表 1） | 已含问题二的 $S_2,\theta_2,x_{max},\bar D$ |
+| `sections/04-symbols.tex` | 四、符号说明（三线表，表 1） | 已含问题二的 $S_2,\theta_2,x_{max},E[D]$ |
 | `sections/05-model.tex` | 五、模型建立与求解（5.1~5.4 对应问题一~四） | **5.1、5.2 已定稿**，5.3~5.4 待填充（核心） |
 | `sections/06-evaluation.tex` | 六、模型评价与改进（灵敏度/优缺点） | 待填充 |
 | `sections/07-references.tex` | 七、参考文献 | 待填充 |

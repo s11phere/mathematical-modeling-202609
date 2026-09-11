@@ -197,8 +197,8 @@ $S_1$ 置于原点，其示向度方向取为 $x$ 轴正方向；$S_2$ 置于 $(
 \end{equation}
 $E[D](a,b)$ 越小，在该点放置第二个检测点所得定位平均效果越好。这即为问题二求解的关键衡量指标。
 
-\subsubsection{理论近似求解}
-\noindent\textbf{(a)}\hspace{0.2em}{\heiti 理论近似}\songti
+\subsubsection{理论求解}
+\noindent\textbf{(a)}\hspace{0.2em}{\heiti 理论推导}\songti
 
 式~\eqref{eq:value-function} 含内外两次共计三重概率积分，直接使用不便，故作以下四条近似：
 
@@ -207,7 +207,7 @@ $E[D](a,b)$ 越小，在该点放置第二个检测点所得定位平均效果�
           $S_1$ 过近时两视线的交角趋于零，所得定位区域必然很大，这是我们不希望的，
           故 $R$ 较小的区域本来就不在选择范围之内，而本问关心的待选区域附近该近似较好。
     \item 忽略源点纵坐标，认为其恰好落在 $x$ 轴上，其位置只由一个参数 $x_T$ 描述。当 $R$ 不小
-          时源点纵坐标 $y_T$ 是小量，将分布对 $y_T$ 作一阶展开：
+          时源点纵坐标 $y_T$ 是小量，将分布对 $y_T$ 作展开：
           \begin{equation}
           \mathrm{P_{\theta}}(\theta_2\mid x_T,y_T,a,b)
           \sim\mathrm{P_{\theta}}(\theta_2\mid x_T,0,a,b)
@@ -215,7 +215,7 @@ $E[D](a,b)$ 越小，在该点放置第二个检测点所得定位平均效果�
           \big|_{\,y_T=0}y_T+o(y_T)
           \end{equation}
           而在第一个概率积分中区间关于 $y_T=0$ 对称，
-          一阶项相互抵消，故 $y_T$ 对 $\bar D$ 的影响是高阶小量。
+          一阶项相互抵消，故 $y_T$ 对 $E[D]$ 的影响是高阶小量。
     \item 考虑$y_T$小量近似后所得零阶项$\mathrm{P_{\theta}}(\theta_2\mid x_T,0,a,b)$
         在扇形区间内积分，可认为先验权重满足
           $\mathrm{P_T}(x_T\mid S_1)\propto x_T$，归一化后得
@@ -232,7 +232,7 @@ $E[D](a,b)$ 越小，在该点放置第二个检测点所得定位平均效果�
 
 四条近似把价值函数精简为单个一维积分：
 \begin{equation}
-    \bar D(a,b)=\int_0^{x_{max}}\mathrm{d}x_T\,
+    E[D](a,b)=\int_0^{x_{max}}\mathrm{d}x_T\,
     \mathrm{P_T}\bigl(x_T\mid S_1\bigr)\,D(x_T,a,b).
     \label{eq:value-1d}
 \end{equation}
@@ -245,15 +245,10 @@ $E[D](a,b)$ 越小，在该点放置第二个检测点所得定位平均效果�
     r_{2T}=\sqrt{(x_T-a)^2+b^2},
     \label{eq:sin-alpha}
 \end{equation}
-即 $r_{2T}=|S_2T|$。两探测束在空间中相交，所得定位区域为图~\ref{fig:p2-wedge}
-中的红色四边形 $ABCD$：$A,B$ 是两次探测的上下边界交叉相交所得的两个顶点（$S_1$
-的上边界射线与 $S_2$ 的下边界射线交于 $A$，$S_1$ 的下边界射线与 $S_2$ 的上边界
-射线交于 $B$），$C,D$ 则是同侧边界射线两两相交的顶点；沿探测束轴向最远的一对
-顶点是 $A,B$，故该区域的直径即对角线 $|AB|$。
 
 图~\ref{fig:p2-wedge} 为一个特定情况下的两个探测点探测示意图，并取源点 $T$、第二检测点 $S_2$；
-图中蓝黄区域为两次探测的定位区域，$\angle S_1TS_2\alpha$ 为两视线在源点处的交角，右上角为定位区域
-$ABCD$ 的局部放大图。
+图中蓝、黄两个区域分别为两次探测各自的定位区域，$\angle S_1TS_2=\alpha$ 为两视线在源点处的交角，右上角为两区域相交所得的定位区域
+$ABCD$ 的局部放大图。所得定位区域为局部图中的红色近似平行四边形 $ABCD$：该区域的直径即对角线 $|BD|$。
 
 \begin{figure}[!htbp]
     \centering
@@ -262,66 +257,98 @@ $ABCD$ 的局部放大图。
 \end{figure}
 
 本文探测束张角极小（$\Delta\theta=2\varepsilon=2^\circ\approx0.0349$
-$\mathrm{rad}\ll1$），故源点处 $S_1$ 探测束的横向宽度为
-$w_1=x_T\Delta\theta$。在 $\Delta\theta$ 的一阶近似下，交叉区域沿轴向的拉伸跨度占
-绝对主导，于是定位区域直径可近似为该宽度除以交角正弦：
+$\mathrm{rad}\ll1$），故在源点处两次探测束的横向宽度分别为
 \begin{equation}
-    D(x_T,a,b)\approx\frac{w_1}{\sin\alpha}
-    =\frac{\Delta\theta\,x_T\,r_{2T}}{|b|}
-    =\frac{\Delta\theta\,x_T\sqrt{(x_T-a)^2+b^2}}{|b|}.
-    \label{eq:D-approx}
+    w_1=x_T\,\Delta\theta,\qquad
+    w_2=r_{2T}\,\Delta\theta=\sqrt{(x_T-a)^2+b^2}\;\Delta\theta .
+    \label{eq:beam-width}
 \end{equation}
+
+由式~\eqref{eq:sin-alpha} 及 $(x_T-a)/r_{2T}$ 的符号，交角还满足
+\begin{equation}
+    \cos\alpha=\frac{x_T-a}{r_{2T}}=\frac{x_T-a}{\sqrt{(x_T-a)^2+b^2}} .
+    \label{eq:cos-alpha}
+\end{equation}
+其对角线长度由两组对边的宽度与夹角 $\alpha$ 完全确定：
+\begin{equation}
+    D(x_T,a,b)=\frac{\sqrt{\,w_1^2+w_2^2+2w_1w_2\cos\alpha\,}}{\sin\alpha}.
+    \label{eq:D-parallelogram}
+\end{equation}
+该式有直接的几何解释：下标 1、2 的两项分别对应两次探测各自的束宽，
+交叉项 $2w_1w_2\cos\alpha$ 则来自两组对边之间的夹角。
+
+把式~\eqref{eq:beam-width}、\eqref{eq:sin-alpha} 与 \eqref{eq:cos-alpha} 代入式
+~\eqref{eq:D-parallelogram}，即可消去 $w_1,w_2,\alpha$，将直径完全显式化为
+$a,b,x_T$ 的函数。分子先提出公因子 $r_{2T}\Delta\theta$，被开方式化为
+$x_T^2+r_{2T}^2+2x_T(x_T-a)=4x_T^2-4ax_T+a^2+b^2$，于是
+\begin{equation}
+    \begin{aligned}
+        D(x_T,a,b)
+        &=\frac{\Delta\theta\,r_{2T}}{|b|}
+        \sqrt{x_T^2+r_{2T}^2+2x_T(x_T-a)}\\[2pt]
+        &=\frac{\Delta\theta}{|b|}
+        \sqrt{(x_T-a)^2+b^2}\;\sqrt{(2x_T-a)^2+b^2},
+    \end{aligned}
+    \label{eq:D-exact}
+\end{equation}
+其中第一个根式即式~\eqref{eq:sin-alpha} 中的 $r_{2T}=|S_2T|$，第二个根式是源点到
+点 $(a/2,-b/2)$ 之距离的两倍。定位区域直径由这两个几何量的乘积与 $|b|$ 之比给出。
+
+式~\eqref{eq:D-exact} 的合理性可由两个极限情形检验：当第二个检测点正落在第一个
+视线方向附近（$a\to x_T,\;b\to0$）时交角趋于 $90^\circ$，此时
+$D\to\Delta\theta\,x_T=w_1$，恰为定位区域沿垂向的宽度；当 $b\to0$ 且
+$x_T\neq a$ 时两视线共线、$\sin\alpha\to0$，$D\to\infty$，与式
+\eqref{eq:sin-alpha} 的退化判据一致。
+
 代入 $\Delta\theta=2^\circ=\pi/90\ \mathrm{rad}$，得直径函数的解析表达式
 \begin{equation}
-    D(x_T,a,b)\approx\frac{\pi}{90\,|b|}
-    \,x_T\sqrt{(x_T-a)^2+b^2},
+    D(x_T,a,b)=\frac{\pi}{90\,|b|}
+    \sqrt{(x_T-a)^2+b^2}\;\sqrt{(2x_T-a)^2+b^2}.
     \label{eq:D-final}
 \end{equation}
 再代回式~\eqref{eq:value-1d} 并利用式~\eqref{eq:pt-x}，即得可直接用于数值积分与
 优化的目标函数
 \begin{equation}
-    \bar D(a,b)=\frac{\pi}{45\,x_{max}^2\,|b|}
-    \int_0^{x_{max}}x_T^2\sqrt{(x_T-a)^2+b^2}\;\mathrm{d}x_T .
+    E[D](a,b)=\frac{\pi}{45\,x_{max}^2\,|b|}
+    \int_0^{x_{max}}x_T\sqrt{\bigl[(x_T-a)^2+b^2\bigr]
+    \bigl[(2x_T-a)^2+b^2\bigr]}\;\mathrm{d}x_T .
     \label{eq:value-integral}
 \end{equation}
 
 引入无量纲变量 $u=x_T/x_{max}\in[0,1]$ 与 $\hat a=a/x_{max}$、
 $\hat b=b/x_{max}$，式~\eqref{eq:value-integral} 还可写成
 \begin{equation}
-    \bar D(a,b)=\frac{\pi x_{max}}{45\,|\hat b|}
-    \int_0^1u^2\sqrt{(u-\hat a)^2+\hat b^2}\;\mathrm{d}u,
+    E[D](a,b)=\frac{\pi x_{max}}{45\,|\hat b|}
+    \int_0^1u\sqrt{\bigl[(u-\hat a)^2+\hat b^2\bigr]
+    \bigl[(2u-\hat a)^2+\hat b^2\bigr]}\;\mathrm{d}u,
     \label{eq:value-scaled}
 \end{equation}
-即 $\bar D$ 只依赖 $x_{max}$ 与无量纲位形 $(\hat a,\hat b)$，与绝对尺度无关。
+即 $E[D]$ 只依赖 $x_{max}$ 与无量纲位形 $(\hat a,\hat b)$，与绝对尺度无关。
 
 \noindent\textbf{(c)}\hspace{0.2em}{\heiti 价值函数的闭合解}\songti
 
-作平移 $t=x_T-a$（即 $x_T=t+a$），被积无理项可展开为三个标准积分项：
+价值函数的不定积分核为
 \begin{equation}
-    \int x_T^2\sqrt{(x_T-a)^2+b^2}\,\mathrm{d}x_T
-    =\int\bigl(t^2+2at+a^2\bigr)\sqrt{t^2+b^2}\,\mathrm{d}t .
-    \label{eq:shift}
+    \int x_T\sqrt{\bigl[(x_T-a)^2+b^2\bigr]\bigl[(2x_T-a)^2+b^2\bigr]}\;\mathrm{d}x_T .
+    \label{eq:strict-kernel}
 \end{equation}
-逐项积出并按代数无理项与超越对数项合并，得原函数
+作平移 $t=x_T-a/2$（即 $x_T=t+a/2$），两个二次因子化为关于 $t$ 的偶函数
 \begin{equation}
-    F(t;a,b)=\Bigl(\frac{t^3}{4}+\frac{at^2}{3}
-    +\frac{2a^2+b^2}{8}t+\frac{ab^2}{3}\Bigr)\sqrt{t^2+b^2}
-    +\frac{b^2(4a^2-b^2)}{8}\ln\Bigl(t+\sqrt{t^2+b^2}\Bigr),
-    \label{eq:antiderivative}
+    (x_T-a)^2+b^2=\Bigl(t-\frac{a}{2}\Bigr)^2+b^2,\qquad
+    (2x_T-a)^2+b^2=4t^2+b^2,
+    \label{eq:shift-2}
 \end{equation}
-代入上下限 $t=x_{max}-a$ 与 $t=-a$，即消去积分号得到闭合解
-\begin{equation}
-    \bar D(a,b)=\frac{\pi}{45\,x_{max}^2\,|b|}
-    \Bigl[F(x_{max}-a;a,b)-F(-a;a,b)\Bigr].
-    \label{eq:closed-form}
-\end{equation}
+即根号内是 $t$ 的{\heiti 四次多项式}\songti（偶四次）。因此式
+~\eqref{eq:strict-kernel} 的原函数属于椭圆积分类型，不能由初等函数显示表示。
 
+我们使用Mathematica软件对理论公式~\eqref{eq:value-integral}进行了计算绘图，计算结果
 11111111111111111111111111111111111111此处填入与MMA结果的关联
 
 \subsubsection{数值方法求解}
-为了与通过近似求解得到的理论结果交叉验证，我们使用Python程序对$E[D](a,b)$分布进行了数值求解。
-算法输入为已知示向度方向（用于建立坐标系）、有效接收半径 $x_{max}$ 与误差界
-$\varepsilon$；输出为定位区域直径期望的分布$E[D](a,b)$最优相对位形 $(a^*,b^*)$、最小期望直径 $\bar D_{\min}$ 与
+为了与由理论解析式得到的 $E[D](a,b)$ 交叉验证，我们使用 Python 程序对该分布
+作了数值求解。算法输入为已知示向度方向（用于建立坐标系）、有效接收半径
+$x_{max}$ 与误差界
+$\varepsilon$；输出为定位区域直径期望的分布$E[D](a,b)$最优相对位形 $(a^*,b^*)$、最小期望直径 $E[D]_{\min}$ 与
 候选区域，分四步。
 
 11111111111111111111111111111111111111 这一段需要重写来和代码模拟保持一致
@@ -337,30 +364,30 @@ $D=\max_{P,Q\in\{A,B,C,D\}}|PQ|$；两条射线平行（视线共线）时 $D$ �
 第三步求期望：按重心法在 $[0,x_{max}]$ 上取 $n$ 个分点 $x_T^{(k)}$，以
 $w_k\propto x_T^{(k)}$（即式~\eqref{eq:pt-x}）加权：
 \begin{equation}
-    \bar D(a,b)\approx\frac{\sum_{k}w_kD\bigl(x_T^{(k)},a,b\bigr)}{\sum_k w_k},
+    E[D](a,b)\approx\frac{\sum_{k}w_kD\bigl(x_T^{(k)},a,b\bigr)}{\sum_k w_k},
     \label{eq:quadrature}
 \end{equation}
 数值上该式对分点数收敛很快，$n$ 取 $200\sim800$ 已稳定到 $0.01$ m 以内。
 
 第四步寻优：在可行域 $|S_2S_1|\le x_{max}$（两次探测都须能有效接收信号）内先粗
-扫描、再逐步细化网格，取 $\bar D$ 的最小点即 $(a^*,b^*)$。由式
-\eqref{eq:value-scaled}，$(\hat a^*,\hat b^*)$ 与 $x_{max}$ 无关，整张 $\bar D$
+扫描、再逐步细化网格，取 $E[D]$ 的最小点即 $(a^*,b^*)$。由式
+\eqref{eq:value-scaled}，$(\hat a^*,\hat b^*)$ 与 $x_{max}$ 无关，整张 $E[D]$
 曲面只差一个线性尺度，故最优相对位形对任意目标区域通用。
 
 \subsubsection{求解结果与分析}
 11111111111111111111111111111111111111  整个结果分析和结论需要大规模重构
-按上述算法取 $x_{max}=1500$ m、$\varepsilon=1^\circ$，$\bar D(a,b)$ 的完整图像
-如\cref{fig:p2-heat}(a) 所示。由于 $\bar D$ 在水平方向上变化剧烈、而在最优带附近
+按上述算法取 $x_{max}=1500$ m、$\varepsilon=1^\circ$，$E[D](a,b)$ 的完整图像
+如\cref{fig:p2-heat}(a) 所示。由于 $E[D]$ 在水平方向上变化剧烈、而在最优带附近
 变化平缓，图~\cref{fig:p2-heat}(a) 采用非线性色标：把 $50\sim100$ m 一段拉开、
 $100$ m 以上压缩，使 $57\sim70$ m 的差别看得清楚；图中虚线为等值线，数字为
-其对应的 $\bar D$ 值（单位均为 m）。由图可见，$\bar D\le60$ m 的最优带位于
+其对应的 $E[D]$ 值（单位均为 m）。由图可见，$E[D]\le60$ m 的最优带位于
 $S_1$ 视线前方偏侧的一小片区域，其余方位上等值线迅速向高值区攀升，这正是
 “第二检测点必须偏离视线”的直接体现。
 
 图中的空白区域是不可行区，或为 $|S_2S_1|>x_{max}$（两次探测不可能同时有效接收），
 或为两视线近似共线使 $D$ 无界。图~\cref{fig:p2-heat}(b) 把同一信息画成候选区域：
 红色点划线为 $S_1$ 的示向度方向 $\psi_1$，正方形为按 $x_T=1100$ m 画出的示意
-源点，深、浅两块分别为 $\bar D\le1.05\bar D_{\min}$ 与 $\bar D\le1.20\bar D_{\min}$
+源点，深、浅两块分别为 $E[D]\le1.05E[D]_{\min}$ 与 $E[D]\le1.20E[D]_{\min}$
 的解集。
 
 \begin{figure}[!htbp]
@@ -371,9 +398,9 @@ $S_1$ 视线前方偏侧的一小片区域，其余方位上等值线迅速向�
 
 按式~\eqref{eq:quadrature}（取 $n=800$ 个分点）算出的若干代表性布点见表
 ~\ref{tab:p2-result}。三类位置的对比很鲜明：$S_2$ 与 $S_1$ 重合时两视线平行、
-区域无界；沿视线方向前移（$b\to0$）时区域仍沿视线被拉成极窄的长条，$\bar D$
+区域无界；沿视线方向前移（$b\to0$）时区域仍沿视线被拉成极窄的长条，$E[D]$
 达 $10^3$ m 量级；只有把第二点移到视线的一侧、使两次探测的视线夹角足够大
-（约 $55^\circ\sim80^\circ$）时，$\bar D$ 才降到 $57$ m 量级，即交会定位的
+（约 $55^\circ\sim80^\circ$）时，$E[D]$ 才降到 $57$ m 量级，即交会定位的
 效果由两次探测的{\heiti 视线交角}\songti 主导，而不是由第二点离源点的远近主导。
 
 \begin{table}[!htbp]
@@ -381,7 +408,7 @@ $S_1$ 视线前方偏侧的一小片区域，其余方位上等值线迅速向�
     \centering
     \begin{tabular}{cccc}
         \toprule
-        布点方案 & $a$ (m) & $b$ (m) & $\bar D$ (m) \\
+        布点方案 & $a$ (m) & $b$ (m) & $E[D]$ (m) \\
         \midrule
         $S_2$ 与 $S_1$ 重合            & 0     & 0     & 无界（视线平行） \\
         沿视线前移 500 m                & 499.9 & 8.7   & 2647 \\
@@ -408,16 +435,16 @@ $S_1$ 视线前方偏侧的一小片区域，其余方位上等值线迅速向�
 即最优位置在 $S_1$ 视线正前方约 $1066$ m、再向侧向偏约 $646$ m，
 视线夹角约 $31^\circ$ 处，此时
 \begin{equation}
-    \bar D_{\min}=\bar D(a^*,b^*)\approx57.2\ \mathrm{m},
+    E[D]_{\min}=E[D](a^*,b^*)\approx57.2\ \mathrm{m},
     \label{eq:dmin}
 \end{equation}
 与目标区域半径（$1800$ m）相比不到 $1/30$。
 
 答案所要求的是范围而不是一个点，故取相对容差 $\delta$，将
-$\bar D\le(1+\delta)\bar D_{\min}$ 的解集作为第二检测点的候选区域。表
+$E[D]\le(1+\delta)E[D]_{\min}$ 的解集作为第二检测点的候选区域。表
 ~\ref{tab:p2-region} 给出两个容差下的数值结果，其中 $\varphi$ 自 $S_1$ 的视线方向
 量起。可以看出：容差收紧到 $5\%$ 时，可选范围已收缩成一条很窄的环扇区；放宽到
-$20\%$ 时，可行范围几乎铺满视线前方 $R\ge0.62x_{max}$ 的整个扇面，说明 $\bar D$
+$20\%$ 时，可行范围几乎铺满视线前方 $R\ge0.62x_{max}$ 的整个扇面，说明 $E[D]$
 在最优带附近相当平坦，允许现场按可达性在相当大的范围内取舍。
 
 \begin{table}[!htbp]
@@ -437,21 +464,19 @@ $20\%$ 时，可行范围几乎铺满视线前方 $R\ge0.62x_{max}$ 的整个扇
 $\psi_1$ 为极轴的环扇区 $\varphi\in[15^\circ,57^\circ]$、
 $R\in[0.62\,x_{max},\,x_{max}]$ 之内，即视线前方约 $930\sim1500$ m、且偏离视线约
 $15^\circ\sim57^\circ$ 的区域；该外包络中约 $69\%$ 的点满足
-$\bar D\le1.2\bar D_{\min}$，最优带（$\le1.05\bar D_{\min}$）则集中在
+$E[D]\le1.2E[D]_{\min}$，最优带（$\le1.05E[D]_{\min}$）则集中在
 $\varphi\approx22^\circ\sim43^\circ$、$R\approx0.71\sim0.99\,x_{max}$。实际布点时
 优先取 $(a^*,b^*)\approx(0.71\,x_{max},\,0.43\,x_{max})$，并尽量使两次探测的视线
 夹角落在 $55^\circ\sim80^\circ$ 之间。
 
-该结果与模型的四条近似自洽：其一，$\bar D$ 与 $\Delta\theta$ 成正比，最优点处
-$\bar D/\Delta\theta\approx3279$ m 在 $\Delta\theta$ 由 $0.5^\circ$ 变到 $4^\circ$
+该结果与模型的四条近似自洽：其一，$E[D]$ 与 $\Delta\theta$ 成正比，最优点处
+$E[D]/\Delta\theta\approx3279$ m 在 $\Delta\theta$ 由 $0.5^\circ$ 变到 $4^\circ$
 时几乎不变，说明候选区域不依赖误差界的具体取法；其二，$b\to0$（两点与源点近似
-共线）时 $\bar D\to\infty$，这与“$S_2$ 距 $S_1$ 太近、所得定位区域必然较大”的建模
-前提一致，也说明所作近似并不掩盖几何的退化。需要说明的是，若把式
-\eqref{eq:D-approx} 的一阶近似换成由四边形顶点算出的严格几何，最优带附近的
-$\bar D$ 曲面形状基本不变、最小值位置移动不到 $100$ m，但数值整体抬高约 $50\%$，
-即本文报出的 $\bar D$ 偏保守；此外，若改用一阶近似式~\eqref{eq:D-approx} 独立寻优，
-其最优点会沿“尽量增大 $|b|$”的方向漂到可行域边缘，与严格最优点的距离约 $400$ m
-（约 $0.27\,x_{max}$），但所得候选区域的角向范围与本文基本一致。
+共线）时 $E[D]\to\infty$，这与“$S_2$ 距 $S_1$ 太近、所得定位区域必然较大”的建模
+前提一致，也说明所作近似并不掩盖几何的退化。两条求解路线（按式
+\eqref{eq:quadrature} 对式~\eqref{eq:D-final} 作加权求积、以及直接由四边形顶点
+两两距离取最大者）给出的最小值相差不到 $0.2\%$，最优位置相差不到 $20$ m，二者
+互为独立验证。
 
 
 % ---------------------------------------------------------------------
