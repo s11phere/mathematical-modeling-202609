@@ -41,7 +41,7 @@ def draw_q2_wedge_diagram(save_fig=True, show_fig=False):
     ax.axhline(0, color='black', linewidth=1.2, zorder=0)
     ax.axvline(0, color='black', linewidth=1.2, zorder=0)
     ax.plot(0, 0, 'ko', markersize=3, zorder=5)
-    ax.text(-50, -50, r'$P_1(0,0)$', fontsize=11, fontweight='bold', va='top', ha='right')
+    ax.text(-50, -50, r'$S_1(0,0)$', fontsize=11, fontweight='bold', va='top', ha='right')
 
     # P2 的中心方向角
     dx, dy = x0 - a, 0 - b
@@ -92,10 +92,10 @@ def draw_q2_wedge_diagram(save_fig=True, show_fig=False):
 
     # 7. 主图：标注 P2 与干扰源 S
     ax.plot(a, b, 'ro', markersize=3, zorder=5)
-    ax.text(a + 30, b + 30, r'$P_2(a, b)$', fontsize=11, color='red', fontweight='bold')
+    ax.text(a + 30, b + 30, r'$S_2(a, b)$', fontsize=11, color='red', fontweight='bold')
 
     ax.plot(x0, 0, 'go', markersize=3, zorder=5)
-    ax.text(x0 - 100, -180, r'$S (x_0, 0)$', fontsize=11, color='green', fontweight='bold', ha='left', va='top')
+    ax.text(x0 - 100, -180, r'$T (x_0, 0)$', fontsize=11, color='green', fontweight='bold', ha='left', va='top')
     ax.annotate('', xy=(x0, 0), xytext=(x0 - 35, -170),
                 arrowprops=dict(arrowstyle='->', color='green', lw=0.8, linestyle=':'))
 
