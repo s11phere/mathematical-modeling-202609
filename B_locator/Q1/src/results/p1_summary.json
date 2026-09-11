@@ -1,0 +1,449 @@
+{
+  "cases": {
+    "A1": {
+      "n_bearings": 6,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -448.85707,
+          -256.637953
+        ],
+        [
+          -447.149961,
+          -259.284838
+        ],
+        [
+          -442.077426,
+          -255.889072
+        ],
+        [
+          -442.187169,
+          -247.930323
+        ],
+        [
+          -445.911901,
+          -241.686983
+        ],
+        [
+          -448.546169,
+          -241.918378
+        ]
+      ],
+      "diameter_m": 17.641352017285538,
+      "diameter_endpoints": [
+        [
+          -447.149961,
+          -259.284838
+        ],
+        [
+          -445.911901,
+          -241.686983
+        ]
+      ],
+      "circle_center": [
+        -446.530931,
+        -250.485911
+      ],
+      "circle_radius_m": 8.820676008642769,
+      "max_vertex_dist_m": 8.820676008642785,
+      "excess_m": 1.5987211554602254e-14,
+      "ratio": 1.0000000000000018,
+      "coverage_tol_m": 9.58142e-07,
+      "coverage": true,
+      "rmin_m": 8.820676008642785,
+      "rmin_over_halfD": 1.0000000000000018,
+      "area_m2": 93.02121938934579,
+      "center_error_m": 3.6727059508464728,
+      "truth_inside": true,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "A2": {
+      "n_bearings": 5,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          408.333011,
+          -256.020382
+        ],
+        [
+          416.386269,
+          -268.39765
+        ],
+        [
+          426.397062,
+          -260.420433
+        ],
+        [
+          426.445934,
+          -260.297995
+        ],
+        [
+          416.582961,
+          -249.904591
+        ]
+      ],
+      "diameter_m": 18.611177859700494,
+      "diameter_endpoints": [
+        [
+          408.333011,
+          -256.020382
+        ],
+        [
+          426.445934,
+          -260.297995
+        ]
+      ],
+      "circle_center": [
+        417.389473,
+        -258.159188
+      ],
+      "circle_radius_m": 9.305588929850247,
+      "max_vertex_dist_m": 10.287493291763703,
+      "excess_m": 0.9819043619134558,
+      "ratio": 1.1055177022449085,
+      "coverage_tol_m": 1.4766060000000001e-06,
+      "coverage": false,
+      "rmin_m": 9.353301083474175,
+      "rmin_over_halfD": 1.0051272578214667,
+      "area_m2": 168.3202769501222,
+      "center_error_m": 3.5682897259982287,
+      "truth_inside": true,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "A3": {
+      "n_bearings": 4,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -126.548061,
+          -717.65607
+        ],
+        [
+          -125.550953,
+          -731.266626
+        ],
+        [
+          -111.611751,
+          -731.653548
+        ],
+        [
+          -114.070186,
+          -708.986431
+        ],
+        [
+          -123.161455,
+          -708.759482
+        ]
+      ],
+      "diameter_m": 25.64242427478188,
+      "diameter_endpoints": [
+        [
+          -111.611751,
+          -731.653548
+        ],
+        [
+          -123.161455,
+          -708.759482
+        ]
+      ],
+      "circle_center": [
+        -117.386603,
+        -720.206515
+      ],
+      "circle_radius_m": 12.82121213739094,
+      "max_vertex_dist_m": 13.747096040888817,
+      "excess_m": 0.9258839034978763,
+      "ratio": 1.0722150053814092,
+      "coverage_tol_m": 1.4107950000000002e-06,
+      "coverage": false,
+      "rmin_m": 12.860332729776145,
+      "rmin_over_halfD": 1.0030512397709352,
+      "area_m2": 287.5677731490432,
+      "center_error_m": 3.6752372332606966,
+      "truth_inside": true,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "A4": {
+      "n_bearings": 5,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -124.376786,
+          -426.679154
+        ],
+        [
+          -104.708765,
+          -431.162061
+        ],
+        [
+          -103.267142,
+          -426.127892
+        ],
+        [
+          -122.540598,
+          -421.021228
+        ]
+      ],
+      "diameter_m": 21.11684094396058,
+      "diameter_endpoints": [
+        [
+          -124.376786,
+          -426.679154
+        ],
+        [
+          -103.267142,
+          -426.127892
+        ]
+      ],
+      "circle_center": [
+        -113.821964,
+        -426.403523
+      ],
+      "circle_radius_m": 10.55842047198029,
+      "max_vertex_dist_m": 10.558420471980297,
+      "excess_m": 7.105427357601002e-15,
+      "ratio": 1.0000000000000007,
+      "coverage_tol_m": 1.370888e-06,
+      "coverage": true,
+      "rmin_m": 10.558420471980282,
+      "rmin_over_halfD": 0.9999999999999993,
+      "area_m2": 111.94969716854393,
+      "center_error_m": 1.5282010276959188,
+      "truth_inside": true,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "A5": {
+      "n_bearings": 6,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -591.756637,
+          340.550011
+        ],
+        [
+          -589.435527,
+          332.948511
+        ],
+        [
+          -588.158704,
+          331.801676
+        ],
+        [
+          -584.369599,
+          339.332198
+        ],
+        [
+          -587.527279,
+          342.374086
+        ]
+      ],
+      "diameter_m": 10.591249183198748,
+      "diameter_endpoints": [
+        [
+          -588.158704,
+          331.801676
+        ],
+        [
+          -587.527279,
+          342.374086
+        ]
+      ],
+      "circle_center": [
+        -587.842991,
+        337.087881
+      ],
+      "circle_radius_m": 5.295624591599374,
+      "max_vertex_dist_m": 5.2956245915994025,
+      "excess_m": 2.842170943040401e-14,
+      "ratio": 1.0000000000000053,
+      "coverage_tol_m": 1.060628e-06,
+      "coverage": true,
+      "rmin_m": 5.2956245915994025,
+      "rmin_over_halfD": 1.0000000000000053,
+      "area_m2": 42.95579695132619,
+      "center_error_m": 1.4160021445104456,
+      "truth_inside": true,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "CE2": {
+      "n_bearings": 2,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -11.444017,
+          -5.164021
+        ],
+        [
+          5.2523,
+          -11.176316
+        ],
+        [
+          11.050639,
+          4.987856
+        ],
+        [
+          -4.859903,
+          11.352843
+        ]
+      ],
+      "diameter_m": 24.694525994676823,
+      "diameter_endpoints": [
+        [
+          5.2523,
+          -11.176316
+        ],
+        [
+          -4.859903,
+          11.352843
+        ]
+      ],
+      "circle_center": [
+        0.196198,
+        0.088263
+      ],
+      "circle_radius_m": 12.347262997338412,
+      "max_vertex_dist_m": 12.770321344901683,
+      "excess_m": 0.42305834756327165,
+      "ratio": 1.0342633300719735,
+      "coverage_tol_m": 4.6791000000000007e-07,
+      "coverage": false,
+      "rmin_m": 12.354270615048133,
+      "rmin_over_halfD": 1.0005675442169841,
+      "area_m2": 304.72175437834653,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    },
+    "CE3": {
+      "n_bearings": 3,
+      "boundedness": "bounded",
+      "status": "bounded",
+      "vertices": [
+        [
+          -29.93142,
+          0.0
+        ],
+        [
+          -15.27042,
+          -26.449144
+        ],
+        [
+          14.96571,
+          -25.92137
+        ],
+        [
+          30.54084,
+          0.0
+        ],
+        [
+          14.96571,
+          25.92137
+        ],
+        [
+          -15.27042,
+          26.449144
+        ]
+      ],
+      "diameter_m": 60.472260159123216,
+      "diameter_endpoints": [
+        [
+          14.96571,
+          -25.92137
+        ],
+        [
+          -15.27042,
+          26.449144
+        ]
+      ],
+      "circle_center": [
+        -0.152355,
+        0.263887
+      ],
+      "circle_radius_m": 30.236130079561608,
+      "max_vertex_dist_m": 30.694329807833128,
+      "excess_m": 0.45819972827152,
+      "ratio": 1.015154046733687,
+      "coverage_tol_m": 1.5e-06,
+      "coverage": false,
+      "rmin_m": 30.540840317368733,
+      "rmin_over_halfD": 1.0100776864302847,
+      "area_m2": 2374.9812617246357,
+      "cross_check_vertices_match": true,
+      "cross_check_calipers_match": true
+    }
+  },
+  "random_suite": {
+    "seed": 5,
+    "n_trials": 4000,
+    "n_bounded": 3472,
+    "n_fail": 113,
+    "fail_pct": 3.2546082949308754,
+    "worst_ratio": 1.0303727149013728,
+    "mean_ratio_over_failures": 1.0091377609817858,
+    "per_m": {
+      "3": {
+        "bounded": 966,
+        "fail": 30,
+        "fail_pct": 3.1055900621118013
+      },
+      "4": {
+        "bounded": 859,
+        "fail": 24,
+        "fail_pct": 2.7939464493597206
+      },
+      "5": {
+        "bounded": 897,
+        "fail": 31,
+        "fail_pct": 3.455964325529543
+      },
+      "6": {
+        "bounded": 750,
+        "fail": 28,
+        "fail_pct": 3.7333333333333334
+      }
+    },
+    "vertex_counts_of_failures": {
+      "4": 36,
+      "5": 3,
+      "6": 65,
+      "7": 1,
+      "8": 6,
+      "10": 2
+    }
+  },
+  "two_point_sweep": {
+    "seed": 17,
+    "n_trials": 20000,
+    "n_bounded": 20000,
+    "n_fail": 231,
+    "fail_pct": 1.155,
+    "worst_ratio": 1.0335537571304687,
+    "worst_config": {
+      "S1": [
+        1716.346,
+        507.869,
+        196.4836
+      ],
+      "S2": [
+        -467.779,
+        1570.528,
+        286.5861
+      ],
+      "D": 84.7682,
+      "max_vertex_dist": 43.8062,
+      "ratio": 1.033554,
+      "rmin_over_halfD": 1.000549
+    }
+  },
+  "eps_deg": 1.0
+}

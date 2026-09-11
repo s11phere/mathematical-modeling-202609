@@ -2,27 +2,21 @@
 %  四、符号说明
 % =====================================================================
 \section{符号说明}
-本文使用的主要符号及其含义见表~\ref{tab:symbol}。
+本文使用的主要符号见表~\ref{tab:symbol}，未列出的符号在首次出现处说明。
 
 \begin{table}[!htbp]
     \caption{主要符号说明}\label{tab:symbol}
     \centering
-    \begin{tabular}{ll}
+    \begin{tabular}{lll}
         \toprule
-        符号 & 含义 \\
+        符号 & 含义 & 单位 \\
         \midrule
-        $\theta_i$      & 第 $i$ 次测向得到的示向度（方位角） \\
-        $\delta$        & 示向度测量误差（$^\circ$） \\
-        $d$             & 检测点与干扰源之间的距离（m） \\
-        $R$             & 干扰源有效接收半径（m） \\
-        $P_i$           & 第 $i$ 个检测点坐标 \\
-        $S_j$           & 第 $j$ 个干扰源坐标（待估计量） \\
-        $v$             & 测向机移动速度（$\mathrm{m/s}$） \\
-        $T$             & 现实时间预算（s） \\
-        $\varepsilon$   & 定位误差 / 置信椭圆半轴参数 \\
+        $S_i,\ \theta_i$    & 第 $i$ 个检测点的坐标与示向度 & m, $^\circ$ \\
+        $\varepsilon$       & 示向度误差界（本题 $1^\circ$） & $^\circ$ \\
+        $\mathcal{R},\ V$   & 定位区域及其顶点集 & --- \\
+        $D$                 & 定位区域直径 & m \\
+        $M$                 & 直径圆圆心（直径中点） & m \\
+        $A,B$               & 直径端点 & m \\
         \bottomrule
     \end{tabular}
 \end{table}
-
-\textbf{【待填充：符号说明须与后文模型中的符号一一对应，可按需增删行；未在此
-列出的符号在首次出现处说明。】}

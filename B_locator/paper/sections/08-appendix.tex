@@ -4,44 +4,150 @@
 %  源程序代码；如确无程序须注明“本论文没有用到程序”。
 % =====================================================================
 \begin{appendices}
+\lstset{breaklines=true, breakatwhitespace=false, columns=fullflexible,
+        basicstyle=\ttfamily\footnotesize}
 
-\section{支撑材料文件列表}
-本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径）。
+\section{支撑材料文件列表}\label{app:files}
+本论文支撑材料所包含的文件见表~\ref{tab:files}（对应压缩包内的相对路径），问题一的
+全部算例、结果与插图均由附表中的脚本运行生成，不依赖第三方库与网络。
 
 \begin{table}[!htbp]
-    \caption{支撑材料文件列表}\label{tab:files}
+    \caption{支撑材料文件列表（示例均位于 \texttt{B\_locator/} 目录下）}
+    \label{tab:files}
     \centering
-    \begin{tabular}{cll}
+    \begin{tabular}{clp{6.2cm}}
         \toprule
         序号 & 文件路径 & 说明 \\
         \midrule
-        1 & \texttt{code/main.py}      & 主程序（测向与搜索策略） \\
-        2 & \texttt{code/}…            & 【待填充：其余源程序】 \\
-        3 & \texttt{data/}…            & 【待填充：自主查阅使用的数据资料】 \\
-        4 & \texttt{figures/}…         & 【待填充：较大篇幅中间结果图表】 \\
+        1 & \texttt{code/p1\_locator.py} & 问题一源程序（附录~\ref{app:code}） \\
+        2 & \texttt{code/main.py} & 问题三、四主程序：模拟器交互与搜索清除 \\
+        3 & \texttt{Q1/src/p1\_solution.py} & 问题一求解与稳健性扫描（本文数值来源） \\
+        4 & \texttt{Q1/figures/} 下两个脚本 & 问题一插图与算法流程图生成脚本 \\
+        5 & \texttt{data/p1\_case01}$\sim$\texttt{05.csv} 等 & 问题一算例数据与真值（真值仅自检用） \\
+        6 & \texttt{data/p1\_summary.json} & 问题一求解结果与稳健性统计汇总 \\
+        7 & \texttt{figures/}\mbox{\texttt{p1-coverage-contrast.png}} & 直径圆覆盖判定对照（图~\ref{fig:p1-coverage}） \\
+        8 & \texttt{figures/p1-*.png} & 算法流程图、定位区域与无界情形示意图 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\textbf{【待填充：最终按实际支撑材料逐项填写；如确无支撑材料，则注明“本论文没有
-支撑材料”。】}
+\section{问题一主要源程序}\label{app:code}
+问题一的完整源程序（支撑材料 \texttt{code/p1\_locator.py}）见下；其中凸包采用 Andrew
+单调链，仅列出与正文式~\eqref{eq:wedge}--\eqref{eq:cover} 直接对应的部分。
 
-\section{主要源程序}
-\textbf{【待填充：放入建模所用到的全部完整、可运行的源程序代码（含 EXCEL、SPSS
-等交互命令）。下方为占位示例。】}
+\begin{lstlisting}[language=python, caption={问题一：交会定位区域直径与直径圆覆盖判定（Python 3）}]
+import math
+EPS, BOX = 1.0, 1.0e7          # 示向度误差界；裁剪初始包围盒
 
-\begin{lstlisting}[language=python, caption={测向与搜索策略主程序（占位示例）}]
-# -*- coding: utf-8 -*-
-# 占位示例：B 题测向机在线搜索与清除策略的主流程骨架
-def main():
-    # TODO: 建立到模拟器的连接，发送 /enter 进入任务
-    # TODO: 粗扫建立「频道 -> 射线束」台账
-    # TODO: 对交会区域收敛的频道进行精确定位
-    # TODO: 逐个 /clear 清除干扰源，并在时间预算内返回
-    pass
 
-if __name__ == "__main__":
-    main()
+def rot(v, deg):
+    a = math.radians(deg)
+    return (v[0] * math.cos(a) - v[1] * math.sin(a),
+            v[0] * math.sin(a) + v[1] * math.cos(a))
+
+
+def dist(p, q):
+    return math.hypot(p[0] - q[0], p[1] - q[1])
+
+
+def bounded(svds, eps=EPS):
+    """角楔交集有界 <=> 有向方位角区间公共交集为空。"""
+    segs = [(max(0.0, (svds[0] - eps) % 360.0), min(360.0, (svds[0] + eps) % 360.0))]
+    for th in svds[1:]:
+        lo, hi = (th - eps) % 360.0, (th + eps) % 360.0
+        parts = [(lo, hi)] if lo <= hi else [(lo, 360.0), (0.0, hi)]
+        new = []
+        for a, b in segs:
+            for c, d in parts:
+                if max(a, c) <= min(b, d) + 1e-12:
+                    new.append((max(a, c), min(b, d)))
+        segs = new
+        if not segs:
+            return True
+    return False
+
+
+def clip(poly, n, b):
+    """保留半平面 {x : n.x + b >= 0}。"""
+    out, k = [], len(poly)
+    for i in range(k):
+        p, q = poly[i], poly[(i + 1) % k]
+        fp = n[0] * p[0] + n[1] * p[1] + b
+        fq = n[0] * q[0] + n[1] * q[1] + b
+        if fp >= 0.0:
+            out.append(p)
+        if (fp < 0.0 < fq) or (fp > 0.0 > fq):
+            t = fp / (fp - fq)
+            out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
+    return out
+
+
+def region(dets, eps=EPS):
+    """定位区域 = 全部角楔之交。dets = [(x, y, theta), ...]"""
+    poly = [(-BOX, -BOX), (BOX, -BOX), (BOX, BOX), (-BOX, BOX)]
+    for (x, y, th) in dets:
+        for s in (-1.0, 1.0):
+            a = math.radians(th + s * eps)
+            r = (math.cos(a), math.sin(a))        # 边界射线方向
+            n = rot(r, -90.0 * s)                 # 指向楔内的法向量
+            poly = clip(poly, n, -(n[0] * x + n[1] * y))
+            if not poly:
+                return []
+    return poly
+
+
+def cross(o, a, b):
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+
+def hull(pts):
+    """Andrew 单调链（逆时针，弹出共线中间点）。"""
+    pts = sorted(set(pts))
+    if len(pts) <= 2:
+        return pts
+    lo, hi = [], []
+    for p in pts:
+        while len(lo) >= 2 and cross(lo[-2], lo[-1], p) <= 0:
+            lo.pop()
+        lo.append(p)
+    for p in reversed(pts):
+        while len(hi) >= 2 and cross(hi[-2], hi[-1], p) <= 0:
+            hi.pop()
+        hi.append(p)
+    return lo[:-1] + hi[:-1]
+
+
+def solve(dets, eps=EPS):
+    """返回直径、直径端点、圆心与覆盖结论。"""
+    if not bounded([d[2] for d in dets], eps):
+        return {"status": "unbounded"}
+    V = hull(region(dets, eps))
+    if len(V) < 3:
+        return {"status": "degenerate", "vertices": V}
+    best, (A, B) = -1.0, (V[0], V[0])
+    for i in range(len(V)):
+        for j in range(i + 1, len(V)):
+            if dist(V[i], V[j]) > best:
+                best, (A, B) = dist(V[i], V[j]), (V[i], V[j])
+    M = ((A[0] + B[0]) / 2.0, (A[1] + B[1]) / 2.0)      # 直径圆圆心
+    mx = max(dist(M, p) for p in V)
+    scale = max(1.0, max(max(abs(x), abs(y)) for (x, y, _) in dets))
+    return {"status": "bounded", "vertices": V, "diameter": best,
+            "endpoints": (A, B), "center": M, "radius": best / 2.0,
+            "max_vertex_dist": mx,
+            "coverage": mx <= best / 2.0 + 1e-9 * scale}
+
+
+if __name__ == "__main__":                      # 以算例 A1 自检
+    dets = [(-432.855, -596.368, 91.86), (-290.614, -501.995, 121.82),
+            (474.860, -160.806, 186.02), (461.755, 349.174, 212.80),
+            (-444.749, -62.142, 269.79), (-958.142, 736.087, 298.12)]
+    r = solve(dets)
+    print("D = %.4f m, max|P-M| = %.4f m, covers = %s"
+          % (r["diameter"], r["max_vertex_dist"], r["coverage"]))
 \end{lstlisting}
 
+\section{问题三、四主程序（待补）}
+该部分随三次正式测试完成后补充（文件为 \texttt{code/main.py}）：与模拟器建立连接，
+粗扫建立“频道—射线束”台账，对交会区域收敛的频道精确定位，逐个清除并在预算内退出。
 \end{appendices}
