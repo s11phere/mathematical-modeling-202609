@@ -1,108 +1,366 @@
+"""
+无线电干扰源定位模型 - 论文插图生成脚本
+包含：
+1. draw_q2_wedge_diagram(): 绘制 Q2 双测点楔形区域几何分析图 (wedge_diagram.png) -> 保持原代码完全不变
+2. draw_p1_multi_sensor_diagram(): 绘制 5.1.2 节多测点交会图 (multi_sensor_wedge_diagram.png) 
+   - 传感器标记为 P1, P2, P3
+   - 局部图标题简化，精细调整 Vi, S, M 的标注距离与位置
+"""
+
 import os
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Wedge
+import matplotlib.pyplot as plt
+from matplotlib.patches import Wedge, Polygon, Circle
 
-# 1. 参数设置
-a, b = 800, 600       # P2 (a,b)
-x0 = 1000             # 点 (x0, 0)
-R1 = 1500             # P1 扇形半径
-R2 = 1200             # P2 扇形半径
-theta_deg = 2.0       # 扇形全张角 (度)
+# ==================== 全局配置 ====================
+plt.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans', 'Arial']  # 支持中文与中英文混排
+plt.rcParams['axes.unicode_minus'] = False  # 正常显示负号
 
-half_theta_rad = np.radians(theta_deg / 2)
 
-# 2. 创建画布
-fig, ax = plt.subplots(figsize=(10, 8), dpi=100)
+def get_output_dir():
+    """获取脚本所在的路径，确保输出相对路径稳定"""
+    try:
+        return os.path.dirname(os.path.abspath(__file__))
+    except NameError:
+        return os.getcwd()
 
-# 3. 绘制坐标轴与 P1
-ax.axhline(0, color='black', linewidth=1.2, zorder=0)
-ax.axvline(0, color='black', linewidth=1.2, zorder=0)
-ax.plot(0, 0, 'ko', markersize=3, zorder=5)
-ax.text(-50, -50, r'$P_1(0,0)$', fontsize=11, fontweight='bold', va='top', ha='right')
 
-# P2 的中心方向角
-dx, dy = x0 - a, 0 - b
-p2_center_angle_rad = np.arctan2(dy, dx)
-p2_center_angle_deg = np.degrees(p2_center_angle_rad)
+# ==================== 1. Q2: 双测点楔形区域几何分析图 (完全保持原样) ====================
+def draw_q2_wedge_diagram(save_fig=True, show_fig=False):
+    """绘制问题二/理论近似分析中的双测点楔形交会几何图"""
+    print("[1/2] 正在绘制 Q2 双测点楔形区域几何分析图...")
+    
+    # 1. 参数设置
+    a, b = 800, 600       # P2 (a,b)
+    x0 = 1000             # 点 (x0, 0)
+    R1 = 1500             # P1 扇形半径
+    R2 = 1200             # P2 扇形半径
+    theta_deg = 2.0       # 扇形全张角 (度)
 
-# 4. 绘制两个扇形
-wedge1 = Wedge(center=(0, 0), r=R1, theta1=-theta_deg/2, theta2=theta_deg/2,
-               facecolor='lightblue', edgecolor='blue', alpha=0.3, zorder=1)
-wedge2 = Wedge(center=(a, b), r=R2, 
-               theta1=p2_center_angle_deg - theta_deg/2, 
-               theta2=p2_center_angle_deg + theta_deg/2,
-               facecolor='moccasin', edgecolor='orange', alpha=0.3, zorder=1)
-ax.add_patch(wedge1)
-ax.add_patch(wedge2)
+    half_theta_rad = np.radians(theta_deg / 2)
 
-# 5. 纯解析几何方法求解交点
-def line_intersection(p1, angle1, p2, angle2):
-    x1, y1 = p1
-    x2, y2 = p2
-    k1 = np.tan(angle1)
-    k2 = np.tan(angle2)
-    x_int = (y2 - y1 + k1 * x1 - k2 * x2) / (k1 - k2)
-    y_int = y1 + k1 * (x_int - x1)
-    return x_int, y_int
+    # 2. 创建画布
+    fig, ax = plt.subplots(figsize=(10, 8), dpi=100)
 
-# P1 与 P2 的两条射线角度
-phi1_u, phi1_l = half_theta_rad, -half_theta_rad
-phi2_u = p2_center_angle_rad + half_theta_rad
-phi2_l = p2_center_angle_rad - half_theta_rad
+    # 3. 绘制坐标轴与 P1
+    ax.axhline(0, color='black', linewidth=1.2, zorder=0)
+    ax.axvline(0, color='black', linewidth=1.2, zorder=0)
+    ax.plot(0, 0, 'ko', markersize=3, zorder=5)
+    ax.text(-50, -50, r'$P_1(0,0)$', fontsize=11, fontweight='bold', va='top', ha='right')
 
-# 计算四个交点顶点
-A = line_intersection((0,0), phi1_u, (a,b), phi2_u) # 上 - 上
-B = line_intersection((0,0), phi1_u, (a,b), phi2_l) # 上 - 下
-C = line_intersection((0,0), phi1_l, (a,b), phi2_l) # 下 - 下
-D = line_intersection((0,0), phi1_l, (a,b), phi2_u) # 下 - 上
+    # P2 的中心方向角
+    dx, dy = x0 - a, 0 - b
+    p2_center_angle_rad = np.arctan2(dy, dx)
+    p2_center_angle_deg = np.degrees(p2_center_angle_rad)
 
-# 6. 连接 P1 与 P2，并标注 R
-ax.plot([0, a], [0, b], 'k--', linewidth=1.2, zorder=3)
-ax.text(a / 2 - 30, b / 2 + 30, r'$R$', fontsize=12, color='black', fontweight='bold', zorder=6)
+    # 4. 绘制两个扇形
+    wedge1 = Wedge(center=(0, 0), r=R1, theta1=-theta_deg/2, theta2=theta_deg/2,
+                   facecolor='lightblue', edgecolor='blue', alpha=0.3, zorder=1)
+    wedge2 = Wedge(center=(a, b), r=R2, 
+                   theta1=p2_center_angle_deg - theta_deg/2, 
+                   theta2=p2_center_angle_deg + theta_deg/2,
+                   facecolor='moccasin', edgecolor='orange', alpha=0.3, zorder=1)
+    ax.add_patch(wedge1)
+    ax.add_patch(wedge2)
 
-# 7. 保持 ABCD 位置完全不变，绘制点与标注
-points_info = [
-    ('A', A, -25,  20, 'right', 'bottom'),  # 左上点
-    ('B', B,  25,  20, 'left',   'bottom'),  # 右上点
-    ('C', C,  25, -25, 'left',   'top'),     # 右下点
-    ('D', D, -25, -25, 'right',  'top')      # 左下点
-]
+    # 5. 纯解析几何方法求解交点
+    def line_intersection(p1, angle1, p2, angle2):
+        x1, y1 = p1
+        x2, y2 = p2
+        k1 = np.tan(angle1)
+        k2 = np.tan(angle2)
+        x_int = (y2 - y1 + k1 * x1 - k2 * x2) / (k1 - k2)
+        y_int = y1 + k1 * (x_int - x1)
+        return x_int, y_int
 
-for name, pt, off_x, off_y, ha, va in points_info:
-    ax.plot(pt[0], pt[1], 'ro', markersize=2.5, zorder=5)
-    ax.text(pt[0] + off_x, pt[1] + off_y, name, fontsize=11, color='red', 
-            fontweight='bold', ha=ha, va=va, zorder=6)
+    # P1 与 P2 的两条射线角度
+    phi1_u, phi1_l = half_theta_rad, -half_theta_rad
+    phi2_u = p2_center_angle_rad + half_theta_rad
+    phi2_l = p2_center_angle_rad - half_theta_rad
 
-# === 连接对角线 ===
-ax.plot([B[0], D[0]], [B[1], D[1]], linewidth=2, zorder=4)
+    # 计算四个交点顶点
+    A = line_intersection((0,0), phi1_u, (a,b), phi2_u) # 上 - 上
+    B = line_intersection((0,0), phi1_u, (a,b), phi2_l) # 上 - 下
+    C = line_intersection((0,0), phi1_l, (a,b), phi2_l) # 下 - 下
+    D = line_intersection((0,0), phi1_l, (a,b), phi2_u) # 下 - 上
 
-# 8. 标注 P2 与 (x0, 0)
-ax.plot(a, b, 'ro', markersize=3, zorder=5)
-ax.text(a + 30, b + 30, r'$P_2(a, b)$', fontsize=11, color='red', fontweight='bold')
+    # 6. 连接 P1 与 P2，并标注 R
+    ax.plot([0, a], [0, b], 'k--', linewidth=1.2, zorder=3)
+    ax.text(a / 2 - 30, b / 2 + 30, r'$R$', fontsize=12, color='black', fontweight='bold', zorder=6)
 
-# === 改动 1: 移动 (x0, 0) 标注，避开 DC 的遮挡 ===
-ax.plot(x0, 0, 'go', markersize=3, zorder=5)
-ax.text(x0 - 100, -180, r'$S (x_0, 0)$', fontsize=11, color='green', fontweight='bold', ha='left', va='top')
-ax.annotate('', xy=(x0, 0), xytext=(x0 - 35, -170),
-            arrowprops=dict(arrowstyle='->', color='green', lw=0.8, linestyle=':'))
+    # 7. 保持 ABCD 位置完全不变，绘制点与标注
+    points_info = [
+        ('A', A, -25,  20, 'right', 'bottom'),  # 左上点
+        ('B', B,  25,  20, 'left',   'bottom'),  # 右上点
+        ('C', C,  25, -25, 'left',   'top'),     # 右下点
+        ('D', D, -25, -25, 'right',  'top')      # 左下点
+    ]
 
-# 9. 图形格式设置
-ax.set_aspect('equal')
-ax.set_xlim(-200, 1800)
-ax.set_ylim(-400, 1000)
-ax.set_xlabel('X (m)')
-ax.set_ylabel('Y (m)')
-ax.grid(True, linestyle=':', alpha=0.6, zorder=0)
+    for name, pt, off_x, off_y, ha, va in points_info:
+        ax.plot(pt[0], pt[1], 'ro', markersize=2.5, zorder=5)
+        ax.text(pt[0] + off_x, pt[1] + off_y, name, fontsize=11, color='red', 
+                fontweight='bold', ha=ha, va=va, zorder=6)
 
-# === 改动：导出图片到当前 .py 脚本所在目录 ===
-try:
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-except NameError:
-    script_dir = os.getcwd()  # 如果在Jupyter等交互式环境中运行，退回当前工作路径
+    # === 连接对角线 ===
+    ax.plot([B[0], D[0]], [B[1], D[1]], linewidth=2, zorder=4)
 
-output_filename = os.path.join(script_dir, 'wedge_diagram.png')
-plt.savefig(output_filename, dpi=300, bbox_inches='tight')
-print(f"图片已保存至脚本目录：{output_filename}")
+    # 8. 标注 P2 与 (x0, 0)
+    ax.plot(a, b, 'ro', markersize=3, zorder=5)
+    ax.text(a + 30, b + 30, r'$P_2(a, b)$', fontsize=11, color='red', fontweight='bold')
 
-plt.show()
+    # === 移动 (x0, 0) 标注，避开 DC 的遮挡 ===
+    ax.plot(x0, 0, 'go', markersize=3, zorder=5)
+    ax.text(x0 - 100, -180, r'$S (x_0, 0)$', fontsize=11, color='green', fontweight='bold', ha='left', va='top')
+    ax.annotate('', xy=(x0, 0), xytext=(x0 - 35, -170),
+                arrowprops=dict(arrowstyle='->', color='green', lw=0.8, linestyle=':'))
+
+    # 9. 图形格式设置
+    ax.set_aspect('equal')
+    ax.set_xlim(-200, 1800)
+    ax.set_ylim(-400, 1000)
+    ax.set_xlabel('X (m)')
+    ax.set_ylabel('Y (m)')
+    ax.grid(True, linestyle=':', alpha=0.6, zorder=0)
+
+    if save_fig:
+        out_path = os.path.join(get_output_dir(), 'wedge_diagram.png')
+        plt.savefig(out_path, dpi=300, bbox_inches='tight')
+        print(f"   └─ 已保存至: {out_path}")
+
+    if show_fig:
+        plt.show()
+    else:
+        plt.close()
+
+
+# ==================== 2. 5.1.2节: 多测点交会图 (标注微调与格式优化) ====================
+def draw_p1_multi_sensor_diagram(save_fig=True, show_fig=False):
+    """绘制 5.1.2 节多检测点示向度交会图：探测器改名 P_1,P_2,P_3，局部图标题简化，V_i/S/M 标记贴近精准分类"""
+    print("[2/2] 正在绘制 5.1.2 节多检测点交会凸多边形定位图...")
+
+    # 1. 检测点与参数配置 (修改名称为 P_1, P_2, P_3)
+    sensors = [
+        {'name': r'$P_1$', 'pos': (100, 100),   'theta': 45.0},
+        {'name': r'$P_2$', 'pos': (1200, 200),  'theta': 135.0},
+        {'name': r'$P_3$', 'pos': (600, -500),  'theta': 85.0}
+    ]
+    eps_deg = 1.0     # 误差界 \epsilon = 1°
+    ray_length = 2000
+
+    # 2. 纯几何多边形裁剪算法 (Sutherland-Hodgman)
+    def clip_polygon_with_halfplane(poly, normal, point):
+        if len(poly) == 0:
+            return []
+        def inside(p):
+            return np.dot(normal, np.array(p) - np.array(point)) >= -1e-9
+        def intersect(p1, p2):
+            v = np.array(p2) - np.array(p1)
+            t = np.dot(normal, np.array(point) - np.array(p1)) / np.dot(normal, v)
+            return (np.array(p1) + t * v).tolist()
+
+        out_poly = []
+        for i in range(len(poly)):
+            cur, prev = poly[i], poly[i - 1]
+            if inside(cur):
+                if not inside(prev):
+                    out_poly.append(intersect(prev, cur))
+                out_poly.append(cur)
+            elif inside(prev):
+                out_poly.append(intersect(prev, cur))
+        return out_poly
+
+    box_size = 5000.0
+    poly = [[-box_size, -box_size], [box_size, -box_size], [box_size, box_size], [-box_size, box_size]]
+
+    for s in sensors:
+        x0, y0 = s['pos']
+        th = s['theta']
+        for offset, sign in zip([-eps_deg, eps_deg], [1.0, -1.0]):
+            rad = np.radians(th + offset)
+            r_dir = np.array([np.cos(rad), np.sin(rad)])
+            n_vec = sign * np.array([-r_dir[1], r_dir[0]])
+            poly = clip_polygon_with_halfplane(poly, n_vec, [x0, y0])
+
+    vertices = np.array(poly)
+
+    # 求解区域直径 D、圆心 M 以及质心（干扰源 S）
+    max_dist = 0
+    best_pair = (None, None)
+    n_v = len(vertices)
+    for i in range(n_v):
+        for j in range(i + 1, n_v):
+            d = np.linalg.norm(vertices[i] - vertices[j])
+            if d > max_dist:
+                max_dist = d
+                best_pair = (vertices[i], vertices[j])
+
+    A, B = best_pair
+    M = (A + B) / 2.0
+    radius = max_dist / 2.0
+    S_source = np.mean(vertices, axis=0)
+
+    # 3. 直线交点计算例程
+    def line_intersection(p1, dir1, p2, dir2):
+        x1, y1 = p1
+        dx1, dy1 = dir1
+        x2, y2 = p2
+        dx2, dy2 = dir2
+        det = dx1 * dy2 - dy1 * dx2
+        if abs(det) < 1e-9:
+            return None
+        t1 = ((x2 - x1) * dy2 - (y2 - y1) * dx2) / det
+        return np.array([x1 + t1 * dx1, y1 + t1 * dy1])
+
+    boundary_lines = []
+    for s in sensors:
+        x0, y0 = s['pos']
+        th = s['theta']
+        for offset in [-eps_deg, eps_deg]:
+            rad = np.radians(th + offset)
+            boundary_lines.append(((x0, y0), (np.cos(rad), np.sin(rad))))
+
+    all_intersections = []
+    for i in range(len(boundary_lines)):
+        for j in range(i + 1, len(boundary_lines)):
+            pt = line_intersection(boundary_lines[i][0], boundary_lines[i][1],
+                                   boundary_lines[j][0], boundary_lines[j][1])
+            if pt is not None:
+                if np.linalg.norm(pt - M) < radius * 2.0:
+                    if not any(np.linalg.norm(pt - existing) < 1e-3 for existing in all_intersections):
+                        all_intersections.append(pt)
+
+    # 4. 创建主画布
+    fig, ax = plt.subplots(figsize=(10, 8), dpi=300)
+    ax.axhline(0, color='black', linewidth=0.8, linestyle=':', zorder=1)
+    ax.axvline(0, color='black', linewidth=0.8, linestyle=':', zorder=1)
+
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
+
+    # 绘制传感器 (P_1, P_2, P_3)、淡色角楔着色与边界线
+    for i, s in enumerate(sensors):
+        x0, y0 = s['pos']
+        th = s['theta']
+        c = colors[i % len(colors)]
+        
+        ax.plot(x0, y0, 'ks', markersize=6, zorder=5)
+        ax.text(x0 - 40, y0 - 50, s['name'], fontsize=12, fontweight='bold', zorder=6)
+        
+        rad_l = np.radians(th - eps_deg)
+        rad_h = np.radians(th + eps_deg)
+        wedge_poly = [
+            (x0, y0),
+            (x0 + ray_length * np.cos(rad_l), y0 + ray_length * np.sin(rad_l)),
+            (x0 + ray_length * np.cos(rad_h), y0 + ray_length * np.sin(rad_h))
+        ]
+        ax.add_patch(Polygon(wedge_poly, facecolor=c, alpha=0.10, zorder=1))
+
+        for offset, style in zip([-eps_deg, 0, eps_deg], ['--', '-', '--']):
+            rad = np.radians(th + offset)
+            x_end = x0 + ray_length * np.cos(rad)
+            y_end = y0 + ray_length * np.sin(rad)
+            lw = 1.0 if offset == 0 else 0.7
+            alp = 0.8 if offset == 0 else 0.4
+            ax.plot([x0, x_end], [y0, y_end], color=c, linestyle=style, linewidth=lw, alpha=alp, zorder=2)
+
+    # 主图绘制定位区域 R 与干扰源 S
+    poly_patch = Polygon(vertices, facecolor='crimson', edgecolor='darkred', alpha=0.35, linewidth=1.5, zorder=3, label=r'定位区域 $\mathcal{R}$')
+    ax.add_patch(poly_patch)
+
+    ax.plot(S_source[0], S_source[1], '*', color='gold', markeredgecolor='darkred', markersize=12, zorder=7, label=r'干扰源 $S$')
+    ax.text(S_source[0] + 30, S_source[1] + 30, r'干扰源 $S$', fontsize=11, color='darkred', fontweight='bold', zorder=8)
+
+    ax.set_aspect('equal')
+    ax.set_xlim(-100, 1400)
+    ax.set_ylim(-600, 1000)
+    ax.set_xlabel('X (m)', fontsize=11)
+    ax.set_ylabel('Y (m)', fontsize=11)
+    ax.set_title(r'多检测点示向度交会定位与凸多边形区域 $\mathcal{R}$ 示意图', fontsize=13, fontweight='bold', pad=12)
+    ax.grid(True, linestyle=':', alpha=0.5)
+    ax.legend(loc='upper left', fontsize=10, framealpha=0.9)
+
+    # ================= 5. 右下角局部放大图 =================
+    ax_inset = ax.inset_axes([0.56, 0.06, 0.40, 0.40])
+    
+    # 5.1 局部图：填充角楔淡颜色，只画边界虚线
+    for i, s in enumerate(sensors):
+        x0, y0 = s['pos']
+        th = s['theta']
+        c = colors[i % len(colors)]
+        
+        rad_l = np.radians(th - eps_deg)
+        rad_h = np.radians(th + eps_deg)
+        wedge_poly = [
+            (x0, y0),
+            (x0 + ray_length * np.cos(rad_l), y0 + ray_length * np.sin(rad_l)),
+            (x0 + ray_length * np.cos(rad_h), y0 + ray_length * np.sin(rad_h))
+        ]
+        ax_inset.add_patch(Polygon(wedge_poly, facecolor=c, alpha=0.12, zorder=1))
+
+        for offset in [-eps_deg, eps_deg]:
+            rad = np.radians(th + offset)
+            x_end = x0 + ray_length * np.cos(rad)
+            y_end = y0 + ray_length * np.sin(rad)
+            ax_inset.plot([x0, x_end], [y0, y_end], color=c, linestyle='--', linewidth=0.8, alpha=0.6, zorder=2)
+
+    # 5.2 局部图：绘制区域 R 阴影
+    inset_poly = Polygon(vertices, facecolor='crimson', edgecolor='darkred', alpha=0.35, linewidth=1.5, zorder=3)
+    ax_inset.add_patch(inset_poly)
+    
+    # 5.3 局部图：极度贴近地绘制 S 和 M 标记，且左右错开防止打架
+    # 绘制干扰源 S (向左下方贴近)
+    ax_inset.plot(S_source[0], S_source[1], '*', color='gold', markeredgecolor='darkred', markersize=9, zorder=7)
+    ax_inset.text(S_source[0] - 1.5, S_source[1] - 3.5, r'$S$', fontsize=9.5, color='darkred', fontweight='bold', ha='right', va='top', zorder=8)
+
+    # 绘制圆心 M (向右上方贴近)
+    ax_inset.plot(M[0], M[1], 'k+', markersize=6, markeredgewidth=1.2, zorder=6)
+    ax_inset.text(M[0] + 1.5, M[1] + 1.5, r'$M$', fontsize=9.5, fontweight='bold', ha='left', va='bottom', zorder=7)
+
+    # 5.4 局部图：精细贴近标注边界交点 V_1, V_2, ...
+    for idx, pt in enumerate(all_intersections):
+        ax_inset.plot(pt[0], pt[1], 'ro', markersize=3.5, zorder=6)
+        
+        # 方向向量归一化
+        dir_vec = pt - S_source
+        norm = np.linalg.norm(dir_vec)
+        dir_vec = dir_vec / norm if norm > 0 else np.array([1.0, 0.0])
+        
+        # 缩短文本距离：仅偏移 2.5 个单位
+        label_pos = pt + dir_vec * 2.5
+        ha = 'left' if dir_vec[0] >= 0 else 'right'
+        va = 'bottom' if dir_vec[1] >= 0 else 'top'
+        
+        ax_inset.text(label_pos[0], label_pos[1], f'$V_{{{idx+1}}}$', fontsize=8.5, 
+                      color='darkred', fontweight='bold', ha=ha, va=va, zorder=8)
+
+    # 5.5 局部图：绘制直径 D 与直径圆
+    ax_inset.plot([A[0], B[0]], [A[1], B[1]], 'k-', linewidth=1.2, zorder=5)
+
+    inset_circle = Circle(M, radius, fill=False, edgecolor='navy', linestyle='-.', linewidth=1.0, zorder=4)
+    ax_inset.add_patch(inset_circle)
+
+    # 5.6 设置局部放大图视口与标题 (简化标题为 "局部放大图")
+    margin = radius * 1.6
+    ax_inset.set_xlim(M[0] - margin, M[0] + margin)
+    ax_inset.set_ylim(M[1] - margin, M[1] + margin)
+    ax_inset.set_aspect('equal')
+    ax_inset.set_title('局部放大图', fontsize=9.5, fontweight='bold', pad=4)
+    ax_inset.grid(True, linestyle=':', alpha=0.5)
+
+    # 6. 保存图片
+    if save_fig:
+        out_path = os.path.join(get_output_dir(), 'multi_sensor_wedge_diagram.png')
+        plt.savefig(out_path, dpi=300, bbox_inches='tight')
+        print(f"   └─ 已保存至: {out_path}")
+
+    if show_fig:
+        plt.show()
+    else:
+        plt.close()
+
+
+# ==================== 主入口：生成所有图表 ====================
+if __name__ == '__main__':
+    print("================ 开始生成论文插图 ================")
+    draw_q2_wedge_diagram(save_fig=True, show_fig=False)
+    draw_p1_multi_sensor_diagram(save_fig=True, show_fig=False)
+    print("================ 插图全部生成完毕！ ================")
