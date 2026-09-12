@@ -6,10 +6,10 @@
     python p1_experiments.py --skip-sweep     # 只跑 5 组算例
 
 产出（默认写到本文件所在目录）：
-    p1_case01.csv ~ p1_case05.csv   5 组自造良态算例（后三列为真值，仅自检用）
-    p1_case01.truth.json ~ ...      每组算例的真值与方位统计
-    p1_results.jsonl                逐例求解结果（全字段）
-    p1_summary.json                 算例汇总 + 四组随机扫描统计 + 元信息
+    cases/p1_case01.csv ~ p1_case05.csv   5 组自造良态算例（后三列为真值，仅自检用）
+    cases/p1_case01.truth.json ~ ...      每组算例的真值与方位统计
+    p1_results.jsonl                      逐例求解结果（全字段）
+    p1_summary.json                       算例汇总 + 四组随机扫描统计 + 元信息
 
 算例生成使用固定种子（默认 20260901），同种子下逐字节可复现；随机扫描用固定种子
 17（两测点构型，20000 次）与 5（3~6 个检测点的良态构型，4000 次），各分两种口径：
@@ -404,7 +404,9 @@ def main(argv=None):
 
     out = os.path.abspath(args.out)
     os.makedirs(out, exist_ok=True)
-    case_paths = gen_cases(out, args.seed, args.cases)
+    case_dir = os.path.join(out, "cases")          # 算例统一放在 cases/ 子目录，避免与其他文件混放
+    os.makedirs(case_dir, exist_ok=True)
+    case_paths = gen_cases(case_dir, args.seed, args.cases)
     results = run_cases(case_paths)
 
     jl = os.path.join(out, "p1_results.jsonl")
@@ -454,7 +456,7 @@ def main(argv=None):
             lab, r["n_bearings"], r["n_vertices"], r["diameter_m"],
             r["circle_radius_m"], r["max_vertex_dist_m"], r["ratio"],
             "是" if r["diameter_circle_covers"] else "否"))
-    print("\n写出: %s, %s, p1_case*.csv, p1_case*.truth.json"
+    print("\n写出: %s, %s, cases/p1_case*.csv, cases/p1_case*.truth.json"
           % (os.path.join(out, "p1_summary.json"), jl))
     return 0
 

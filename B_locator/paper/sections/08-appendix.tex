@@ -8,20 +8,20 @@
         basicstyle=\ttfamily\footnotesize}
 
 \section{支撑材料文件列表}\label{app:files}
-本论文支撑材料所包含的文件如下（路径均位于 \texttt{B\_locator/} 目录下），问题一、
-问题二的全部算例、结果与插图均由清单中的脚本运行生成；数值计算仅依赖 NumPy，插图另需
-Matplotlib，全过程离线。
+本论文支撑材料所包含的文件如下（路径均位于 \texttt{B\_locator/} 目录下）。问题一、问题二
+的算例与全部数值结果均由清单中的脚本运行生成，问题一插图已定版，随材料一并提供；数值计算
+仅依赖 NumPy，全过程离线。
 
 \begin{enumerate}[label=\arabic*., leftmargin=2.6em, itemsep=0.12ex, topsep=0.2ex,
                   parsep=0pt, before=\sloppy]
-    \item \texttt{Q1/p1\_intersection.py}：问题一源程序，含定位区域、直径与覆盖判定（附录~\ref{app:code}；正文数值来源）。
+    \item \texttt{Q1/PAPER-DATA.md}：问题一全部数值的数据清单、来源字段与一键复现命令（正文表 2、表 3 与摘要数值均可据此复核）。
+    \item \texttt{Q1/p1\_intersection.py}：问题一求解库，含定位区域构造、直径与覆盖判定（附录~\ref{app:code}）。
     \item \texttt{code/main.py}：问题三、四主程序，负责模拟器交互与搜索清除。
-    \item \texttt{Q1/p1\_experiments.py}：算例生成、逐例求解与四组随机扫描（理想构型、实际构型各两组；失败率与最坏比值来源）。
-    \item \texttt{Q1/p1\_selftest.py}：自检，含真值包含、凸性、直径双算法、两套区域实现交叉校验。
-    \item \texttt{Q1/p1\_case01}$\sim$\texttt{05.csv}（含 \texttt{.truth.json}）：问题一算例与真值（固定种子生成，真值仅自检用）。
+    \item \texttt{Q1/p1\_experiments.py}：算例生成、逐例求解与四组随机扫描（正文表 2、表 3 的数值来源）。
+    \item \texttt{Q1/p1\_selftest.py}：自检脚本，含真值包含、凸性、直径双算法、两套区域实现交叉校验与逐字节复现校验。
+    \item \texttt{Q1/cases/p1\_case01}$\sim$\texttt{05.csv}（含 \texttt{.truth.json}）：五组算例与真值（固定种子生成，真值仅自检用）。
     \item \texttt{Q1/p1\_results.jsonl}、\texttt{Q1/p1\_summary.json}：逐例结果与汇总统计（含四组随机扫描）。
-    \item \texttt{Q1/} 下 \texttt{make\_p1\_figures.py}、\texttt{make\_p1\_flowchart.py}、\texttt{make\_p1\_wedge\_figure.py}、\texttt{illustration\_plot\_Q1.py}：问题一插图脚本，输出图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
-    \item \texttt{figures/} 下的 7 张问题一插图（\texttt{Q1/} 下有同名副本，逐字节一致），含图~\ref{fig:p1-wedge}、图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage} 及其余备选图。
+    \item \texttt{figures/} 下的 3 张问题一插图（定版；\texttt{Q1/} 下有同名副本，逐字节一致）：图~\ref{fig:p1-wedge}、图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage}。
     \item \texttt{Q2/src/q2\_solution.py}：问题二源程序，期望直径、寻优与候选区域（附录~\ref{app:q2code}）。
     \item \texttt{Q2/figures/make\_q2\_figures.py}：问题二插图生成脚本。
     \item \texttt{Q2/src/results/q2\_summary.json}：问题二最优点、等值区域与自检汇总（本文数值来源）。
@@ -31,10 +31,9 @@ Matplotlib，全过程离线。
 \end{enumerate}
 
 \section{问题一主要源程序}\label{app:code}
-问题一的完整求解源程序（支撑材料 \texttt{Q1/p1\_intersection.py}）全文见下；定位区域按
-“顶点枚举 $+$ 半平面筛选 $+$ 凸包规范化”构造，另有 Sutherland--Hodgman 裁剪的等价实现
-用于交叉校验。算例生成与四组随机扫描见 \texttt{Q1/p1\_experiments.py}，不变量自检见
-\texttt{Q1/p1\_selftest.py}，插图脚本见 \texttt{Q1/make\_p1\_*.py}（清单见附录~\ref{app:files}）。
+问题一的完整求解源程序全文见下；定位区域按“顶点枚举 $+$ 半平面筛选 $+$ 凸包规范化”构造，
+另有 Sutherland--Hodgman 裁剪的等价实现用于交叉校验。算例生成、四组随机扫描与不变量自检
+所用的脚本及其用途见附录~\ref{app:files}。
 
 \lstinputlisting[language=python, caption={问题一：定位区域、区域直径与直径圆覆盖判定（Python 3）}]{code/p1_intersection.py}
 
