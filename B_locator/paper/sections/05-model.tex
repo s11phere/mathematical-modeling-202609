@@ -288,7 +288,7 @@ $\mathrm{rad}\ll1$），故在源点处两次探测束的横向宽度分别为
 把式~\eqref{eq:beam-width}、\eqref{eq:sin-alpha} 与 \eqref{eq:cos-alpha} 代入式
 ~\eqref{eq:D-parallelogram}，即可消去 $w_1,w_2,\alpha$，将直径完全显式化为
 $a,b,x_T$ 的函数。分子先提出公因子 $r_{2T}\Delta\theta$，被开方式化为
-$x_T^2+r_{2T}^2+2x_T\lvert x_T-a\\rvert$，于是
+$x_T^2+r_{2T}^2+2x_T\lvert x_T-a\rvert$，于是
 \begin{equation}
     \begin{aligned}
         D(x_T,a,b)
@@ -311,7 +311,7 @@ $x_T\neq a$ 时两视线共线、$\sin\alpha\to0$，$D\to\infty$，与式
 代入 $\Delta\theta=2^\circ=\pi/90\ \mathrm{rad}$，得直径函数的解析表达式
 \begin{equation}
     D(x_T,a,b)=\frac{\pi}{90\,|b|}
-    \sqrt{(x_T-a)^2+b^2}\;\sqrt{\bigl(x_T+\lvert x_T-a\\rvert\bigr)^2+b^2}.
+    \sqrt{(x_T-a)^2+b^2}\;\sqrt{\bigl(x_T+\lvert x_T-a\rvert\bigr)^2+b^2}.
     \label{eq:D-final}
 \end{equation}
 再代回式~\eqref{eq:value-1d} 并利用式~\eqref{eq:pt-x}，即得可直接用于数值积分与
@@ -499,12 +499,9 @@ $E[D]\le60m$  的最优带为极小点周围的一小片区域，在此范围内
 
 
 % ---------------------------------------------------------------------
+\clearpage
 \subsection{问题三：多源定位与清除策略}
-\subsubsection{模型建立}
-\textrm{【待填充：给出该问的模型与求解方法。】}
-
-\subsubsection{求解与结果}
-\textrm{【待填充：给出该问的求解结果与实测指标。】}
+\input{sections/q3-model.tex}
 
 % ---------------------------------------------------------------------
 \subsection{问题四：含定向源时的定位与清除模型}

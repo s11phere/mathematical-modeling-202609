@@ -1,0 +1,209 @@
+{
+  "checked_at_utc": "2026-09-12T14:22:26.247110+00:00",
+  "branch": "codex/b-locator-q3",
+  "experiment_id": "544eee966fe270395af7",
+  "pdf": {
+    "path": "B_locator/paper/main.pdf",
+    "sha256": "8019b72bd6128fe24e61f3f95513ad06021f958b869033c5a164ae6d89860fec",
+    "pages": 212,
+    "q3_body_pages": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "q3_body_page_count": 6,
+    "abstract_pages": 1,
+    "q3_statistics_appendix_pages": [
+      40,
+      41,
+      42
+    ],
+    "source_appendix_starts": 43
+  },
+  "figures": {
+    "q3-geometry-certificate.pdf": {
+      "size_mm": [
+        160.0,
+        57.0
+      ],
+      "pdf_sha256": "7d7d2ff3ddd58243c7ffcabac3af6a56d3ab4615ca1d6818e69476041272f715",
+      "png_sha256": "5f8a1aaf647ac3889313f96253ae5bce2f58668cf89b1cdbc8986195a7c4333c",
+      "png_pixels": [
+        2078,
+        740
+      ]
+    },
+    "q3-route-field-sweep-tour.pdf": {
+      "size_mm": [
+        160.0,
+        65.0
+      ],
+      "pdf_sha256": "017473bf6d98ed87cb3fcc57528b520a4e1b31160678ea2932f77336f5fa6356",
+      "png_sha256": "564e085594817009e59c50477e4af022609cd55c64d50f43979a201f3f291952",
+      "png_pixels": [
+        2078,
+        844
+      ]
+    },
+    "q3-route-tour-adaptive-joint.pdf": {
+      "size_mm": [
+        160.0,
+        65.0
+      ],
+      "pdf_sha256": "f49fb04d448816ccd4c3882f1f1910df47672102482e2abfe8d7f995ee3d9e2e",
+      "png_sha256": "b9b0afdf30954b3bc475c6f4e0c30a63d3eb7cf7566d305ca3b72a228acbd5ae",
+      "png_pixels": [
+        2078,
+        844
+      ]
+    },
+    "q3-scenarios-ablation.pdf": {
+      "size_mm": [
+        160.0,
+        92.0
+      ],
+      "pdf_sha256": "d3b47584ebf945b4f265851f260ef18793505914f2f5051d6e9b6ba22134c944",
+      "png_sha256": "3b609eee7609ff0846a888f71ace0c8db21914fd57606d9be843827efc4b6bc4",
+      "png_pixels": [
+        2078,
+        1195
+      ]
+    },
+    "q3-time-cost-clearance.pdf": {
+      "size_mm": [
+        160.0,
+        70.0
+      ],
+      "pdf_sha256": "94e03a21b7cfcc0ef82f96540174bcaba6ca3503a5480c18e72e5971004b5d36",
+      "png_sha256": "293a03418aa604ccce373abf11b1eb57d960fc1686e742af2e2c7f07cb9a4ef9",
+      "png_pixels": [
+        2078,
+        909
+      ]
+    }
+  },
+  "supplementary_atlas": {
+    "pages": 120,
+    "sha256": "66124345fed610ff4c578cb9f05b82dc7100bb4316d6205faedcfba28a1f063c"
+  },
+  "experiments": {
+    "main_runs": 600,
+    "ablation_runs": 80,
+    "action_audit_pass": 680,
+    "truth_guard_pass": 680,
+    "coverage": {
+      "runs": 320,
+      "numerical_pass": 320,
+      "cell_certificate_pass": 320,
+      "unique_observation_sets": 302,
+      "observation_cache_hits": 1992
+    }
+  },
+  "source_and_field_snapshot_verified_files": 71,
+  "all_table_data_hashes_pass": true,
+  "checks": {
+    "selftest": "40/40",
+    "adaptive": "7/7",
+    "joint": "12/12",
+    "q1_q2_preserved": true,
+    "global_format_unchanged": false,
+    "compile_no_missing_glyphs_overflow_or_bad_references": true,
+    "global_geometry_spacing_font_sizes_unchanged": true,
+    "heading_weight_change_authorized_by_user": true
+  },
+  "visual_review": {
+    "q3_body_all_pages": true,
+    "abstract": true,
+    "q3_formula_parameter_result_appendix_all_pages": true,
+    "source_appendix_representative_pages": [
+      43
+    ],
+    "atlas_representative_pages": [
+      1,
+      60,
+      120
+    ],
+    "method": "Poppler PNG rendering; visual inspection; build-log and page-count verification",
+    "heading_weight_comparison_pages": [
+      1,
+      8,
+      15,
+      16,
+      17,
+      19
+    ],
+    "figure_font_refresh": true
+  },
+  "limits": [
+    "Formal online tests remain pending.",
+    "Historical runner exact bytes were not retained before report edits; frozen policy/field hashes verified.",
+    "Historical wall time measured without watchdog; offline virtual limit 360000 s.",
+    "Q4 and global abstract/evaluation placeholders remain.",
+    "Original combined Q3/Q4 appendix placeholder split; Q1/Q2 byte-identical."
+  ],
+  "language_revision": {
+    "structure": [
+      "模型建立",
+      "算法实践",
+      "数据分析"
+    ],
+    "algorithm_generations": 5,
+    "previous_body_pages": 7,
+    "body_pages": 6,
+    "previous_chinese_character_count": 3536,
+    "chinese_character_count": 2969,
+    "character_reduction_percent": 16.04,
+    "all_equation_figure_table_labels_preserved": true,
+    "main_figure_files_unchanged": true,
+    "algorithms_and_experimental_data_unchanged": true,
+    "checked_protected_files": 136,
+    "scope": "Q3 prose, headings, local float placement, and appendix; no global layout edits."
+  },
+  "formatting_revision": {
+    "checked_at_utc": "2026-09-12T14:22:26.247110+00:00",
+    "scope": "Expanded Q3 analysis, core symbols, naming consistency, abstract context, and revised figure typography/annotations.",
+    "q1_q2_source_data_unchanged": true,
+    "q3_heading_names_consistent": true,
+    "q3_symbols_added": [
+      "Omega",
+      "mathcal C",
+      "rho_c",
+      "L",
+      "T_exit",
+      "T_last"
+    ],
+    "q3_symbol_conflicts_resolved": {
+      "planning_weights": "kappa, nu",
+      "coverage_margin": "delta_r"
+    },
+    "figure_font_report": "B_locator/paper/figure-font-refresh.json",
+    "q3_body_pages": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "abstract_pages": 1,
+    "total_pages": 212,
+    "compile_no_missing_glyphs_overflow_or_bad_references": true,
+    "visual_review_pages": [
+      1,
+      3,
+      4,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ]
+  }
+}

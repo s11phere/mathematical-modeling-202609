@@ -1,0 +1,12 @@
+test_coverage_accepts_genuine_complete_layout (__main__.AdaptiveChecks.test_coverage_accepts_genuine_complete_layout) ... ok
+test_coverage_rejects_boundary_hole (__main__.AdaptiveChecks.test_coverage_rejects_boundary_hole) ... ok
+test_full_disk_cells_include_boundary (__main__.AdaptiveChecks.test_full_disk_cells_include_boundary) ... ok
+test_near_is_pending_until_clear (__main__.AdaptiveChecks.test_near_is_pending_until_clear) ... ok
+test_no_truth_read_and_complete_end_to_end (__main__.AdaptiveChecks.test_no_truth_read_and_complete_end_to_end) ... ok
+test_positive_observations_cannot_certify_absence (__main__.AdaptiveChecks.test_positive_observations_cannot_certify_absence) ... ok
+test_rounded_extreme_bearings_contain_truth (__main__.AdaptiveChecks.test_rounded_extreme_bearings_contain_truth) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.349s
+
+OK

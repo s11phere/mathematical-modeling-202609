@@ -8,4 +8,6 @@
 
 问题二保留原论文、原代码及原始导出结构：Mathematica notebook 和网格数据位于 `../Q2/MMAcode/`；Python 程序位于 `../Q2/pysimulation/src/p2_grid_expectation.py`，数据位于 `../Q2/pysimulation/out/p2_grid/`。正文图由 `../Q2/make_q2_paper_figures.py` 使用上述数据生成。
 
-问题二此次按原稿恢复，公式与程序对应关系的审查记录放在仓库 `tmp/q2-restoration/`，不作为论文内容。问题三、四和总评仍保留待补占位。
+问题三正文位于 `sections/q3-*.tex`，附件位于 `../Q3/`，包含代码、冻结实验数据、结果与复现入口，运行说明见 `../Q3/README.md`。
+
+本次整合保留 main 中问题一、二的正文、程序、数据和 PNG 插图，合入问题三正文与附件。问题一、二插图不放置同名 PDF，以免 LaTeX 优先读取旧图。问题三正式测试、问题四和总评等尚未完成部分仍保留待补占位。

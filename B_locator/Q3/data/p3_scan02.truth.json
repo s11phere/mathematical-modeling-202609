@@ -1,0 +1,118 @@
+{
+  "n_sources": 14,
+  "n_directional": 0,
+  "sources": [
+    {
+      "channel": 18,
+      "x_m": 872.327,
+      "y_m": 1254.766,
+      "r_recv_m": 1234.053,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 14,
+      "x_m": -614.069,
+      "y_m": -116.297,
+      "r_recv_m": 1378.045,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 19,
+      "x_m": 219.29,
+      "y_m": -934.182,
+      "r_recv_m": 1250.248,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 12,
+      "x_m": -864.582,
+      "y_m": -861.54,
+      "r_recv_m": 1201.239,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 5,
+      "x_m": 440.711,
+      "y_m": 289.219,
+      "r_recv_m": 1373.736,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 9,
+      "x_m": 149.018,
+      "y_m": 580.713,
+      "r_recv_m": 1290.773,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 10,
+      "x_m": 700.64,
+      "y_m": 1474.154,
+      "r_recv_m": 1201.253,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 4,
+      "x_m": 1546.571,
+      "y_m": -385.618,
+      "r_recv_m": 1223.29,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 15,
+      "x_m": 167.63,
+      "y_m": 703.852,
+      "r_recv_m": 1374.386,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 7,
+      "x_m": 1524.992,
+      "y_m": 443.103,
+      "r_recv_m": 1427.141,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 1,
+      "x_m": 928.544,
+      "y_m": 133.108,
+      "r_recv_m": 1459.379,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 17,
+      "x_m": 472.577,
+      "y_m": -290.144,
+      "r_recv_m": 1107.613,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 11,
+      "x_m": 1560.752,
+      "y_m": 516.571,
+      "r_recv_m": 1457.487,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 3,
+      "x_m": 1276.356,
+      "y_m": 1236.483,
+      "r_recv_m": 1445.641,
+      "type": "omnidirectional",
+      "dir_deg": null
+    }
+  ]
+}

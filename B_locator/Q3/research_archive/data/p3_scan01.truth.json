@@ -1,0 +1,86 @@
+{
+  "n_sources": 10,
+  "n_directional": 0,
+  "sources": [
+    {
+      "channel": 5,
+      "x_m": 1003.664,
+      "y_m": 1091.719,
+      "r_recv_m": 1064.636,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 10,
+      "x_m": 1542.66,
+      "y_m": 197.558,
+      "r_recv_m": 1010.383,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 1,
+      "x_m": 514.457,
+      "y_m": -1136.863,
+      "r_recv_m": 1185.347,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 13,
+      "x_m": -18.94,
+      "y_m": 1772.418,
+      "r_recv_m": 1454.878,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 9,
+      "x_m": -1024.341,
+      "y_m": -803.304,
+      "r_recv_m": 1473.93,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 20,
+      "x_m": 509.139,
+      "y_m": 1508.694,
+      "r_recv_m": 1342.583,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 3,
+      "x_m": 520.574,
+      "y_m": 547.437,
+      "r_recv_m": 1216.82,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 7,
+      "x_m": -1004.511,
+      "y_m": -677.559,
+      "r_recv_m": 1224.075,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 11,
+      "x_m": 600.956,
+      "y_m": 507.06,
+      "r_recv_m": 1122.409,
+      "type": "omnidirectional",
+      "dir_deg": null
+    },
+    {
+      "channel": 15,
+      "x_m": -503.334,
+      "y_m": -1178.589,
+      "r_recv_m": 1499.389,
+      "type": "omnidirectional",
+      "dir_deg": null
+    }
+  ]
+}
