@@ -34,8 +34,7 @@
   {\bgroup\renewcommand{\arraystretch}{1.0}\mcm@oldtabular}%
   {\mcm@endoldtabular\egroup}
 % 章节标题前后距（前距 / 后距，单位 ex；数值越小越紧凑）
-% 字体：各级标题中文用黑体（此前 \bfseries 落到「加粗宋体」），编号/英文保持 Times 加粗，
-% 否则会出现「黑体中文 + 细体数字」的粗细不一致。
+% 字体：各级标题中文统一使用摘要的黑体字重，编号/英文保持 Times 加粗。
 \renewcommand\section{\@startsection{section}{1}{\z@}%
   {-2ex \@plus -1ex \@minus -.2ex}%
   {0.8ex \@plus.2ex}%
@@ -54,17 +53,17 @@
 % macOS/Linux 下则消除第二套宋体（Songti SC / 其他系统宋体）。cls 仅改了字体路径。
 \setCJKmainfont[AutoFakeBold,Path=fonts/]{simsun.ttc}
 \setCJKfamilyfont{zhsong}[AutoFakeBold,Path=fonts/]{simsun.ttc}
-% 显式选择黑体，避免 macOS 旧字体别名 STHeiti 无法解析。
+% 显式选择黑体；粗体映射到同一字面，避免标题叠加伪粗后重于摘要和正文小标题。
 \IfFileExists{/System/Library/Fonts/STHeiti Medium.ttc}{%
-  \setCJKsansfont[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
-  \setCJKfamilyfont{zhhei}[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+  \setCJKsansfont[FontIndex=1,BoldFont=STHeiti Medium.ttc,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+  \setCJKfamilyfont{zhhei}[FontIndex=1,BoldFont=STHeiti Medium.ttc,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
 }{%
   \IfFontExistsTF{SimHei}{%
-    \setCJKsansfont[AutoFakeBold]{SimHei}
-    \setCJKfamilyfont{zhhei}[AutoFakeBold]{SimHei}
+    \setCJKsansfont[BoldFont=SimHei]{SimHei}
+    \setCJKfamilyfont{zhhei}[BoldFont=SimHei]{SimHei}
   }{%
-    \setCJKsansfont[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
-    \setCJKfamilyfont{zhhei}[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+    \setCJKsansfont[BoldFont=FandolHei-Regular.otf]{FandolHei-Regular.otf}
+    \setCJKfamilyfont{zhhei}[BoldFont=FandolHei-Regular.otf]{FandolHei-Regular.otf}
   }
 }
 \setCJKmonofont[AutoFakeBold,Path=fonts/]{simsun.ttc}

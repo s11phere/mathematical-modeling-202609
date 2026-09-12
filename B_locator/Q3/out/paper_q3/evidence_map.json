@@ -1,0 +1,957 @@
+{
+  "experiment_id": "544eee966fe270395af7",
+  "claims": [
+    {
+      "claim": "Five policies compared on the same 120 scenes",
+      "evidence": [
+        "manifest.json#/scenarios",
+        "paired_results.json#/rows",
+        "audit_report.json#/pairing_mismatches"
+      ]
+    },
+    {
+      "claim": "Every reported action obeys independently recomputed physical timing",
+      "evidence": [
+        "audit_report.json#/max_errors",
+        "traces/*#/action_audit"
+      ]
+    },
+    {
+      "claim": "No truth call before accepted exit, and no sensitive arena attributes in policy classes",
+      "evidence": [
+        "audit_report.json#/truth_guard_pass",
+        "audit_report.json#/static_policy_audit"
+      ]
+    },
+    {
+      "claim": "Every continuous-cell completion claim passes 5 m numerical and independent 50 m cell verification",
+      "evidence": [
+        "coverage_audit.json#/counts",
+        "coverage_audit.json#/audits"
+      ],
+      "limit": "Numerical point verification alone is not a proof; finite-sample success is not a universal algorithm guarantee."
+    },
+    {
+      "claim": "Joint efficiency improvements and uncertainty",
+      "evidence": [
+        "summary.json#/scenarios",
+        "summary.json#/overall/joint_vs"
+      ]
+    },
+    {
+      "claim": "Ablation modules have different effect sizes; after-service scan CI may include zero",
+      "evidence": [
+        "summary.json#/ablations/random/paired_vs_joint"
+      ],
+      "limit": "20 paired random cases, one module removed at a time; effects need not add linearly."
+    }
+  ],
+  "key_results": {
+    "overall": {
+      "adaptive": {
+        "cases": 120,
+        "completed": 120,
+        "errors": 0,
+        "all_statuses_included": true,
+        "full_clear_cases": 120,
+        "cleared": 1531,
+        "sources": 1531,
+        "clear_ratio_source_weighted": 1.0,
+        "zero_cleared_cases": 0,
+        "primary_metric_defined_cases": 120,
+        "undefined_primary_cases": 0,
+        "per_source_metric_defined_cases": 120,
+        "undefined_per_source_cases": 0,
+        "p90_exit_s": 3775.224505469784,
+        "max_exit_s": 4182.286526747868,
+        "wall_max_s": 0.319317102432251,
+        "rejections": 0,
+        "completion_kinds": {
+          "continuous_cell": 120
+        },
+        "claimed_complete_cases": 120,
+        "audit_failure_cases": 0,
+        "mean_exit_s": 3356.8822574383094,
+        "mean_exit_per_source_s": 267.20728699061067,
+        "mean_last_clear_s": 3139.229279075143,
+        "mean_last_clear_per_source_s": 249.26861590522324,
+        "mean_tail_s": 217.6529783631665,
+        "mean_travel_m": 11623.952953858216,
+        "mean_measure": 161.60833333333332,
+        "mean_switch": 157.38333333333333,
+        "mean_clear_failure": 0.9583333333333334,
+        "wall_mean_s": 0.2173898736635844,
+        "mean_t_travel_s": 2324.7905907716427,
+        "mean_t_measure_s": 808.0416666666666,
+        "mean_t_switch_s": 157.38333333333333,
+        "mean_t_clear_s": 66.66666666666667,
+        "metric_defined_counts": {
+          "exit_s": 120,
+          "exit_per_source_s": 120,
+          "last_clear_s": 120,
+          "last_clear_per_source_s": 120,
+          "tail_s": 120,
+          "travel_m": 120,
+          "n_measure": 120,
+          "n_switch": 120,
+          "n_clear_failure": 120,
+          "wall_s": 120,
+          "t_travel_s": 120,
+          "t_measure_s": 120,
+          "t_switch_s": 120,
+          "t_clear_s": 120
+        }
+      },
+      "field": {
+        "cases": 120,
+        "completed": 120,
+        "errors": 0,
+        "all_statuses_included": true,
+        "full_clear_cases": 114,
+        "cleared": 1525,
+        "sources": 1531,
+        "clear_ratio_source_weighted": 0.9960809928151535,
+        "zero_cleared_cases": 0,
+        "primary_metric_defined_cases": 120,
+        "undefined_primary_cases": 0,
+        "per_source_metric_defined_cases": 120,
+        "undefined_per_source_cases": 0,
+        "p90_exit_s": 5694.654050691017,
+        "max_exit_s": 6535.955562767627,
+        "wall_max_s": 0.05295991897583008,
+        "rejections": 0,
+        "completion_kinds": {
+          "field": 120
+        },
+        "claimed_complete_cases": 0,
+        "audit_failure_cases": 0,
+        "mean_exit_s": 5139.439457245846,
+        "mean_exit_per_source_s": 410.05004901726886,
+        "mean_last_clear_s": 3496.046930140395,
+        "mean_last_clear_per_source_s": 277.15186119772613,
+        "mean_tail_s": 1643.392527105452,
+        "mean_travel_m": 19841.905619562553,
+        "mean_measure": 185.53333333333333,
+        "mean_switch": 178.025,
+        "mean_clear_failure": 0.6083333333333333,
+        "wall_mean_s": 0.038856383164723715,
+        "mean_t_travel_s": 3968.3811239125107,
+        "mean_t_measure_s": 927.6666666666666,
+        "mean_t_switch_s": 178.025,
+        "mean_t_clear_s": 65.36666666666666,
+        "metric_defined_counts": {
+          "exit_s": 120,
+          "exit_per_source_s": 120,
+          "last_clear_s": 120,
+          "last_clear_per_source_s": 120,
+          "tail_s": 120,
+          "travel_m": 120,
+          "n_measure": 120,
+          "n_switch": 120,
+          "n_clear_failure": 120,
+          "wall_s": 120,
+          "t_travel_s": 120,
+          "t_measure_s": 120,
+          "t_switch_s": 120,
+          "t_clear_s": 120
+        }
+      },
+      "joint": {
+        "cases": 120,
+        "completed": 120,
+        "errors": 0,
+        "all_statuses_included": true,
+        "full_clear_cases": 120,
+        "cleared": 1531,
+        "sources": 1531,
+        "clear_ratio_source_weighted": 1.0,
+        "zero_cleared_cases": 0,
+        "primary_metric_defined_cases": 120,
+        "undefined_primary_cases": 0,
+        "per_source_metric_defined_cases": 120,
+        "undefined_per_source_cases": 0,
+        "p90_exit_s": 3451.38605760274,
+        "max_exit_s": 3904.168048353517,
+        "wall_max_s": 1.560835838317871,
+        "rejections": 0,
+        "completion_kinds": {
+          "continuous_cell": 120
+        },
+        "claimed_complete_cases": 120,
+        "audit_failure_cases": 0,
+        "mean_exit_s": 3063.0492540773457,
+        "mean_exit_per_source_s": 243.6216808638952,
+        "mean_last_clear_s": 2858.480756310439,
+        "mean_last_clear_per_source_s": 226.65104846854462,
+        "mean_tail_s": 204.56849776690657,
+        "mean_travel_m": 11060.704603720062,
+        "mean_measure": 130.81666666666666,
+        "mean_switch": 124.30833333333334,
+        "mean_clear_failure": 2.908333333333333,
+        "wall_mean_s": 0.674240376551946,
+        "mean_t_travel_s": 2212.140920744013,
+        "mean_t_measure_s": 654.0833333333334,
+        "mean_t_switch_s": 124.30833333333334,
+        "mean_t_clear_s": 72.51666666666667,
+        "metric_defined_counts": {
+          "exit_s": 120,
+          "exit_per_source_s": 120,
+          "last_clear_s": 120,
+          "last_clear_per_source_s": 120,
+          "tail_s": 120,
+          "travel_m": 120,
+          "n_measure": 120,
+          "n_switch": 120,
+          "n_clear_failure": 120,
+          "wall_s": 120,
+          "t_travel_s": 120,
+          "t_measure_s": 120,
+          "t_switch_s": 120,
+          "t_clear_s": 120
+        }
+      },
+      "sweep": {
+        "cases": 120,
+        "completed": 120,
+        "errors": 0,
+        "all_statuses_included": true,
+        "full_clear_cases": 92,
+        "cleared": 1474,
+        "sources": 1531,
+        "clear_ratio_source_weighted": 0.9627694317439582,
+        "zero_cleared_cases": 0,
+        "primary_metric_defined_cases": 120,
+        "undefined_primary_cases": 0,
+        "per_source_metric_defined_cases": 120,
+        "undefined_per_source_cases": 0,
+        "p90_exit_s": 4737.321757200678,
+        "max_exit_s": 5444.591584296503,
+        "wall_max_s": 0.06720113754272461,
+        "rejections": 0,
+        "completion_kinds": {
+          "sweep": 120
+        },
+        "claimed_complete_cases": 0,
+        "audit_failure_cases": 0,
+        "mean_exit_s": 4117.533038822948,
+        "mean_exit_per_source_s": 342.91506050517205,
+        "mean_last_clear_s": 4061.776442587017,
+        "mean_last_clear_per_source_s": 337.7147813613515,
+        "mean_tail_s": 55.75659623593161,
+        "mean_travel_m": 16162.248527448077,
+        "mean_measure": 137.71666666666667,
+        "mean_switch": 134.60833333333332,
+        "mean_clear_failure": 0.15833333333333333,
+        "wall_mean_s": 0.045353774229685465,
+        "mean_t_travel_s": 3232.449705489615,
+        "mean_t_measure_s": 688.5833333333334,
+        "mean_t_switch_s": 134.60833333333332,
+        "mean_t_clear_s": 61.891666666666666,
+        "metric_defined_counts": {
+          "exit_s": 120,
+          "exit_per_source_s": 120,
+          "last_clear_s": 120,
+          "last_clear_per_source_s": 120,
+          "tail_s": 120,
+          "travel_m": 120,
+          "n_measure": 120,
+          "n_switch": 120,
+          "n_clear_failure": 120,
+          "wall_s": 120,
+          "t_travel_s": 120,
+          "t_measure_s": 120,
+          "t_switch_s": 120,
+          "t_clear_s": 120
+        }
+      },
+      "tour": {
+        "cases": 120,
+        "completed": 120,
+        "errors": 0,
+        "all_statuses_included": true,
+        "full_clear_cases": 120,
+        "cleared": 1531,
+        "sources": 1531,
+        "clear_ratio_source_weighted": 1.0,
+        "zero_cleared_cases": 0,
+        "primary_metric_defined_cases": 120,
+        "undefined_primary_cases": 0,
+        "per_source_metric_defined_cases": 120,
+        "undefined_per_source_cases": 0,
+        "p90_exit_s": 4790.007758941225,
+        "max_exit_s": 5510.836156736588,
+        "wall_max_s": 0.3200247287750244,
+        "rejections": 0,
+        "completion_kinds": {
+          "tour": 120
+        },
+        "claimed_complete_cases": 115,
+        "audit_failure_cases": 0,
+        "mean_exit_s": 4027.1955489967017,
+        "mean_exit_per_source_s": 319.56139792101214,
+        "mean_last_clear_s": 3897.742771518985,
+        "mean_last_clear_per_source_s": 308.9931405133997,
+        "mean_tail_s": 129.45277747771647,
+        "mean_travel_m": 14372.561078316843,
+        "mean_measure": 178.44166666666666,
+        "mean_switch": 176.33333333333334,
+        "mean_clear_failure": 6.783333333333333,
+        "wall_mean_s": 0.14495709538459778,
+        "mean_t_travel_s": 2874.512215663368,
+        "mean_t_measure_s": 892.2083333333334,
+        "mean_t_switch_s": 176.33333333333334,
+        "mean_t_clear_s": 84.14166666666667,
+        "metric_defined_counts": {
+          "exit_s": 120,
+          "exit_per_source_s": 120,
+          "last_clear_s": 120,
+          "last_clear_per_source_s": 120,
+          "tail_s": 120,
+          "travel_m": 120,
+          "n_measure": 120,
+          "n_switch": 120,
+          "n_clear_failure": 120,
+          "wall_s": 120,
+          "t_travel_s": 120,
+          "t_measure_s": 120,
+          "t_switch_s": 120,
+          "t_clear_s": 120
+        }
+      },
+      "paired_vs_field": {
+        "adaptive": {
+          "n": 120,
+          "saving": 0.346838836148638,
+          "ci95": [
+            0.3323943910194402,
+            0.3605181308411994
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 6,
+          "comparison_faster_cases": 120,
+          "per_source": {
+            "n": 120,
+            "saving": 0.3483544566547351,
+            "ci95": [
+              0.33405726286364956,
+              0.36246175056338664
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 6,
+            "comparison_faster_cases": 120
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "joint": {
+          "n": 120,
+          "saving": 0.404011025023575,
+          "ci95": [
+            0.39105924631179806,
+            0.41620906393390505
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 6,
+          "comparison_faster_cases": 120,
+          "per_source": {
+            "n": 120,
+            "saving": 0.40587330388628906,
+            "ci95": [
+              0.39291436808496266,
+              0.4185081285174114
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 6,
+            "comparison_faster_cases": 120
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "sweep": {
+          "n": 120,
+          "saving": 0.19883616237217505,
+          "ci95": [
+            0.17838562020179366,
+            0.21827741690633093
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 33,
+          "comparison_faster_cases": 114,
+          "per_source": {
+            "n": 120,
+            "saving": 0.16372388851798303,
+            "ci95": [
+              0.13207871352234973,
+              0.1919533081491073
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 33,
+            "comparison_faster_cases": 100
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "tour": {
+          "n": 120,
+          "saving": 0.2164134663909788,
+          "ci95": [
+            0.19432841160478123,
+            0.2372953749529782
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 6,
+          "comparison_faster_cases": 114,
+          "per_source": {
+            "n": 120,
+            "saving": 0.2206770888410402,
+            "ci95": [
+              0.19806403206089204,
+              0.24221734991402125
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 6,
+            "comparison_faster_cases": 114
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        }
+      },
+      "joint_vs": {
+        "adaptive": {
+          "n": 120,
+          "saving": 0.08753151907841783,
+          "ci95": [
+            0.07637629946717424,
+            0.09886651036950772
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 0,
+          "comparison_faster_cases": 109,
+          "per_source": {
+            "n": 120,
+            "saving": 0.08826707681645019,
+            "ci95": [
+              0.07715798698715373,
+              0.0997126802319731
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 109
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "field": {
+          "n": 120,
+          "saving": 0.404011025023575,
+          "ci95": [
+            0.39105924631179806,
+            0.41620906393390505
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 6,
+          "comparison_faster_cases": 120,
+          "per_source": {
+            "n": 120,
+            "saving": 0.40587330388628906,
+            "ci95": [
+              0.39291436808496266,
+              0.4185081285174114
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 6,
+            "comparison_faster_cases": 120
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "sweep": {
+          "n": 120,
+          "saving": 0.2560960105974135,
+          "ci95": [
+            0.24442322285819396,
+            0.2675933830062336
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 28,
+          "comparison_faster_cases": 120,
+          "per_source": {
+            "n": 120,
+            "saving": 0.28955677681522907,
+            "ci95": [
+              0.2726662455990503,
+              0.30781965787952215
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 28,
+            "comparison_faster_cases": 120
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        },
+        "tour": {
+          "n": 120,
+          "saving": 0.23940885988502703,
+          "ci95": [
+            0.22661475526242464,
+            0.25274480962866436
+          ],
+          "candidate_pairs": 120,
+          "undefined_metric_pairs": 0,
+          "non_ok_pairs_included": 0,
+          "incomplete_clear_pairs_included": 0,
+          "comparison_faster_cases": 119,
+          "per_source": {
+            "n": 120,
+            "saving": 0.23763732901145784,
+            "ci95": [
+              0.22439003628386353,
+              0.25135307052143974
+            ],
+            "candidate_pairs": 120,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 119
+          },
+          "reference_only_cases": 0,
+          "comparison_only_cases": 0,
+          "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+        }
+      }
+    },
+    "ablations": {
+      "random": {
+        "joint_no_after_service": {
+          "cases": 20,
+          "completed": 20,
+          "errors": 0,
+          "all_statuses_included": true,
+          "full_clear_cases": 20,
+          "cleared": 261,
+          "sources": 261,
+          "clear_ratio_source_weighted": 1.0,
+          "zero_cleared_cases": 0,
+          "primary_metric_defined_cases": 20,
+          "undefined_primary_cases": 0,
+          "per_source_metric_defined_cases": 20,
+          "undefined_per_source_cases": 0,
+          "p90_exit_s": 3333.524247046395,
+          "max_exit_s": 3427.0055155527207,
+          "wall_max_s": 1.0566930770874023,
+          "rejections": 0,
+          "completion_kinds": {
+            "continuous_cell": 20
+          },
+          "claimed_complete_cases": 20,
+          "audit_failure_cases": 0,
+          "mean_exit_s": 3081.2430030856226,
+          "mean_exit_per_source_s": 240.41939006835463,
+          "mean_last_clear_s": 3016.960161598447,
+          "mean_last_clear_per_source_s": 234.9006847606293,
+          "mean_tail_s": 64.28284148717565,
+          "mean_travel_m": 11239.715015428115,
+          "mean_measure": 127.4,
+          "mean_switch": 123.25,
+          "mean_clear_failure": 2.6,
+          "wall_mean_s": 0.6942561149597168,
+          "mean_t_travel_s": 2247.943003085623,
+          "mean_t_measure_s": 637.0,
+          "mean_t_switch_s": 123.25,
+          "mean_t_clear_s": 73.05,
+          "metric_defined_counts": {
+            "exit_s": 20,
+            "exit_per_source_s": 20,
+            "last_clear_s": 20,
+            "last_clear_per_source_s": 20,
+            "tail_s": 20,
+            "travel_m": 20,
+            "n_measure": 20,
+            "n_switch": 20,
+            "n_clear_failure": 20,
+            "wall_s": 20,
+            "t_travel_s": 20,
+            "t_measure_s": 20,
+            "t_switch_s": 20,
+            "t_clear_s": 20
+          }
+        },
+        "joint_single_plan": {
+          "cases": 20,
+          "completed": 20,
+          "errors": 0,
+          "all_statuses_included": true,
+          "full_clear_cases": 20,
+          "cleared": 261,
+          "sources": 261,
+          "clear_ratio_source_weighted": 1.0,
+          "zero_cleared_cases": 0,
+          "primary_metric_defined_cases": 20,
+          "undefined_primary_cases": 0,
+          "per_source_metric_defined_cases": 20,
+          "undefined_per_source_cases": 0,
+          "p90_exit_s": 3444.6955590131006,
+          "max_exit_s": 3520.0139602619815,
+          "wall_max_s": 0.33403491973876953,
+          "rejections": 0,
+          "completion_kinds": {
+            "continuous_cell": 20
+          },
+          "claimed_complete_cases": 20,
+          "audit_failure_cases": 0,
+          "mean_exit_s": 3131.3338183690466,
+          "mean_exit_per_source_s": 244.32147754756662,
+          "mean_last_clear_s": 3060.7072120218927,
+          "mean_last_clear_per_source_s": 238.35462898054934,
+          "mean_tail_s": 70.62660634715424,
+          "mean_travel_m": 11374.919091845233,
+          "mean_measure": 131.6,
+          "mean_switch": 124.85,
+          "mean_clear_failure": 2.75,
+          "wall_mean_s": 0.2367344856262207,
+          "mean_t_travel_s": 2274.9838183690467,
+          "mean_t_measure_s": 658.0,
+          "mean_t_switch_s": 124.85,
+          "mean_t_clear_s": 73.5,
+          "metric_defined_counts": {
+            "exit_s": 20,
+            "exit_per_source_s": 20,
+            "last_clear_s": 20,
+            "last_clear_per_source_s": 20,
+            "tail_s": 20,
+            "travel_m": 20,
+            "n_measure": 20,
+            "n_switch": 20,
+            "n_clear_failure": 20,
+            "wall_s": 20,
+            "t_travel_s": 20,
+            "t_measure_s": 20,
+            "t_switch_s": 20,
+            "t_clear_s": 20
+          }
+        },
+        "joint_no_cover_polish": {
+          "cases": 20,
+          "completed": 20,
+          "errors": 0,
+          "all_statuses_included": true,
+          "full_clear_cases": 20,
+          "cleared": 261,
+          "sources": 261,
+          "clear_ratio_source_weighted": 1.0,
+          "zero_cleared_cases": 0,
+          "primary_metric_defined_cases": 20,
+          "undefined_primary_cases": 0,
+          "per_source_metric_defined_cases": 20,
+          "undefined_per_source_cases": 0,
+          "p90_exit_s": 3415.231125586928,
+          "max_exit_s": 3645.9056240505265,
+          "wall_max_s": 0.44312500953674316,
+          "rejections": 0,
+          "completion_kinds": {
+            "continuous_cell": 20
+          },
+          "claimed_complete_cases": 20,
+          "audit_failure_cases": 0,
+          "mean_exit_s": 3136.097106573844,
+          "mean_exit_per_source_s": 245.17863732242637,
+          "mean_last_clear_s": 3007.958495624374,
+          "mean_last_clear_per_source_s": 234.05001096857845,
+          "mean_tail_s": 128.13861094946995,
+          "mean_travel_m": 11318.48553286922,
+          "mean_measure": 134.05,
+          "mean_switch": 127.9,
+          "mean_clear_failure": 3.0,
+          "wall_mean_s": 0.3139034271240234,
+          "mean_t_travel_s": 2263.697106573844,
+          "mean_t_measure_s": 670.25,
+          "mean_t_switch_s": 127.9,
+          "mean_t_clear_s": 74.25,
+          "metric_defined_counts": {
+            "exit_s": 20,
+            "exit_per_source_s": 20,
+            "last_clear_s": 20,
+            "last_clear_per_source_s": 20,
+            "tail_s": 20,
+            "travel_m": 20,
+            "n_measure": 20,
+            "n_switch": 20,
+            "n_clear_failure": 20,
+            "wall_s": 20,
+            "t_travel_s": 20,
+            "t_measure_s": 20,
+            "t_switch_s": 20,
+            "t_clear_s": 20
+          }
+        },
+        "joint_no_probability_gate": {
+          "cases": 20,
+          "completed": 20,
+          "errors": 0,
+          "all_statuses_included": true,
+          "full_clear_cases": 20,
+          "cleared": 261,
+          "sources": 261,
+          "clear_ratio_source_weighted": 1.0,
+          "zero_cleared_cases": 0,
+          "primary_metric_defined_cases": 20,
+          "undefined_primary_cases": 0,
+          "per_source_metric_defined_cases": 20,
+          "undefined_per_source_cases": 0,
+          "p90_exit_s": 3461.755669568075,
+          "max_exit_s": 3504.317552839273,
+          "wall_max_s": 1.1333341598510742,
+          "rejections": 0,
+          "completion_kinds": {
+            "continuous_cell": 20
+          },
+          "claimed_complete_cases": 20,
+          "audit_failure_cases": 0,
+          "mean_exit_s": 3111.2826252199106,
+          "mean_exit_per_source_s": 242.89511490080244,
+          "mean_last_clear_s": 3041.9573409686595,
+          "mean_last_clear_per_source_s": 237.02026944958016,
+          "mean_tail_s": 69.32528425125129,
+          "mean_travel_m": 11192.913126099555,
+          "mean_measure": 134.15,
+          "mean_switch": 127.7,
+          "mean_clear_failure": 3.0,
+          "wall_mean_s": 0.6760383129119873,
+          "mean_t_travel_s": 2238.5826252199117,
+          "mean_t_measure_s": 670.75,
+          "mean_t_switch_s": 127.7,
+          "mean_t_clear_s": 74.25,
+          "metric_defined_counts": {
+            "exit_s": 20,
+            "exit_per_source_s": 20,
+            "last_clear_s": 20,
+            "last_clear_per_source_s": 20,
+            "tail_s": 20,
+            "travel_m": 20,
+            "n_measure": 20,
+            "n_switch": 20,
+            "n_clear_failure": 20,
+            "wall_s": 20,
+            "t_travel_s": 20,
+            "t_measure_s": 20,
+            "t_switch_s": 20,
+            "t_clear_s": 20
+          }
+        },
+        "joint_baseline": {
+          "cases": 20,
+          "completed": 20,
+          "errors": 0,
+          "all_statuses_included": true,
+          "full_clear_cases": 20,
+          "cleared": 261,
+          "sources": 261,
+          "clear_ratio_source_weighted": 1.0,
+          "zero_cleared_cases": 0,
+          "primary_metric_defined_cases": 20,
+          "undefined_primary_cases": 0,
+          "per_source_metric_defined_cases": 20,
+          "undefined_per_source_cases": 0,
+          "p90_exit_s": 3423.955669568075,
+          "max_exit_s": 3481.5060256335955,
+          "wall_max_s": 1.0508718490600586,
+          "rejections": 0,
+          "completion_kinds": {
+            "continuous_cell": 20
+          },
+          "claimed_complete_cases": 20,
+          "audit_failure_cases": 0,
+          "mean_exit_s": 3076.7118430771075,
+          "mean_exit_per_source_s": 240.3289811321834,
+          "mean_last_clear_s": 3009.4865588258563,
+          "mean_last_clear_per_source_s": 234.61567414249959,
+          "mean_tail_s": 67.22528425125128,
+          "mean_travel_m": 11187.059215385541,
+          "mean_measure": 128.6,
+          "mean_switch": 122.05,
+          "mean_clear_failure": 3.0,
+          "wall_mean_s": 0.653253185749054,
+          "mean_t_travel_s": 2237.4118430771077,
+          "mean_t_measure_s": 643.0,
+          "mean_t_switch_s": 122.05,
+          "mean_t_clear_s": 74.25,
+          "metric_defined_counts": {
+            "exit_s": 20,
+            "exit_per_source_s": 20,
+            "last_clear_s": 20,
+            "last_clear_per_source_s": 20,
+            "tail_s": 20,
+            "travel_m": 20,
+            "n_measure": 20,
+            "n_switch": 20,
+            "n_clear_failure": 20,
+            "wall_s": 20,
+            "t_travel_s": 20,
+            "t_measure_s": 20,
+            "t_switch_s": 20,
+            "t_clear_s": 20
+          }
+        },
+        "paired_vs_joint": {
+          "joint_no_after_service": {
+            "n": 20,
+            "saving": -0.0014727281070245901,
+            "ci95": [
+              -0.013183282998066814,
+              0.009601038807169716
+            ],
+            "candidate_pairs": 20,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 8,
+            "per_source": {
+              "n": 20,
+              "saving": -0.000376188238910391,
+              "ci95": [
+                -0.012335655880481005,
+                0.011175086784384655
+              ],
+              "candidate_pairs": 20,
+              "undefined_metric_pairs": 0,
+              "non_ok_pairs_included": 0,
+              "incomplete_clear_pairs_included": 0,
+              "comparison_faster_cases": 8
+            },
+            "reference_only_cases": 0,
+            "comparison_only_cases": 0,
+            "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+          },
+          "joint_single_plan": {
+            "n": 20,
+            "saving": -0.017753360755848435,
+            "ci95": [
+              -0.03234782782697317,
+              -0.004845021094848259
+            ],
+            "candidate_pairs": 20,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 4,
+            "per_source": {
+              "n": 20,
+              "saving": -0.016612629889972697,
+              "ci95": [
+                -0.03051782769105916,
+                -0.004082470057168317
+              ],
+              "candidate_pairs": 20,
+              "undefined_metric_pairs": 0,
+              "non_ok_pairs_included": 0,
+              "incomplete_clear_pairs_included": 0,
+              "comparison_faster_cases": 4
+            },
+            "reference_only_cases": 0,
+            "comparison_only_cases": 0,
+            "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+          },
+          "joint_no_cover_polish": {
+            "n": 20,
+            "saving": -0.019301535706165884,
+            "ci95": [
+              -0.03707758080142768,
+              -0.0017227419881569658
+            ],
+            "candidate_pairs": 20,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 7,
+            "per_source": {
+              "n": 20,
+              "saving": -0.020179240004249088,
+              "ci95": [
+                -0.037198163278012175,
+                -0.0032357438148109957
+              ],
+              "candidate_pairs": 20,
+              "undefined_metric_pairs": 0,
+              "non_ok_pairs_included": 0,
+              "incomplete_clear_pairs_included": 0,
+              "comparison_faster_cases": 7
+            },
+            "reference_only_cases": 0,
+            "comparison_only_cases": 0,
+            "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+          },
+          "joint_no_probability_gate": {
+            "n": 20,
+            "saving": -0.011236275577965138,
+            "ci95": [
+              -0.016565707511243866,
+              -0.006722064862594151
+            ],
+            "candidate_pairs": 20,
+            "undefined_metric_pairs": 0,
+            "non_ok_pairs_included": 0,
+            "incomplete_clear_pairs_included": 0,
+            "comparison_faster_cases": 0,
+            "per_source": {
+              "n": 20,
+              "saving": -0.010677587682226486,
+              "ci95": [
+                -0.01579544218881216,
+                -0.006413127062780354
+              ],
+              "candidate_pairs": 20,
+              "undefined_metric_pairs": 0,
+              "non_ok_pairs_included": 0,
+              "incomplete_clear_pairs_included": 0,
+              "comparison_faster_cases": 0
+            },
+            "reference_only_cases": 0,
+            "comparison_only_cases": 0,
+            "convention": "positive saving means comparison faster; include failures/incomplete-clear pairs when numeric metrics exist"
+          }
+        }
+      }
+    }
+  },
+  "remaining_limitations": [
+    "Offline mock evidence only; formal online runs remain pending.",
+    "Historical execution runner bytes were not preserved before metadata-only edits. Algorithm and field hashes are verified; current audit runner is snapshotted.",
+    "Historical real-time allowance was measured but not enforced by a watchdog.",
+    "The error field is a bounded synthetic model, with hash-noise stress scenes; these do not cover every physically possible error field."
+  ]
+}

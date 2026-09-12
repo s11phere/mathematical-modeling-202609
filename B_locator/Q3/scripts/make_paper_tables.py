@@ -1,0 +1,69 @@
+"""Read frozen Q3 rows and emit paper tables, macros and supporting statistics."""
+import json
+import hashlib
+from pathlib import Path
+import numpy as np
+
+Q3 = Path(__file__).resolve().parents[1]
+DATA = Q3 / 'out/paper_q3'
+SECTIONS = Q3.parent / 'paper/sections'
+POLICIES = ('field', 'sweep', 'tour', 'adaptive', 'joint')
+SCENARIOS = ('random', 'annulus', 'center', 'hash', 'worstrecv')
+
+def main():
+    obj = json.loads((DATA/'paired_results.json').read_text())
+    rows = obj['rows']
+    summary = json.loads((DATA/'summary.json').read_text())
+    random = summary['scenarios']['random']
+    body=[]
+    for p in POLICIES:
+        s=random[p]
+        body.append(f"{p} & {s['clear_ratio_source_weighted']:.3f} & {s['full_clear_cases']}/50 & {s['mean_exit_s']:.0f} & {s['p90_exit_s']:.0f} & {s['mean_exit_per_source_s']:.0f}" + r' \\')
+    (SECTIONS/'q3-core-rows.tex').write_text('\n'.join(body).rstrip().removesuffix(r'\\')+'\n')
+    full={p:sum(r['full_clear'] for r in rows if r['split']=='main' and r['policy']==p) for p in POLICIES}
+    pair=random['paired_vs_field']['joint']
+    base20=[r for r in rows if r['split']=='main' and r['scenario']=='random' and r['policy']=='joint' and r['index']<20]
+    values={'QThreeFieldFull':str(full['field']), 'QThreeSweepFull':str(full['sweep']),
+            'QThreeSaving':f"{100*pair['saving']:.1f}", 'QThreeSavingLow':f"{100*pair['ci95'][0]:.1f}",
+            'QThreeSavingHigh':f"{100*pair['ci95'][1]:.1f}", 'QThreeAblationBase':f"{np.mean([r['exit_s'] for r in base20]):.1f}"}
+    for policy in POLICIES:
+        title=policy.capitalize()
+        first=next(r for r in rows if r['split']=='main' and r['scenario']=='random' and r['index']==0 and r['policy']==policy)
+        values[f'QThreeFirst{title}Time']=f"{first['exit_s']:.0f}"
+        values[f'QThreeFirst{title}Travel']=f"{first['travel_m']/1000:.2f}"
+        values[f'QThreeFirst{title}Measure']=str(first['n_measure'])
+        values[f'QThreeRandom{title}Travel']=f"{random[policy]['mean_travel_m']/1000:.2f}"
+        values[f'QThreeRandom{title}Measure']=f"{random[policy]['mean_measure']:.1f}"
+        values[f'QThreeCenter{title}Time']=f"{summary['scenarios']['center'][policy]['mean_exit_s']:.1f}"
+    for suffix, policy in [('After','joint_no_after_service'),('Multi','joint_single_plan'),('Polish','joint_no_cover_polish'),('Prob','joint_no_probability_gate')]:
+        values[f'QThreeAblation{suffix}Increase']=f"{-100*summary['ablations']['random']['paired_vs_joint'][policy]['saving']:.2f}"
+    (SECTIONS/'q3-numbers.tex').write_text('% Generated from the frozen Q3 data; do not hand edit.\n'+''.join('\\newcommand{\\'+k+'}{'+v+'}\n' for k,v in values.items()))
+    abstract=(r'{\heiti 针对问题三}\songti，建立{\heiti 联合覆盖、定位与清除模型}\songti，'
+              '以保守定位控制清除风险，以连续覆盖判据验证任务完成，并逐步引入共用航路、沿途定位和逐频道检测调度。'
+              '在 120 组场景开展五策略配对实验，另作 80 次单因素消融。随机 50 组中，'
+              r'$\textit{joint}$ 全部清除，完整退出时间均值 '
+              +f"{random['joint']['mean_exit_s']:.0f}"+r' s，{\heiti 较初代减少 '
+              +values['QThreeSaving']+r'\%}\songti。结果表明，联合规划能同时减少行程与检测成本。'+'\n')
+    (SECTIONS/'q3-abstract.tex').write_text('% Generated Q3 abstract from frozen data.\n'+abstract)
+    lines=[]
+    for kind in SCENARIOS:
+        for p in POLICIES:
+            rs=[r for r in rows if r['split']=='main' and r['scenario']==kind and r['policy']==p]
+            s=summary['scenarios'][kind][p]
+            lines.append(f"{kind}/{p} & {s['clear_ratio_source_weighted']:.3f} & {s['full_clear_cases']}/{len(rs)} & {s['mean_exit_s']:.1f} & {s['p90_exit_s']:.1f} & {s['mean_exit_per_source_s']:.1f} & {s['mean_travel_m']/1000:.2f} & {s['mean_measure']:.1f} & {s['wall_mean_s']:.3f}"+r' \\')
+    (SECTIONS/'q3-supplement-rows.tex').write_text('\n'.join(lines).rstrip().removesuffix(r'\\')+'\n')
+    lines=[]
+    for p in ('joint_no_after_service','joint_single_plan','joint_no_cover_polish','joint_no_probability_gate'):
+        s=summary['ablations']['random'][p]
+        pair=summary['ablations']['random']['paired_vs_joint'][p]
+        label={'joint_no_after_service':'取消清后扫描','joint_single_plan':'单方案规划','joint_no_cover_polish':'取消测站精修','joint_no_probability_gate':'取消概率门槛'}[p]
+        lines.append(f"{label} & {s['mean_exit_s']:.1f} & {-100*pair['saving']:.2f} & [{-100*pair['ci95'][1]:.2f}, {-100*pair['ci95'][0]:.2f}] & {s['mean_travel_m']/1000:.2f} & {s['mean_measure']:.1f} & {s['wall_mean_s']:.3f}"+r' \\')
+    (SECTIONS/'q3-ablation-rows.tex').write_text('\n'.join(lines).rstrip().removesuffix(r'\\')+'\n')
+    lines=[]
+    for p,label in [('joint_baseline','完整 joint'),('joint_no_after_service','取消清后扫描'),('joint_single_plan','单方案规划'),('joint_no_cover_polish','取消测站精修'),('joint_no_probability_gate','取消概率门槛')]:
+        s=summary['ablations']['random'][p]
+        lines.append(f"{label} & {s['clear_ratio_source_weighted']:.3f} & {s['full_clear_cases']}/20 & {s['mean_exit_s']:.1f} & {s['p90_exit_s']:.1f} & {s['mean_exit_per_source_s']:.1f}"+r' \\')
+    (SECTIONS/'q3-ablation-complete-rows.tex').write_text('\n'.join(lines).rstrip().removesuffix(r'\\')+'\n')
+    (DATA/'table_provenance.json').write_text(json.dumps({'experiment_id':obj['experiment_id'], 'data_sha256':hashlib.sha256((DATA/'paired_results.json').read_bytes()).hexdigest(), 'summary_sha256':hashlib.sha256((DATA/'summary.json').read_bytes()).hexdigest(), 'generated':values, 'all_main_full_clear':full},indent=2)+'\n')
+
+if __name__=='__main__':main()
