@@ -1,10 +1,10 @@
 \clearpage
 \section{问题三参数、补测概率与复现材料}\label{app:q3repro}
 \subsection{补测的中心射线近似}\label{app:q3prob}
-设首个有信号测站为 $s_0$，示向度为 $\theta_0$。沿 $x(t)=s_0+t\,u(\theta_0)$ 在 $5\sim1500$ m 上等距取 151 个样本。用极坐标面积元中的 $t$ 为位置权重，并采用接收半径在 $[1000,1500]$ 上均匀的建模近似。正观测要求 $\rho\ge t$，历史负观测 $s_j$ 要求 $\rho<\|x(t)-s_j\|$，因此
+设首个有信号测站为 $S_0$，示向度为 $\theta_0$。沿 $x(t)=S_0+t\,u(\theta_0)$ 在 $5\sim1500$ m 上等距取 151 个样本。用极坐标面积元中的 $t$ 为位置权重，并采用接收半径在 $[1000,1500]$ 上均匀的建模近似。正观测要求 $\rho\ge t$，历史负观测 $S_j$ 要求 $\rho<\|x(t)-S_j\|$，因此
 \[
  \ell(t)=\max(1000,t),\qquad
- H(t)=\min\{1500,\min_{j\in I^-}\|x(t)-s_j\|\}.
+ H(t)=\min\{1500,\min_{j\in I^-}\|x(t)-S_j\|\}.
 \]
 $I^-$ 是负观测索引；为空时内层最小值取正无穷。令 $[a]_+=\max(a,0)$，分母把可能的接收半径区间长度求和，分子进一步要求能在候选站 $p$ 接收：
 \begin{equation}\label{eq:q3-prob}
@@ -28,7 +28,7 @@ adaptive 公共基线 & 400 m，72 个候选方向\\
 沿途逼近 & 接近比例 0.55，侧移上限 100 m，最多 12 步\\
 连续证书 & $h=50$ m，$r_{\rm cert}=964.644660\ldots$ m\\
 joint 覆盖候选 & 1050、1200、1350、1500 m 四圈，各 72 方向\\
-贪心覆盖 / 规划候选 & 最多 30 次；$(\alpha,\beta)$ 取 $(1,0.3)$、$(1,1)$、$(2,0.3)$、$(2,1)$、$(3,0.3)$\\
+贪心覆盖 / 规划候选 & 最多 30 次；$(\kappa,\nu)$ 取 $(1,0.3)$、$(1,1)$、$(2,0.3)$、$(2,1)$、$(3,0.3)$\\
 测站精修 & 删除冗余站、保留独占格移动；最多 3 轮\\
 中心试探 & 至少两条方位，$r_c\le400$ m；失败后原地补测\\
 可选补测 & 概率门槛 0.5、交会基线锐角至少 $25^\circ$\\
@@ -68,23 +68,27 @@ joint 覆盖候选 & 1050、1200、1350、1500 m 四圈，各 72 方向\\
 \bottomrule\end{tabular}\end{table}
 
 \subsection{文件清单及复现命令}
-实验数据与逐动作记录保存在 \texttt{B\_locator/Q3/out/paper\_q3/}，附有代码、期望场及场景参数的校验信息。图表从同一组数据生成，完整复现命令如下。
+汇总数据保存在 \texttt{B\_locator/Q3/results/}；逐动作记录和审计所需的完整输入保存在
+\texttt{B\_locator/Q3/research\_archive/out/paper\_q3/}，并附有代码、期望场及场景参数的校验信息。图表从同一组数据生成，完整复现命令如下。
 \begin{lstlisting}[language=bash,caption={从仓库根目录复现问题三}]
-python B_locator/Q3/scripts/run_p3_paper.py
-python B_locator/Q3/scripts/make_paper_tables.py
-python B_locator/Q3/scripts/make_paper_figures.py
-python B_locator/Q3/scripts/make_paper_trajectory_atlas.py
-python B_locator/Q3/scripts/make_paper_source.py
-python B_locator/Q3/src/p3_selftest.py --out /tmp/q3-selftest.txt
-python B_locator/Q3/src/p3_adaptive_checks.py
-python B_locator/Q3/src/p3_joint_checks.py
+python -B B_locator/Q3/reproduce.py --audit-only
+python -B B_locator/Q3/reproduce.py --out /tmp/q3-reproduction
+python B_locator/Q3/research_archive/scripts/make_paper_tables.py
+python B_locator/Q3/research_archive/scripts/make_paper_figures.py
+python B_locator/Q3/research_archive/scripts/make_paper_trajectory_atlas.py
+python B_locator/Q3/research_archive/src/p3_selftest.py --out /tmp/q3-selftest.txt
+python B_locator/Q3/research_archive/src/p3_adaptive_checks.py
+python B_locator/Q3/research_archive/src/p3_joint_checks.py
 bash B_locator/paper/build.sh
 \end{lstlisting}
 实验与绘图分别使用 NumPy、Matplotlib，论文以 XeLaTeX 或 Tectonic 编译。
 
-环境与验证说明见 \path{Q3/PAPER_REPRODUCE.md}；全部 120 组五策略轨迹见输出目录中的 \path{supplementary_trajectories.pdf}。
+环境与验证说明见附件 \path{Q3/research_archive/PAPER_REPRODUCE.md}；全部 120 组五策略轨迹见 \path{Q3/figures/supplementary_trajectories.pdf}。
 
 \clearpage
-\section{问题三完整源程序}\label{app:q3code}
-以下列出五代策略及实验所需的完整模块，可执行源文件与校验值见支撑材料。性能比较以正文的统一实验为准。
-\input{sections/q3-source-listings.tex}
+\section{问题三最终策略核心代码}\label{app:q3code}
+问题三的完整可运行代码、输入数据和结果汇总均放在附件
+\texttt{Q3/} 中。为保持附录紧凑，这里只列出最终
+\textrm{joint} 策略的核心调度代码；其中调用的公共定位、覆盖和模拟器模块可在附件
+\texttt{code/} 中按同名文件取得，文件校验值见附件的清单。
+\lstinputlisting[language=python,caption={问题三最终 \textrm{joint} 策略核心代码}]{../Q3/code/p3_joint.py}

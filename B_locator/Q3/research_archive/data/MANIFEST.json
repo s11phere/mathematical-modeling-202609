@@ -1,0 +1,21 @@
+{
+  "seed": 20260901,
+  "arena_radius_m": 1800.0,
+  "bearing_error_bound_deg": 1.0,
+  "r_recv_range_m": [
+    1000.0,
+    1500.0
+  ],
+  "channels": [
+    1,
+    20
+  ],
+  "files": [
+    "p3_scan01.csv",
+    "p3_scan01.truth.json",
+    "p3_scan02.csv",
+    "p3_scan02.truth.json",
+    "p3_scan03.csv",
+    "p3_scan03.truth.json"
+  ]
+}

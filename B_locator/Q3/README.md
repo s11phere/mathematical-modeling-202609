@@ -1,50 +1,48 @@
-# B 题问题三：多源定位与清除
+# B 题问题三附件：多源定位与清除
 
-本目录汇集 `problem_b` 分支中已提交的问题三内容，默认策略为 `joint`。新分支以 `main` 为基础，原有 `B_locator/Q1`、`Q2` 和 `paper` 完整保留。
+本目录是论文提交和评审时使用的精简附件。评审只需查看顶层的四个目录和
+`reproduce.py`；开发阶段的调试脚本、完整动作日志及历史研究记录统一保存在
+`research_archive/`，不参与附件阅读。
 
-## 来源与目录
+## 附件结构
 
-- 基础版本：`main`，提交 `417998c`。
-- 问题三来源：`problem_b`，提交 `b9c57f1`。
-- 共迁入 122 个源文件；逐文件来源、Git blob 与路径适配记录见 [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)。
-
-| 目录 / 文件 | 内容 |
+| 路径 | 内容 |
 | --- | --- |
-| `src/p3_*.py` | 全部 57 个问题三模块，包括策略、模拟器、基准实验、诊断、绘图和自检 |
-| `src/p1_intersection.py`、`src/p2_grid_expectation.py` | 问题三所需的公共几何与期望场模块，使用 `problem_b` 版本 |
-| `scripts/`、`tests/` | 运行、自检入口和共享算例生成器 |
-| `data/` | 三组问题三扫描数据与真值；`MANIFEST.json` 仅列本目录的问题三数据 |
-| `out/p3/`、`out/p3_family/` | 已入库的实验结果、图及九组先验外径基准场 |
-| `out/p2_grid/` | 问题三默认加载的期望场及其来源结果 |
-| `review/` | 问题三设计说明、实测记录、研究脚本及对应输出 |
-| [Q3-notes.md](Q3-notes.md) | 源 README 的完整问题三章节，运行示例路径已适配 |
-| `docs/source/` | 原 README、根目录分析、共享数据清单，以及六份涉及问题三的论文章节快照 |
+| `code/` | `field`、`sweep`、`tour`、`adaptive`、`joint` 五代策略及其公共模拟器副本；`p3_joint.py` 是论文采用的最终策略。 |
+| `data/` | 论文实验所用期望场及先验场数据。 |
+| `results/` | 600 局五策略配对实验与 80 局消融的汇总、审计报告、覆盖复核和论文证据映射；正文表格和图中的数字均由此目录生成。 |
+| `figures/` | 五幅正文图及补充轨迹图册；PDF 与高清 PNG 同时提供。 |
+| `reproduce.py` | 稳定的复现入口，转调用冻结实验驱动程序。 |
+| `research_archive/` | 完整历史源码、脚本、逐动作日志、研究记录和原始输出，仅用于追溯。 |
 
-混合文档保留原文上下文，因此来源快照和共享生成器也包含其他问题的内容。论文章节快照用于查阅；主论文仍在 `B_locator/paper`。
+论文源码和 PDF 位于 `../paper/`。附录 A 说明了附件结构、实验定义及结论与
+代码、数据的对应关系。
 
-## 运行
+## 复现
 
-核心计算和自检依赖 NumPy；绘图、报告需要 Matplotlib，`p3_verify_paths.py` 的覆盖审计还需要 SciPy。以下命令从仓库根目录执行：
+从仓库根目录执行：
 
 ```bash
-# 默认 joint 策略，离线运行一局，结果写入独立目录
-python3 B_locator/Q3/scripts/run_p3.py --mode mock --cases 1 --out B_locator/Q3/out/p3_smoke
+# 重放已保存动作，并独立重算移动、切频、检测和清除成本
+python3 -B B_locator/Q3/reproduce.py --audit-only
 
-# 快速自检，使用独立日志，保留迁入的历史自检结果
-python3 B_locator/Q3/tests/selftest_p3.py --quick --out B_locator/Q3/out/p3_quick_selftest.txt
+# 运行一局离线演练（结果写入 research_archive/out/paper_q3/smoke）
+python3 -B B_locator/Q3/reproduce.py --smoke
 
-# 当前默认策略的专项检查
-python3 B_locator/Q3/src/p3_joint_checks.py
+# 完整重跑请使用新的输出目录，不覆盖论文冻结结果
+python3 -B B_locator/Q3/reproduce.py --out /tmp/q3-reproduction
 ```
 
-原 `src/`、`data/`、`out/`、`review/` 相对结构已保留；四个实验脚本的默认输出路径改为相对于脚本定位到本目录，运行示例也已更新为 `B_locator/Q3/`。算法与数值结果沿用源分支。
+复现程序固定五种策略、场景种子和默认参数，并在运行前校验源码与期望场哈希。
+`--audit-only` 不会构造策略；正式重跑保留失败和漏清局，不按结果筛选样本。
+运行需要 Python 3.12、NumPy 2.3；生成图表时另需 Matplotlib。
 
-共享 `scripts/b_testdata.py` 会重新生成多问数据与清单；如需使用，请通过 `--out` 指向另一个目录，以保留本次迁入的数据。
+## 结果索引
 
-迁入验证（2026-09-12）：快速自检 28/28 项、`joint` 专项检查 12/12 项通过；默认入口离线一局清除 10/10 个目标，零拒动。所有 Python 文件通过语法解析，114 个源文件保持字节一致，另 8 个文件仅作上述路径适配。绘图和完整批量实验未重新运行。
+- `results/paired_results.csv`：每个场景、策略和消融的一行记录。
+- `results/summary.json`：论文核心结果表和图中数值的唯一汇总来源。
+- `results/evidence_map.json`：正文结论与公式、源码、数据和图表的对应关系。
+- `results/audit_report.json`、`coverage_audit.json`：独立成本审计、真值访问守卫和覆盖复核。
 
-## 源分支未入库的内容
-
-源 README 引用了 `review/p3-adaptive-design.md`、`review/P3-adaptive-verification.md` 和 `review/p3-joint-design.md`，以及 `out/p3_verify/`、`out/p3_paths*`、在线逐局轨迹等产物。这些文件不在 `problem_b` 的提交中，本次按已提交内容整理，未重新生成历史实验。对应的报告、绘图和验证代码已收录在 `src/`。
-
-原文中的运行记录、ACL 说明及待办是源分支的历史记录；运行示例以本文件为准。
+逐动作原始记录、完整源文件哈希和历史调试输出均在
+`research_archive/out/paper_q3/`，不重复放入提交附件，以控制附件体积。

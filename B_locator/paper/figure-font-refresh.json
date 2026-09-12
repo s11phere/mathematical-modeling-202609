@@ -1,0 +1,114 @@
+{
+  "scope": "Six Q1/Q2 figures included in the paper; fonts/output formats only",
+  "fonts": {
+    "latin": "Times New Roman",
+    "math": "Computer Modern",
+    "q1_chinese": "SimSun",
+    "q2_chinese": "Heiti SC"
+  },
+  "matplotlib": "3.11.2",
+  "original_renderers_and_data": {
+    "Q1/make_figures.py": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
+    "Q1/p1_intersection.py": "203695b1e797272e03d47aff11d5de9af89a1c7056fc249e414b6d02df591ca2",
+    "Q1/p1_experiments.py": "6747f9609ae21b485c2d01bc682a5a194cdb60f491084cc894ec9bf4abbc87a2",
+    "Q1/cases/p1_case01.csv": "abb61949fd0bb2cdf089d9e3e0925469654e842c968a09e4344e2779f4d38821",
+    "Q1/cases/p1_case02.csv": "53f369821ca6bfc04e0fbd362a6b9f000057caf24fac699af4463916223add9a",
+    "Q2/make_q2_paper_figures.py": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
+    "Q2/make_q2_figures.py": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
+    "Q2/illustration_plot_Q2.py": "4a0415edb7b4370d83b40c2bc2930dc44d28a7260b5386984db6a4f2d8ef9fe6",
+    "Q2/MMAcode/Q2_expected_diameter_data.csv": "2c37bf613cc37bd0d5f626f2214348b5a76759c1b792f2081f1ea59fd6c63613",
+    "Q2/pysimulation/out/p2_grid/p2_grid_map.csv": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86"
+  },
+  "figures": [
+    {
+      "name": "p1-coverage-contrast",
+      "original_png_sha256": "3181ebb4da221ac0a1dc3b7f40c0b034492e5647cdc95f913531561b0c2b422b",
+      "original_aspect_ratio": 1.8570364854802681,
+      "outputs": [
+        {
+          "path": "paper/figures/p1-coverage-contrast.png",
+          "sha256": "19914c7255ac641389f0bc2902ac7e21df1a8f3b1bee48a2f65e5b6f9083e4b3"
+        },
+        {
+          "path": "paper/figures/p1-coverage-contrast.pdf",
+          "sha256": "dc4e66b5e1f9dade7eafd7351d165d383033ba431d6670024c599362cd4466e8"
+        }
+      ]
+    },
+    {
+      "name": "p1-algorithm-flow",
+      "original_png_sha256": "02ba6697330b841b03a7d82e6d88b0c83e9ea0e9f6981a9389a4eb2d2e2ce875",
+      "original_aspect_ratio": 1.6979553903345725,
+      "outputs": [
+        {
+          "path": "paper/figures/p1-algorithm-flow.png",
+          "sha256": "a3997b148269813491f27155898221571588dba45499580496a4d605bef9b5c5"
+        },
+        {
+          "path": "paper/figures/p1-algorithm-flow.pdf",
+          "sha256": "78582aa9ba7e7c50bea70e0ae757f443796f9c362de2d74ab50c230be48582bd"
+        }
+      ]
+    },
+    {
+      "name": "multi_sensor_wedge_diagram",
+      "original_png_sha256": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
+      "original_aspect_ratio": 1.2029808374733855,
+      "outputs": [
+        {
+          "path": "paper/figures/multi_sensor_wedge_diagram.png",
+          "sha256": "c0522c4ae0492236f500a9fa93c553d43fd7cadb334b326a40000155c7c42428"
+        },
+        {
+          "path": "paper/figures/multi_sensor_wedge_diagram.pdf",
+          "sha256": "932e5721bdc4ecf3d1d43c10066f854235343a559e61056fbdfb54cf3395810e"
+        }
+      ]
+    },
+    {
+      "name": "p2-mma-vs-pysim",
+      "original_png_sha256": "1adc49a4ae72d6e7a6bd47ac9f210b3512d92d7323d089e8aa89a2a2c4cb7528",
+      "original_aspect_ratio": 2.180730897009967,
+      "outputs": [
+        {
+          "path": "paper/figures/p2-mma-vs-pysim.png",
+          "sha256": "0f11b2fc1815a5ab8aa12780f940d393a03d15f5935d1e9dfac0d2189fe62489"
+        },
+        {
+          "path": "paper/figures/p2-mma-vs-pysim.pdf",
+          "sha256": "92478ac6644f5b93b80e178eaa2090c04fc077bdd3010447c32b35cb6d436514"
+        }
+      ]
+    },
+    {
+      "name": "p2-contour60",
+      "original_png_sha256": "6d4eedff4dd6eaf5650e0277a4478e92d9e72a6beaba74a4a8497d55b5af6519",
+      "original_aspect_ratio": 0.9977728285077951,
+      "outputs": [
+        {
+          "path": "paper/figures/p2-contour60.png",
+          "sha256": "e02b115ed0ecb68db6d98eb1daafc5e4dbb9df6d50c1823def7e3b483256c674"
+        },
+        {
+          "path": "paper/figures/p2-contour60.pdf",
+          "sha256": "0c245670afc0e0b62e27436c8d1efa361f77d185718aa658e3ed4cb7142cebd0"
+        }
+      ]
+    },
+    {
+      "name": "p2-wedge-geometry",
+      "original_png_sha256": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
+      "original_aspect_ratio": 1.3427970557308098,
+      "outputs": [
+        {
+          "path": "paper/figures/p2-wedge-geometry.png",
+          "sha256": "7be377512b57acb479a939d8f1c0b495446062e1d5ed826cb7d662d07f37a8cf"
+        },
+        {
+          "path": "paper/figures/p2-wedge-geometry.pdf",
+          "sha256": "8748c27f3dc665ed404efaabf97b6627e4cc7839da352beb6be91707f484bda6"
+        }
+      ]
+    }
+  ]
+}
