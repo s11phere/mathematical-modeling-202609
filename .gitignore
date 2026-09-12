@@ -41,3 +41,5 @@ workspace/A_drying/figs/*.png
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+
+B_locator/out/

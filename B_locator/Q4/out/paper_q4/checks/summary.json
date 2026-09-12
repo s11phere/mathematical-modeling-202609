@@ -1,0 +1,85 @@
+{
+  "all_passed": true,
+  "total_checks": 37,
+  "suite_count": 6,
+  "suites": [
+    {
+      "script": "B_locator\\Q4\\src\\p4_certificate_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_certificate_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 1.186521053314209,
+      "checks_passed": 10,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_certificate_checks.log"
+    },
+    {
+      "script": "B_locator\\Q4\\src\\p4_compact_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_compact_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 8.163170337677002,
+      "checks_passed": 6,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_compact_checks.log"
+    },
+    {
+      "script": "B_locator\\Q4\\src\\p4_homing_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_homing_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 7.413365840911865,
+      "checks_passed": 4,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_homing_checks.log"
+    },
+    {
+      "script": "B_locator\\Q4\\src\\p4_layout_v2_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_layout_v2_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.8554134368896484,
+      "checks_passed": 5,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_layout_v2_checks.log"
+    },
+    {
+      "script": "B_locator\\Q4\\src\\p4_route_v2_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_route_v2_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.7143712043762207,
+      "checks_passed": 3,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_route_v2_checks.log"
+    },
+    {
+      "script": "B_locator\\Q4\\src\\p4_search_checks.py",
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-X",
+        "utf8",
+        "B_locator\\Q4\\src\\p4_search_checks.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 5.217828989028931,
+      "checks_passed": 9,
+      "log": "B_locator/Q4/out/paper_q4/checks/p4_search_checks.log"
+    }
+  ]
+}

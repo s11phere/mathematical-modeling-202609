@@ -1,0 +1,689 @@
+{
+  "description": "Complete AST local-import closure, including optional local imports; executable originals unchanged.",
+  "roots": {
+    "compact": "src/p4_compact.py",
+    "joint_comparison": "src/p4_search.py",
+    "legacy_comparison": "src/p4_robot.py",
+    "entry_point": "src/p4_run.py",
+    "entry_wrapper": "scripts/run_p4.py",
+    "paper_experiments": "run_paper_q4.py",
+    "paper_tables": "make_paper_tables.py",
+    "paper_figures": "scripts/make_paper_figures.py"
+  },
+  "file_count": 25,
+  "total_source_lines": 9600,
+  "listing_path": "paper/sections/q4-source-listings.tex",
+  "math_display_map": {
+    "°": "{}^{\\circ}",
+    "±": "\\pm",
+    "²": "{}^2",
+    "·": "\\cdot",
+    "×": "\\times",
+    "÷": "\\div",
+    "Δ": "\\Delta",
+    "Σ": "\\Sigma",
+    "ε": "\\epsilon",
+    "θ": "\\theta",
+    "λ": "\\lambda",
+    "π": "\\pi",
+    "ρ": "\\rho",
+    "φ": "\\phi",
+    "ᵢ": "{}_i",
+    "⁺": "{}^{+}",
+    "⁻": "{}^{-}",
+    "←": "\\leftarrow",
+    "→": "\\rightarrow",
+    "↷": "\\curvearrowright",
+    "⇒": "\\Rightarrow",
+    "∈": "\\in",
+    "−": "-",
+    "∓": "\\mp",
+    "√": "\\surd",
+    "∝": "\\propto",
+    "∞": "\\infty",
+    "∠": "\\angle",
+    "∩": "\\cap",
+    "≈": "\\approx",
+    "≠": "\\ne",
+    "≡": "\\equiv",
+    "≤": "\\le",
+    "≥": "\\ge",
+    "≳": "\\gtrsim",
+    "⏹": "\\blacksquare",
+    "■": "\\blacksquare",
+    "▲": "\\blacktriangle",
+    "★": "\\star",
+    "⟨": "\\langle",
+    "⟩": "\\rangle",
+    "⟺": "\\Longleftrightarrow",
+    "…": "\\ldots"
+  },
+  "text_display_map": {
+    "§": "\\S{}",
+    "–": "\\textendash{}",
+    "—": "\\textemdash{}",
+    "⚠": "\\textbf{[!]}",
+    "①": "\\textcircled{1}",
+    "②": "\\textcircled{2}",
+    "③": "\\textcircled{3}",
+    "④": "\\textcircled{4}",
+    "⑤": "\\textcircled{5}",
+    "⑥": "\\textcircled{6}",
+    "⑦": "\\textcircled{7}",
+    "⑧": "\\textcircled{8}",
+    "⑨": "\\textcircled{9}",
+    "⑩": "\\textcircled{10}"
+  },
+  "omitted_display_characters": [
+    "U+FE0F"
+  ],
+  "files": [
+    {
+      "path": "Q4/make_paper_tables.py",
+      "sha256": "ddfb3c9bbb2cb0abcb61455977a6526b848b49aa50e3d263fab724fd6cf78558",
+      "bytes": 4621,
+      "lines": 73,
+      "included_by": [
+        "paper_tables"
+      ],
+      "local_imports": [],
+      "display_path": "out/paper_q4/source_display/make_paper_tables.py.listing.txt",
+      "display_sha256": "ddfb3c9bbb2cb0abcb61455977a6526b848b49aa50e3d263fab724fd6cf78558",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_certificate.py",
+      "sha256": "f1a1b4a37747f861da00bcbbb3b3bcface6fdf0a0a5a5e599cddfb4a51d595aa",
+      "bytes": 11136,
+      "lines": 238,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments",
+        "paper_figures"
+      ],
+      "local_imports": [],
+      "display_path": "out/paper_q4/source_display/src/p4_certificate.py.listing.txt",
+      "display_sha256": "f1a1b4a37747f861da00bcbbb3b3bcface6fdf0a0a5a5e599cddfb4a51d595aa",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p3_arena.py",
+      "sha256": "790407ce57213250339f52314474d6e454f7a2a50b495bcbdafab7f093b2e8cd",
+      "bytes": 26518,
+      "lines": 594,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments",
+        "paper_figures"
+      ],
+      "local_imports": [],
+      "display_path": "out/paper_q4/source_display/src/p3_arena.py.listing.txt",
+      "display_sha256": "92c24e2f669e7a06a2923917036a67ccdaa966935f20e5221292981c1be377e3",
+      "display_replacements": {
+        "—": 4,
+        "°": 8,
+        "±": 3,
+        "Δ": 1
+      }
+    },
+    {
+      "path": "Q4/src/p1_intersection.py",
+      "sha256": "ef4e3d3c83f2cfbf878f9803b33bc8969e5e8fa172bcf384b106dab8e77cd0b5",
+      "bytes": 18680,
+      "lines": 466,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [],
+      "display_path": "out/paper_q4/source_display/src/p1_intersection.py.listing.txt",
+      "display_sha256": "76dedc7bc6fac61b14bb4d45fc4cf2c0de0af57bc26a7790cde701f429fefdeb",
+      "display_replacements": {
+        "°": 5,
+        "∩": 3,
+        "θ": 2,
+        "ε": 5,
+        "⁻": 2,
+        "·": 9,
+        "⁺": 2,
+        "—": 4,
+        "≤": 6,
+        "⟺": 3,
+        "∞": 1,
+        "²": 1,
+        "–": 2,
+        "∈": 5,
+        "∠": 1,
+        "≥": 1,
+        "√": 2
+      }
+    },
+    {
+      "path": "Q4/src/p2_grid_expectation.py",
+      "sha256": "5f08251fbd6384b898e89036cb90ff6d8e579bce7c938cf37606fc9e756b4424",
+      "bytes": 55447,
+      "lines": 1181,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p1_intersection.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p2_grid_expectation.py.listing.txt",
+      "display_sha256": "3b8376a3e536981ca6865e7dc7c5ec53109a0043fee829a516bd95ecebc4944e",
+      "display_replacements": {
+        "∝": 5,
+        "±": 8,
+        "∩": 4,
+        "Σ": 2,
+        "°": 17,
+        "—": 10,
+        "∞": 2,
+        "–": 5,
+        "×": 4,
+        "θ": 4,
+        "∓": 1,
+        "⟺": 1,
+        "≈": 5,
+        "≤": 4,
+        "∈": 5,
+        "φ": 4,
+        "Δ": 1,
+        "→": 1,
+        "·": 2,
+        "⟨": 1,
+        "⟩": 1
+      }
+    },
+    {
+      "path": "Q4/src/p3_expect_field.py",
+      "sha256": "c21e97f8467b5bc77e20d977252835793a6ebc5886a0a952497dadf6001eeb35",
+      "bytes": 47248,
+      "lines": 991,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p1_intersection.py",
+        "Q4/src/p2_grid_expectation.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p3_expect_field.py.listing.txt",
+      "display_sha256": "38f0d67619665062ce060db1dafdca0cec3263cbae45aee9c0685eec3155c238",
+      "display_replacements": {
+        "θ": 14,
+        "·": 10,
+        "—": 8,
+        "∈": 4,
+        "λ": 12,
+        "∝": 1,
+        "≈": 2,
+        "π": 1,
+        "²": 1,
+        "≡": 1,
+        "▲": 1
+      }
+    },
+    {
+      "path": "Q4/src/p3_robot.py",
+      "sha256": "9615422e21f8234f65b5ec8e8cb72547a2d1b34f0243bad98d903bc4a68566df",
+      "bytes": 79070,
+      "lines": 1515,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p1_intersection.py",
+        "Q4/src/p3_arena.py",
+        "Q4/src/p3_expect_field.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p3_robot.py.listing.txt",
+      "display_sha256": "afb3c80eafca4467d0059b512fce442a4201501cac3c7aa3a04420b1b96227fd",
+      "display_replacements": {
+        "—": 24,
+        "λ": 2,
+        "≥": 4,
+        "≤": 8,
+        "√": 4,
+        "–": 5,
+        "±": 1,
+        "°": 3,
+        "→": 14,
+        "§": 1,
+        "≈": 4,
+        "≠": 1,
+        "⇒": 6,
+        "★": 1,
+        "×": 5,
+        "−": 1,
+        "⏹": 3,
+        "①": 1,
+        "②": 1,
+        "…": 1,
+        "③": 1,
+        "π": 1,
+        "²": 1,
+        "↷": 2
+      }
+    },
+    {
+      "path": "Q4/src/p4_grid.py",
+      "sha256": "44f4f1159ae4bfd6eee5456171bcce585ba279b407653fa891dbd4b2e49b7c72",
+      "bytes": 9806,
+      "lines": 225,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments",
+        "paper_figures"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_grid.py.listing.txt",
+      "display_sha256": "bbdd83f1500548fd23b1b2ee34e701e96ed3345a26893a0dc95b34bd452ac6b3",
+      "display_replacements": {
+        "≥": 5,
+        "⇒": 3,
+        "⟺": 1,
+        "≤": 6,
+        "·": 6,
+        "°": 1,
+        "Σ": 2,
+        "λ": 3,
+        "ᵢ": 7,
+        "√": 3,
+        "—": 4
+      }
+    },
+    {
+      "path": "Q4/src/p4_robot.py",
+      "sha256": "552736809cbc097ae158aa7f594ab7ad08fb2b2860c30baa60cf56b84f1a38f9",
+      "bytes": 92142,
+      "lines": 1739,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "legacy_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py",
+        "Q4/src/p3_robot.py",
+        "Q4/src/p4_grid.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_robot.py.listing.txt",
+      "display_sha256": "f81eda797ef22426515861d7c6c774b56883ac0a847267d245b8d54f0793bd88",
+      "display_replacements": {
+        "√": 1,
+        "⚠": 4,
+        "️": 4,
+        "→": 18,
+        "±": 5,
+        "°": 15,
+        "–": 10,
+        "—": 69,
+        "≳": 1,
+        "×": 7,
+        "≈": 12,
+        "←": 1,
+        "§": 1,
+        "²": 1,
+        "⇒": 20,
+        "∞": 4,
+        "≤": 10,
+        "Σ": 2,
+        "·": 11,
+        "⟺": 1,
+        "…": 2,
+        "≥": 1,
+        "÷": 1
+      }
+    },
+    {
+      "path": "Q4/src/p4_homing.py",
+      "sha256": "48ea3389df6b8d35d520f25928c5ed0a745beae001adc345e28edf539b2ea7f1",
+      "bytes": 11535,
+      "lines": 260,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p1_intersection.py",
+        "Q4/src/p3_arena.py",
+        "Q4/src/p3_robot.py",
+        "Q4/src/p4_robot.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_homing.py.listing.txt",
+      "display_sha256": "48ea3389df6b8d35d520f25928c5ed0a745beae001adc345e28edf539b2ea7f1",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_search.py",
+      "sha256": "9db4f9cb3070fc8840fbe1cfa3ab4eb7bdc8a97921529256aaccdf0595345895",
+      "bytes": 12001,
+      "lines": 260,
+      "included_by": [
+        "compact",
+        "joint_comparison",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py",
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_homing.py",
+        "Q4/src/p4_robot.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_search.py.listing.txt",
+      "display_sha256": "9db4f9cb3070fc8840fbe1cfa3ab4eb7bdc8a97921529256aaccdf0595345895",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_adaptive_cover.py",
+      "sha256": "2f17eebf2c794e8cbdac82200c24be4445768e327a4cd7f004014a0c8a43ca1f",
+      "bytes": 6317,
+      "lines": 130,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_adaptive_cover.py.listing.txt",
+      "display_sha256": "2f17eebf2c794e8cbdac82200c24be4445768e327a4cd7f004014a0c8a43ca1f",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_layout_v2.py",
+      "sha256": "d32e6b86562b06c5b7b0afadeb33357db79a5192a69db5eccc19f9c484cd2dd6",
+      "bytes": 2238,
+      "lines": 56,
+      "included_by": [
+        "compact",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments",
+        "paper_figures"
+      ],
+      "local_imports": [
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_grid.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_layout_v2.py.listing.txt",
+      "display_sha256": "d32e6b86562b06c5b7b0afadeb33357db79a5192a69db5eccc19f9c484cd2dd6",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_posterior.py",
+      "sha256": "b6814602ea012e6840218fd919ae011929a3b245971152c5adc900c3dce96e23",
+      "bytes": 2141,
+      "lines": 44,
+      "included_by": [
+        "compact",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [],
+      "display_path": "out/paper_q4/source_display/src/p4_posterior.py.listing.txt",
+      "display_sha256": "b6814602ea012e6840218fd919ae011929a3b245971152c5adc900c3dce96e23",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_route_v2.py",
+      "sha256": "2b99ae19aece7eba6d7925a42f3e61e0844bcc8bd3066c0a42380c5a6f6ae256",
+      "bytes": 8226,
+      "lines": 177,
+      "included_by": [
+        "compact",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_route_v2.py.listing.txt",
+      "display_sha256": "2b99ae19aece7eba6d7925a42f3e61e0844bcc8bd3066c0a42380c5a6f6ae256",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_compact.py",
+      "sha256": "74be912345ebfcb07b135b89ad91ab9424deb044aabbe5c8fa30d25b9eb411fc",
+      "bytes": 5232,
+      "lines": 119,
+      "included_by": [
+        "compact",
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_layout_v2.py",
+        "Q4/src/p4_posterior.py",
+        "Q4/src/p4_route_v2.py",
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_compact.py.listing.txt",
+      "display_sha256": "74be912345ebfcb07b135b89ad91ab9424deb044aabbe5c8fa30d25b9eb411fc",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_polish.py",
+      "sha256": "1210a11daa30959ea37ac5714e43254f2eab300e249c85c5c3274e7190f58990",
+      "bytes": 4724,
+      "lines": 100,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_polish.py.listing.txt",
+      "display_sha256": "1210a11daa30959ea37ac5714e43254f2eab300e249c85c5c3274e7190f58990",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_arena_ext.py",
+      "sha256": "4f0cf2bee0130312e26cde3b2d47fe04e8c3e3dbdeeb37ee953718c967041965",
+      "bytes": 4908,
+      "lines": 99,
+      "included_by": [
+        "entry_point",
+        "entry_wrapper",
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_arena_ext.py.listing.txt",
+      "display_sha256": "660f6d13ea457e9fdcefb9de5b368d2995839d7c5bc48950ff7440dcaa861a7f",
+      "display_replacements": {
+        "—": 2,
+        "°": 2,
+        "⇒": 1,
+        "–": 4,
+        "∈": 1
+      }
+    },
+    {
+      "path": "Q4/src/p4_search_bench.py",
+      "sha256": "11daa9d7a627f6f9775aff516bca52e681887170394aa7aa5eefdff5b701a820",
+      "bytes": 5839,
+      "lines": 117,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py",
+        "Q4/src/p4_arena_ext.py",
+        "Q4/src/p4_homing.py",
+        "Q4/src/p4_robot.py",
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_search_bench.py.listing.txt",
+      "display_sha256": "11daa9d7a627f6f9775aff516bca52e681887170394aa7aa5eefdff5b701a820",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_service_v2.py",
+      "sha256": "6ad568398d809afd80cd08f633033229f3c6ae238d97034cb96a8a3d1d5bb1c7",
+      "bytes": 1840,
+      "lines": 48,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_service_v2.py.listing.txt",
+      "display_sha256": "6ad568398d809afd80cd08f633033229f3c6ae238d97034cb96a8a3d1d5bb1c7",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/src/p4_improve_bench.py",
+      "sha256": "359197130f99d167bfdce903a8edae81e6b0fd10d089d8c9c4fd7481e6490942",
+      "bytes": 4449,
+      "lines": 86,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_adaptive_cover.py",
+        "Q4/src/p4_compact.py",
+        "Q4/src/p4_polish.py",
+        "Q4/src/p4_search_bench.py",
+        "Q4/src/p4_service_v2.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_improve_bench.py.listing.txt",
+      "display_sha256": "359197130f99d167bfdce903a8edae81e6b0fd10d089d8c9c4fd7481e6490942",
+      "display_replacements": {}
+    },
+    {
+      "path": "Q4/run_paper_q4.py",
+      "sha256": "f61b0b30f36298d500b161c52b9b87d66171d6c38b3e892d46be75a7fade369b",
+      "bytes": 18106,
+      "lines": 291,
+      "included_by": [
+        "paper_experiments"
+      ],
+      "local_imports": [
+        "Q4/src/p4_improve_bench.py",
+        "Q4/src/p4_search_bench.py"
+      ],
+      "display_path": "out/paper_q4/source_display/run_paper_q4.py.listing.txt",
+      "display_sha256": "1547308b60b63ab8ae834952d1f78e458e6cb6fda7bd32e1fd61aacc18007740",
+      "display_replacements": {
+        "–": 4
+      }
+    },
+    {
+      "path": "Q4/scripts/make_paper_figures.py",
+      "sha256": "e5afbad563826eccb14e4b47f11faeb921628bace1d253a182ddcf8dd1cf0261",
+      "bytes": 18720,
+      "lines": 357,
+      "included_by": [
+        "paper_figures"
+      ],
+      "local_imports": [
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_layout_v2.py"
+      ],
+      "display_path": "out/paper_q4/source_display/scripts/make_paper_figures.py.listing.txt",
+      "display_sha256": "3e9d57bcfff7062eca8efba7d70030dccf92b5810a494d183d07cefc9f49338b",
+      "display_replacements": {
+        "→": 5,
+        "—": 1
+      }
+    },
+    {
+      "path": "Q4/src/p4_run.py",
+      "sha256": "3b455bdb1e3f99dc0c907907b1375669f43f988627d9d639f00e851cf0c145c2",
+      "bytes": 19540,
+      "lines": 412,
+      "included_by": [
+        "entry_point",
+        "entry_wrapper"
+      ],
+      "local_imports": [
+        "Q4/src/p3_arena.py",
+        "Q4/src/p3_robot.py",
+        "Q4/src/p4_arena_ext.py",
+        "Q4/src/p4_certificate.py",
+        "Q4/src/p4_compact.py",
+        "Q4/src/p4_grid.py",
+        "Q4/src/p4_layout_v2.py",
+        "Q4/src/p4_robot.py",
+        "Q4/src/p4_search.py"
+      ],
+      "display_path": "out/paper_q4/source_display/src/p4_run.py.listing.txt",
+      "display_sha256": "2b71d744dae3aed76f3142185d9783c42604afc8000d5504be385aacc99fad75",
+      "display_replacements": {
+        "×": 1,
+        "≤": 1,
+        "⇒": 1,
+        "–": 2,
+        "…": 1,
+        "①": 1,
+        "②": 1,
+        "③": 1,
+        "④": 1,
+        "—": 1
+      }
+    },
+    {
+      "path": "Q4/scripts/run_p4.py",
+      "sha256": "b97921b6afa8f9199c207fc0dc6fdb86a7db4863c364f60bb4a471047aecdb42",
+      "bytes": 712,
+      "lines": 22,
+      "included_by": [
+        "entry_wrapper"
+      ],
+      "local_imports": [
+        "Q4/src/p4_run.py"
+      ],
+      "display_path": "out/paper_q4/source_display/scripts/run_p4.py.listing.txt",
+      "display_sha256": "b97921b6afa8f9199c207fc0dc6fdb86a7db4863c364f60bb4a471047aecdb42",
+      "display_replacements": {}
+    }
+  ]
+}
