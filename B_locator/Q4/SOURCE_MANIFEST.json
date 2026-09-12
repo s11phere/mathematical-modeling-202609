@@ -1,0 +1,637 @@
+{
+  "base_branch": "codex/b-locator-q3",
+  "base_commit": "5dbf748d2a365df118c8fbd927fcd5689b862ac2",
+  "source_branch": "problem_b",
+  "source_commit": "c223510f175715299e2284796c5990eef6e1f6fe",
+  "source_note": "问题四代码位于源分支 B_locator/src/p4_*.py 与 B_locator/review/；源分支无问题四的 data/ 与 out/ 入库内容",
+  "counts": {
+    "from_commit": 68,
+    "from_worktree": 4,
+    "generated": 3,
+    "adapted": 15
+  },
+  "files": [
+    {
+      "source": "B_locator/src/p1_intersection.py",
+      "destination": "src/p1_intersection.py",
+      "source_state": "commit",
+      "git_blob": "ab6c1b1441c49ede55e9d84e717f9016493ae3ae",
+      "mode": "100644",
+      "destination_git_blob": "ab6c1b1441c49ede55e9d84e717f9016493ae3ae"
+    },
+    {
+      "source": "B_locator/src/p2_grid_expectation.py",
+      "destination": "src/p2_grid_expectation.py",
+      "source_state": "commit",
+      "git_blob": "d5875cf348d1d8945a23bdd5b27b92167e4772db",
+      "mode": "100644",
+      "destination_git_blob": "d5875cf348d1d8945a23bdd5b27b92167e4772db"
+    },
+    {
+      "source": "B_locator/src/p3_arena.py",
+      "destination": "src/p3_arena.py",
+      "source_state": "commit",
+      "git_blob": "f27e406bcacb600edde48f231acaee9102f5f509",
+      "mode": "100644",
+      "destination_git_blob": "f27e406bcacb600edde48f231acaee9102f5f509"
+    },
+    {
+      "source": "B_locator/src/p3_expect_field.py",
+      "destination": "src/p3_expect_field.py",
+      "source_state": "commit",
+      "git_blob": "0fff5a570340c667c66d3a805ac86bfe5e00c3ab",
+      "mode": "100644",
+      "destination_git_blob": "0fff5a570340c667c66d3a805ac86bfe5e00c3ab"
+    },
+    {
+      "source": "B_locator/src/p3_httpstub.py",
+      "destination": "src/p3_httpstub.py",
+      "source_state": "commit",
+      "git_blob": "c09d17079e079becb3e5bbf67226be5085481a65",
+      "mode": "100644",
+      "destination_git_blob": "6dca21c103dd38762da0ca01e3f44e20bde35594",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p3_robot.py",
+      "destination": "src/p3_robot.py",
+      "source_state": "commit",
+      "git_blob": "8a4ad5f5198d5c70a335443364868458d713dc32",
+      "mode": "100644",
+      "destination_git_blob": "8a4ad5f5198d5c70a335443364868458d713dc32"
+    },
+    {
+      "source": "B_locator/src/p4_ab.py",
+      "destination": "src/p4_ab.py",
+      "source_state": "commit",
+      "git_blob": "6a04337c2b74a968f858f67dab64332b6c05056e",
+      "mode": "100644",
+      "destination_git_blob": "6a04337c2b74a968f858f67dab64332b6c05056e"
+    },
+    {
+      "source": "B_locator/src/p4_adaptive_cover.py",
+      "destination": "src/p4_adaptive_cover.py",
+      "source_state": "commit",
+      "git_blob": "43126856dc7f0c0c2870f7e2d86dbb52d5d25a50",
+      "mode": "100644",
+      "destination_git_blob": "43126856dc7f0c0c2870f7e2d86dbb52d5d25a50"
+    },
+    {
+      "source": "B_locator/src/p4_arena_ext.py",
+      "destination": "src/p4_arena_ext.py",
+      "source_state": "commit",
+      "git_blob": "5dfbda125c5396b9360d761700e6c5176dec200c",
+      "mode": "100644",
+      "destination_git_blob": "5dfbda125c5396b9360d761700e6c5176dec200c"
+    },
+    {
+      "source": "B_locator/src/p4_certificate.py",
+      "destination": "src/p4_certificate.py",
+      "source_state": "commit",
+      "git_blob": "faec12c0f4016f5028f90b9a906a6f29392e8972",
+      "mode": "100644",
+      "destination_git_blob": "faec12c0f4016f5028f90b9a906a6f29392e8972"
+    },
+    {
+      "source": "B_locator/src/p4_certificate_checks.py",
+      "destination": "src/p4_certificate_checks.py",
+      "source_state": "commit",
+      "git_blob": "eedaa359f7641c3e103d71812b99c418d76f39a9",
+      "mode": "100644",
+      "destination_git_blob": "eedaa359f7641c3e103d71812b99c418d76f39a9"
+    },
+    {
+      "source": "B_locator/src/p4_certificate_layouts.py",
+      "destination": "src/p4_certificate_layouts.py",
+      "source_state": "commit",
+      "git_blob": "63b4d88764f3cdb75bbead1cf0a2ebb5c3bd49c2",
+      "mode": "100644",
+      "destination_git_blob": "63b4d88764f3cdb75bbead1cf0a2ebb5c3bd49c2"
+    },
+    {
+      "source": "B_locator/src/p4_compact.py",
+      "destination": "src/p4_compact.py",
+      "source_state": "commit",
+      "git_blob": "4c6dfd9f3a74d1cdcd57b6e02b6152db9d71431a",
+      "mode": "100644",
+      "destination_git_blob": "4c6dfd9f3a74d1cdcd57b6e02b6152db9d71431a"
+    },
+    {
+      "source": "B_locator/src/p4_compact_checks.py",
+      "destination": "src/p4_compact_checks.py",
+      "source_state": "commit",
+      "git_blob": "6b528939aac3096397b63f90435f294fc0bdd0a6",
+      "mode": "100644",
+      "destination_git_blob": "ac3258efa47c2d384a11c893d2fa9d0c9f960a22",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_compact_report.py",
+      "destination": "src/p4_compact_report.py",
+      "source_state": "commit",
+      "git_blob": "b196c361e0a192f60e5da54dd27f4b8c6bb7ddaf",
+      "mode": "100644",
+      "destination_git_blob": "cb35738c4f888061e809049bcba0add40487234a",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_cover_reduce.py",
+      "destination": "src/p4_cover_reduce.py",
+      "source_state": "commit",
+      "git_blob": "4b16eaaec2b7232bf1b33defc986fc84e98ce7b1",
+      "mode": "100644",
+      "destination_git_blob": "4b16eaaec2b7232bf1b33defc986fc84e98ce7b1"
+    },
+    {
+      "source": "B_locator/src/p4_design.py",
+      "destination": "src/p4_design.py",
+      "source_state": "commit",
+      "git_blob": "bfc810e98576a1dd7e0d06dc7659c91e63554f2f",
+      "mode": "100644",
+      "destination_git_blob": "bfc810e98576a1dd7e0d06dc7659c91e63554f2f"
+    },
+    {
+      "source": "B_locator/src/p4_diag.py",
+      "destination": "src/p4_diag.py",
+      "source_state": "commit",
+      "git_blob": "592ebb44422e4e391fd2d1187610b602bc9dafbd",
+      "mode": "100644",
+      "destination_git_blob": "592ebb44422e4e391fd2d1187610b602bc9dafbd"
+    },
+    {
+      "source": "B_locator/src/p4_dir_convention.py",
+      "destination": "src/p4_dir_convention.py",
+      "source_state": "commit",
+      "git_blob": "990c02ff0fea78034ff9cb7af486c673793e0e95",
+      "mode": "100644",
+      "destination_git_blob": "990c02ff0fea78034ff9cb7af486c673793e0e95"
+    },
+    {
+      "source": "B_locator/src/p4_eval.py",
+      "destination": "src/p4_eval.py",
+      "source_state": "commit",
+      "git_blob": "cf38e7a701a02bb1152528a238e30cf5841b243f",
+      "mode": "100644",
+      "destination_git_blob": "cf38e7a701a02bb1152528a238e30cf5841b243f"
+    },
+    {
+      "source": "B_locator/src/p4_family.py",
+      "destination": "src/p4_family.py",
+      "source_state": "commit",
+      "git_blob": "2531da9f2231f0970fd4b483120283a383192ce5",
+      "mode": "100644",
+      "destination_git_blob": "9a3609028b864e24ddbe522b7cf6f6ab1f24799c",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_fine_layout_dev.py",
+      "destination": "src/p4_fine_layout_dev.py",
+      "source_state": "commit",
+      "git_blob": "fccb11a4600d8cd4b38b12be1dee7aebffa6ec34",
+      "mode": "100644",
+      "destination_git_blob": "5aa304c617823c1a197462da803f06bc4dd4d5cf",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_gain_ab.py",
+      "destination": "src/p4_gain_ab.py",
+      "source_state": "commit",
+      "git_blob": "b64c54872970dd134a40da0244aa5560500e9009",
+      "mode": "100644",
+      "destination_git_blob": "b64c54872970dd134a40da0244aa5560500e9009"
+    },
+    {
+      "source": "B_locator/src/p4_greedy_add.py",
+      "destination": "src/p4_greedy_add.py",
+      "source_state": "commit",
+      "git_blob": "5875300d15b21a6cc60af3ecddb898409352c414",
+      "mode": "100644",
+      "destination_git_blob": "5875300d15b21a6cc60af3ecddb898409352c414"
+    },
+    {
+      "source": "B_locator/src/p4_grid.py",
+      "destination": "src/p4_grid.py",
+      "source_state": "commit",
+      "git_blob": "2f1fe3436af5089dc19997be612644e469f57534",
+      "mode": "100644",
+      "destination_git_blob": "2f1fe3436af5089dc19997be612644e469f57534"
+    },
+    {
+      "source": "B_locator/src/p4_grid_extent.py",
+      "destination": "src/p4_grid_extent.py",
+      "source_state": "commit",
+      "git_blob": "de9f1a5142e6af48be59bc06ca7e6e7b9b029d57",
+      "mode": "100644",
+      "destination_git_blob": "de9f1a5142e6af48be59bc06ca7e6e7b9b029d57"
+    },
+    {
+      "source": "B_locator/src/p4_homing.py",
+      "destination": "src/p4_homing.py",
+      "source_state": "commit",
+      "git_blob": "3464e0bb937c625e5015861b2c65028d4df86b9e",
+      "mode": "100644",
+      "destination_git_blob": "3464e0bb937c625e5015861b2c65028d4df86b9e"
+    },
+    {
+      "source": "B_locator/src/p4_homing_checks.py",
+      "destination": "src/p4_homing_checks.py",
+      "source_state": "commit",
+      "git_blob": "24fcc5d0a952b89dd271daf43f57f5937bbbb4de",
+      "mode": "100644",
+      "destination_git_blob": "24fcc5d0a952b89dd271daf43f57f5937bbbb4de"
+    },
+    {
+      "source": "B_locator/src/p4_homing_dev.py",
+      "destination": "src/p4_homing_dev.py",
+      "source_state": "commit",
+      "git_blob": "6a46516e837b23cfdd1edde8c04abd85271470bc",
+      "mode": "100644",
+      "destination_git_blob": "3277a28d01b8cb3d5e76a3b7f1ebc584533496b5",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_httpstub.py",
+      "destination": "src/p4_httpstub.py",
+      "source_state": "commit",
+      "git_blob": "f5062b69d842c9df5dc70e1a6877c74c1dac1458",
+      "mode": "100644",
+      "destination_git_blob": "20f00b9a9a04da9396ef3e41366ac900f859d869",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_improve_bench.py",
+      "destination": "src/p4_improve_bench.py",
+      "source_state": "commit",
+      "git_blob": "83a2bb27b85277a92a36330940a2db1ee1f27a0e",
+      "mode": "100644",
+      "destination_git_blob": "7413872110549a43f6b70089fd24955db3908180",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_l6_figure.py",
+      "destination": "src/p4_l6_figure.py",
+      "source_state": "commit",
+      "git_blob": "4ba3261cfb06fb4b3c794007ceae26c696fccb34",
+      "mode": "100644",
+      "destination_git_blob": "4ba3261cfb06fb4b3c794007ceae26c696fccb34"
+    },
+    {
+      "source": "B_locator/src/p4_l6_layout.py",
+      "destination": "src/p4_l6_layout.py",
+      "source_state": "commit",
+      "git_blob": "2dae2bf16148c430d704089f5f88dc43e40a31da",
+      "mode": "100644",
+      "destination_git_blob": "2dae2bf16148c430d704089f5f88dc43e40a31da"
+    },
+    {
+      "source": "B_locator/src/p4_layout_v2.py",
+      "destination": "src/p4_layout_v2.py",
+      "source_state": "commit",
+      "git_blob": "016cf9f5e136b69cd896c174780d91ed6f321e06",
+      "mode": "100644",
+      "destination_git_blob": "016cf9f5e136b69cd896c174780d91ed6f321e06"
+    },
+    {
+      "source": "B_locator/src/p4_layout_v2_bench.py",
+      "destination": "src/p4_layout_v2_bench.py",
+      "source_state": "commit",
+      "git_blob": "2973fe9540b05d3b175ba6a266042e1c6c74deb8",
+      "mode": "100644",
+      "destination_git_blob": "b9e2bed364cd2e5a1b9ddf0026547ff599612dae",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_layout_v2_checks.py",
+      "destination": "src/p4_layout_v2_checks.py",
+      "source_state": "commit",
+      "git_blob": "c0b6db0c82540532b433d302e30db07fe3c404e4",
+      "mode": "100644",
+      "destination_git_blob": "c0b6db0c82540532b433d302e30db07fe3c404e4"
+    },
+    {
+      "source": "B_locator/src/p4_layout_v2_dev.py",
+      "destination": "src/p4_layout_v2_dev.py",
+      "source_state": "commit",
+      "git_blob": "939756bcba577314d15fc0c17a9a30bd5c5a62e7",
+      "mode": "100644",
+      "destination_git_blob": "9ad59638dc5dc05a239bab73c4006c6d28e64b63",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_miss_where.py",
+      "destination": "src/p4_miss_where.py",
+      "source_state": "commit",
+      "git_blob": "1eafd9ab910747fd8a31f57b93026e2349dd1253",
+      "mode": "100644",
+      "destination_git_blob": "1eafd9ab910747fd8a31f57b93026e2349dd1253"
+    },
+    {
+      "source": "B_locator/src/p4_pareto.py",
+      "destination": "src/p4_pareto.py",
+      "source_state": "commit",
+      "git_blob": "41412a7c0bc2bec205a1793664690506a1a248e3",
+      "mode": "100644",
+      "destination_git_blob": "41412a7c0bc2bec205a1793664690506a1a248e3"
+    },
+    {
+      "source": "B_locator/src/p4_pareto_sim.py",
+      "destination": "src/p4_pareto_sim.py",
+      "source_state": "commit",
+      "git_blob": "91b90fd0f8af1e9cf279dc44dbe0c924640f3900",
+      "mode": "100644",
+      "destination_git_blob": "91b90fd0f8af1e9cf279dc44dbe0c924640f3900"
+    },
+    {
+      "source": "B_locator/src/p4_paths.py",
+      "destination": "src/p4_paths.py",
+      "source_state": "commit",
+      "git_blob": "65f2f96f1d6f1b2ba56fc2953d2c5f41927f4e6c",
+      "mode": "100644",
+      "destination_git_blob": "65f2f96f1d6f1b2ba56fc2953d2c5f41927f4e6c"
+    },
+    {
+      "source": "B_locator/src/p4_polish.py",
+      "destination": "src/p4_polish.py",
+      "source_state": "commit",
+      "git_blob": "84da801b62ee057f6ad0bc8152343fd2b889c4f3",
+      "mode": "100644",
+      "destination_git_blob": "84da801b62ee057f6ad0bc8152343fd2b889c4f3"
+    },
+    {
+      "source": "B_locator/src/p4_posterior.py",
+      "destination": "src/p4_posterior.py",
+      "source_state": "commit",
+      "git_blob": "2d6cd41b26f0a17afa9302ced90e521d9cf125ee",
+      "mode": "100644",
+      "destination_git_blob": "2d6cd41b26f0a17afa9302ced90e521d9cf125ee"
+    },
+    {
+      "source": "B_locator/src/p4_record.py",
+      "destination": "src/p4_record.py",
+      "source_state": "commit",
+      "git_blob": "21f2b235ad3920a88f9f88415a674ccc81a6a76e",
+      "mode": "100644",
+      "destination_git_blob": "c37ff6a25e42a87b29d5345a8e7a031701092fe1",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_ring_need.py",
+      "destination": "src/p4_ring_need.py",
+      "source_state": "commit",
+      "git_blob": "3911d8d43f1e5eef60dd52433a1766ec18c0dba2",
+      "mode": "100644",
+      "destination_git_blob": "3911d8d43f1e5eef60dd52433a1766ec18c0dba2"
+    },
+    {
+      "source": "B_locator/src/p4_ring_shape.py",
+      "destination": "src/p4_ring_shape.py",
+      "source_state": "commit",
+      "git_blob": "612bd4567d0ee3c930173aa6259b9102e4667c9c",
+      "mode": "100644",
+      "destination_git_blob": "612bd4567d0ee3c930173aa6259b9102e4667c9c"
+    },
+    {
+      "source": "B_locator/src/p4_robot.py",
+      "destination": "src/p4_robot.py",
+      "source_state": "commit",
+      "git_blob": "19bd294dcf962f3116f7ce36d7ed01a37979878e",
+      "mode": "100644",
+      "destination_git_blob": "19bd294dcf962f3116f7ce36d7ed01a37979878e"
+    },
+    {
+      "source": "B_locator/src/p4_route_ab.py",
+      "destination": "src/p4_route_ab.py",
+      "source_state": "commit",
+      "git_blob": "a600074bc97f22bf3502beb9110e68e0a7dad3bb",
+      "mode": "100644",
+      "destination_git_blob": "a600074bc97f22bf3502beb9110e68e0a7dad3bb"
+    },
+    {
+      "source": "B_locator/src/p4_route_audit.py",
+      "destination": "src/p4_route_audit.py",
+      "source_state": "commit",
+      "git_blob": "b1a5af5963b8b003048d38dd17651dba43800771",
+      "mode": "100644",
+      "destination_git_blob": "b1a5af5963b8b003048d38dd17651dba43800771"
+    },
+    {
+      "source": "B_locator/src/p4_route_v2.py",
+      "destination": "src/p4_route_v2.py",
+      "source_state": "commit",
+      "git_blob": "1c5a54c591189b766afa03ec5695a69830b63d86",
+      "mode": "100644",
+      "destination_git_blob": "1c5a54c591189b766afa03ec5695a69830b63d86"
+    },
+    {
+      "source": "B_locator/src/p4_route_v2_checks.py",
+      "destination": "src/p4_route_v2_checks.py",
+      "source_state": "commit",
+      "git_blob": "27350fed4b249c32385cfbbf20ef97a784186bb5",
+      "mode": "100644",
+      "destination_git_blob": "27350fed4b249c32385cfbbf20ef97a784186bb5"
+    },
+    {
+      "source": "B_locator/src/p4_route_v2_dev.py",
+      "destination": "src/p4_route_v2_dev.py",
+      "source_state": "commit",
+      "git_blob": "9e2abfc5405db3f2fb05303e58b2a8a22e781260",
+      "mode": "100644",
+      "destination_git_blob": "4db7e0d5b7188081450de85d98d75a34ac840a07",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_run.py",
+      "destination": "src/p4_run.py",
+      "source_state": "commit",
+      "git_blob": "c0d22ab13e73e97e1927d9105e2621db8fbd60e4",
+      "mode": "100644",
+      "destination_git_blob": "c0d22ab13e73e97e1927d9105e2621db8fbd60e4"
+    },
+    {
+      "source": "B_locator/src/p4_search.py",
+      "destination": "src/p4_search.py",
+      "source_state": "commit",
+      "git_blob": "cd22396c7dd4fe4704dea5247aa475ef25818199",
+      "mode": "100644",
+      "destination_git_blob": "cd22396c7dd4fe4704dea5247aa475ef25818199"
+    },
+    {
+      "source": "B_locator/src/p4_search_bench.py",
+      "destination": "src/p4_search_bench.py",
+      "source_state": "commit",
+      "git_blob": "341a5d9041105e5b85f0be9546b456aeac85f7c1",
+      "mode": "100644",
+      "destination_git_blob": "67cc85a55740b281758cf2d99e575ac2f72e8070",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_search_checks.py",
+      "destination": "src/p4_search_checks.py",
+      "source_state": "commit",
+      "git_blob": "24fe335e957777bfbc20c80c28cfac7c0b463472",
+      "mode": "100644",
+      "destination_git_blob": "24fe335e957777bfbc20c80c28cfac7c0b463472"
+    },
+    {
+      "source": "B_locator/src/p4_search_paths.py",
+      "destination": "src/p4_search_paths.py",
+      "source_state": "commit",
+      "git_blob": "d537d8f3e96b9f57b16bc7d49a1321462fe9b9fb",
+      "mode": "100644",
+      "destination_git_blob": "d537d8f3e96b9f57b16bc7d49a1321462fe9b9fb"
+    },
+    {
+      "source": "B_locator/src/p4_search_report.py",
+      "destination": "src/p4_search_report.py",
+      "source_state": "commit",
+      "git_blob": "92943f878a100bf928202db8da1242bd32277ad4",
+      "mode": "100644",
+      "destination_git_blob": "dd984a3b7969ec13348cb5dbbbcbece99a03fe77",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_search_tune.py",
+      "destination": "src/p4_search_tune.py",
+      "source_state": "commit",
+      "git_blob": "e34594df40875bda8575021d08ac340b4eaac207",
+      "mode": "100644",
+      "destination_git_blob": "d4e6bee0b2b5ce7162da82c14673201da0b625f2",
+      "adapted": "路径字面量 B_locator/(src|out) -> B_locator/Q4/(src|out)"
+    },
+    {
+      "source": "B_locator/src/p4_selftest.py",
+      "destination": "src/p4_selftest.py",
+      "source_state": "commit",
+      "git_blob": "1fd2946506494ae63672f4dc4f8fe45527a65227",
+      "mode": "100644",
+      "destination_git_blob": "1fd2946506494ae63672f4dc4f8fe45527a65227"
+    },
+    {
+      "source": "B_locator/src/p4_service_v2.py",
+      "destination": "src/p4_service_v2.py",
+      "source_state": "commit",
+      "git_blob": "a94d813af0632eae9e36118adac8015ccbb401a2",
+      "mode": "100644",
+      "destination_git_blob": "a94d813af0632eae9e36118adac8015ccbb401a2"
+    },
+    {
+      "source": "B_locator/src/p4_spiral_ab.py",
+      "destination": "src/p4_spiral_ab.py",
+      "source_state": "commit",
+      "git_blob": "63db735908059bd8e34b1c72ca43ea235a223ef6",
+      "mode": "100644",
+      "destination_git_blob": "63db735908059bd8e34b1c72ca43ea235a223ef6"
+    },
+    {
+      "source": "B_locator/src/p4_tradeoff.py",
+      "destination": "src/p4_tradeoff.py",
+      "source_state": "commit",
+      "git_blob": "33cbc0d9b307b85723503bec14d8e432a9e53f83",
+      "mode": "100644",
+      "destination_git_blob": "33cbc0d9b307b85723503bec14d8e432a9e53f83"
+    },
+    {
+      "source": "B_locator/src/p4_tune_detour.py",
+      "destination": "src/p4_tune_detour.py",
+      "source_state": "commit",
+      "git_blob": "506b80f3a1de32a8d092fe0ee5d6a0256856b1a2",
+      "mode": "100644",
+      "destination_git_blob": "506b80f3a1de32a8d092fe0ee5d6a0256856b1a2"
+    },
+    {
+      "source": "B_locator/src/p4_tune_unified.py",
+      "destination": "src/p4_tune_unified.py",
+      "source_state": "commit",
+      "git_blob": "92ff3aac520801a4f34160ee5eb0d8a01a9c9008",
+      "mode": "100644",
+      "destination_git_blob": "92ff3aac520801a4f34160ee5eb0d8a01a9c9008"
+    },
+    {
+      "source": "B_locator/src/p4_why.py",
+      "destination": "src/p4_why.py",
+      "source_state": "commit",
+      "git_blob": "a456679a866d95f056dd84240a8fedc8044ac1a1",
+      "mode": "100644",
+      "destination_git_blob": "a456679a866d95f056dd84240a8fedc8044ac1a1"
+    },
+    {
+      "source": "B_locator/review/P4-design.md",
+      "destination": "review/P4-design.md",
+      "source_state": "commit",
+      "git_blob": "c1b364fee8b24f94a5abec4bdb1702fd0911946d",
+      "mode": "100644",
+      "destination_git_blob": "c1b364fee8b24f94a5abec4bdb1702fd0911946d"
+    },
+    {
+      "source": "B_locator/review/out_p4_l6.txt",
+      "destination": "review/out_p4_l6.txt",
+      "source_state": "worktree",
+      "git_blob": "2bac9d7b3803abc4eed71fb91c3354f863117f1f",
+      "mode": "100755",
+      "destination_git_blob": "2bac9d7b3803abc4eed71fb91c3354f863117f1f",
+      "note": "源分支未入库（.gitignore 排除 B_locator/review/），取自工作区"
+    },
+    {
+      "source": "B_locator/review/p4-compact-design.md",
+      "destination": "review/p4-compact-design.md",
+      "source_state": "worktree",
+      "git_blob": "fa6359657b1eb86c33f8e3df428989f049e7b803",
+      "mode": "100755",
+      "destination_git_blob": "fa6359657b1eb86c33f8e3df428989f049e7b803",
+      "note": "源分支未入库（.gitignore 排除 B_locator/review/），取自工作区"
+    },
+    {
+      "source": "B_locator/review/p4-search-design.md",
+      "destination": "review/p4-search-design.md",
+      "source_state": "worktree",
+      "git_blob": "8638cb77c72a1e29c2f92dbb501334356bc38a0a",
+      "mode": "100755",
+      "destination_git_blob": "8638cb77c72a1e29c2f92dbb501334356bc38a0a",
+      "note": "源分支未入库（.gitignore 排除 B_locator/review/），取自工作区"
+    },
+    {
+      "source": "B_locator/review/p4_cone_semantics.py",
+      "destination": "review/p4_cone_semantics.py",
+      "source_state": "commit",
+      "git_blob": "299dfd03d48ea5c4abb54fa86b65c1625fc39ba9",
+      "mode": "100644",
+      "destination_git_blob": "299dfd03d48ea5c4abb54fa86b65c1625fc39ba9"
+    },
+    {
+      "source": "B_locator/review/p4_dir_semantics.py",
+      "destination": "review/p4_dir_semantics.py",
+      "source_state": "worktree",
+      "git_blob": "872ecfbbf3e25368b00396612a1ae9b51e638856",
+      "mode": "100755",
+      "destination_git_blob": "872ecfbbf3e25368b00396612a1ae9b51e638856",
+      "note": "源分支未入库（.gitignore 排除 B_locator/review/），取自工作区"
+    },
+    {
+      "source": null,
+      "destination": "scripts/run_p4.py",
+      "source_state": "generated",
+      "git_blob": null,
+      "mode": null,
+      "destination_git_blob": "0b2f63a72cecf4e9ef1835b338a2a6ed8645ef4f",
+      "note": "本次新增的转发入口，对应 src/p4_run.py"
+    },
+    {
+      "source": null,
+      "destination": "tests/selftest_p4.py",
+      "source_state": "generated",
+      "git_blob": null,
+      "mode": null,
+      "destination_git_blob": "0d94b6f7d6ca553b9752199f003c88382501ceaa",
+      "note": "本次新增的转发入口，对应 src/p4_selftest.py"
+    },
+    {
+      "source": null,
+      "destination": "out/.gitkeep",
+      "source_state": "generated",
+      "git_blob": null,
+      "mode": null,
+      "destination_git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "note": "输出目录占位"
+    }
+  ]
+}
