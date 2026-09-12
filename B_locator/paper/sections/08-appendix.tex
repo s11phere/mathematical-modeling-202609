@@ -17,7 +17,7 @@
 \item \texttt{Q1/make\_figures.py}：重绘问题一角楔示意、算法流程和覆盖对比三幅插图。
 \item \texttt{Q1/cases/}：五组输入 CSV 及真值核验文件；\texttt{Q1/results/}：逐例结果和汇总 JSON。
     \item \texttt{Q2/pysimulation/src/p2\_grid\_expectation.py}：问题二数值模拟源程序，交会四边形直径、加权期望、寻优与候选区域（附录~\ref{app:q2code}）。
-    \item \texttt{Q2/MMAcode/expected\_d mathematica\_ver.nb}：理论闭式解的 Mathematica 程序，导出 $15$ m 网格上的 $E[D]$ 与最优点。
+    \item \texttt{Q2/MMAcode/Q2\_theory\_corrected.wl}：按理论闭式公式进行 $200$ 点中点加权求积的 Mathematica 程序，导出 $15$ m 网格上的 $E[D]$ 与最优点。
     \item \texttt{Q2/pysimulation/out/p2\_grid/p2\_grid\_map.csv}、\texttt{p2\_grid\_report.json}：数值模拟逐点结果与汇总统计（本文数值来源）。
     \item \texttt{Q2/make\_q2\_paper\_figures.py}：问题二正文插图生成脚本（由上述两份原始数据出图）。
     \item \texttt{figures/p2-mma-vs-pysim.png}：理论闭式解与数值模拟的并排对比（图~\ref{fig:p2-mma-py}）。
@@ -45,65 +45,17 @@ python Q1/make_figures.py
 \lstinputlisting[language=python, caption={Q1/make\_figures.py}]{../Q1/make_figures.py}
 
 \section{问题二主要源程序}\label{app:q2code}
-问题二的完整源程序（支撑材料 \texttt{Q2/src/q2\_solution.py}）见下，仅保留与正文
-式~\eqref{eq:value-1d}--\eqref{eq:value-integral} 直接对应的部分：交会四边形顶点、
-四边形直径与加权期望；寻优与等值区域统计略去，完整脚本见支撑材料。
+以下列出问题二理论计算的 Mathematica 源程序。程序直接实现式~\eqref{eq:value-integral}
+的中点加权求积并导出 $15$ m 网格数据；Python 数值模拟程序保留在支撑材料路径中。
 
-\begin{lstlisting}[language=python, caption={问题二：期望定位区域直径与最优点、候选区域（Python 3）}]
-import math
-import numpy as np
-
-X_MAX, ALPHA_DEG = 1500.0, 1.0        # 有效接收半径；示向度误差界
-ALPHA = math.radians(ALPHA_DEG)       # 探测束半张角
-
-
-def quad_vertices(x_t, a, b, alpha=ALPHA):
-    """S1 的两条边界射线（与 x 轴成 +-alpha）与 S2 的两条边界射线
-    （绕 S2->S 方向成 +-alpha）两两求交，得交会四边形 ABCD 的四个顶点。"""
-    s2 = np.array([a, b])
-    psi = math.atan2(-b, x_t - a)      # S 相对 S2 的方位角
-    pts = []
-    for t1 in (alpha, -alpha):
-        u1 = np.array([math.cos(t1), math.sin(t1)])
-        for t2 in (psi + alpha, psi - alpha):
-            u2 = np.array([math.cos(t2), math.sin(t2)])
-            den = u1[0] * u2[1] - u1[1] * u2[0]
-            if abs(den) < 1e-14:       # 两射线平行：定位区域无界
-                return None
-            s = (s2[0] * u2[1] - s2[1] * u2[0]) / den
-            pts.append(s * u1)
-    return np.array(pts)
-
-
-def quad_diameter(x_t, a, b, alpha=ALPHA):
-    """定位区域直径 D = 四边形顶点两两距离的最大值。"""
-    p = quad_vertices(x_t, a, b, alpha)
-    if p is None:
-        return math.inf
-    d = p[:, None, :] - p[None, :, :]
-    return float(np.sqrt((d ** 2).sum(-1)).max())
-
-
-def dbar(a, b, n=800, alpha=ALPHA):
-    """期望定位区域直径：按 P_T(x_T|S1) = 2 x_T / x_max^2 加权求和。"""
-    if abs(b) < 1e-9:                  # 两点与源点共线，区域无界
-        return math.inf
-    x_t = X_MAX * (np.arange(n) + 0.5) / n
-    w = 2.0 * x_t / X_MAX ** 2
-    d = np.array([quad_diameter(float(x), a, b, alpha) for x in x_t])
-    if not np.isfinite(d).all():
-        return math.inf
-    return float((w * d).sum() / w.sum())
-
-
-if __name__ == "__main__":             # 自检：粗网格上的最优相对位形
-    best = min(((dbar(x * 1.0, y * 1.0), x, y)
-                for x in range(950, 1251, 25) for y in range(500, 901, 25)),
-               key=lambda t: t[0])
-    print("Dbar_min = %.2f m at (a,b) = (%.0f, %.0f) m" % best)
-\end{lstlisting}
+\subsection{理论公式的 Mathematica 中点求积}
+程序运行后在自身目录生成 \texttt{Q2\_expected\_diameter\_data.csv}。
+\lstinputlisting[language={}, caption={Q2/MMAcode/Q2\_theory\_corrected.wl}]{../Q2/MMAcode/Q2_theory_corrected.wl}
 
 \section{问题三、四主程序（待补）}
 问题三、问题四的策略与算法完成后，其完整可运行源程序将补充于此（对应支撑材料
 \texttt{code/main.py}）；该程序负责与模拟器交互，完成多源搜索、定位与清除的全过程。
 \end{appendices}
+
+
+

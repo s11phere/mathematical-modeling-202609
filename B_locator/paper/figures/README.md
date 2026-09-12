@@ -8,14 +8,14 @@
 | `p1-algorithm-flow.png` | **正文图 2**（`sections/05-model.tex` 5.1.3 节） | 问题一求解算法流程（`\includegraphics[width=.61\textwidth]`） |
 | `p1-coverage-contrast.png` | **正文图 3**（`sections/05-model.tex` 5.1.4 节） | 直径圆覆盖判定成立/失败对照，(a) $A_1$、(b) $A_2$ 双面板（`.88\textwidth`），图内已标出越界顶点 $P$ 与 $|PM|>D/2$ |
 | `p2-wedge-geometry.png` | **正文图 4**（5.2.2 节） | 两探测束交会与定位区域直径构造：两探测束相交出 $ABCD$、直径由对角线给出、视线交角 $\alpha$ 与 $r_{2T}$；右上角为交会区域局部放大（`.72\textwidth`） |
-| `p2-mma-vs-pysim.png` | **正文图 5**（5.2.4 节） | 期望定位区域直径 $E[D]$ 的并排对比：(a) 理论闭式解（Mathematica，15 m 网格）；(b) 数值模拟（Python，30 m 网格）。两图共用同一坐标系、非线性色标与极小值标注，吻合度可目视直接比对（`\textwidth`） |
+| `p2-mma-vs-pysim.png` | **正文图 5**（5.2.4 节） | 期望定位区域直径 $E[D]$ 的并排对比：(a) 理论闭式解（Mathematica，15 m 网格，200 点中点求积）；(b) 数值模拟（Python，30 m 网格）。两图共用同一坐标系、非线性色标与极小值标注（`\textwidth`） |
 | `p2-contour60.png` | **正文图 6**（5.2.4 节） | $E[D]\le60$ m 等值线围出的第二检测点待选区域，浅蓝填充，两条闭合回路关于视线方向对称（`.58\textwidth`） |
 | `p2-mma-heatmap.png` | 备用（未进正文） | 正文图 5(a) 的单幅版本（5.3 in 见方） |
 | `p2-pysim-heatmap.png` | 备用（未进正文） | 正文图 5(b) 的单幅版本（5.3 in 见方） |
 
 > **进正文的 6 张图不要删除或移动**，均为支撑材料（附录 A 清单里的 `figures/` 下文件）；
 > 其中 3 张问题一插图在扁平的 `../Q1/` 下各有一份同名副本（交付用），改动后两份须同步。
-> 问题二的原始材料（`Q2modeling.md` 里的参考热力图 `Q2_expected_diameter_heatmap.png`、
+> 问题二的原始材料（`Q2modeling.md` 里的参考热力图 `p2-mma-heatmap.png`、
 > `wedge_diagram.png` 及 Mathematica 脚本）保留在 `../Q2/`；其中 Mathematica 脚本与其导出的
 > 数据、图表统一存放于 `../Q2/MMAcode/`。
 >
@@ -37,8 +37,9 @@
 | `../Q2/illustration_plot_Q2.py` | `p2-wedge-geometry.png`（**图 4**） |
 | `../Q2/make_q2_paper_figures.py` | `p2-mma-vs-pysim.png`（**图 5**）、`p2-contour60.png`（**图 6**）、`p2-mma-heatmap.png`、`p2-pysim-heatmap.png` |
 
-数据来源：图 5(a)/图 6 取 `../Q2/MMAcode/Q2_expected_diameter_data.csv`（Mathematica
-导出的 15 m 网格闭式解）；图 5(b) 取 `../Q2/pysimulation/out/p2_grid/p2_grid_map.csv`
+数据来源：图 5(a)/图 6 取 `../Q2/MMAcode/Q2_expected_diameter_data.csv`（由
+`Q2_theory_corrected.nb` 按理论闭式公式导出的 15 m 网格结果）；图 5(b) 取
+`../Q2/pysimulation/out/p2_grid/p2_grid_map.csv`
 （Python 数值模拟的 30 m 网格结果）。脚本会自动把生成的 png 同时写入
 `../Q2/figures/` 与本目录。
 
