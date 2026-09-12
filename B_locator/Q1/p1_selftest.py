@@ -40,8 +40,11 @@ def load_case(path):
             [float(r["svd_deg"]) for r in rows])
 
 
+CASES = os.path.join(HERE, "cases")          # 算例统一放在 cases/ 子目录
+
+
 def case_files():
-    return sorted(f for f in os.listdir(HERE)
+    return sorted(f for f in os.listdir(CASES)
                   if f.startswith("p1_case") and f.endswith(".csv"))
 
 
@@ -51,8 +54,8 @@ def main():
 
     for fn in files:
         name = fn[:-4]
-        csv_path = os.path.join(HERE, fn)
-        truth_path = os.path.join(HERE, name + ".truth.json")
+        csv_path = os.path.join(CASES, fn)
+        truth_path = os.path.join(CASES, name + ".truth.json")
         pts, svds = load_case(csv_path)
         res = P.run_case_csv(csv_path, truth_path)
         full = E.solve_full(pts, svds)
@@ -89,15 +92,15 @@ def main():
 
     # I7 算例可逐字节复现
     with tempfile.TemporaryDirectory() as tmp:
-        E.gen_cases(tmp, E.DEFAULT_SEED, len(files))
+        E.gen_cases(tmp, E.DEFAULT_SEED, len(files))   # 生成到临时目录（无 cases/ 子目录）
         same = []
         for fn in files:
             a = open(os.path.join(tmp, fn), "rb").read()
-            b = open(os.path.join(HERE, fn), "rb").read()
+            b = open(os.path.join(CASES, fn), "rb").read()
             same.append(a == b)
             tf = fn[:-4] + ".truth.json"
             same.append(open(os.path.join(tmp, tf), "rb").read()
-                        == open(os.path.join(HERE, tf), "rb").read())
+                        == open(os.path.join(CASES, tf), "rb").read())
         check("I7 算例逐字节可复现", all(same),
               "%d/%d 个文件一致" % (sum(same), len(same)))
 
@@ -129,7 +132,7 @@ def main():
                                              s2e["worst_ratio"]))
     bad = []
     for rec in summary["per_case"]:
-        csv_path = os.path.join(HERE, rec["case"])
+        csv_path = os.path.join(CASES, rec["case"])
         pts, svds = load_case(csv_path)
         full = E.solve_full(pts, svds)
         if abs(round(full["ratio"], 6) - rec["ratio"]) > 1e-12 or full["covers"] != rec["coverage"]:
