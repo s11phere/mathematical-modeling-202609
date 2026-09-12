@@ -11,7 +11,7 @@
 %      latexmk -xelatex main.tex
 %   或  xelatex main.tex （连续运行两次以更新交叉引用）
 % =====================================================================
-\documentclass[withoutpreface]{cumcmthesis}
+\documentclass[withoutpreface,fontset=none]{cumcmthesis}
 
 % =====================================================================
 % 排版紧凑化（适中档）：覆盖模板默认的宽松参数，使整体更紧凑。
@@ -27,6 +27,8 @@
 \renewcommand*{\mcm@cap@keywordsname}{关键词}
 % 正文行距
 \renewcommand*{\baselinestretch}{1.25}
+% 为含较长行内公式的段落保留断行余量。
+\setlength{\emergencystretch}{1.5em}
 % 三线表行距（复用模板保存的原始 tabular）
 \renewenvironment{tabular}%
   {\bgroup\renewcommand{\arraystretch}{1.0}\mcm@oldtabular}%
@@ -52,6 +54,24 @@
 % macOS/Linux 下则消除第二套宋体（Songti SC / 其他系统宋体）。cls 仅改了字体路径。
 \setCJKmainfont[AutoFakeBold,Path=fonts/]{simsun.ttc}
 \setCJKfamilyfont{zhsong}[AutoFakeBold,Path=fonts/]{simsun.ttc}
+% 显式选择黑体，避免 macOS 旧字体别名 STHeiti 无法解析。
+\IfFileExists{/System/Library/Fonts/STHeiti Medium.ttc}{%
+  \setCJKsansfont[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+  \setCJKfamilyfont{zhhei}[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+}{%
+  \IfFontExistsTF{SimHei}{%
+    \setCJKsansfont[AutoFakeBold]{SimHei}
+    \setCJKfamilyfont{zhhei}[AutoFakeBold]{SimHei}
+  }{%
+    \setCJKsansfont[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+    \setCJKfamilyfont{zhhei}[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+  }
+}
+\setCJKmonofont[AutoFakeBold,Path=fonts/]{simsun.ttc}
+\providecommand{\heiti}{\CJKfamily{zhhei}}
+\providecommand{\songti}{\CJKfamily{zhsong}}
+\providecommand{\kaishu}{\CJKfamily{zhkai}}
+\setCJKfamilyfont{zhkai}[Path=fonts/]{simkai.ttf}
 % 论文标题与「摘要」二字同样用黑体。
 % 「摘要」二字在 \abstract 里，可直接打补丁；论文标题在 \@maketitle 里（其定义含 \par，
 % etoolbox 的 \patchcmd 无法打补丁），改为给 \@maketitle 套一层 \heiti——标题行没有显式

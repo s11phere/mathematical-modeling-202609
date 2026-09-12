@@ -1,23 +1,8 @@
 # -*- coding: utf-8 -*-
-"""B 题问题一：算例生成、逐例求解与四组随机扫描（论文数值的唯一来源）。
+"""问题一：固定种子生成五组算例，求解并统计四组几何扫描。
 
-运行（在扁平的 Q1/ 目录下）：
-    python p1_experiments.py                  # 生成算例 + 求解 + 四组扫描
-    python p1_experiments.py --skip-sweep     # 只跑 5 组算例
-
-产出（默认写到本文件所在目录）：
-    cases/p1_case01.csv ~ p1_case05.csv   5 组自造良态算例（后三列为真值，仅自检用）
-    cases/p1_case01.truth.json ~ ...      每组算例的真值与方位统计
-    p1_results.jsonl                      逐例求解结果（全字段）
-    p1_summary.json                       算例汇总 + 四组随机扫描统计 + 元信息
-
-算例生成使用固定种子（默认 20260901），同种子下逐字节可复现；随机扫描用固定种子
-17（两测点构型，20000 次）与 5（3~6 个检测点的良态构型，4000 次），各分两种口径：
-理想构型的示向度精确指向源点（无测向误差），实际构型在同一批构型上叠加 ±BEARING_ERR
-的测向误差（与算例生成器 make_case_p1 同分布）。误差取自独立随机流，故两组构型
-逐例配对，只有误差取法不同。
-覆盖判据一律按全精度几何计算（analyse() 落盘的顶点/直径为 4 位小数，直接反算会引入
-约 1e-4 m 的舍入噪声，不能用于统计）。
+运行 python p1_experiments.py；数据写入 cases/ 和 results/。
+加 --skip-sweep 只计算算例，使用独立结果名，避免覆盖完整扫描。
 """
 from __future__ import annotations
 import argparse
@@ -31,7 +16,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import p1_intersection as P                                      # noqa: E402
+import p1_intersection as P
 
 R_ARENA = 1800.0                          # 目标区域半径（m）
 R_RECV_MIN, R_RECV_MAX = 1000.0, 1500.0   # 有效接收距离范围（m）
@@ -74,9 +59,6 @@ def measure(src, p):
     return "direction", bearing(p, src["xy"])
 
 
-# --------------------------------------------------------------------------
-# 算例生成（随机数调用序列固定，同种子逐字节可复现）
-# --------------------------------------------------------------------------
 def make_case_p1(rng, n_pts=3, min_az_gap=25.0, min_dist=150.0,
                  max_dist=1300.0, spread=140.0):
     """生成一组"良态"算例：检测点分布在干扰源四周一定方位张角内，且有最小间隔与距离。"""
@@ -160,18 +142,11 @@ def gen_cases(out_dir, seed=DEFAULT_SEED, n_cases=5):
     return out
 
 
-# --------------------------------------------------------------------------
-# 全精度求解（统计用）
-# --------------------------------------------------------------------------
 def solve_full(pts, svds):
     """返回 dict：status / D / half / max_vertex_dist / ratio / excess / covers。"""
-    V, st = P.region_by_vertices(pts, svds)
-    if st == "empty":
-        return {"status": "empty"}
-    if P.region_is_unbounded(list(svds)) is not None:
-        return {"status": "unbounded"}
-    if st != "polygon":
-        return {"status": "degenerate"}
+    V, st = P.region_from_bearings(pts, svds)
+    if st != "bounded":
+        return {"status": st}
     D, (A, B) = P.diameter(V)
     M = 0.5 * (A + B)
     dists = np.linalg.norm(V - M, axis=1)
@@ -187,7 +162,7 @@ def solve_full(pts, svds):
         angle = math.degrees(math.acos(max(-1.0, min(1.0, cosang))))
     return {"status": "bounded", "D": float(D), "half": float(half),
             "max_vertex_dist": maxr, "ratio": maxr / half,
-            "excess": maxr - half, "covers": bool(maxr <= half + 1e-9),
+            "excess": maxr - half, "covers": bool(maxr <= half + P.COVER_TOL),
             "worst_vertex_angle_deg": angle}
 
 
@@ -212,10 +187,6 @@ def run_cases(case_paths):
     return results
 
 
-# --------------------------------------------------------------------------
-# 四组随机扫描：统计"直径圆覆盖定位区域"的失败率与最坏比值
-#   理想构型（无测向误差）与实际构型（同一批构型 + ±BEARING_ERR 测向误差）各两组
-# --------------------------------------------------------------------------
 def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["seed"],
                     r_max=SWEEP_TWO_POINT["r_max"], with_error=False):
     """两测点构型：检测点落在半径 r_max 的目标区域内，方位差 3°~179°，只统计有界者。
@@ -226,7 +197,7 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
     rng = random.Random(seed)
     erng = random.Random(seed + SWEEP_ERR_SEED_OFFSET)
     n_bounded = n_fail = 0
-    n_unbounded = n_empty = n_degenerate = 0
+    n_unbounded = n_empty = n_degenerate = n_rejected = 0
     worst = None
     for _ in range(n_trials):
         dth = rng.uniform(3.0, 179.0)
@@ -238,6 +209,7 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
         B = (r2 * math.cos(math.radians(th2 + 180.0)),
              r2 * math.sin(math.radians(th2 + 180.0)))
         if math.hypot(*A) > r_max or math.hypot(*B) > r_max:
+            n_rejected += 1
             continue
         if with_error:                       # 测得示向度 = 真方位角 + 误差
             th1 = (th1 + erng.uniform(-P.BEARING_ERR, P.BEARING_ERR)) % 360.0
@@ -253,8 +225,8 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
             continue
         n_bounded += 1
         if worst is None or st["ratio"] > worst["ratio"]:
-            worst = {"S1": [round(A[0], 3), round(A[1], 3), round(th1, 4)],
-                     "S2": [round(B[0], 3), round(B[1], 3), round(th2, 4)],
+            worst = {"S1": [A[0], A[1], th1],
+                     "S2": [B[0], B[1], th2],
                      "D_m": round(st["D"], 4), "max_vertex_dist_m": round(st["max_vertex_dist"], 4),
                      "ratio": round(st["ratio"], 6), "covers": st["covers"]}
         if not st["covers"]:
@@ -264,6 +236,7 @@ def sweep_two_point(n_trials=SWEEP_TWO_POINT["n_trials"], seed=SWEEP_TWO_POINT["
             "bearing_error_deg": P.BEARING_ERR if with_error else 0.0,
             "n_bounded": n_bounded, "n_fail": n_fail,
             "n_unbounded": n_unbounded, "n_empty": n_empty, "n_degenerate": n_degenerate,
+            "n_rejected_geometry": n_rejected,
             "fail_pct": 100.0 * n_fail / max(n_bounded, 1),
             "worst_ratio": None if worst is None else worst["ratio"],
             "worst_config": worst}
@@ -282,7 +255,7 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
     rng = random.Random(seed)
     erng = random.Random(seed + SWEEP_ERR_SEED_OFFSET)
     n_bounded = n_fail = 0
-    n_unbounded = n_empty = n_degenerate = 0
+    n_unbounded = n_empty = n_degenerate = n_rejected = 0
     per_m = {str(m): {"bounded": 0, "fail": 0} for m in m_choices}
     worst = None
     for _ in range(n_trials):
@@ -291,6 +264,7 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
         gaps = [min((angs[i] - angs[j]) % 360.0, (angs[j] - angs[i]) % 360.0)
                 for i in range(m) for j in range(i + 1, m)]
         if min(gaps) <= min_gap:
+            n_rejected += 1
             continue
         pts, svds = [], []
         for t in angs:
@@ -312,8 +286,8 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
         n_bounded += 1
         per_m[str(m)]["bounded"] += 1
         if worst is None or st["ratio"] > worst["ratio"]:
-            worst = {"m": m, "pts": [[round(p[0], 3), round(p[1], 3)] for p in pts],
-                     "svds_deg": [round(s, 4) for s in svds],
+            worst = {"m": m, "pts": [list(p) for p in pts],
+                     "svds_deg": list(svds),
                      "D_m": round(st["D"], 4), "max_vertex_dist_m": round(st["max_vertex_dist"], 4),
                      "ratio": round(st["ratio"], 6), "covers": st["covers"]}
         if not st["covers"]:
@@ -327,14 +301,12 @@ def sweep_well_conditioned(n_trials=SWEEP_WELL_COND["n_trials"],
             "bearing_error_deg": P.BEARING_ERR if with_error else 0.0,
             "n_bounded": n_bounded, "n_fail": n_fail,
             "n_unbounded": n_unbounded, "n_empty": n_empty, "n_degenerate": n_degenerate,
+            "n_rejected_geometry": n_rejected,
             "fail_pct": 100.0 * n_fail / max(n_bounded, 1),
             "worst_ratio": None if worst is None else worst["ratio"],
             "worst_config": worst, "per_m": per_m}
 
 
-# --------------------------------------------------------------------------
-# 汇总与主程序
-# --------------------------------------------------------------------------
 SWEEP_PARAM_KEYS = ("n_trials", "seed", "r_max_m", "min_gap_deg", "dist_range_m",
                     "m_choices", "with_error", "bearing_error_deg")
 
@@ -366,10 +338,12 @@ def build_summary(case_paths, results, sweeps, seed):
                  "center_error_vs_truth_m": r.get("center_error_vs_truth_m"),
                  "truth_inside_region": r.get("truth_inside_region")} for r in results]
     meta = {"seed": seed, "n_cases": len(results),
+            "coverage_tolerance_m": P.COVER_TOL,
+            "halfplane_tolerance_m": P.DIST_TOL,
             "arena_radius_m": R_ARENA,
             "bearing_error_bound_deg": P.BEARING_ERR,
             "r_recv_range_m": [R_RECV_MIN, R_RECV_MAX],
-            "case_files": [os.path.basename(c) for c, _ in case_paths],
+            "case_files": ["cases/" + os.path.basename(c) for c, _ in case_paths],
             "sweeps": {k: {p: s[p] for p in SWEEP_PARAM_KEYS if p in s}
                        for k, s in sweeps.items()}}
     return {"meta": meta, "cases_summary": cases_summary, "per_case": per_case,
@@ -393,6 +367,38 @@ def empty_sweep(base, with_error):
     return d
 
 
+def validate_cases(case_paths):
+    """复算五组算例的裁剪误差、直径及真值约束，保存正文校验量。"""
+    max_vertex_error = max_diameter_error = 0.0
+    spans, gaps, distances = [], [], []
+    for csv_path, truth_path in case_paths:
+        with open(csv_path, encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        with open(truth_path, encoding="utf-8") as f:
+            truth = json.load(f)
+        pts = [(float(r["x_m"]), float(r["y_m"])) for r in rows]
+        svds = [float(r["svd_deg"]) for r in rows]
+        V, status = P.region_from_bearings(pts, svds)
+        C, _ = P.region_by_clipping(pts, svds)
+        error = max(min(float(np.linalg.norm(v - c)) for c in C) for v in V)
+        D, _ = P.diameter(V)
+        Dc, _ = P.rotating_calipers(V)
+        assert status == "bounded" and len(V) == len(C) and error < 1e-6
+        assert abs(D - Dc) < 1e-9
+        assert P.run_case_csv(csv_path, truth_path)["truth_inside_region"]
+        max_vertex_error = max(max_vertex_error, error)
+        max_diameter_error = max(max_diameter_error, abs(D - Dc))
+        spans.append(truth["azimuth_span_deg"])
+        gaps.append(truth["min_azimuth_gap_deg"])
+        distances.extend(float(row["dist_m"]) for row in rows)
+    return {"cases_checked": len(case_paths),
+            "max_vertex_difference_m": max_vertex_error,
+            "max_diameter_difference_m": max_diameter_error,
+            "azimuth_span_deg_range": [min(spans), max(spans)],
+            "min_azimuth_gap_deg": min(gaps),
+            "source_distance_m_range": [min(distances), max(distances)]}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="问题一：算例生成 + 逐例求解 + 四组随机扫描")
     ap.add_argument("--out", default=os.path.dirname(os.path.abspath(__file__)),
@@ -401,15 +407,19 @@ def main(argv=None):
     ap.add_argument("--cases", type=int, default=5, help="算例组数")
     ap.add_argument("--skip-sweep", action="store_true", help="跳过四组随机扫描")
     args = ap.parse_args(argv)
+    if args.cases < 1:
+        ap.error("算例数须为正整数")
 
     out = os.path.abspath(args.out)
     os.makedirs(out, exist_ok=True)
-    case_dir = os.path.join(out, "cases")          # 算例统一放在 cases/ 子目录，避免与其他文件混放
+    case_dir = os.path.join(out, "cases")
     os.makedirs(case_dir, exist_ok=True)
+    result_dir = os.path.join(out, "results")
+    os.makedirs(result_dir, exist_ok=True)
     case_paths = gen_cases(case_dir, args.seed, args.cases)
     results = run_cases(case_paths)
 
-    jl = os.path.join(out, "p1_results.jsonl")
+    jl = os.path.join(result_dir, "p1_results.jsonl")
     with open(jl, "w", encoding="utf-8") as f:
         for r in results:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -426,7 +436,9 @@ def main(argv=None):
                   "well_conditioned_err": sweep_well_conditioned(with_error=True)}
 
     summary = build_summary(case_paths, results, sweeps, args.seed)
-    with open(os.path.join(out, "p1_summary.json"), "w", encoding="utf-8") as f:
+    summary["validation"] = validate_cases(case_paths)
+    summary_name = "p1_cases_only.json" if args.skip_sweep else "p1_summary.json"
+    with open(os.path.join(result_dir, summary_name), "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
     print("== 逐例结果（%s） ==" % out)
@@ -445,10 +457,11 @@ def main(argv=None):
                           ("well_conditioned_err", "3~6 测点 实际")):
             s = sweeps[key]
             print("%-14s: trials=%d bounded=%d fail=%d (%.4f%%) worst_ratio=%s "
-                  "[unbounded=%d empty=%d degenerate=%d]" % (
+                  "[unbounded=%d empty=%d degenerate=%d rejected=%d]" % (
                       name, s["n_trials"], s["n_bounded"], s["n_fail"], s["fail_pct"],
                       "-" if s["worst_ratio"] is None else "%.6f" % s["worst_ratio"],
-                      s["n_unbounded"], s["n_empty"], s["n_degenerate"]))
+                      s["n_unbounded"], s["n_empty"], s["n_degenerate"],
+                      s["n_rejected_geometry"]))
     print("\n== 论文表 2 行 ==")
     for r in results:
         lab = r"A\textsubscript{%s}" % r["label"].lstrip("AC")
@@ -457,7 +470,7 @@ def main(argv=None):
             r["circle_radius_m"], r["max_vertex_dist_m"], r["ratio"],
             "是" if r["diameter_circle_covers"] else "否"))
     print("\n写出: %s, %s, cases/p1_case*.csv, cases/p1_case*.truth.json"
-          % (os.path.join(out, "p1_summary.json"), jl))
+          % (os.path.join(result_dir, summary_name), jl))
     return 0
 
 
