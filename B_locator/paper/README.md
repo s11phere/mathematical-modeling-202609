@@ -123,9 +123,9 @@ B_locator/Q2/           # 问题二：src/q2_solution.py（求解）、figures/�
 | 　  5.1.2 模型建立（式 1~3、**图 1** 角楔交会示意） | `sections/05-model.tex` 第 9~55 行 | 图在 `figures/multi_sensor_wedge_diagram.png`（`.62\textwidth`） |
 | 　  5.1.3 模型求解算法（**图 2** 流程图） | `sections/05-model.tex` 第 57~93 行 | 图在 `figures/p1-algorithm-flow.png`（`.61\textwidth`） |
 | 　  5.1.4 求解结果与分析（**表 2**、**表 3**、**图 3**） | `sections/05-model.tex` 第 95~142 行 | 图在 `figures/p1-coverage-contrast.png` |
-| 　  5.2 问题二（式 4~21、**图 4**、**图 5**、**表 4**） | `sections/05-model.tex` 第 144 行起 | 已定稿；图在 `figures/p2-wedge-geometry.png`、`figures/p2-expected-diameter.png` |
-| 　  5.3 问题三 | `sections/05-model.tex` 第 388 行起 | **待填充** |
-| 　  5.4 问题四 | `sections/05-model.tex` 第 396 行起 | **待填充** |
+| 　  5.2 问题二（式 5~24、**图 4**、**图 5**、**图 6**、**表 4**） | `sections/05-model.tex` 第 170 行起 | 5.2.1 建模、5.2.2 理论求解（含五条近似下的解析直径）、5.2.3 数值方法、5.2.4 结果与待选区域；图在 `figures/p2-wedge-geometry.png`、`figures/p2-mma-vs-pysim.png`、`figures/p2-contour60.png` |
+| 　  5.3 问题三 | `sections/05-model.tex` 第 531 行起 | **待填充** |
+| 　  5.4 问题四 | `sections/05-model.tex` 第 539 行起 | **待填充** |
 | 六、模型评价与改进 | `sections/06-evaluation.tex` | **待填充** |
 | 七、参考文献 | `sections/07-references.tex` | |
 | 附录 A 文件列表 / 附录 B、C 源程序 | `sections/08-appendix.tex` | 附录 A、B、C 已写，附录 D（问题三、四主程序）待补 |

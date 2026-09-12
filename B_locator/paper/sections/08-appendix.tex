@@ -22,10 +22,12 @@
     \item \texttt{Q1/cases/p1\_case01}$\sim$\texttt{05.csv}（含 \texttt{.truth.json}）：五组算例与真值（固定种子生成，真值仅自检用）。
     \item \texttt{Q1/p1\_results.jsonl}、\texttt{Q1/p1\_summary.json}：逐例结果与汇总统计（含四组随机扫描）。
     \item \texttt{figures/} 下的 3 张问题一插图（定版；\texttt{Q1/} 下有同名副本，逐字节一致）：图~\ref{fig:p1-wedge}、图~\ref{fig:p1-flow}、图~\ref{fig:p1-coverage}。
-    \item \texttt{Q2/src/q2\_solution.py}：问题二源程序，期望直径、寻优与候选区域（附录~\ref{app:q2code}）。
-    \item \texttt{Q2/figures/make\_q2\_figures.py}：问题二插图生成脚本。
-    \item \texttt{Q2/src/results/q2\_summary.json}：问题二最优点、等值区域与自检汇总（本文数值来源）。
-    \item \texttt{figures/p2-expected-diameter.png}：期望直径等值图与候选区域（图~\ref{fig:p2-heat}）。
+    \item \texttt{Q2/pysimulation/src/p2\_grid\_expectation.py}：问题二数值模拟源程序，交会四边形直径、加权期望、寻优与候选区域（附录~\ref{app:q2code}）。
+    \item \texttt{Q2/MMAcode/expected\_d mathematica\_ver.nb}：理论闭式解的 Mathematica 程序，导出 $15$ m 网格上的 $E[D]$ 与最优点。
+    \item \texttt{Q2/pysimulation/out/p2\_grid/p2\_grid\_map.csv}、\texttt{p2\_grid\_report.json}：数值模拟逐点结果与汇总统计（本文数值来源）。
+    \item \texttt{Q2/make\_q2\_paper\_figures.py}：问题二正文插图生成脚本（由上述两份原始数据出图）。
+    \item \texttt{figures/p2-mma-vs-pysim.png}：理论闭式解与数值模拟的并排对比（图~\ref{fig:p2-mma-py}）。
+    \item \texttt{figures/p2-contour60.png}：$E[D]\le60$ m 等值线围出的待选区域（图~\ref{fig:p2-contour}）。
     \item \texttt{figures/p2-wedge-geometry.png}：两探测束交会与定位区域直径构造（图~\ref{fig:p2-wedge}）。
     \item \texttt{Q2/Q2modeling.md} 等：问题二建模手稿、参考热力图与 Mathematica 校验脚本。
 \end{enumerate}

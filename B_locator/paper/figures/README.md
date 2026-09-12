@@ -1,20 +1,26 @@
 # figures/ —— 论文插图
 
-## 1. 当前 5 张图分别是什么
+## 1. 各图分别是什么
 
 | 文件 | 用在哪 | 说明 |
 |---|---|---|
 | `multi_sensor_wedge_diagram.png` | **正文图 1**（`sections/05-model.tex` 5.1.2 节开头） | 多检测点角楔交会定位示意：三个检测点 $P_1,P_2,P_3$ 按真实 $\varepsilon=1^\circ$ 张成的角楔交出凸多边形 $\mathcal{R}$，右下角为 $\mathcal{R}$ 的局部放大（顶点 $V_i$、直径 $AB$ 与中点 $M$）；`.62\textwidth` |
 | `p1-algorithm-flow.png` | **正文图 2**（`sections/05-model.tex` 5.1.3 节） | 问题一求解算法流程（`\includegraphics[width=.61\textwidth]`） |
 | `p1-coverage-contrast.png` | **正文图 3**（`sections/05-model.tex` 5.1.4 节） | 直径圆覆盖判定成立/失败对照，(a) $A_1$、(b) $A_2$ 双面板（`.88\textwidth`），图内已标出越界顶点 $P$ 与 $|PM|>D/2$ |
-| `p2-wedge-geometry.png` | **正文图 4**（5.2.2 节） | 两探测束交会与定位区域直径构造：$P_1,P_2$ 的探测束相交出 $ABCD$、直径由 $BD$ 给出、视线交角 $\alpha$ 与 $r_{2S}$；半张角放大到 $2^\circ$ 示意，右上角局部放大（`.72\textwidth`） |
-| `p2-expected-diameter.png` | **正文图 5**（5.2.4 节） | (a) 期望定位区域直径 $E[D](a,b)$ 的非线性色标等值图；(b) 第二个检测点的候选区域（深色 $\le1.05E[D]_{\min}$、浅色 $\le1.20E[D]_{\min}$），标出 $P_1$、视线 $\psi_1$ 与示意源点 $S$（`.92\textwidth`） |
+| `p2-wedge-geometry.png` | **正文图 4**（5.2.2 节） | 两探测束交会与定位区域直径构造：两探测束相交出 $ABCD$、直径由对角线给出、视线交角 $\alpha$ 与 $r_{2T}$；右上角为交会区域局部放大（`.72\textwidth`） |
+| `p2-mma-vs-pysim.png` | **正文图 5**（5.2.4 节） | 期望定位区域直径 $E[D]$ 的并排对比：(a) 理论闭式解（Mathematica，15 m 网格）；(b) 数值模拟（Python，30 m 网格）。两图共用同一坐标系、非线性色标与极小值标注，吻合度可目视直接比对（`\textwidth`） |
+| `p2-contour60.png` | **正文图 6**（5.2.4 节） | $E[D]\le60$ m 等值线围出的第二检测点待选区域，浅蓝填充，两条闭合回路关于视线方向对称（`.58\textwidth`） |
+| `p2-mma-heatmap.png` | 备用（未进正文） | 正文图 5(a) 的单幅版本（5.3 in 见方） |
+| `p2-pysim-heatmap.png` | 备用（未进正文） | 正文图 5(b) 的单幅版本（5.3 in 见方） |
 
-> 5 张图全部进正文，均为支撑材料（附录 A 清单里的 `figures/` 下文件），**不要删除或移动**；
+> **进正文的 6 张图不要删除或移动**，均为支撑材料（附录 A 清单里的 `figures/` 下文件）；
 > 其中 3 张问题一插图在扁平的 `../Q1/` 下各有一份同名副本（交付用），改动后两份须同步。
 > 问题二的原始材料（`Q2modeling.md` 里的参考热力图 `Q2_expected_diameter_heatmap.png`、
 > `wedge_diagram.png` 及 Mathematica 脚本）保留在 `../Q2/`；其中 Mathematica 脚本与其导出的
-> 数据、图表统一存放于 `../Q2/MMAcode/`，正文用的是上面两张重绘图。
+> 数据、图表统一存放于 `../Q2/MMAcode/`。
+>
+> `p2-expected-diameter.png` 是问题二旧版结果图（含 `\bar D` 记号的单幅等值图 + 容差候选区域），
+> 自 5.2.4 节改为「MMA 与 Python 并排 + 60 m 等值线」后不再被正文与附录引用，可自行决定删除。
 
 ## 2. 怎么生成
 
@@ -24,19 +30,23 @@
 `../Q1/cases/p1_case01.csv`、`p1_case02.csv` 经 `../Q1/p1_intersection.py` 求解后绘出
 （数值汇总见 `../Q1/p1_summary.json`）。
 
-问题二的两张图仍由脚本生成：
+问题二图 4 仍由脚本生成；图 5、图 6 及两张备用单幅图由同一个脚本从两份原始数据出图：
 
 | 脚本 | 输出 |
 |---|---|
-| `../Q2/figures/make_q2_wedge_figure.py` | `p2-wedge-geometry.png`（**图 4**） |
-| `../Q2/figures/make_q2_figures.py` | `p2-expected-diameter.png`（**图 5**） |
+| `../Q2/illustration_plot_Q2.py` | `p2-wedge-geometry.png`（**图 4**） |
+| `../Q2/make_q2_paper_figures.py` | `p2-mma-vs-pysim.png`（**图 5**）、`p2-contour60.png`（**图 6**）、`p2-mma-heatmap.png`、`p2-pysim-heatmap.png` |
 
-运行方式（仓库根目录下，用隔离环境，避免污染系统 Python；需 Python 3 + matplotlib + numpy）：
+数据来源：图 5(a)/图 6 取 `../Q2/MMAcode/Q2_expected_diameter_data.csv`（Mathematica
+导出的 15 m 网格闭式解）；图 5(b) 取 `../Q2/pysimulation/out/p2_grid/p2_grid_map.csv`
+（Python 数值模拟的 30 m 网格结果）。脚本会自动把生成的 png 同时写入
+`../Q2/figures/` 与本目录。
+
+运行方式（需 Python 3 + matplotlib + numpy）：
 
 ```bash
-MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/src/q2_solution.py
-MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_wedge_figure.py
-MPLCONFIGDIR=$PWD/tmp/mplconfig tmp/venv/bin/python B_locator/Q2/figures/make_q2_figures.py
+python B_locator/Q2/make_q2_paper_figures.py
+python B_locator/Q2/illustration_plot_Q2.py
 ```
 
 **只想改论文文字的人不需要跑这些脚本。**
