@@ -1,0 +1,92 @@
+\clearpage
+\section{问题四参数、复现数据与程序}\label{app:q4repro}
+\subsection{参数与连续证书细分}
+\begin{table}[H]\centering
+\caption{问题四最终严格档的主要参数}
+\begin{tabular}{@{}p{.34\textwidth}p{.59\textwidth}@{}}\toprule
+参数 & 取值与作用\\\midrule
+严格布局 & 原点、998 m 八点环、1867 m 十二点环（相位 $15^\circ$）\\
+规划用覆盖网格 & 40 m 方格、48 个带角余量的方向区间\\
+最终无源核验 & 连续圆弧精确合并；初始 40 m，仅细分未证明格，最细允许 0.625 m\\
+角楔与圆外包 & 半宽 $(1.005+10^{-8})^\circ$，每圆 32 条外切半平面\\
+定位横向基线 & 前进比例 0.6、侧移上限 100 m、下限 22 m；缩放 $1,1/2,1/4$\\
+逼近及清除覆盖 & 最多 8 轮；小区域阈值 75 m；兜底方格间距 28 m\\
+单方位沿站补测 & 与上次正测站相距至少 80 m、距估计中心不超过 1450 m\\
+后验中心 & 距离 150 点、接收半径 9 点、相容朝向 36 点，全向先验 0.5\\
+航路局部搜索 & 上轮热启动加至多 5 个最近邻起点，至多 4 轮翻转与移位\\
+信息参考状态 & 1024 个；独立种子 170120；代价下限系数 0.35\\
+虚拟时钟上限 & 360000 s；预算不足不宣称严格完成\\\bottomrule
+\end{tabular}\end{table}
+
+定位圆外包和双侧负观测截断保持真源包含性，后验中心与信息代价只影响动作选择。实际记录的发射方向字段采用“测点指向源”的比较约定；\cref{eq:q4-reception} 使用物理发射方向，作图时将该字段转过 $180^\circ$。覆盖证明遍历全部连续朝向，因而不依赖字段正反约定。
+
+\begin{table}[H]\centering
+\caption{21 站布局的连续证书逐层核验}
+\begin{tabular}{@{}rrr@{}}\toprule
+方格边长/m & 本层待证明方格 & 核验后未证明方格\\\midrule
+40 & 6536 & 348\\
+20 & 1072 & 380\\
+10 & 1112 & 252\\
+5 & 624 & 172\\
+2.5 & 336 & 0\\\bottomrule
+\end{tabular}\end{table}
+后续每层只处理未证明格的子格，并删除与靶区不相交的子格。接受条件一直是整格与全部连续朝向的覆盖。某层未通过只表示未证明，不能仅凭粗网格将其判为真实盲区；源码中的点检仅用于提前拒绝明显不可行布局，不用于接受布局。
+
+\subsection{固定实验定义与统计口径}
+四类场景按随机混合、最小半径、贴边朝外、全向编号 $s=0,1,2,3$，第 $i$ 组种子为 $2026091201+1000000s+79i$，$i$ 从零开始。主集 30 组，其余各 10 组。源数在 $10\sim16$ 离散均匀抽取；混合集每源以概率 0.5 为定向，方向均匀。最小半径组全部定向且接收半径固定 1000 m；贴边组半径均匀取 $1750\sim1800$ m，接收半径 1000 m，发射半平面朝径向外侧；全向组作为对照。一般源位按圆域面积均匀、接收半径均匀取 $1000\sim1500$ m。同一源、同一测点误差固定，三策略的场景参数完全一致。
+
+后验中心与信息代价各作一项开关消融，速度档取 $fast99,fast95,fast90$，均预先固定主集前 10 组，复用对应完整严格档作为配对基线。所有 230 次运行均纳入统计；图中代表轨迹固定为主集第一组，不按表现选例。场景和算法源码校验值保存在 \path{Q4/out/paper_q4/manifest.json}。
+
+bootstrap 重抽样 10000 次，以整组场景为抽样单位，保留策略间配对关系。版本节省率为 $1-\overline T_{\rm new}/\overline T_{\rm old}$；消融增长率为 $\overline T_{\rm ablated}/\overline T_{\rm complete}-1$，区间均为百分位区间，未作多重比较校正。每源时间先算各局比值再平均，不等同于总时间除以总清除数。退化的零失败样本区间不构成未来全清概率为 100\% 的证据。
+
+\begin{table}[H]\centering
+\caption{单因素消融：相同十组场景中的完整时间变化}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+设置 & 时间/s & 增长/\% & 95\% 区间/\% & 全清\\\midrule
+\input{sections/q4-ablation-rows.tex}\\
+\bottomrule\end{tabular}\end{table}
+
+\begin{table}[H]\centering
+\caption{稀疏速度档：相同十组场景中的清除结果与两种时间口径}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+设置 & 已清/源数 & 全清 & 完整时间/s & 末清每源/s & 退出每源/s\\\midrule
+\input{sections/q4-speed-rows.tex}\\
+\bottomrule\end{tabular}\end{table}
+
+\subsection{完整场景统计与计算开销}
+下表“末清每源”截止末次成功清除，“退出每源”进一步计入残留验证；计算时间为本地进程中策略执行与终止认证的墙钟耗时，不含构造初始化。
+\begingroup\small
+\begin{longtable}{@{}lrrrrrrr@{}}
+\caption{问题四三版策略在全部场景上的补充统计}\\
+\toprule 场景/策略 & 已清/源数 & 全清 & 时间/s & 末清每源 & 退出每源 & 检测 & 计算/s\\\midrule\endfirsthead
+\toprule 场景/策略 & 已清/源数 & 全清 & 时间/s & 末清每源 & 退出每源 & 检测 & 计算/s\\\midrule\endhead
+\input{sections/q4-supplement-rows.tex}\\
+\bottomrule\end{longtable}\endgroup
+
+本次采用 Python 3.12.14、NumPy 2.3.5，六个独立进程运行，单局策略执行墙钟最大 7.55 s。并行资源争用和本机环境会改变墙钟时间，不能将其替代正式模拟器的在线程序运行时间。所有 230 份完整轨迹、65229 条动作通过独立落盘复核，移动、检测、切频、成功及失败清除的账本均吻合，拒绝动作数为零。六组已有专项检查共 37 项通过，包括连续证书、极端定位、航路及整策略回归；日志见 \path{Q4/out/paper_q4/checks/}。
+
+\subsection{文件清单及复现命令}
+\begin{enumerate}
+\item \path{Q4/src/}：各版算法与离线场景；\path{Q4/scripts/run_p4.py} 为运行转发入口。
+\item \path{Q4/run_paper_q4.py}：固定场景的配对实验、完整动作记录、统计汇总。
+\item \path{Q4/out/paper_q4/runs.jsonl}、\path{summary.json}：逐局指标及汇总；\path{traces/}：230 份压缩动作与退出后真值记录。
+\item \path{Q4/out/paper_q4/manifest.json}、\path{audit.json}：配置、源位和源码校验信息、独立审计结果。
+\item \path{Q4/make_paper_tables.py}、\path{Q4/scripts/make_paper_figures.py}：由同一批冻结结果生成数值与五幅正文图。
+\item \path{Q4/PAPER_REPRODUCE.md}：完整实验定义、运行环境、复现与解释边界。
+\end{enumerate}
+从仓库根目录执行下列命令；新实验写入单独目录，避免覆盖本文冻结数据。
+\begin{lstlisting}[language=bash,caption={问题四实验与论文图表的复现命令}]
+python B_locator/Q4/run_paper_q4.py --workers 6 --out B_locator/Q4/out/paper_q4_reproduce
+python B_locator/Q4/make_paper_tables.py
+python B_locator/Q4/scripts/make_paper_figures.py
+python B_locator/Q4/scripts/make_paper_source.py
+bash B_locator/paper/build.sh
+\end{lstlisting}
+
+\clearpage
+\section{问题四最终策略核心代码}\label{app:q4code}
+以下直接载入最终策略的核心源码，展示紧凑站位、联合航路与后验估价的接入方式，以及根据实际负观测逐频道核验完成证书的逻辑。
+自适应认证、航路优化、后验估计和定位清除分别由
+\path{Q4/src/p4_layout_v2.py}、\path{p4_route_v2.py}、\path{p4_posterior.py}
+和 \path{p4_homing.py} 实现；三版策略、全部依赖及运行入口均保留在 \path{Q4/} 附件中。
+\lstinputlisting[language=python, caption={Q4/src/p4\_compact.py：最终紧凑策略}]{../Q4/src/p4_compact.py}

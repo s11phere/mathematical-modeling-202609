@@ -1,0 +1,1739 @@
+"""Q4 legacy grid/spiral policy, retained for paired comparisons.
+
+Use p4_search.P4SearchRobot for the optimized strategy and strict completion.
+The radial half-plane masks and their flipped second pass below are legacy
+heuristics. They do not certify arbitrary source orientations, and removing
+unreachable cells does not prove absence. Historical comments and benchmark
+claims below describe those older experiments, not a continuous guarantee.
+"""
+from __future__ import annotations
+
+import math
+import os
+import sys
+import time
+from dataclasses import dataclass, field as dc_field
+
+import numpy as np
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
+
+from p3_arena import (  # noqa: E402
+    ArenaError, CHANNELS, R_ARENA, R_CLEAR, R_RECV_MIN, T_CLEAR_FAIL, T_MEASURE,
+    T_SWITCH, V_ROBOT,
+)
+from p3_robot import SWEEP_OK, ChannelRec, P3Config, P3Robot  # noqa: E402
+from p4_grid import SQRT3, triangular_lattice  # noqa: E402
+
+
+# --------------------------------------------------------------------------
+# 配置
+# --------------------------------------------------------------------------
+@dataclass
+class P4Config(P3Config):
+    """在 `P3Config` 之上追加"三角形格网 + 定向源"相关参数。"""
+
+    # ---- 格网 ----
+    grid_a: float = 1000.0          # 三角形格网边长（m）：a/(*@\ensuremath{\surd}@*)3 = 577 m 覆盖半径
+    grid_r_max: float = R_ARENA     # 格点铺到多大半径（靶区半径 1800 m）
+    outer_rings: tuple = ((1850.0, 12),)
+    """外侧补漏环 ``(半径 m, 点数)``：救"贴边朝内发射"的定向源。
+
+    (*@\textbf{[!]}@*) 先说清这个环到底在救什么（实测修正了我最初的直觉）：
+    mock 的定向判据是"站(*@\ensuremath{\rightarrow}@*)源 的视线落在 ``dir_deg`` 的 (*@\ensuremath{\pm}@*)90(*@\ensuremath{{}^{\circ}}@*) 内"，
+    诊断 100 局漏源（`src/p4_miss_where.py`）显示漏掉的全是
+    **半径 1622(*@\textendash{}@*)1794 m、朝向与径向夹角 117(*@\ensuremath{{}^{\circ}}@*)(*@\textendash{}@*)178(*@\ensuremath{{}^{\circ}}@*)（几乎正对圆心）的定向源**。
+    也就是说：**"朝内发射"的源必须从它外侧的站位才听得到** (*@\textemdash{}@*)(*@\textemdash{}@*) 外环就是干这个的。
+
+    靶区边界附近（r (*@\ensuremath{\gtrsim}@*) 1000）的源若朝内发射，覆盖半平面里没有任何"域内"站位，
+    所以只能把站位铺到它外侧。数值枚举（`src/p4_ring_shape.py`）：
+
+    | 外环 | 站数 | 覆盖半径 | 定向盲区 |
+    |---|---|---|---|
+    | r1850(*@\ensuremath{\times}@*)12（默认） | 25 | 575 m | 0.00% |
+    | r1900(*@\ensuremath{\times}@*)10 | 24 | 615 m | 0.66% |
+    | r1900(*@\ensuremath{\times}@*)6（(*@\ensuremath{\approx}@*)"格网整体铺到 r=2000"） | 19 | 575 m | 1.91% |
+    | r1850(*@\ensuremath{\times}@*)9 | 22 | 639 m | 2.59% |
+    | 无外环（只铺域内） | 13 | 800 m | 38.66% |
+
+    允许降覆盖时可换 ``((1900.0, 6),)``：实测 100 局清除率 1.0000（全向/定向混合
+    与全定向两批都满分）、指标基本不变，站数少 6 个；亦可换成"格网直接铺到 2000"
+    （``outer_rings=(), grid_r_max=2000``），两者等价。
+    """
+
+    # ---- 探索 ----
+    spiral_radius_w: float = 0.35   # 选下一站时对"半径大"的加罚，形成由内向外
+    skeleton_radius_w: float = 0.25  # 骨架排序的半径偏置（由内向外；太大会横穿靶区）
+    radius_sort_w: float = 0.0      # 试过"显式由内向外排序"，实测无正向收益（见 scan_skeleton），默认关闭
+    route_mode: str = "spiral"      # 航路排法："spiral"（问题 3 式绕圈，默认）| "tsp"（几何最短）
+    ring_band_frac: float = 0.5     # 螺旋航路的"环"分档宽度 = grid_a (*@\ensuremath{\times}@*) 该比例（m）。
+                                    # 0.5 (*@\ensuremath{\rightarrow}@*) r=1732 与 1850 合成一层（实测最好，航程 26.3 km）；
+                                    # 0.35/0.25/0.18 (*@\ensuremath{\rightarrow}@*) 分成 3 层，反而变差（28.0 km、长跳 +1）
+    replan_drift_m: float = 700.0   # 保留字段（当前实现不再按当前位置重排航线）
+    station_min_gain: float = 90.0   # 某站的边际覆盖低于它就跳过（单位：25 m 网格点数；
+                                    # 90 格 (*@\ensuremath{\approx}@*) 一个 140 m 见方的小片）。
+                                    # 100 局实测（混合场景，中位平均定位清除 / 清除率）：
+                                    #   gain=90 ：472 s / 1.0000（100 局全清）(*@\ensuremath{\leftarrow}@*) 默认
+                                    #   gain=180：与 90 接近，但全定向会掉源
+                                    #   gain=250：569 s / 0.9977（慢 97 s 且漏 3 个源）
+                                    # 结论：**别为了省站抬高这个门限** (*@\textemdash{}@*)(*@\textemdash{}@*) 省下的站次
+                                    # 远抵不上"漏源 + 听到更晚"的代价。
+    detour_follow_m: float = 1400.0  # 顺路清除后离队首超过它就"就近切入"航线
+                                    # （正常站间距 850(*@\textendash{}@*)1732 m，取 1400 只在真正被带偏时触发）
+    cover_reduce: float = 0.0       # **降覆盖档**：>0 时主动放弃这么大比例的可听格点，
+                                    # 只保留"代价最小、覆盖面最大"的若干站位（见 measure_set）：
+                                    #   0.0（默认）= 全覆盖；0.3 / 0.5 / 0.7 = 逐档变快、逐档漏源
+                                    # 实测见 `src/p4_cover_reduce.py` 与 review (*@\S{}@*)3.12
+    plan_tour: bool = False         # False（默认）：**逐站贪心，把覆盖判据说"还有用"的站
+                                    #   全部走完** (*@\textemdash{}@*)(*@\textemdash{}@*) 这是模型下"必被发现"的完整保证
+                                    #   （实测 20 局 268 个源 100% 清除，代价是 27 站/局）；
+                                    # True：先算"最小覆盖集 + 半径偏置 TSP"，只走 14(*@\textendash{}@*)16 站，
+                                    #   航程少 ~4 km、虚拟时间少 ~10%，代价是有 ~0.4% 的
+                                    #   漏源风险（边界处"朝外但偏离径向"的定向源）。
+    replan_every: int = 0           # >0：每走这么多站就用"当前位置 + 最新覆盖集"重排航线
+    cover_slack_m: float = 0.0      # 半平面判据的保守余量（m）
+    halfplane_eps: float = 1.0      # 半平面判据的绝对余量（m(*@\ensuremath{{}^2}@*)）：避免"正侧向"的边界抖动
+    cover_grid_step_m: float = 25.0  # 覆盖评估网格步长（m）：太粗会漏判边界附近的源
+                                     # （实测 100 m 会真的漏源；50 m 仍漏 1/268；
+                                     #   25 m 只剩"格点边界"量级的漏判风险）
+    two_pass: bool = True           # 扫两遍（两种半平面约定）(*@\ensuremath{\Rightarrow}@*) 对协议约定不敏感
+    max_station_visits: int = 0     # 0 = 不限制（按覆盖判据自然收工）
+
+    # ---- 定位（定向源闭环：沿视线二分 + 侧移交会）----
+    loc_walk_m: float = 520.0       # 沿视线走位的单步初值（m）；走位用 /clear（3 s）
+    loc_step_growth: float = 1.4    # 每确认一次"有信号"就把步长乘这个系数（指数跳出界）
+    loc_max_moves: int = 4          # 走位次数上限（走出无信号边界就停）
+    loc_bisect_steps: int = 5       # 二分步数上限
+    loc_bisect_tol_m: float = 40.0  # 二分区间的收敛门限（m）
+    loc_cross_radius_m: float = 420.0  # 侧移交会的离源距离（m）：交会角 (*@\ensuremath{\approx}@*)45(*@\ensuremath{{}^{\circ}}@*)
+    loc_clear_radius_m: float = 90.0   # 第一轮试探半径（m）：由定位精度决定
+    loc_probe_radius_max_m: float = 160.0  # 区域半径超过它就先做定位而不是硬试
+    max_solve_attempts: int = 3     # 同一频道最多进入 solve 几次（防止清除阶段空转）
+    clear_detour_max_m: float = 300.0  # **阶段式**（`unified=False`）下"到站顺手清"的绕行上限。
+                                    # (*@\textbf{[!]}@*) 统一航路**不用**这个值（用 interleave_detour_max_m，
+                                    # 默认 (*@\ensuremath{\infty}@*)）。曾经误把 300 m 套到统一航路上，结果把大多数
+                                    # 清理延后、积压到航程末尾：平均定位清除 648 (*@\ensuremath{\rightarrow}@*) 1141 s、
+                                    # 行程 34.9 (*@\ensuremath{\rightarrow}@*) 64.1 km。两套策略的参数不能混用。
+    enroute_max_n: int = 3          # 每个停点最多顺路清几个
+    # ---- 统一航路（边扫描边清理，见 run_unified）----
+    unified: bool = True            # True：一条滚动航路走完两圈，点也清完（默认）
+    interleave_detour_max_m: float = 1e9
+                                    # **实测最优是不设门限**（听到就清）：扫参见
+                                    # `pick_unified_action` 的文档与 `p4_tune_unified.py`。
+                                    # 保留这个参数是为了复现"攒着清"的对照。
+    interleave_loc_radius_m: float = 110.0
+                                    # 目标定到"区域半径 (*@\ensuremath{\le}@*) 它"就算定住了，可以清
+    interleave_probe_m: float = 80.0   # 统一航路里的小范围试探半径（m）
+    interleave_clear_cost_s: float = 90.0
+                                    # 估算一次"就地清理"的动作耗时（定位 + 试探）
+
+    # ---- 清除（复用问题 3 的覆盖式试探，保证成功）----
+    clear_approach_max: int = 3
+    clear_est_probe_m: float = 40.0  # 估计点已在这么近时先直接试一次 /clear
+
+
+# --------------------------------------------------------------------------
+# 机器狗
+# --------------------------------------------------------------------------
+class P4GridRobot(P3Robot):
+    """三角形格网扫描 + 定向源闭环定位清除。"""
+
+    def __init__(self, arena, cfg: P4Config | None = None, base=None, log=None,
+                 log_prefix=""):
+        super().__init__(arena, cfg or P4Config(), base=None, log=log,
+                         log_prefix=log_prefix)
+        self.stations = self._build_stations()
+        self.station_hits = [0] * len(self.stations)
+        self.visited_stations: set[int] = set()
+        self.loc_pts: dict[int, list] = {}      # 定位过程中新增的检测点（画图/复盘用）
+        self._near_pt: dict[int, tuple] = {}    # "距离 (*@\ensuremath{\le}@*) 5 m" 的检测点：到那儿直接清
+        self._tried_ray: set[int] = set()        # 已经做过"沿视线落到二分点"的频道
+        self.coverage_flip = False              # 当前扫描使用的半平面约定（见 coverable_mask）
+        self.unified_second_pass = False        # 统一航路：是否处于"第二遍（必须清）"
+        self.first_pass_heard: set | None = None  # 第一遍结束时就已听到的频道
+        self.phase = "scan"
+        self._cov_cache: dict = {}
+        self._covered_cache: dict = {}
+
+    # ---------------- 格网 ----------------
+    def _build_stations(self):
+        cfg = self.cfg
+        pts = list(triangular_lattice(cfg.grid_a, r_cover=cfg.grid_r_max))
+        for (r, n) in (cfg.outer_rings or ()):
+            for i in range(int(n)):
+                a = 2.0 * math.pi * i / float(n)
+                pts.append((float(r) * math.cos(a), float(r) * math.sin(a)))
+        # 去掉重复点（外环可能与格点重合）与原点（原点单独作为第 0 站）
+        out, seen = [], set()
+        for (x, y) in pts:
+            if math.hypot(x, y) < 1.0:
+                continue
+            key = (round(x, 1), round(y, 1))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append((float(x), float(y)))
+        out.sort(key=lambda p: (math.hypot(*p), math.atan2(p[1], p[0]) % (2 * math.pi)))
+        return out
+
+    def station_xy(self, i):
+        return self.stations[int(i)]
+
+    # ---------------- 选哪些站、按什么顺序走 ----------------
+    def covering_set(self):
+        """**最小覆盖站集**：贪心集合覆盖，保证"每个可听格点至少被一个站覆盖"。
+
+        为什么需要它：覆盖判据（:meth:`coverable_mask`）是"站点 (*@\ensuremath{\times}@*) 格点"的集合覆盖
+        问题，30 个站里往往只有十几个真正贡献新覆盖。把"必须去的站"算出来，
+        航线才不会为了几个格点多跑几公里。
+
+        贪心在这里是**安全**的：它只决定"访问顺序"，不改变覆盖判据 (*@\textemdash{}@*)(*@\textemdash{}@*)
+        每站到了之后仍然按 :meth:`station_gain` 复核，收益为 0 的站会被跳过。
+        """
+        got = getattr(self, "_covering", None)
+        if got is not None:
+            return got
+        gx = self._grid_pts()[0]
+        left = ~self.unreachable_mask()
+        masks = [self.coverable_mask(i) & ~self.unreachable_mask()
+                 for i in range(len(self.stations))]
+        chosen = []
+        while left.any():
+            best, bi, bg = None, -1, 0
+            for i, m in enumerate(masks):
+                if i in chosen:
+                    continue
+                g = int(np.count_nonzero(m & left))
+                if g > bg:
+                    best, bi, bg = i, i, g
+            if bi < 0 or bg <= 0:
+                break
+            chosen.append(bi)
+            left = left & ~masks[bi]
+        self._covering = chosen
+        return chosen
+
+    # ---------------- 降覆盖档：把"测哪些站"显式做成一档 ----------------
+    def measure_set(self):
+        """本局实际做检测的站位集合（``cover_reduce > 0`` 时会**主动缩水**）。
+
+        为什么这是一个独立的省时杠杆：时间 (*@\ensuremath{\approx}@*) (*@\ensuremath{\Sigma}@*)_站 (移动 + 该站要测的频道数 (*@\ensuremath{\times}@*) 6 s)。
+        "访问哪些站"由覆盖判据决定（全测一遍才敢说"没有残留源"），
+        但如果允许**放弃一部分区域**，就可以只保留一个"代价最小、覆盖大部分"的站集：
+
+        ``cover_reduce = r`` (*@\ensuremath{\Rightarrow}@*) 用贪心集合覆盖，一直取到"剩余未覆盖格点
+        只剩全部格点的 r 倍"为止 (*@\textemdash{}@*)(*@\textemdash{}@*) 于是**故意留 r 比例的面积不测**。
+
+        这是"覆盖 (*@\ensuremath{\rightarrow}@*) 用时"最直接的旋钮：r=0 就是原来的全覆盖行为。
+        """
+        r = float(self.cfg.cover_reduce)
+        if r <= 0.0:
+            return None                      # None = 不做缩减（全覆盖）
+        got = getattr(self, "_mset", None)
+        if got is not None:
+            return got
+        gx = self._grid_pts()[0]
+        unreach = self.unreachable_mask()
+        left = ~unreach
+        total = int(left.sum())
+        masks = [self.coverable_mask(i, flip=False) & ~unreach
+                 for i in range(len(self.stations))]
+        chosen: list[int] = []
+        target = total * float(r)
+        while True:
+            best, bi, bg = None, -1, 0
+            for i, m in enumerate(masks):
+                if i in chosen:
+                    continue
+                g = int(np.count_nonzero(m & left))
+                if g > bg:
+                    best, bi, bg = i, i, g
+            if bi < 0 or bg <= 0:
+                break
+            nxt = int(np.count_nonzero(left & ~masks[bi]))
+            if nxt <= target:
+                break                        # 已经放弃够了：剩下的区域不测
+            chosen.append(bi)
+            left = left & ~masks[bi]
+        self._mset = set(chosen)
+        self.stats["n_measure_set"] = len(chosen)
+        self.stats["cover_abandoned"] = float(
+            int(np.count_nonzero(left)) / max(total, 1))
+        self.log(f"降覆盖档 cover_reduce={r:.2f}：只测 {len(chosen)} 个站位，"
+                 f"主动放弃 {self.stats['cover_abandoned']:.1%} 的可听格点")
+        return self._mset
+
+    def plan_station_tour(self, start=None):
+        """把"必去的站"排成一条航线：最近邻 + 2-opt，**代价里带半径惩罚**。
+
+        为什么不是纯最短航路：平均定位清除时间 = 定位清除总时刻 / 清除个数，
+        **"早点听到源"比"少走路"更值钱** (*@\textemdash{}@*)(*@\textemdash{}@*) 源一旦被听到就会立刻进入清理队列
+        （实测：纯最短航路让某一局的 14 个源晚了 2000 s 才被听到，指标掉 2 个百分点）。
+        所以在距离代价上加 ``spiral_radius_w (*@\ensuremath{\cdot}@*) 半径``：航路自然由内向外展开，
+        同时 2-opt 仍能消掉最明显的绕远。
+
+        ``start`` 给定时以它为起点重排（滚动重规划用）；默认从原点出发。
+        排序只花几十毫秒，却能把扫描段从 24 km 压到 16(*@\textendash{}@*)18 km。
+        """
+        idx = list(self.covering_set())
+        if not idx:
+            return []
+        w = float(self.cfg.spiral_radius_w)
+        P = {i: np.asarray(self.stations[i], float) for i in idx}
+        origin = np.asarray(self.pos if start is None else start, float)
+
+        def cost(order):
+            """总代价 = 航程 + w (*@\ensuremath{\cdot}@*) (*@\ensuremath{\Sigma}@*) 半径（由内向外偏置）。"""
+            if not order:
+                return 0.0
+            d = float(np.hypot(*(P[order[0]] - origin)))
+            for a_, b_ in zip(order, order[1:]):
+                d += float(np.hypot(*(P[b_] - P[a_])))
+            d += w * sum(float(np.hypot(*P[i])) for i in order)
+            return d
+
+        cur = origin
+        left = set(idx)
+        seq = []
+        while left:
+            j = min(left, key=lambda i: float(np.hypot(*(P[i] - cur)))
+                    + w * float(np.hypot(*P[i])))
+            seq.append(j)
+            left.discard(j)
+            cur = P[j]
+        best = cost(seq)
+        improved = True
+        while improved:
+            improved = False
+            for i in range(len(seq) - 1):
+                for j in range(i + 1, len(seq)):
+                    cand = seq[:i] + seq[i:j + 1][::-1] + seq[j + 1:]
+                    c = cost(cand)
+                    if c < best - 1e-9:
+                        seq, best, improved = cand, c, True
+        self._tour_len_m = cost(seq) - w * sum(float(np.hypot(*P[i])) for i in seq)
+        return seq
+
+    def greedy_station_order(self):
+        """逐步贪心版航线（``plan_tour=False`` 时的对照）：每步按
+        "收益 / 距离 + 半径偏置" 选下一站，直到没有站还能补新覆盖。
+
+        与 :meth:`plan_station_tour` 的差别：贪心每步都看最新覆盖状态（响应性好），
+        但没有全局航路结构（实测航程多 5(*@\textendash{}@*)8 km）；规划版反过来。
+        """
+        cur = np.asarray(self.pos, float)
+        left = set(range(len(self.stations)))
+        seq = []
+        w = float(self.cfg.spiral_radius_w)
+        for _ in range(len(self.stations)):
+            cover = self.unheard_mask()
+            if not cover.any():
+                break
+            best, bs = None, None
+            for si in left:
+                sx, sy = self.stations[si]
+                d = math.hypot(sx - cur[0], sy - cur[1])
+                if d < self.cfg.min_move:
+                    continue
+                gain = self.station_gain(si, cover)
+                if gain <= self.cfg.station_min_gain:
+                    continue
+                s = float(gain) / (1.0 + d / 500.0) - w * math.hypot(sx, sy) / 100.0
+                if bs is None or s > bs:
+                    best, bs = si, s
+            if best is None:
+                break
+            seq.append(best)
+            left.discard(best)
+            cur = np.asarray(self.stations[best], float)
+        self._tour_len_m = 0.0
+        return seq
+
+    # ---------------- 覆盖判据 ----------------
+    def _grid_pts(self):
+        """覆盖评估网格（50 m）：用来算"这一站还能补多少覆盖"。
+
+        分辨率不能太粗：覆盖判据是"格点到站点的距离 (*@\ensuremath{\le}@*) 有效接收半径下界 1000 m"，
+        而三角格网的覆盖半径已经接近这个量级（577 m），用 100 m 粗网格会让
+        边界附近的源被漏判（实测有源因为格点间隙而永远没被听到 (*@\textemdash{}@*)(*@\textemdash{}@*) 这是**真的漏源**，
+        不是启发式误差）。50 m 网格在 30 个站上的额外计算量可以忽略。
+        """
+        c = getattr(self, "_cov_grid", None)
+        if c is None:
+            step = float(self.cfg.cover_grid_step_m)
+            R = R_ARENA
+            xs = np.arange(-R, R + 1e-9, step)
+            GX, GY = np.meshgrid(xs, xs)
+            rr = np.hypot(GX, GY)
+            m = rr <= R + 1e-9
+            c = (GX[m].copy(), GY[m].copy())
+            self._cov_grid = c
+        return c
+
+    def coverable_mask(self, si, flip=None):
+        """站位 ``si`` 能"听到"的格点掩码（定向源的**保守**判据）。
+
+        半平面条件（以"源在 g、记发射方向为 d"为准）：站位 ``q`` 能听到 (*@\ensuremath{\Longleftrightarrow}@*)
+        ``|q-g| <= 1000`` 且 ``(q-g)(*@\ensuremath{\cdot}@*)d >= 0``（视线方向落在 (*@\ensuremath{\pm}@*)90(*@\ensuremath{{}^{\circ}}@*) 覆盖角内）。
+
+        本题只给了"定向方向未知、覆盖角 180(*@\ensuremath{{}^{\circ}}@*)"，**没有**规定 d 的指向约定
+        （是"朝 d 发射"还是"d 的反方向发射"）。两种约定给出的可听半平面正好相反：
+
+        * ``flip=False``：d = 径向向外 ``g`` (*@\ensuremath{\Rightarrow}@*) 要求在**外侧**（``(q-g)(*@\ensuremath{\cdot}@*)g >= 0``）；
+        * ``flip=True`` ：d = 径向向内 ``-g`` (*@\ensuremath{\Rightarrow}@*) 要求在**内侧**（``(q-g)(*@\ensuremath{\cdot}@*)g <= 0``）。
+
+        为了让策略对协议约定**不敏感**，扫描阶段做**两遍**：第一遍按 ``flip=False``
+        覆盖，若有频道仍然没被听到，第二遍按 ``flip=True`` 把另一半半平面也扫掉。
+        两遍合起来 (*@\ensuremath{\Rightarrow}@*) 无论真实约定是哪一种（甚至两向都发），源都必被听到
+        （自检 G3/G4 分别对两种约定核验盲区为 0）。
+        """
+        if flip is None:
+            flip = self.coverage_flip
+        key = (int(si), bool(flip))
+        a = self._cov_cache.get(key)
+        if a is not None:
+            return a
+        gx, gy = self._grid_pts()
+        qx, qy = self.stations[int(si)]
+        d2 = (gx - qx) ** 2 + (gy - qy) ** 2
+        dot = (qx - gx) * gx + (qy - gy) * gy       # (q-g)(*@\ensuremath{\cdot}@*)g：q 在源的外侧
+        if flip:
+            dot = -dot
+        m = (d2 <= (R_RECV_MIN + self.cfg.cover_slack_m) ** 2) \
+            & (dot >= -self.cfg.halfplane_eps)
+        self._cov_cache[key] = m
+        return m
+
+    def unreachable_mask(self, flip=None):
+        """**任何**站位都听不到的格点（在给定半平面约定下）。
+
+        这些点不参与"要不要再跑一站"的判据 (*@\textemdash{}@*)(*@\textemdash{}@*) 加再多站也覆盖不到
+        （唯一的办法是换一个半平面约定重扫，见 :meth:`coverable_mask`）。
+        """
+        flip = self.coverage_flip if flip is None else bool(flip)
+        key = ("unreach", flip)
+        got = self._cov_cache.get(key)
+        if got is not None:
+            return got
+        m = np.ones(self._grid_pts()[0].size, bool)
+        for si in range(len(self.stations)):
+            m &= ~self.coverable_mask(si, flip=flip)
+        self._cov_cache[key] = m
+        return m
+
+    def _covered_of(self, ch):
+        """频道 ``ch`` 已经被排除的格点掩码（"在那里测过而且能听到"）。
+
+        只在**测过的站位**上算：那一站能听到的格点范围（距离 + 半平面）里若真有源，
+        当时就会被听到；没听到 (*@\ensuremath{\Rightarrow}@*) 那里没有该频道的源。
+        """
+        rec = self.recs[int(ch)]
+        key = (int(ch), len(rec.meas_stations))
+        cache = self._covered_cache
+        got = cache.get(key)
+        if got is not None:
+            return got
+        out = np.zeros(self._grid_pts()[0].size, bool)
+        for si in rec.meas_stations:
+            out |= self.coverable_mask(si)
+        if len(cache) > 80:
+            cache.clear()
+        cache[key] = out
+        return out
+
+    def pending_cover(self, ch):
+        """频道 ``ch`` 还剩多少"可能有源但我们还没听过"的格点。"""
+        return int(np.count_nonzero(~self._covered_of(ch)))
+
+    # ---------------- 站位的边际覆盖 ----------------
+    def unheard_mask(self):
+        """"还没听到过的频道"的联合未覆盖格点掩码（一次算好，供所有站位复用）。
+
+        已经排除 :meth:`unreachable_mask`：那些点任何站位都听不到（定向源朝外、
+        外侧又没有站位），不该继续驱动航线。
+        """
+        gx, _gy = self._grid_pts()
+        m = np.zeros(gx.size, bool)
+        for ch in self.unheard():
+            m |= ~self._covered_of(ch)
+        return m & ~self.unreachable_mask()
+
+    def station_gain(self, si, unheard_cover=None):
+        """这一站对"还没听到过的频道"能补多少未覆盖格点（越少越不值得去）。"""
+        m = self.coverable_mask(si)
+        if unheard_cover is None:
+            unheard_cover = self.unheard_mask()
+        return int(np.count_nonzero(m & unheard_cover))
+
+    def unheard(self):
+        """还没听到过、也没被清除的频道（探索阶段要覆盖的目标）。"""
+        return [int(ch) for ch, rec in self.recs.items()
+                if not rec.cleared and rec.n_bearings == 0]
+
+    def heard_pending(self):
+        """听到了但还没清除的频道（清理阶段的目标）。"""
+        return [int(ch) for ch, rec in self.recs.items()
+                if not rec.cleared and rec.n_bearings > 0]
+
+    def unheard_cover_left(self):
+        """所有未听频道剩余未覆盖格点的总量（0 (*@\ensuremath{\Rightarrow}@*) 可以断定靶区内没有别的源了）。"""
+        return int(np.count_nonzero(self.unheard_mask()))
+
+    # ---------------- 选下一站（由内向外螺旋） ----------------
+    def pick_station(self):
+        """选下一站：**覆盖收益 vs 行驶代价**，并带一个"由内向外"的螺旋偏置。
+
+        ``score = 新增覆盖格点数 / (1 + 行驶距离/500) - w(*@\ensuremath{\cdot}@*)半径/100``
+
+        * 分子是"这一站还能补多少我们没听过的地方"（用覆盖判据算，见
+          :meth:`coverable_mask`）；分子为 0 的站直接淘汰 (*@\textemdash{}@*)(*@\textemdash{}@*) 这是"该收工就收工"
+          的依据，也是"不必把 30 个站全跑一遍"的依据；
+        * 分母是行驶代价：**实测过：只用收益选点会得到 43 km 的锯齿航路**
+          （站与站之间来回横穿靶区），加上距离项后回到最近邻量级；
+        * 半径偏置让航线自然形成"由内向外"的螺旋（用户说的"先第一个圈、再第二个圈"），
+          既不会在内外圈之间乱跳，也符合"越早听到源越好"的直觉。
+        """
+        if not self.unheard():
+            return None
+        px, py = self.pos
+        left = self.unheard_mask()
+        if not left.any():
+            return None
+        best, best_score, best_info = None, None, None
+        w = float(self.cfg.spiral_radius_w)
+        for si, (sx, sy) in enumerate(self.stations):
+            if si in self.visited_stations:
+                continue
+            d = math.hypot(sx - px, sy - py)
+            if d < self.cfg.min_move:
+                continue
+            gain = self.station_gain(si, left)
+            if gain <= self.cfg.station_min_gain:
+                continue
+            score = (float(gain) / (1.0 + d / 500.0)
+                     - w * math.hypot(sx, sy) / 100.0)
+            if best_score is None or score > best_score:
+                best, best_score, best_info = si, score, {"gain": gain, "dist": d}
+        return None if best is None else (best, best_info)
+
+    def station_channels(self, si, pos=None):
+        """在这一站值得测的频道：**还没听到过**的、且这一站能补到新覆盖。
+
+        已经听到过的频道一律不再在这里测 (*@\textemdash{}@*)(*@\textemdash{}@*) 定位由清理阶段的专用测点负责
+        （实测教训：在扫描途中反复测同一个已发现频道，会把它带离定位几何、
+        也把航程和虚拟时间白白放大一倍以上）。
+
+        ``cover_reduce > 0``（降覆盖档）时还要再过滤一层：这一站必须**在
+        :meth:`measure_set` 里**才测 (*@\textemdash{}@*)(*@\textemdash{}@*) 不在集合里的站，走到也不测（省下 6 s/频道）。
+        """
+        keep = self.measure_set()
+        if keep is not None and int(si) not in keep:
+            return []
+        m = self.coverable_mask(si) & ~self.unreachable_mask()
+        p = np.asarray(pos if pos is not None else self.pos, float)
+        out = []
+        for ch in self.unheard():
+            rec = self.recs[int(ch)]
+            if rec.meas_pts:
+                d = min(math.hypot(p[0] - q[0], p[1] - q[1]) for q in rec.meas_pts)
+                if d < self.cfg.repeat_gap_m:
+                    continue
+            if not np.any(m & ~self._covered_of(ch)):
+                continue
+            out.append(int(ch))
+        return out
+
+    # ---------------- 探站 ----------------
+    def visit_station(self, si):
+        """到站位 ``si``：先清除"就在跟前"的目标，再测该测的频道。"""
+        x, y = self.stations[int(si)]
+        self.scan_points.append((float(x), float(y)))
+        self.visited_stations.add(int(si))
+        self.note_meas((x, y))
+        chans = self.station_channels(si, pos=(x, y))
+        travel = math.hypot(x - self.pos[0], y - self.pos[1]) / V_ROBOT
+        avail = self.remaining() - self.cfg.time_reserve_s - travel - 4.0
+        kmax = max(1, int(avail // (T_MEASURE + T_SWITCH)))
+        if len(chans) > kmax:
+            self.log(f"  剩余时间只够测 {kmax}/{len(chans)} 个频道")
+            chans = chans[:kmax]
+        if not chans:
+            self.log(f"站位 {si} ({x:.0f},{y:.0f})：没有值得测的频道，跳过")
+            return 0
+        self.log(f"站位 {si}/{len(self.stations)} ({x:.0f},{y:.0f})"
+                 f"（r={math.hypot(x, y):.0f} m，移动 {travel * V_ROBOT:.0f} m）"
+                 f"｜待测 {len(chans)} 个 {chans}")
+        n = self.scan_at(x, y, chans, station=int(si))
+        self.note_meas((float(self.arena.pos[0]), float(self.arena.pos[1])))
+        return n
+
+    def scan_at(self, x, y, chans, station=None):
+        """在 (x, y) 依次检测这些频道（第一次调用会带来移动耗时）。
+
+        与问题 3 的差别只有一个：把**站位编号**记进台账，覆盖记账才成立
+        （``_covered_of`` 只认"在能听到的站位上测过"这个事实）。
+        """
+        n = 0
+        for ch in chans:
+            if self.aborted or not self.can_afford(T_MEASURE + T_SWITCH + 3.0):
+                break
+            resp = self.measure(x, y, ch, station=station)
+            n += 1
+            if resp.get("measure_result") == "near":
+                self.do_clear(x, y, ch)
+        return n
+
+    def note_meas(self, p):
+        """记录一次"真实做过的检测"位置（覆盖度评估口径，与问题 3 一致）。"""
+        p = (float(p[0]), float(p[1]))
+        if not self.meas_pts or math.dist(self.meas_pts[-1], p) > 1.0:
+            self.meas_pts.append(p)
+
+    def measure(self, x, y, ch, station=None):
+        """检测一次；同时登记"这一站测过这个频道"以便覆盖记账。"""
+        resp = super().measure(x, y, ch)
+        if resp.get("accepted") is True:
+            rec = self.recs[int(ch)]
+            if station is not None and int(station) not in rec.meas_stations:
+                rec.meas_stations.append(int(station))
+            if resp.get("measure_result") == "near":
+                self._near_pt[int(ch)] = (float(x), float(y))
+        return resp
+
+    # ---------------- 清理阶段：定向源闭环定位 ----------------
+    def estimate(self, ch):
+        """频道的当前位置估计：优先用有界交会区域的中心，否则用当前方位外推。
+
+        返回 ``(est, radius, br)``。只有一条方位时半径记为 ``inf``：视线外推点
+        在视线方向上完全不可信（误差就是整条视线的长度），不能当"区域半径 400 m"
+        用 (*@\textemdash{}@*)(*@\textemdash{}@*) 那会让清除阶段去试探一个根本不对的圆。
+        """
+        rec = self.recs[int(ch)]
+        br = self.bounded_region(rec)
+        if br is not None:
+            return np.asarray(br["center"], float), float(br["radius"]), br
+        g = self.cross_estimate(rec)
+        if g is not None:
+            return g, float(self.cfg.loc_clear_radius_m), None
+        est = self.ray_estimate(rec)
+        return (est, float("inf"), None)
+
+    def ray_estimate(self, rec):
+        """只有一条方位时的粗略位置：视线与"半径 R_RECV_MAX 圆"的交点。"""
+        if not rec.pts:
+            return None
+        (sx, sy), a = rec.pts[-1], rec.svds[-1]
+        u = np.array([math.cos(math.radians(a)), math.sin(math.radians(a))])
+        S = np.array([float(sx), float(sy)])
+        b = float(S @ u)
+        c = float(S @ S) - R_ARENA * R_ARENA
+        disc = b * b - c
+        t = (-b + math.sqrt(disc)) if disc > 0 else 1000.0
+        t = min(max(t, 100.0), 1500.0)
+        return S + t * u
+
+    def cross_estimate(self, rec):
+        """**最小二乘交会点**：把所有方位线两两求交再取中位数，稳健于个别粗差。
+
+        只有一条方位时返回 ``None``（一条视线定不了点）。视线近似平行时返回 ``None``
+        (*@\textemdash{}@*)(*@\textemdash{}@*) 那时交会区域无界，必须换检测点（问题 1 的结论）。
+        """
+        if rec.n_bearings < 2:
+            return None
+        pts = []
+        n = rec.n_bearings
+        for i in range(n):
+            for j in range(i + 1, n):
+                (x1, y1), a1 = rec.pts[i], rec.svds[i]
+                (x2, y2), a2 = rec.pts[j], rec.svds[j]
+                if math.hypot(x1 - x2, y1 - y2) < 50.0:
+                    continue                      # 基线太短，交会无意义
+                u1 = np.array([math.cos(math.radians(a1)), math.sin(math.radians(a1))])
+                u2 = np.array([math.cos(math.radians(a2)), math.sin(math.radians(a2))])
+                den = float(u1[0] * u2[1] - u1[1] * u2[0])
+                if abs(den) < 0.05:               # 交会角 < 3(*@\ensuremath{{}^{\circ}}@*)：病态
+                    continue
+                d = np.array([x2 - x1, y2 - y1], float)
+                t1 = float(d[0] * u2[1] - d[1] * u2[0]) / den
+                if t1 <= 0.0:
+                    continue
+                pts.append(np.array([x1, y1], float) + t1 * u1)
+        if not pts:
+            return None
+        return np.median(np.asarray(pts, float), axis=0)
+
+    def locate_on_ray(self, ch):
+        """沿已测方位做**两侧双分查找**，直接量出"源在这条视线上有多远"。
+
+        物理依据（关键，且与朝向无关）：
+
+        * 方位是从检测点 ``S`` 指向源 ``G`` 的**射线**，源一定在这条射线上；
+        * ``S`` 自己**一定在源的有效覆盖范围内**（那条方位就是在这里测到的）
+          (*@\ensuremath{\Rightarrow}@*) 视线上 t=0 处必有信号；
+        * 沿射线往外走，信号迟早消失：要么是距离超过接收半径，要么是走出了
+          (*@\ensuremath{\pm}@*)90(*@\ensuremath{{}^{\circ}}@*) 覆盖角 (*@\textemdash{}@*)(*@\textemdash{}@*) 两种情况都意味着"源在这条视线上的位置就在消失点附近"，
+          而且**消失点是单调的**（定向源的覆盖范围是一个凸集，射线与凸集的交
+          是一段区间）；
+        * 于是"有信号/无信号"的分界点就能把源夹住，二分几步即可收到 40 m 以内。
+
+        走位一律用 ``/clear``：未命中只要 3 s（``/measure`` 要 6 s）、不改频道、
+        不污染方位台账，而且万一进到 20 m 内会直接把源清掉。
+
+        返回 ``(est, radius, br)``；``radius = half_width`` 是二分区间的一半。
+        """
+        rec = self.recs[int(ch)]
+        if not rec.pts:
+            return None, float("inf"), None
+        # 已经有界且够小：根本不必再走，直接交给覆盖式试探
+        br0 = self.bounded_region(rec)
+        if br0 is not None and float(br0["radius"]) * 2.0 <= R_CLEAR:
+            return np.asarray(br0["center"], float), float(br0["radius"]), br0
+        (sx, sy), a = rec.pts[-1], rec.svds[-1]
+        u = np.array([math.cos(math.radians(a)), math.sin(math.radians(a))])
+        S = np.array([float(sx), float(sy)])
+
+        def at(t):
+            return S + u * float(t)
+
+        def far_t():
+            """射线出靶区的距离（再远就没有意义了）。"""
+            b = float(S @ u)
+            c = float(S @ S) - (R_ARENA - 5.0) ** 2
+            disc = b * b - c
+            return (math.sqrt(disc) - b) if disc > 0 else 600.0
+
+        def go_and_clear(p):
+            """纯走位：用 /clear 移动过去，命中就返回 True。"""
+            if not self.can_afford(math.hypot(*(p - np.asarray(self.pos, float)))
+                                   / V_ROBOT + 5.0):
+                return False, None
+            if self.do_clear(float(p[0]), float(p[1]), int(ch)):
+                return True, "success"
+            if self.aborted:
+                return False, None
+            self.note_meas((float(p[0]), float(p[1])))
+            return False, "moved"
+
+        # ---- (1) 向外**指数跳步**，尽快建立上界 ----
+        # t=0 就是当初测到方位的地方，那里必有信号（省掉一次 6 s 的测量）；
+        # 向外用 1.4 倍递增的步长跳（520 (*@\ensuremath{\rightarrow}@*) 730 (*@\ensuremath{\rightarrow}@*) 1020 (*@\ensuremath{\ldots}@*)），边界通常在 2(*@\textendash{}@*)3 步内被夹住。
+        # 为什么要跳大步：成本的大头是**走路**（5 m/s），每多一次"走 500 m 再测一次"
+        # 就是 100 s + 6 s；指数跳步把 5 次试探压到 2 次。
+        t_lo, t_hi = 0.0, None
+        t_cur = max(self.cfg.loc_walk_m,
+                    min(float((np.asarray(self.pos, float) - S) @ u) + self.cfg.loc_walk_m,
+                        far_t()))
+        step = self.cfg.loc_walk_m
+        for _ in range(self.cfg.loc_max_moves):
+            hit, _st = go_and_clear(at(t_cur))
+            if hit:
+                return at(t_cur), 0.0, None
+            if self.aborted:
+                break
+            r = self.measure(float(at(t_cur)[0]), float(at(t_cur)[1]), int(ch))
+            self.note_meas((float(at(t_cur)[0]), float(at(t_cur)[1])))
+            res = r.get("measure_result")
+            self.stats["n_locate"] = self.stats.get("n_locate", 0) + 1
+            self.log(f"  定位频道{ch}：沿视线 t={t_cur:.0f} m -> {res}")
+            if res == "near":
+                self._near_pt[int(ch)] = (float(at(t_cur)[0]), float(at(t_cur)[1]))
+                return at(t_cur), 0.0, None
+            if res == "direction":
+                t_lo = t_cur
+                step *= self.cfg.loc_step_growth
+                nxt = t_cur + step
+                if nxt > far_t():
+                    nxt = far_t()
+                if nxt <= t_cur + 1.0:
+                    break
+                t_cur = nxt
+            else:
+                t_hi = t_cur
+                break
+
+        # ---- (2) 二分夹逼 ----
+        n_bi = 0
+        while (t_hi is not None and n_bi < self.cfg.loc_bisect_steps
+               and (t_hi - t_lo) > self.cfg.loc_bisect_tol_m):
+            tm = 0.5 * (t_lo + t_hi)
+            p = at(tm)
+            if not self.can_afford(math.hypot(*(p - np.asarray(self.pos, float)))
+                                   / V_ROBOT + T_MEASURE + T_SWITCH + 4.0):
+                break
+            r = self.measure(float(p[0]), float(p[1]), int(ch))
+            self.note_meas((float(p[0]), float(p[1])))
+            n_bi += 1
+            self.stats["n_locate"] = self.stats.get("n_locate", 0) + 1
+            res = r.get("measure_result")
+            self.log(f"  定位频道{ch}：二分 t={tm:.0f} m -> {res}")
+            if res == "near":
+                self._near_pt[int(ch)] = (float(p[0]), float(p[1]))
+                return p, 0.0, None
+            if res == "direction":
+                t_lo = tm
+            else:
+                t_hi = tm
+        if t_hi is None:
+            t_est, half = t_lo, float(self.cfg.loc_walk_m)
+        else:
+            t_est, half = 0.5 * (t_lo + t_hi), 0.5 * (t_hi - t_lo)
+        return at(t_est), half, None
+
+    # ------------------------------------------------------------------
+    # 定位二：拿第二条方位做交会（把区域压到 20 m 量级）
+    # ------------------------------------------------------------------
+    def admissible_near(self, q, est, r_est=None, margin=40.0, flip=None):
+        """估计站位 ``q`` 能否听到"位于 ``est``、朝向径向"的定向源。
+
+        判据与 :meth:`coverable_mask` 一致（距离 + 半平面），只是作用在单点上，
+        用于排候选（"这个侧移点还在源的覆盖角里吗"）。``flip`` 见 :meth:`coverable_mask`。
+        """
+        if flip is None:
+            flip = self.coverage_flip
+        q = np.asarray(q, float)
+        e = np.asarray(est, float)
+        v = q - e                                   # 源 (*@\ensuremath{\rightarrow}@*) 站位
+        d = float(np.hypot(*v))
+        lim = (R_RECV_MIN if r_est is None else float(r_est)) - float(margin)
+        if d > lim:
+            return False
+        dot = float(v[0] * e[0] + v[1] * e[1])
+        return dot <= 0.0 if flip else dot >= 0.0
+
+    def locate_by_cross(self, ch):
+        """在"旁侧"再取一条方位：与已有视线交会，把位置压到几十米量级。
+
+        侧移点选在**与最后一条视线垂直**的方向上、离估计位置
+        ``loc_cross_radius_m`` 处 (*@\textemdash{}@*)(*@\textemdash{}@*) 交会角 (*@\ensuremath{\approx}@*) 45(*@\ensuremath{{}^{\circ}}@*)、基线 (*@\ensuremath{\approx}@*) 400 m
+        (*@\ensuremath{\Rightarrow}@*) 区域半径 (*@\ensuremath{\approx}@*) R(*@\ensuremath{\cdot}@*)tan1(*@\ensuremath{{}^{\circ}}@*)/sin45(*@\ensuremath{{}^{\circ}}@*) (*@\ensuremath{\approx}@*) 10 m，覆盖式试探一次就中。
+
+        侧移点还要满足"估计位置在自己朝原点一侧"（:meth:`admissible_near`）：
+        这是定向源"朝外发射"时唯一还听得到的半平面。返回是否确实拿到了方位。
+        """
+        rec = self.recs[int(ch)]
+        if not rec.pts:
+            return False
+        (sx, sy), a = rec.pts[-1], rec.svds[-1]
+        u = np.array([math.cos(math.radians(a)), math.sin(math.radians(a))])
+        S = np.array([float(sx), float(sy)])
+        t_p = float((np.asarray(self.pos, float) - S) @ u)
+        t_hat = min(max(t_p, 220.0), 1900.0)
+        G = S + u * t_hat
+        perp = np.array([-u[1], u[0]])
+        best = None
+        for sgn in (+1.0, -1.0):
+            for frac in (1.0, 0.6, 0.35):        # 先试全侧移，再退而求其次
+                q = G + perp * sgn * self.cfg.loc_cross_radius_m * frac
+                if float(np.hypot(*q)) > R_ARENA - 1.0:
+                    continue
+                if not self.admissible_near(q, G):
+                    continue
+                key = float(np.hypot(*(q - np.asarray(self.pos, float))))
+                if best is None or key < best[0]:
+                    best = (key, q, frac)
+                break
+        if best is None:
+            # 覆盖角筛不出候选：直接取"离原点更近"的那一侧（一定在朝外的覆盖半平面里）
+            cands = [G + perp * sgn * self.cfg.loc_cross_radius_m * 0.5
+                     for sgn in (+1.0, -1.0)]
+            cands = [c for c in cands if float(np.hypot(*c)) <= R_ARENA - 1.0]
+            if not cands:
+                return False
+            q = min(cands, key=lambda c: float(np.hypot(*c)))
+            best = (float(np.hypot(*(q - np.asarray(self.pos, float)))), q, 0.5)
+        _d, q, frac = best
+        trav = float(np.hypot(*(q - np.asarray(self.pos, float))))
+        if not self.can_afford(trav / V_ROBOT + T_MEASURE + T_SWITCH + 6.0):
+            return False
+        self.log(f"  定位频道{ch}：侧移到 ({q[0]:.0f},{q[1]:.0f})"
+                 f"（移动 {trav:.0f} m，离估计位置 {self.cfg.loc_cross_radius_m * frac:.0f} m，"
+                 f"交会角(*@\ensuremath{\approx}@*)45(*@\ensuremath{{}^{\circ}}@*)）")
+        r = self.measure(float(q[0]), float(q[1]), int(ch))
+        self.note_meas((float(q[0]), float(q[1])))
+        self.stats["n_locate"] = self.stats.get("n_locate", 0) + 1
+        if r.get("measure_result") == "near":
+            self._near_pt[int(ch)] = (float(q[0]), float(q[1]))
+            return True
+        return r.get("measure_result") == "direction"
+
+    def localize(self, ch):
+        """闭环定位：**先侧移交会（准、贵）(*@\ensuremath{\rightarrow}@*) 交会不成再沿视线二分（便宜、糙）**。
+
+        为什么这个顺序：误差的**横向分量**才是清除的瓶颈（沿视线的距离误差只会让
+        试探点沿视线前后偏一点，而横向偏 200 m 就完全试不到）。侧移交会同时压掉
+        横向与纵向误差（基线 400 m、交会角 45(*@\ensuremath{{}^{\circ}}@*) (*@\ensuremath{\Rightarrow}@*) 区域半径 (*@\ensuremath{\approx}@*) 10 m），
+        所以它是"值得付 180 s"的一步；只有连交会都拿不到方位时，
+        才退回"沿视线二分"（对贴边朝外的源，它的横向误差 (*@\ensuremath{\approx}@*) d(*@\ensuremath{\cdot}@*)tan1(*@\ensuremath{{}^{\circ}}@*)）。
+
+        返回 ``(est, radius, br)``。
+        """
+        rec = self.recs[int(ch)]
+        br = self.bounded_region(rec)
+        if br is not None and float(br["radius"]) <= self.cfg.loc_probe_radius_max_m:
+            return np.asarray(br["center"], float), float(br["radius"]), br
+        # 1) 侧移交会（最多两轮：第二轮是在"位置估计更准"之后再做一次）
+        for _ in range(2):
+            if not self.locate_by_cross(ch):
+                break
+            br = self.bounded_region(rec)
+            if br is not None and float(br["radius"]) <= self.cfg.loc_probe_radius_max_m:
+                return np.asarray(br["center"], float), float(br["radius"]), br
+            if not self.can_afford(self.cfg.min_action_budget_s + 40.0):
+                break
+        g = self.cross_estimate(rec)
+        if g is not None:
+            return g, float(self.cfg.loc_clear_radius_m), None
+        # 2) 交会不成：沿视线二分量距离
+        est, rad, _br = self.locate_on_ray(ch)
+        if est is None:
+            return None, float("inf"), None
+        return est, float(rad), None
+
+    def sweep_ok(self, ch, rec, c, r, poly=None):
+        """覆盖式试探的**布尔**结论。
+
+        ``P3Robot.sweep_clear`` 现在返回三态字符串
+        （``SWEEP_OK`` / ``SWEEP_MISS`` / ``SWEEP_BUDGET``，见 ``p3_robot`` 的
+        "失败归因三分"）；三者在布尔上下文里**都非空**，直接拿来做 ``if`` 判定会把
+        "预算不足、一个 /clear 都没发"误判成成功。本模块只需要"清掉了没有"，
+        因此统一折算回布尔。
+        """
+        return self.sweep_clear(ch, rec, c, r, poly=poly) == SWEEP_OK
+
+    def solve_channel(self, ch):
+        """把一个已发现频道定位并清除（定向源版本）。"""
+        rec = self.recs[int(ch)]
+        if rec.cleared:
+            return True
+        # (0a) 定位过程中出现过 near（距离 (*@\ensuremath{\le}@*) 5 m）：回那个点直接清，别再做任何试探
+        near_p = self._near_pt.get(int(ch))
+        if near_p is not None:
+            d = float(np.hypot(*(np.asarray(self.pos, float) - np.asarray(near_p, float))))
+            if self.can_afford(d / V_ROBOT + 6.0):
+                self.log(f"  频道{ch} 曾在 ({near_p[0]:.0f},{near_p[1]:.0f}) 测到 near"
+                         f"（距离 (*@\ensuremath{\le}@*) 5 m）-> 回到该点直接清除")
+                if self.do_clear(float(near_p[0]), float(near_p[1]), int(ch)):
+                    return True
+            self._near_pt.pop(int(ch), None)
+        est, rad, _br = self.estimate(ch)
+        # (0b) 估计点就在跟前：直接试一次 /clear（3 s 的事）
+        if est is not None and float(np.hypot(*(np.asarray(self.pos, float) - est))) \
+                <= self.cfg.clear_est_probe_m:
+            if self.do_clear(float(self.pos[0]), float(self.pos[1]), int(ch)):
+                return True
+        # (1) 定位：区域够小就直接用；否则沿视线二分把"距离"量准
+        br = self.bounded_region(rec)
+        if not (br is not None
+                and float(br["radius"]) <= self.cfg.loc_probe_radius_max_m):
+            est, rad, br = self.localize(ch)
+            if est is None:
+                rec.clear_fail += 1
+                self.log(f"  [x] 频道{ch} 无法定位（方位数据不足）")
+                return False
+        # (2) 逼近定位区域中心（顺带补一条方位，常常直接 near）
+        for _ in range(self.cfg.clear_approach_max):
+            br = self.bounded_region(rec)
+            if br is None:
+                break
+            c = np.asarray(br["center"], float)
+            rr = float(br["radius"])
+            if rr > self.cfg.loc_probe_radius_max_m:
+                break
+            d = math.hypot(*(np.asarray(self.pos, float) - c))
+            if d <= max(rr, self.cfg.arrive_radius_m):
+                break
+            if not self.can_afford(d / V_ROBOT + T_MEASURE + T_SWITCH + 6.0):
+                break
+            resp = self.measure(float(c[0]), float(c[1]), int(ch))
+            self.note_meas((float(c[0]), float(c[1])))
+            if resp.get("measure_result") == "near":
+                return self.do_clear(float(c[0]), float(c[1]), int(ch))
+            if resp.get("accepted") is not True:
+                return False
+        # (3) 第一轮试探：有界区域（且不大）就按**交会多边形**试 (*@\textemdash{}@*)(*@\textemdash{}@*) 交会区域常是细长
+        #     四边形，按多边形只在"到区域 (*@\ensuremath{\le}@*) 20 m"的格点上试，比外接圆省一半以上的点，
+        #     而且"区域必含真源"是问题 1 的结论，所以这一轮命中率最高。
+        self.phase = "clear"
+        br = self.bounded_region(rec)
+        if br is not None and float(br["radius"]) <= self.cfg.loc_probe_radius_max_m:
+            if self.sweep_ok(int(ch), rec, np.asarray(br["center"], float),
+                             float(br["radius"]), poly=br.get("poly")):
+                return True
+        # (4) 第二轮：以**估计点**为中心的小圆（半径由定位精度决定）
+        #     定向源的清除与朝向无关 (*@\ensuremath{\Rightarrow}@*) 只要"估计点到真源 (*@\ensuremath{\le}@*) 20 m"就够了；
+        #     沿视线二分的距离精度约 (*@\ensuremath{\pm}@*)20 m，横向误差约 0.0175(*@\ensuremath{\cdot}@*)d (*@\ensuremath{\Rightarrow}@*) 半径 90 m 足够。
+        if est is not None:
+            if self.sweep_ok(int(ch), rec, np.asarray(est, float),
+                             self.cfg.loc_clear_radius_m, poly=None):
+                return True
+        # (5) 第三轮：估计点也不可信时，用"最后一条视线"上的二分区间中点再试一次
+        if rec.n_bearings >= 1:
+            br = self.bounded_region(rec)
+            if br is None:
+                est2, _r2, _b2 = self.locate_on_ray(ch)
+                if est2 is not None and self.sweep_ok(
+                        int(ch), rec, np.asarray(est2, float),
+                        self.cfg.loc_clear_radius_m, poly=None):
+                    return True
+        # (5) 第四轮：**沿视线二分给出的是"与协议约定无关"的距离信息** (*@\textemdash{}@*)(*@\textemdash{}@*)
+        #     只要二分区间收得够窄（(*@\ensuremath{\le}@*) 230 m，说明测点确实落在源的覆盖范围内），
+        #     就以该位置为中心做一次小圆试探。这一轮专门对付"几条视线近似平行
+        #     （交会角小）、有界区域又细又长"的目标 (*@\textemdash{}@*)(*@\textemdash{}@*) 那类目标的交会区域虽然把源
+        #     夹住了，但细长区域用外接圆试探会大量空跑。
+        if (rec.n_bearings >= 1 and self.can_afford(self.cfg.min_action_budget_s + 30.0)
+                and int(ch) not in self._tried_ray):
+            self._tried_ray.add(int(ch))
+            est3, rad3, _b3 = self.locate_on_ray(ch)
+            if est3 is not None and float(rad3) <= 230.0:
+                d3 = float(np.hypot(*(np.asarray(self.pos, float)
+                                      - np.asarray(est3, float))))
+                if self.can_afford(d3 / V_ROBOT + T_MEASURE + T_SWITCH + 8.0):
+                    self.log(f"  沿视线落到 ({est3[0]:.0f},{est3[1]:.0f})"
+                             f"（区间 (*@\ensuremath{\pm}@*){float(rad3):.0f} m）再取一条方位")
+                    r3 = self.measure(float(est3[0]), float(est3[1]), int(ch))
+                    self.note_meas((float(est3[0]), float(est3[1])))
+                    if r3.get("measure_result") == "near":
+                        self._near_pt[int(ch)] = (float(est3[0]), float(est3[1]))
+                        if self.do_clear(float(est3[0]), float(est3[1]), int(ch)):
+                            return True
+                    br = self.bounded_region(rec)
+                    if br is not None \
+                            and float(br["radius"]) <= self.cfg.loc_probe_radius_max_m:
+                        if self.sweep_ok(int(ch), rec,
+                                         np.asarray(br["center"], float),
+                                         float(br["radius"]), poly=br.get("poly")):
+                            return True
+                    if self.sweep_ok(int(ch), rec, np.asarray(est3, float),
+                                     self.cfg.loc_clear_radius_m, poly=None):
+                        return True
+        self.phase = "locate"
+        rec.clear_fail += 1
+        self.log(f"  [x] 频道{ch} 本轮未清除成功")
+        return False
+
+    # ---------------- 主循环 ----------------
+    def sweep_pass(self, flip=False):
+        """走一遍扫描航线：按"必去站位"顺序移动，每站只测还没听到过的频道。
+
+        返回本遍实际访问的站数。三个提前收工判据：
+
+        * 该半平面约定下"还没有被排除的格点"清零 (*@\ensuremath{\Rightarrow}@*) 这一遍已经证明没有漏源；
+        * 航线走完；
+        * 时间不够。
+
+        每站之后还会做两件"顺路"的事：把估计位置就在附近的目标清掉
+        （:meth:`_opportunistic_clear`），以及按需重排航线（``replan_every``）。
+        """
+        self.coverage_flip = bool(flip)
+        tour = (self.plan_station_tour() if self.cfg.plan_tour
+                else self.greedy_station_order())
+        self.stats["n_covering_stations"] = len(tour)
+        self.stats["tour_len_m"] = float(getattr(self, "_tour_len_m", 0.0))
+        self.log(f"扫描航线：{len(tour)} 个必去站位"
+                 f"（{'覆盖集 + 半径偏置 TSP' if self.cfg.plan_tour else '逐步贪心'}），"
+                 f"预计长度 {getattr(self, '_tour_len_m', 0.0):.0f} m")
+        visited = 0
+        step_i = 0
+        while step_i < len(tour):
+            if self.aborted or self.remaining() <= self.cfg.time_reserve_s:
+                break
+            if self.unheard_cover_left() <= 0:      # 已经没有"可能有源"的地方了
+                self.log("  所有未听频道的可能位置都已被排除 -> 提前结束扫描")
+                break
+            if self.cfg.max_station_visits and visited >= self.cfg.max_station_visits:
+                break
+            si = tour[step_i]
+            step_i += 1
+            # 复核：这一站对"还没听到过的频道"还有没有新覆盖（有的站会被别的站代劳）
+            if self.station_gain(si, self.unheard_mask()) <= self.cfg.station_min_gain:
+                self.log(f"  站位 {si} 的覆盖职责已被其他站代劳 -> 跳过")
+                continue
+            x, y = self.stations[int(si)]
+            dist = math.hypot(x - self.pos[0], y - self.pos[1])
+            if not self.can_afford(dist / V_ROBOT + T_MEASURE + T_SWITCH + 4.0):
+                self.log("剩余时间不足以再跑一站 -> 结束扫描")
+                break
+            self.visit_station(si)
+            visited += 1
+            # 顺路：刚听到的目标若绕不了多远就当场清掉（"早清一个源"直接改善指标）
+            self._opportunistic_clear(max_n=self.cfg.enroute_max_n)
+            # 滚动重规划（可选）
+            if (self.cfg.replan_every and visited % self.cfg.replan_every == 0
+                    and self.remaining() > self.cfg.time_reserve_s
+                    and not self.aborted):
+                tour = self.plan_station_tour()
+                step_i = 0
+                self.stats["n_replans"] = self.stats.get("n_replans", 0) + 1
+                self.log(f"  滚动重规划：剩余必去站位 {len(tour)} 个")
+        return visited
+
+    def run(self):
+        t0 = time.time()
+        resp = self.arena.enter()
+        if resp.get("accepted") is not True:
+            raise ArenaError(f"/enter 未被接受：{resp}")
+        base = self.cfg
+        self.log(f"进入靶区：预算 {self.remaining():.0f} s（{self.arena.budget_kind()}）；"
+                 f"策略=三角形格网扫描（a={base.grid_a:.0f} m，"
+                 f"{len(self.stations)} 个站位 + 原点）")
+        try:
+            # ---------- 阶段 0：原点（频道 1 起步，依次测全部频道）----------
+            self.phase = "scan"
+            self.scan_points.append(self.pos)
+            chans0 = self.channels_to_measure()
+            self.log(f"第 0 站（原点）：待测 {len(chans0)} 个频道 {chans0}")
+            self.note_meas(self.pos)
+            self.scan_at(self.pos[0], self.pos[1], chans0)
+            self.note_meas((float(self.arena.pos[0]), float(self.arena.pos[1])))
+            self.log(f"  原点检测完成：听到 {len(self.heard_pending())} 个频道，"
+                     f"剩余未覆盖格点 {self.unheard_cover_left()} 个"
+                     f"（定向覆盖模型：这些格点还可能藏着没听到过的源）")
+
+            # ---------- 阶段 1：扫描 + 清理 ----------
+            if self.cfg.unified:
+                # **边扫描边清理**：一条滚动重规划的航路走完两圈，点也清完（默认）
+                self.run_unified()
+            else:
+                # 阶段式对照：先扫两遍，再统一清理
+                self._staged_scan_then_clear()
+        finally:
+            try:
+                self.arena.exit()
+            except ArenaError as e:
+                self.log(f"/exit 异常：{e}")
+        self.stats["program_runtime_s"] = time.time() - t0
+        return self.report()
+
+    # ---------------- 统一航路：边扫描边清理 ----------------
+    def ring_index(self):
+        """把站位按半径分"环"：返回 ``{站号: 环号}``（环号 = 半径分档序号）。
+
+        分档宽度取 ``grid_a/2``（默认 500 m）：于是 r=0 / r=1000 / r=1732 / r=1850
+        落在 0 / 2 / 3 / 3 档 (*@\textemdash{}@*)(*@\textemdash{}@*) 内环、中环、外环分得开，
+        而"1732 与 1850"这种只差 118 m 的两层会被合到同一环（它们本来就该连着走）。
+        """
+        got = getattr(self, "_ringidx", None)
+        if got is not None:
+            return got
+        band = max(150.0, float(self.cfg.grid_a) * 0.5)
+        self._ringidx = {i: int(round(math.hypot(x, y) / band))
+                         for i, (x, y) in enumerate(self.stations)}
+        return self._ringidx
+
+    def scan_skeleton(self, start=None):
+        """扫描站位的骨架顺序：**全局最近邻 + 2-opt，代价里带"由内向外"偏置**。
+
+        这里修正了旧实现的一个真实缺陷（`src/p4_route_audit.py` 量化）：
+        旧版按"半径分档 + 档内极角"排成**固定**顺序 (*@\textemdash{}@*)(*@\textemdash{}@*) 进环永远从固定角度切进去，
+        于是"切换环"时经常要横穿靶区。实测骨架直线航程 18.7 km，
+        但跳站之后实际扫描段走了 **26.2 km**（多出来的就是跨环长跳）。
+
+        规则（对应用户的要求：**切换环时就近进入**）：
+
+        1. **全局最近邻**（不分环）：下一个站取"离我最近的那个" (*@\textemdash{}@*)(*@\textemdash{}@*)
+           "进环点"自然就是最近的站，而不是某个固定角度；
+        2. 代价里加 ``w (*@\ensuremath{\cdot}@*) 半径`` 的小偏置：让航线**整体**由内向外推进
+           （内环先扫 (*@\ensuremath{\Rightarrow}@*) 中心附近的源先被听到，对指标有利），
+           但偏置足够小，不会为了"先内后外"去横穿靶区；
+        3. **2-opt** 消掉自交与绕远。
+
+        (*@\textbf{[!]}@*) ``start`` 只用于"排一条**基准航线**"，不要拿"顺路清除之后的当前位置"来排
+        (*@\textemdash{}@*)(*@\textemdash{}@*) 从偏离航线很远的点做最近邻会得到一条"以该点为中心的星形路线"，
+        把原来的环形结构彻底打散（实测这是"跨过中间节点"长跳的真正来源）。
+        真正的处理是"绕行清掉目标后沿基准航线继续"，见 :meth:`build_queue`。
+        """
+        key = None if start is None else (round(float(start[0]), 1),
+                                          round(float(start[1]), 1))
+        cache = getattr(self, "_skeleton_cache", None)
+        if cache is None:
+            cache = self._skeleton_cache = {}
+        if key is not None and key in cache:
+            return cache[key]
+        if key is None and getattr(self, "_skeleton", None) is not None:
+            return self._skeleton
+        w = float(self.cfg.skeleton_radius_w)
+        si_all = list(range(len(self.stations)))
+        P = {si: np.asarray(self.stations[si], float) for si in si_all}
+        s0 = np.asarray((0.0, 0.0) if start is None else start, float)
+
+        def cost(order):
+            cur, d = s0, 0.0
+            for si in order:
+                d += float(np.hypot(*(P[si] - cur))) + w * float(np.hypot(*P[si]))
+                cur = P[si]
+            return d
+
+        def geo_len(order):
+            cur, d = s0, 0.0
+            for si in order:
+                d += float(np.hypot(*(P[si] - cur)))
+                cur = P[si]
+            return d
+
+        def two_opt(order, rounds=40):
+            best = cost(order)
+            improved, guard = True, 0
+            while improved and guard < rounds:
+                improved = False
+                guard += 1
+                for i in range(len(order) - 1):
+                    for j in range(i + 1, len(order)):
+                        cand = order[:i] + order[i:j + 1][::-1] + order[j + 1:]
+                        c = cost(cand)
+                        if c < best - 1e-9:
+                            order, best, improved = cand, c, True
+            return order
+
+        # 起点构造：最近邻 / 角向扫描（内外分环、正反两向）
+        starts = []
+        left, cur, seq = set(si_all), s0, []
+        while left:
+            j = min(left, key=lambda si: float(np.hypot(*(P[si] - cur)))
+                    + w * float(np.hypot(*P[si])))
+            seq.append(j)
+            left.discard(j)
+            cur = P[j]
+        starts.append(seq)
+        c0 = P[seq[0]]
+        a0 = math.atan2(c0[1] - s0[1], c0[0] - s0[0])
+        for by_ring in (True, False):
+            starts.append(sorted(
+                si_all, key=lambda si: ((round(math.hypot(*P[si]) / 900.0)
+                                         if by_ring else 0),
+                                        (math.atan2(P[si][1], P[si][0]) - a0)
+                                        % (2 * math.pi))))
+        for sgn in (+1, -1):
+            starts.append(sorted(si_all,
+                                 key=lambda si: (math.atan2(P[si][1], P[si][0]) - a0)
+                                 * sgn % (2 * math.pi)))
+        # **cheapest insertion**（圆盘布局上比"最近邻 + 2-opt"更能避免跨环长跳：
+        # 它总把新站插到"绕行代价最小"的位置，而不是从当前位置一路贪心往外走）
+        order = [si_all[0]]
+        rest = set(si_all[1:])
+        while rest:
+            bo, bd = None, None
+            for si in rest:
+                p = P[si]
+                for k in range(len(order)):
+                    a_ = s0 if k == 0 else P[order[k - 1]]
+                    b_ = P[order[k]]
+                    delta = (math.hypot(*(p - a_)) + math.hypot(*(b_ - p))
+                             - math.hypot(*(b_ - a_)))
+                    if bd is None or delta < bd:
+                        bo, bd = (si, k), delta
+            order.insert(bo[1], bo[0])
+            rest.discard(bo[0])
+        starts.append(order)
+        best_seq, best_geo = None, float("inf")
+        for cand in starts:
+            cand = two_opt(list(cand))
+            g = geo_len(cand)
+            if g < best_geo - 1e-9:
+                best_seq, best_geo = cand, g
+        seq = best_seq
+
+        # 试过但**否掉**的一个改动：显式"由内向外"排序（按半径 sort 再 2-opt）。
+        # 动机是"先扫内环 (*@\ensuremath{\Rightarrow}@*) 中心附近的源早被听到 (*@\ensuremath{\Rightarrow}@*) 指标更好"，
+        # 但实测（20 局）：gain=180 时从 620 s 变 625 s（更差）；
+        # gain=250 时从 602 s 变 578 s（更快）**但清除率 1.0000 (*@\ensuremath{\rightarrow}@*) 0.9925**（掉 2 个源）。
+        # 既然"清除率是硬指标、优化不达标就回滚"，这个改动没有保留
+        # （相关字段 `radius_sort_w` 仍留在配置里，默认 0 = 关闭，便于复现）。
+        if key is not None:
+            cache[key] = seq
+        else:
+            self._skeleton = seq
+            self._skeleton_len_m = best_geo
+        return seq
+
+    def spiral_tour(self, start=None):
+        """**问题 3 式的"绕圈"航线**：按环由内向外，每环**角向单调推进、不回头**。
+
+        这是把问题 3 的覆盖扫圈（`src/p3_sweep.py`：`pick_stop` 只允许"沿当前绕圈方向
+        单调前进"，`adv (*@\ensuremath{\ge}@*) 0.35 格`）搬到问题 4 的格网上：
+
+        1. 环 = 半径分档（``grid_a/2``，于是 r=1000 / 1732 / 1850 各成一层）；
+        2. **由内向外**逐环扫（内环先扫 (*@\ensuremath{\Rightarrow}@*) 中心附近的源先被听到，指标对"听到时刻"敏感）；
+        3. 每环内**角向单调**：方向在第一环的第一段确定（取"往哪边转更近"），
+           之后只沿这个方向走 (*@\textemdash{}@*)(*@\textemdash{}@*) 绝对不会在同一环上回头；
+        4. 环间**就近衔接**：下一环的起点取"离当前所在站位最近的那个站"，
+           方向**反过来**（下一环沿反方向扫），这样绕完一圈正好回到起点附近，
+           衔接距离最短；
+        5. 最后用 2-opt 在"保持环序"的前提下微调（只允许环内重排）。
+
+        与"几何最短 TSP"的差别：TSP 排法会在环之间来回穿插（半径序列
+        1000,1850,1732,1000,(*@\ensuremath{\ldots}@*)），几何上更短，但**角向来回横跳**；
+        绕圈排法一圈只走一个方向，路径形态与问题 3 的八边形/十二边形一致。
+        """
+        band = max(150.0, float(self.cfg.grid_a) * float(self.cfg.ring_band_frac))
+        rings: dict[int, list[int]] = {}
+        for si, (x, y) in enumerate(self.stations):
+            rings.setdefault(int(round(math.hypot(x, y) / band)), []).append(si)
+        cur = np.asarray((0.0, 0.0) if start is None else start, float)
+        seq: list[int] = []
+        direction = 0.0                       # 0 = 未定；+1 = 逆时针；-1 = 顺时针
+        for k in sorted(rings):
+            grp = rings[k]
+            if not grp:
+                continue
+            # 进环点：离当前位置最近的站（"切换环时就近进入"）
+            entry = min(grp, key=lambda si: float(np.hypot(
+                *(np.asarray(self.stations[si], float) - cur))))
+            a0 = math.atan2(self.stations[entry][1], self.stations[entry][0])
+            if direction == 0.0:
+                # 定方向：比较"往两个方向扫完这一环"的角向总路程，取短的
+                direction = 1.0 if len(grp) else 1.0
+                # 用"下一站"的角向来判断（避免固定方向导致第一段就横穿）
+                others = [si for si in grp if si != entry]
+                if others:
+                    nxt = min(others, key=lambda si: abs(
+                        ((math.atan2(self.stations[si][1], self.stations[si][0]) - a0
+                          + math.pi) % (2 * math.pi)) - math.pi))
+                    da = (math.atan2(self.stations[nxt][1], self.stations[nxt][0])
+                          - a0 + math.pi) % (2 * math.pi) - math.pi
+                    direction = 1.0 if da >= 0 else -1.0
+            order = [entry]
+            left = [si for si in grp if si != entry]
+            cursor = a0
+            while left:
+                def adv(si, _c=cursor):
+                    a = math.atan2(self.stations[si][1], self.stations[si][0])
+                    d = (a - _c) * direction % (2 * math.pi)
+                    return d if d > 1e-9 else d + 2 * math.pi
+                nxt = min(left, key=adv)
+                order.append(nxt)
+                left.remove(nxt)
+                cursor = math.atan2(self.stations[nxt][1], self.stations[nxt][0])
+            seq += order
+            cur = np.asarray(self.stations[order[-1]], float)
+            direction = -direction            # 下一环反向：绕回起点附近，衔接最短
+        return seq
+
+    def build_queue(self, start=None):
+        """建立本遍的扫描航线：**一次排好，全程不再按当前位置重排**。
+
+        为什么不做"动态最近邻/滚动重排"（这是被实测否掉的两版）：
+
+        * 旧版 A：每一步在"还没去过且此刻有用的站"里取最近 (*@\textemdash{}@*)(*@\textemdash{}@*)
+          会跳过"此刻收益为 0"的几何中间节点，出现 2 500 m 的长跳，之后还要回头补；
+        * 旧版 B：顺路清除后按当前位置重排剩余站位 (*@\textemdash{}@*)(*@\textemdash{}@*)
+          从偏离航线 1 200 m 的位置做最近邻，会把环形航线打散成"以该点为中心的星形"，
+          实测航程反而从 17.9 km 涨到 26.9 km。
+
+        排法由 ``route_mode`` 决定（对照用）：
+
+        * ``"tsp"``（默认）：:meth:`scan_skeleton`（全局 NN + 2-opt + cheapest-insertion
+          多起点取优）(*@\textemdash{}@*)(*@\textemdash{}@*) 几何最短，但会在环之间交替穿插；
+        * ``"spiral"``：:meth:`spiral_tour` (*@\textemdash{}@*)(*@\textemdash{}@*) 问题 3 式"由内向外绕圈 + 角向单调不回头"。
+
+        顺路清除只是"绕出去一趟再回来"，跳站只发生在"队首此刻确实没有新覆盖"时
+        （:meth:`next_scan_station`）。
+        """
+        if self.cfg.route_mode == "spiral":
+            base = self.spiral_tour(start=start)
+            self._queue = [si for si in base if si not in self.visited_stations]
+            return self._queue          # 绕圈排法**不能**再做 2-opt（会把角向单调性打乱）
+        base = self.scan_skeleton(start=start)
+        self._queue = [si for si in base if si not in self.visited_stations]
+        self._queue, _ = self._two_opt(self._queue,
+                                       start=np.asarray(self.pos, float))
+        return self._queue
+
+    def _two_opt(self, order, start):
+        """对 ``order``（站号列表）做 2-opt，返回 ``(新顺序, 长度)``。"""
+        P = {si: np.asarray(self.stations[si], float) for si in order}
+        s0 = np.asarray(start, float)
+
+        def cost(o):
+            cur, d = s0, 0.0
+            for si in o:
+                d += float(np.hypot(*(P[si] - cur)))
+                cur = P[si]
+            return d
+
+        if len(order) < 4:
+            return list(order), cost(order)
+        best = cost(order)
+        improved = True
+        while improved:
+            improved = False
+            for i in range(len(order) - 1):
+                for j in range(i + 1, len(order)):
+                    cand = order[:i] + order[i:j + 1][::-1] + order[j + 1:]
+                    c = cost(cand)
+                    if c < best - 1e-9:
+                        order, best, improved = cand, c, True
+        return list(order), best
+
+    def next_scan_station(self, flip=None):
+        """下一个要去的扫描站位。
+
+        **两步走**（这是把"就近选站"和"不跨环乱跳"同时做到的办法）：
+
+        1. **正常情况**：走基准航线的队首。基准航线是全局 NN + 2-opt 排出来的，
+           几何上连贯（实测单跳最大 1 104 m、无 >1 200 m 的长跳）；
+        2. **被顺路清除带偏之后**（当前位置到队首的距离 > ``detour_follow_m``）：
+           不再硬走回队首，改为**就近切入**(*@\textemdash{}@*)(*@\textemdash{}@*)在基准航线里挑"离我最近的那一站"
+           作为新的起点，然后**顺着基准航线的顺序**往下走（不是重新做最近邻！）。
+
+        为什么"顺着基准航线"而不是"重新最近邻"：重新最近邻会从偏离点长出一颗
+        **星形路线**，把环形结构彻底打散（实测航程 17.9 km (*@\ensuremath{\rightarrow}@*) 26.9 km），
+        而且会跳过几何上的中间站、之后还要回头补。
+        """
+        if not self.unheard():
+            return None
+        keep = self.measure_set()            # 降覆盖档：只在这些站里选（None = 全覆盖）
+        # 当前队首是否还值得去
+        def usable(si):
+            return (si not in self.visited_stations
+                    and (keep is None or int(si) in keep)
+                    and self.station_gain(si, self.unheard_mask())
+                    > self.cfg.station_min_gain)
+
+        while self._queue and not usable(self._queue[0]):
+            self._queue.pop(0)
+        if not self._queue:
+            return None
+        pos = np.asarray(self.pos, float)
+        d0 = float(np.hypot(*(np.asarray(self.stations[self._queue[0]], float) - pos)))
+        if d0 <= self.cfg.detour_follow_m:
+            return self._queue[0]
+        # 被带偏了：就近切入基准航线（取"离我最近且还有用"的那一站作为新起点）
+        best, bd = None, None
+        for k, si in enumerate(self._queue):
+            if not usable(si):
+                continue
+            d = float(np.hypot(*(np.asarray(self.stations[si], float) - pos)))
+            if bd is None or d < bd:
+                best, bd = k, d
+        if best is None:
+            return None
+        if best > 0:
+            self._queue = self._queue[best:] + self._queue[:best]
+            self.stats["n_reroutes"] = self.stats.get("n_reroutes", 0) + 1
+            self.log(f"  就近切入航线：跳过 {best} 站，从站 {self._queue[0]} 继续"
+                     f"（距当前 {bd:.0f} m，原队首 {d0:.0f} m）")
+        return self._queue[0]
+
+    def replan_queue(self, force=False):
+        """覆盖职责变化后用**基准航线**重排剩余站位（不再按当前位置重排）。
+
+        旧实现按"当前位置"重排，实测会被顺路清除带偏、把环形航线打散成星形
+        （见 :meth:`build_queue` 的说明）。现在只在"有站因为收益为 0 被弹出"或
+        显式 ``force`` 时，回到**基准航线**的顺序重排剩余站位。
+        """
+        self._queue = [si for si in self._queue if si not in self.visited_stations]
+        if not self._queue or not force:
+            return
+        base = self.scan_skeleton()
+        rank = {si: k for k, si in enumerate(base)}
+        self._queue.sort(key=lambda si: rank.get(si, 10 ** 6))
+        self.stats["n_replans"] = self.stats.get("n_replans", 0) + 1
+
+    def localize_fast(self, ch):
+        """**小幅度移动**把目标定到"能清"的精度，返回 ``(est, radius)``。
+
+        与全量 :meth:`localize` 的差别：这里要的是"够用"而不是"最优"，
+        因为每多走 100 m 就是 20 s 的虚拟时间：
+
+        1. 交会区域已经 (*@\ensuremath{\le}@*) ``interleave_loc_radius_m`` (*@\ensuremath{\Rightarrow}@*) 直接用（0 次额外测量）；
+        2. 侧移交会一次（420 m、交会角 (*@\ensuremath{\approx}@*)45(*@\ensuremath{{}^{\circ}}@*)）(*@\textemdash{}@*)(*@\textemdash{}@*) 一步就把区域压到 10(*@\textendash{}@*)40 m，
+           这就是用户说的"较小幅度的移动来确定大致方位"；
+        3. 只做一次；不成再退回"沿视线二分"（与协议约定无关的那条路）。
+        """
+        rec = self.recs[int(ch)]
+        br = self.bounded_region(rec)
+        lim = float(self.cfg.interleave_loc_radius_m)
+        if br is not None and float(br["radius"]) <= lim:
+            return np.asarray(br["center"], float), float(br["radius"]), br
+        if rec.n_bearings == 1 and self.can_afford(60.0):
+            self.locate_by_cross(ch)
+            br = self.bounded_region(rec)
+            if br is not None and float(br["radius"]) <= lim:
+                return np.asarray(br["center"], float), float(br["radius"]), br
+        g = self.cross_estimate(rec)
+        if g is not None:
+            r = float(br["radius"]) if br is not None else lim
+            return g, r, br
+        est, rad, _br = self.locate_on_ray(ch)
+        if est is None:
+            return None, float("inf"), None
+        return est, float(rad), None
+
+    def clear_here(self, ch):
+        """在当前附近把一个已听到的目标清掉：小幅度定位 (*@\ensuremath{\rightarrow}@*) 小范围覆盖式试探。
+
+        与全量 :meth:`solve_channel` 的差别：不做"逼近中心 + 多边形试探"那一串
+        （那是阶段式清理才划算的），只保留"定位一次 + 以估计点为中心的小圆试探"。
+        """
+        rec = self.recs[int(ch)]
+        if rec.cleared:
+            return True
+        near_p = self._near_pt.get(int(ch))
+        if near_p is not None:
+            if self.do_clear(float(near_p[0]), float(near_p[1]), int(ch)):
+                return True
+        est, rad, br = self.localize_fast(ch)
+        if est is None:
+            return False
+        # 顺带：人已经在估计点上/附近，直接试一次 /clear（3(*@\textendash{}@*)5 s 的事）
+        d = float(np.hypot(*(np.asarray(self.pos, float) - np.asarray(est, float))))
+        if d <= self.cfg.clear_est_probe_m and \
+                self.do_clear(float(self.pos[0]), float(self.pos[1]), int(ch)):
+            return True
+        self.phase = "probe"
+        ok = self.sweep_ok(int(ch), rec, np.asarray(est, float),
+                           self.cfg.interleave_probe_m, poly=None)
+        if not ok and br is not None and float(br["radius"]) <= self.cfg.probe_max_radius_m:
+            ok = self.sweep_ok(int(ch), rec, np.asarray(br["center"], float),
+                               float(br["radius"]), poly=br.get("poly"))
+        self.phase = "scan"
+        if not ok:
+            rec.clear_fail += 1
+        return ok
+
+    def pick_unified_action(self, attempts):
+        """统一航路的下一步：在"继续扫描"和"就地清掉已发现目标"之间选。
+
+        结论（**实测出来的**，不是先验）：**听到就清**永远优于"攒着以后清"。
+        `src/p4_tune_unified.py` 的扫参（20 局）把"绕去清理的距离门限"从 0 扫到 (*@\ensuremath{\infty}@*)：
+
+        | 门限 | 清除率 | 平均定位清除 | 虚拟时间 | 行程 |
+        |---|---|---|---|---|
+        | 0（只在第二遍清） | 0.9963 | 1 019 s | 13 607 s | 56.6 km |
+        | 700 m | 0.9963 | 976 s | 13 027 s | 54.1 km |
+        | 1 100 m | 0.9963 | 884 s | 11 804 s | 48.7 km |
+        | **(*@\ensuremath{\infty}@*)（听到就清）** | **1.0000** | **833 s** | **11 162 s** | **45.9 km** |
+
+        门限越松越好、一直放到"不设门限"最优 (*@\textemdash{}@*)(*@\textemdash{}@*) 原因是**流水线**：
+        "绕去清" 的动作与"扫描"的动作在时间上是重叠的（清完就地从当前站继续扫，
+        不用回到原航点），而"攒着"会把所有清除压到航程末尾，既拖长总时间、
+        又让后面的目标等更久。所以这里不设距离门限，只按"最近的目标优先"排。
+
+        保留"选哪个目标"的排序（最近优先）与"第二遍必清"的兜底：
+        第二遍开始时若还有没清的目标（例如上一遍预算不够），它们的优先级翻倍。
+        """
+        pos = np.asarray(self.pos, float)
+        best = None
+        for ch in self.heard_pending():
+            if attempts.get(ch, 0) >= self.cfg.max_solve_attempts:
+                continue
+            est = self.estimate(ch)[0]
+            if est is None:
+                continue
+            d = float(np.hypot(*(est - pos)))
+            # 绕行上限用 ``interleave_detour_max_m``（默认 (*@\ensuremath{\infty}@*) = 不设限）。
+            # (*@\textbf{[!]}@*) 别用 ``clear_detour_max_m``：那是阶段式时代留给"到站顺手清"的 300 m，
+            # 套到统一航路上会把大多数清理都延后 (*@\ensuremath{\Rightarrow}@*) 积压到航程末尾、来回折返
+            # （实测 300 m 上限：648 s (*@\ensuremath{\rightarrow}@*) 1141 s、行程 34.9 (*@\ensuremath{\rightarrow}@*) 64.1 km）。
+            if d > self.cfg.interleave_detour_max_m and not self.unified_second_pass:
+                continue
+            cost = d / V_ROBOT + self.cfg.interleave_clear_cost_s
+            if self.unified_second_pass:
+                cost *= 0.5                        # 第二遍残留的目标优先
+            if best is None or cost < best[0]:
+                best = (cost, ch, d)
+        if best is not None:
+            return ("clear", best[1])
+        si = self.next_scan_station()
+        return None if si is None else ("station", si)
+
+    def run_unified(self):
+        """**边扫描边清理**：一条滚动重规划的航路走完两圈，点也清完。
+
+        结构（对应用户的要求）：
+
+        ```
+        队列 = 扫描站位（由内向外螺旋）
+        while 队列非空 或 还有没清的目标:
+            每走一站/清一个目标：重读台账、用最新位置重排剩余队列
+            下一步 = 已发现目标里最近的一个（就地清），没有就取队首站
+            第二遍（换半平面约定）时残留目标优先级翻倍
+        ```
+
+        * **听到就地清**（实测最优，见 :meth:`pick_unified_action`）：扫描与清除在同一条
+          航路上交错，清完直接从当前站位继续扫，不需要回到原航点；
+        * **第二遍**：换另一个半平面约定重扫（兜住"定向方向"的协议约定不确定性），
+          这一遍里残留的目标优先清掉，所以两圈走完时点也清完；
+        * 收工判据不变：两遍都走完且所有目标已清 (*@\ensuremath{\Rightarrow}@*) 靶区内没有未发现的源。
+        """
+        n_clear = 0
+        attempts: dict[int, int] = {}
+        total_visited = 0
+        passes = (False, True) if self.cfg.two_pass else (False,)
+        for pi, flip in enumerate(passes):
+            self.unified_second_pass = bool(pi > 0)
+            self.coverage_flip = bool(flip)
+            if pi > 0:
+                self.first_pass_heard = {int(ch) for ch in self.heard_pending()}
+            if pi > 0 and not self.unheard() and not self.heard_pending():
+                break
+            self.log(f"(*@\textemdash{}@*)(*@\textemdash{}@*) 第 {pi + 1} 遍（半平面约定 "
+                     f"{'朝内' if flip else '朝外'}）："
+                     f"未听频道 {len(self.unheard())}，待清目标 "
+                     f"{len(self.heard_pending())} (*@\textemdash{}@*)(*@\textemdash{}@*)")
+            # 本遍的航线：几何一次排好（全局最近邻 + 2-opt），全程不再按当前位置重排
+            self.build_queue()
+            guard = 0
+            while not self.aborted:
+                guard += 1
+                if guard > 3 * (len(self.stations) + len(self.recs)) + 20:
+                    self.log("  航路步数超限 -> 结束本遍")
+                    break
+                if self.remaining() <= self.cfg.time_reserve_s:
+                    self.log("  时间不够 -> 结束本遍")
+                    break
+                # 先看"能不能顺手清掉"，没有可清的就取队首扫描站
+                act = self.pick_unified_action(attempts)
+                if act is None:
+                    break
+                kind, target = act
+                if kind == "clear":
+                    ch = int(target)
+                    attempts[ch] = attempts.get(ch, 0) + 1
+                    est = self.estimate(ch)[0]
+                    d = (float("inf") if est is None
+                         else float(np.hypot(*(est - np.asarray(self.pos, float)))))
+                    tag = "（第二遍优先）" if self.unified_second_pass else ""
+                    self.log(f"  统一航路{tag}：转去清频道{ch}"
+                             f"（估计距离 {d:.0f} m，第 {attempts[ch]} 次尝试）")
+                    self.phase = "enroute"
+                    if self.clear_here(ch):
+                        n_clear += 1
+                    self.phase = "scan"
+                    # 顺路清除只是"绕出去一趟再回来"：**不重排航线**
+                    # （按当前位置重排会把环形航线打散成星形，实测航程 +50%）
+                    continue
+                si = int(target)
+                x, y = self.stations[si]
+                dist = math.hypot(x - self.pos[0], y - self.pos[1])
+                if not self.can_afford(dist / V_ROBOT + T_MEASURE + T_SWITCH + 4.0):
+                    self.log("  剩余时间不足以再跑一站 -> 结束本遍")
+                    break
+                self.visit_station(si)
+                total_visited += 1
+                # 到站后先顺手清掉"就在跟前"的目标，再继续
+                if self.cfg.clear_detour_max_m > 0 and not self.aborted:
+                    self._opportunistic_clear(max_n=self.cfg.enroute_max_n)
+            if self.aborted:
+                break
+        self.stats["n_visited_stations"] = len(self.visited_stations)
+        self.stats["vtime_after_scan"] = float(self.arena.virtual_time_s)
+        left = self.heard_pending()
+        self.log(f"统一航路结束：访问 {len(self.visited_stations)} 站"
+                 f"（共 {total_visited} 站次），清除 {n_clear} 个，"
+                 f"仍未清 {left}｜虚拟 {self.arena.virtual_time_s:.0f} s")
+        # 收尾：还有目标没清就用全量定位(*@\textemdash{}@*)清除流程兜底
+        if left and not self.aborted and self.remaining() > self.cfg.time_reserve_s:
+            self.log(f"收尾阶段：用完整流程清剩余 {left}")
+            self.phase = "clear"
+            n_clear += self.clear_all_heard()
+        self.stats["n_cleared"] = n_clear
+        return n_clear
+
+    def _staged_scan_then_clear(self):
+        """阶段式（对照）：先按覆盖判据扫两遍，再统一清理。
+
+        ``P4Config(unified=False)`` 时使用 (*@\textemdash{}@*)(*@\textemdash{}@*) 保留它是为了做"边扫边清 vs
+        先扫后清"的 A/B（消融表要用实测数字说话）。
+        """
+        total_visited = 0
+        for flip in ((False, True) if self.cfg.two_pass else (False,)):
+            self.coverage_flip = bool(flip)
+            if flip and not self.unheard():
+                break
+            left0 = self.unheard()
+            if not left0:
+                break
+            self.log(f"扫描第 {1 + int(flip)} 遍（半平面约定 "
+                     f"{'朝内' if flip else '朝外'}）："
+                     f"还有 {len(left0)} 个频道没听到过 {left0}")
+            total_visited += self.sweep_pass(flip=bool(flip))
+            if self.aborted:
+                break
+        self.stats["n_visited_stations"] = len(self.visited_stations)
+        self.stats["vtime_after_scan"] = float(self.arena.virtual_time_s)
+        left = self.unheard_cover_left()
+        self.log(f"扫描阶段结束：访问 {len(self.visited_stations)} 站"
+                 f"（共 {total_visited} 站次），"
+                 f"听到 {len(self.heard_pending())} 个频道，"
+                 f"未覆盖格点 {left} 个"
+                 f"{'（=0，可断定靶区内已无未发现的源）' if left == 0 else ''}"
+                 f"｜虚拟 {self.arena.virtual_time_s:.0f} s")
+        self.phase = "clear"
+        self.stats["n_cleared"] = self.clear_all_heard()
+
+    def _opportunistic_clear(self, radius_m=None, max_n=2):
+        """扫到哪儿就清哪儿：刚听到的目标，只要**绕不了多远**就当场清掉。
+
+        为什么重要（路径图直接暴露的问题）：平均定位清除时间 = 定位清除总时刻 (*@\ensuremath{\div}@*) 清除个数，
+        **"什么时候听到"决定了指标的下限**。第一遍扫描要跑 ~30 站、花掉一半以上的虚拟
+        时间；如果一个源在原点就被听到了却要等整圈扫完才清，那它的"定位清除时间"
+        就是整圈的时间（实测"中心密集"场景平均 1286 s）。听到就清，等于把这个数
+        压到"走到它跟前"的量级。
+
+        代价与约束：
+
+        * 绕行 = 从当前位置到目标再折回航线的距离；只有 ``dist (*@\ensuremath{\le}@*) clear_detour_max_m``
+          才值得绕（否则等航线自然路过更省）；
+        * 估计位置来自"沿视线二分"（与协议约定无关），精度 ~20(*@\textendash{}@*)40 m，
+          配 90 m 小圆覆盖式试探足够保证清除成功。
+        """
+        lim = float(self.cfg.clear_detour_max_m if radius_m is None else radius_m)
+        n = 0
+        for ch in self.heard_pending():
+            if n >= max_n or self.aborted:
+                break
+            if not self.can_afford(self.cfg.min_action_budget_s + 40.0):
+                break
+            est, rad, _br = self.estimate(ch)
+            if est is None:
+                continue
+            d = float(np.hypot(*(np.asarray(self.pos, float) - np.asarray(est, float))))
+            if d > lim:
+                continue
+            self.log(f"  顺路清除频道{ch}（估计位置距当前 {d:.0f} m，绕行上限 {lim:.0f} m）")
+            self.phase = "enroute"
+            if self.solve_channel(ch):
+                n += 1
+            self.phase = "scan"
+        return n
+
+    def clear_all_heard(self):
+        """清理阶段：滚动时域(*@\textemdash{}@*)(*@\textemdash{}@*)每清一个就按最新位置重排剩余目标。
+
+        三条防呆（都是实测出来的教训）：
+
+        * 同一频道最多进 :meth:`solve_channel` ``max_solve_attempts`` 次
+          （否则"定位(*@\ensuremath{\rightarrow}@*)试探(*@\ensuremath{\rightarrow}@*)失败(*@\ensuremath{\rightarrow}@*)再定位"会在同一个点上无限循环，实测烧掉 30 000 s）；
+        * 剩余时间不够就退出，不做无谓动作；
+        * 优先清"估计位置离当前位置近"的目标（更可能顺手清掉）。
+        """
+        n = 0
+        attempts: dict[int, int] = {}
+        while not self.aborted:
+            todo = [ch for ch in self.heard_pending()
+                    if attempts.get(ch, 0) < self.cfg.max_solve_attempts]
+            if not todo:
+                break
+            if not self.can_afford(self.cfg.min_action_budget_s + 20.0):
+                self.log("剩余时间不足 -> 结束清理阶段")
+                break
+            pos = np.asarray(self.pos, float)
+            order = []
+            for ch in todo:
+                est = self.estimate(ch)[0]
+                d = float("inf") if est is None else float(np.hypot(*(est - pos)))
+                order.append((d, ch))
+            order.sort()
+            ch = order[0][1]
+            attempts[ch] = attempts.get(ch, 0) + 1
+            self.log(f"清理阶段：{len(todo)} 个已发现频道待清 {sorted(todo)}"
+                     f" -> 先清频道{ch}（第 {attempts[ch]} 次尝试）")
+            if self.solve_channel(ch):
+                n += 1
+        left = self.heard_pending()
+        if left:
+            self.log(f"清理阶段结束：仍未清除 {left}（方位不足或时间不够）")
+        return n

@@ -1,0 +1,145 @@
+% !TeX program = xelatex
+% =====================================================================
+%  2026 年全国大学生数学建模竞赛 B 题 —— 论文主文件（电子版）
+%
+%  依据《全国大学生数学建模竞赛论文格式规范（2026年修订稿）》：
+%   - 电子版论文第一页必须为「摘要专用页」；
+%   - 承诺书、编号专用页不得出现在电子版中（见规范第十条）。
+%  故采用 withoutpreface 选项：去除承诺书与编号专用页，首页即摘要页。
+%
+%  编译方式（必须使用 xelatex）：
+%      latexmk -xelatex main.tex
+%   或  xelatex main.tex （连续运行两次以更新交叉引用）
+% =====================================================================
+\documentclass[withoutpreface,fontset=none]{cumcmthesis}
+
+% =====================================================================
+% 排版紧凑化（适中档）：覆盖模板默认的宽松参数，使整体更紧凑。
+%   - 正文行距 1.38 -> 1.25
+%   - 三线表行距 1.38 -> 1.0
+%   - 列表顶部间距收紧（topsep -> 0）
+%   - 章节标题前后距收紧
+%   - 行间公式上下距收紧
+%  如需恢复模板原样，删除本块即可。
+% =====================================================================
+\makeatletter
+% 关键词：2026 规范为「关键词」（模板默认「关键字」）
+\renewcommand*{\mcm@cap@keywordsname}{关键词}
+% 正文行距
+\renewcommand*{\baselinestretch}{1.25}
+% 为含较长行内公式的段落保留断行余量。
+\setlength{\emergencystretch}{1.5em}
+% 三线表行距（复用模板保存的原始 tabular）
+\renewenvironment{tabular}%
+  {\bgroup\renewcommand{\arraystretch}{1.0}\mcm@oldtabular}%
+  {\mcm@endoldtabular\egroup}
+% 章节标题前后距（前距 / 后距，单位 ex；数值越小越紧凑）
+% 字体：各级标题中文统一使用摘要的黑体字重，编号/英文保持 Times 加粗。
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-2ex \@plus -1ex \@minus -.2ex}%
+  {0.8ex \@plus.2ex}%
+  {\centering\normalfont\heiti\bfseries\Large}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-1.5ex\@plus -1ex \@minus -.2ex}%
+  {0.5ex \@plus .2ex}%
+  {\normalfont\heiti\bfseries\large}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+  {-1.5ex\@plus -1ex \@minus -.2ex}%
+  {0.5ex \@plus .2ex}%
+  {\normalfont\heiti\bfseries\normalsize}}
+% 中文字体统一：ctex 在 macOS 上把 CJK 主字体与 \songti(zhsong 家族) 分别指向系统宋体，
+% 会出现「正文一种宋体、摘要段+关键词+图表题注另一种宋体」两套宋体的混排。这里把两者都钉到
+% 自带字体 fonts/simsun.ttc（与模板 \song/\kai 同源）：Windows/MiKTeX 下本就是 SimSun，视觉不变；
+% macOS/Linux 下则消除第二套宋体（Songti SC / 其他系统宋体）。cls 仅改了字体路径。
+\setCJKmainfont[AutoFakeBold,Path=fonts/]{simsun.ttc}
+\setCJKfamilyfont{zhsong}[AutoFakeBold,Path=fonts/]{simsun.ttc}
+% 显式选择黑体；粗体映射到同一字面，避免标题叠加伪粗后重于摘要和正文小标题。
+\IfFileExists{/System/Library/Fonts/STHeiti Medium.ttc}{%
+  \setCJKsansfont[FontIndex=1,BoldFont=STHeiti Medium.ttc,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+  \setCJKfamilyfont{zhhei}[FontIndex=1,BoldFont=STHeiti Medium.ttc,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+}{%
+  \IfFontExistsTF{SimHei}{%
+    \setCJKsansfont[BoldFont=SimHei]{SimHei}
+    \setCJKfamilyfont{zhhei}[BoldFont=SimHei]{SimHei}
+  }{%
+    \setCJKsansfont[BoldFont=FandolHei-Regular.otf]{FandolHei-Regular.otf}
+    \setCJKfamilyfont{zhhei}[BoldFont=FandolHei-Regular.otf]{FandolHei-Regular.otf}
+  }
+}
+\setCJKmonofont[AutoFakeBold,Path=fonts/]{simsun.ttc}
+\providecommand{\heiti}{\CJKfamily{zhhei}}
+\providecommand{\songti}{\CJKfamily{zhsong}}
+\providecommand{\kaishu}{\CJKfamily{zhkai}}
+\setCJKfamilyfont{zhkai}[Path=fonts/]{simkai.ttf}
+% 论文标题与「摘要」二字同样用黑体。
+% 「摘要」二字在 \abstract 里，可直接打补丁；论文标题在 \@maketitle 里（其定义含 \par，
+% etoolbox 的 \patchcmd 无法打补丁），改为给 \@maketitle 套一层 \heiti——标题行没有显式
+% 指定中文字族，因此会继承黑体；cls 未改动。
+\let\mcm@orig@maketitle\@maketitle
+\def\@maketitle{\begingroup\heiti\mcm@orig@maketitle\endgroup}
+\patchcmd{\abstract}{\zihao{4}\bfseries \abstractname}{\zihao{4}\heiti \abstractname}%
+  {\typeout{[font] abstract heading -> heiti}}{\PackageWarning{mcm}{abstract heading patch failed}}
+% 图题/表题：模板为「宋体 小四 加粗」，加粗宋体与正文宋体不一致，改为宋体小四（与正文同字重）
+\captionsetup[figure]{font={song,minusfour}}
+\captionsetup[table]{font={song,minusfour}}
+% 参考文献：收紧条目间距（thebibliography 用原生 \list，不受上面 \setlist 影响）
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname}%
+      \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \itemsep=0pt\parsep=0pt\topsep=0pt
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+\makeatother
+
+% 列表间距（enumitem）：顶部间距归零，其余保持紧凑
+\setlist{topsep=0em, partopsep=0pt, itemsep=0ex plus 0.1ex, parsep=0pt,
+  leftmargin=1.5em, rightmargin=0em, labelsep=0.5em, labelwidth=2em}
+
+% 行间公式上下距（须在 \begin{document} 之后设置，因 \normalsize 会重置这些长度）
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{8pt plus 2pt minus 4pt}%
+  \setlength{\belowdisplayskip}{8pt plus 2pt minus 4pt}%
+  \setlength{\abovedisplayshortskip}{0pt plus 2pt}%
+  \setlength{\belowdisplayshortskip}{4pt plus 2pt minus 2pt}%
+}
+
+% 图表标题（caption）上下间距收紧：caption 包默认 above=10pt 偏大
+\setlength{\abovecaptionskip}{4pt}% 图题↔图片 / 表题↔正文
+\setlength{\belowcaptionskip}{2pt}% 图题↔正文 / 表题↔表格
+
+% 浮动体（图/表整体）与正文、浮动体之间的上下间距收紧
+% 默认 textfloatsep=20pt、floatsep=12pt、intextsep=12pt，偏大
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}% 正文↔页顶/页底浮动体
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}%   相邻浮动体之间
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}%  正文中[h]浮动体↔上下正文
+
+% ---------------------- 论文信息（按需填写） ----------------------
+\title{无线电干扰源的快速自动定位与清除模型} % 【标题可待定，摘要页居中显示】
+\tihao{B}                 % 题号：B
+\baominghao{}             % 报名队号（电子版不打印，留空即可）
+\schoolname{}             % 参赛学校（电子版严禁出现，留空）
+\membera{}                % 队员 1（电子版不打印）
+\memberb{}                % 队员 2（电子版不打印）
+\memberc{}                % 队员 3（电子版不打印）
+\supervisor{}             % 指导教师（电子版不打印）
+\yearinput{2026}
+\monthinput{09}
+\dayinput{13}
+\setmonofont{Courier New}
+\begin{document}
+\input{sections/q4-source-listings.tex}
+\end{document}
