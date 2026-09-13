@@ -5,8 +5,9 @@ root.  The renderer does not run a robot, alter evidence, or consult live APIs.
 All result panels use ``Q4/out/paper_q4``; the two geometric illustrations are
 explicitly constructed examples.  Output width is 160 mm, with vector PDF and
 330 dpi PNG counterparts in ``paper/figures``.  ``--geometry-only`` is useful
-before an evidence batch has finished.  Mathematical glyphs use STIX and all
-Chinese text uses the paper's embedded SimSun font.
+before an evidence batch has finished.  Latin text uses Times New Roman,
+mathematical glyphs use Computer Modern (as in Q3 and the paper), and Chinese
+text uses the paper's embedded SimSun font.
 """
 from __future__ import annotations
 
@@ -22,6 +23,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib.lines import Line2D
+from matplotlib.offsetbox import AnnotationBbox, HPacker, TextArea, VPacker
 from matplotlib.patches import Arc, Circle, Polygon, Rectangle, Wedge
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -49,9 +51,13 @@ COLOR = dict(legacy=GRAY, joint_strict=BLUE, compact_strict=TEAL)
 def setup_style():
     font = ROOT / "paper" / "fonts" / "simsun.ttc"
     font_manager.fontManager.addfont(str(font))
+    # SimSun contains Latin glyphs too, so use it only as the CJK fallback.
+    latin = Path("/System/Library/Fonts/Supplemental/Times New Roman.ttf")
+    if latin.exists():
+        font_manager.fontManager.addfont(str(latin))
     matplotlib.rcParams.update({
-        "font.family": [font_manager.FontProperties(fname=font).get_name(), "Times New Roman"],
-        "mathtext.fontset": "stix", "font.size": 9.0,
+        "font.family": ["Times New Roman", font_manager.FontProperties(fname=font).get_name()],
+        "mathtext.fontset": "cm", "font.size": 9.0, "font.style": "normal",
         "axes.titlesize": 9.3, "axes.labelsize": 9.0,
         "xtick.labelsize": 8.5, "ytick.labelsize": 8.5, "legend.fontsize": 8.5,
         "axes.spines.top": False, "axes.spines.right": False,
@@ -77,6 +83,14 @@ def geometrical_axes(ax, xlim, ylim):
     ax.axis("off")
 
 
+def mixed_figure_text(fig, xy, parts, fontsize=8.3):
+    """Keep Chinese outside MathText while centering a mixed caption line."""
+    runs = [TextArea(part, textprops={"fontsize": fontsize}) for part in parts]
+    box = HPacker(children=runs, align="center", pad=0, sep=2)
+    fig.add_artist(AnnotationBbox(box, xy, xycoords=fig.transFigure,
+                                 frameon=False, box_alignment=(.5, 0)))
+
+
 def fig_geometry():
     fig, axes = plt.subplots(1, 3, figsize=(FIG_W, 75*MM))
     fig.subplots_adjust(left=.015, right=.985, bottom=.12, top=.86, wspace=.10)
@@ -89,13 +103,13 @@ def fig_geometry():
     ax.plot(0, 0, "*", color=INK, ms=7)
     ax.text(-.08, -.25, "$p$", ha="right")
     arrow(ax, (.04, 0), (.69, 0), TEAL)
-    ax.text(.40, .11, "$d$", color=TEAL)
+    ax.text(.40, .11, r"$d(\gamma)$", color=TEAL)
     ax.plot(-.43, .18, "x", color=RED, ms=5)
     ax.text(-.55, .39, "近点仍可无信号", ha="center", fontsize=8.5)
     ax.plot(.59, -.47, "o", color=TEAL, ms=3.8)
     ax.text(.53, -.71, "可接收测点", ha="center", fontsize=8.5)
     ax.text(0, 1.23, "距离条件与朝向条件同时成立", ha="center", fontsize=8.5)
-    ax.text(0, -1.34, r"$\|q-p\|\leq r,\quad (q-p)\cdot d\geq0$", ha="center")
+    ax.text(0, -1.34, r"$\|s-p\|\leq\rho_c,\quad (s-p)\cdot d\geq0$", ha="center")
     ax.text(0, -1.60, "单个负观测不能排除整个圆盘", ha="center", fontsize=8.5)
 
     bx.set_title("(b) 方格余量与排除朝向", pad=8)
@@ -106,11 +120,11 @@ def fig_geometry():
     bx.add_patch(Circle(c, rho, fc="none", ec=TEAL, ls=":", lw=.8))
     bx.plot(*c, "o", color=TEAL, ms=3); bx.plot(*s, "s", color=INK, ms=4)
     bx.plot([c[0],s[0]],[c[1],s[1]], color=INK, lw=.7)
-    bx.text(c[0]-.04, c[1]-.45, "$c$", ha="center")
-    bx.text(s[0]+.10, s[1], "$q$", va="center")
-    bx.text(.14, .66, r"$D_q=\|q-c\|$", ha="center")
-    bx.text(-.63, 1.06, r"$\rho=h/\sqrt{2}$", ha="center")
-    bx.text(0, -.05, r"$D_q+\rho\leq 1000\ {\rm m}$", ha="center")
+    bx.text(c[0]-.04, c[1]-.45, "$q$", ha="center")
+    bx.text(s[0]+.10, s[1], "$s$", va="center")
+    bx.text(.14, .66, r"$\ell_s=\|s-q\|$", ha="center")
+    bx.text(-.63, 1.06, r"$\delta_h=h/\sqrt{2}$", ha="center")
+    bx.text(0, -.05, r"$\ell_s+\delta_h\leq 1000\ {\rm m}$", ha="center")
     ac = np.array([-.10, -.85]); ar = .48
     half = math.degrees(math.acos(rho / np.linalg.norm(s-c)))
     bx.add_patch(Circle(ac, ar, fc="none", ec="#c8ced4", lw=.8))
@@ -119,9 +133,9 @@ def fig_geometry():
         p=ac+ar*np.array([math.cos(math.radians(a)),math.sin(math.radians(a))])
         bx.plot([ac[0],p[0]],[ac[1],p[1]], color=TEAL, lw=.6)
     arrow(bx,ac,ac+np.array([.70,0]),INK)
-    bx.text(.17,-.80,r"$\alpha$",ha="center")
+    bx.text(.17,-.80,r"$\alpha_s$",ha="center")
     bx.text(-.73,-.91,"朝向圆",ha="center",fontsize=8.5)
-    bx.text(0,-1.56,r"$\alpha=\arccos(\rho/D_q)$",ha="center")
+    bx.text(0,-1.56,r"$\alpha_s=\arccos(\delta_h/\ell_s)$",ha="center")
 
     cx.set_title("(c) 25站压缩为21站", pad=8)
     geometrical_axes(cx, (-2250, 2250), (-2870, 2420))
@@ -172,10 +186,10 @@ def fig_homing():
                          fc="#f5e7df",ec="none"))
     ax.plot([t,t],[-lat,lat],color=RED,lw=1.2)
     ax.plot([0,1.03],[0,0],ls="--",color=GRAY,lw=.6)
-    ax.plot(0,0,"o",color=TEAL,ms=4);ax.text(-.02,-.11,"$S$",ha="center")
+    ax.plot(0,0,"o",color=TEAL,ms=4);ax.text(-.02,-.11,"$s$",ha="center")
     for sign in [-1,1]:
         ax.plot(t,sign*lat,"x",color=RED,ms=5)
-        ax.text(t+.03,sign*(lat+.06),"$Q_+$" if sign>0 else "$Q_-$",ha="left")
+        ax.text(t+.03,sign*(lat+.06),"$s_+$" if sign>0 else "$s_-$",ha="left")
     ax.text(.75,.40,"双负时排除远端",ha="center",fontsize=8.4)
     ax.text(.22,.07,"$t$",ha="center");ax.text(.40,.13,r"$\ell$",ha="right")
     ax.text(.50,-.32,"任一侧正观测 (*@\ensuremath{\rightarrow}@*) 新角楔交会",ha="center",fontsize=8.4)
@@ -188,7 +202,13 @@ def fig_homing():
     bx.fill_between(ts,w1/step*1000,color=TEAL,alpha=.10)
     for w,col in [(w0,GRAY),(w1,TEAL)]:
         bx.axvline(float(ts@w),color=col,ls=":",lw=.85)
-    bx.set(xlim=(0,1550),ylim=(0,None),xlabel="沿方位距离 / m",ylabel="密度 / $10^{-3}$")
+    bx.set(xlim=(0,1550),ylim=(0,None),xlabel="沿方位距离 / m")
+    ylabel = VPacker(children=[
+        TextArea(r"$10^{-3}$", textprops={"fontsize": 9, "rotation": 90}),
+        TextArea("密度 /", textprops={"fontsize": 9, "rotation": 90}),
+    ], align="center", pad=0, sep=3)
+    bx.add_artist(AnnotationBbox(ylabel, (-.23,.5), xycoords=bx.transAxes,
+                                frameon=False, box_alignment=(.5,.5)))
     bx.set_xticks([0,750,1500]);bx.set_yticks([0,1,2])
     bx.grid(alpha=.15,lw=.4)
     bx.legend(loc="upper left",frameon=False,handlelength=1.2,handletextpad=.4,fontsize=8.1)
@@ -201,10 +221,11 @@ def fig_homing():
         for y in (0,28,56):
             cx.add_patch(Circle((x,y),20,fc="none",ec=BLUE,lw=.55,alpha=.72,zorder=4))
             cx.plot(x,y,".",color=BLUE,ms=3,zorder=5)
-    cx.annotate("",xy=(28,-25),xytext=(0,-25),arrowprops=dict(arrowstyle="|-|",color=INK,lw=.75))
+    cx.annotate("",xy=(28,-25),xytext=(0,-25),arrowprops=dict(arrowstyle="|-|",color=INK,lw=.75,mutation_scale=4))
     cx.text(14,-36,"28 m",ha="center",fontsize=8.5)
     cx.text(28,82,"清除半径20 m",ha="center",fontsize=8.5)
-    fig.text(.50,.100,r"(a) 误差角示意放大10倍；实际 $\varepsilon=1.005^\circ$。 (b) 负测点为(550,180) m，竖线为均值。",ha="center",fontsize=8.3)
+    mixed_figure_text(fig, (.50,.100), ["(a) 误差角示意放大10倍；实际",
+        r"$\eta\approx1.005^\circ$", "。 (b) 负测点为(550,180) m，竖线为均值。"])
     fig.text(.50,.035,"后验均值不缩小保守可行域；兜底依靠清除半径，不依赖信号接收方向。",ha="center",fontsize=8.5)
     save(fig,"q4-homing-posterior")
 
@@ -250,10 +271,10 @@ def fig_routes(data):
                     ax.scatter(pp[:,0],pp[:,1],marker=marker,s=14,facecolors="none",edgecolors=GOLD,linewidths=.7,zorder=7)
         ax.add_patch(Circle((0,0),1800,fill=False,ec="#aeb5bd",ls="--",lw=.65))
         ax.plot(0,0,"s",ms=3.2,color=INK,zorder=9)
-        ax.set_title(f"({chr(97+i)}) {LABEL[pol]}\nT={r['exit_s']:.0f} s；L={r['travel_m']/1000:.2f} km\n清除 {r['cleared']}/{r['total']}",fontsize=9,linespacing=1.3,pad=7)
-        ax.set(xlim=(-2100,2100),ylim=(-2100,2100),aspect="equal",xlabel="x / m")
+        ax.set_title(f"({chr(97+i)}) {LABEL[pol]}\n$T_{{\\mathrm{{exit}}}}={r['exit_s']:.0f}$ s; $L={r['travel_m']/1000:.2f}$ km\n清除 {r['cleared']}/{r['total']}",fontsize=9,linespacing=1.3,pad=7)
+        ax.set(xlim=(-2100,2100),ylim=(-2100,2100),aspect="equal",xlabel="$x$ / m")
         ax.set_xticks([-1500,0,1500]);ax.set_yticks([-1500,0,1500]);ax.grid(alpha=.15,lw=.4)
-        if i==0:ax.set_ylabel("y / m")
+        if i==0:ax.set_ylabel("$y$ / m")
         else:ax.tick_params(labelleft=False)
     handles=[Line2D([],[],color="#d7a06b",marker="o",ls="",ms=3,label="检测点"),
              Line2D([],[],color=RED,marker="x",ls="",ms=4,label="清除成功"),
@@ -326,8 +347,9 @@ def fig_ablation(summary):
         c=[GOLD,BLUE,"#7656a6",TEAL][i]
         bx.errorbar(x,y,yerr=[[y-lo],[hi-y]],fmt="o",ms=4.5,color=c,capsize=3,lw=.9)
         label=p.removeprefix("compact_").replace("strict","strict")
-        offset=[(0,-17),(0,10),(-5,-17),(1,10)][i]
-        bx.annotate(label,(x,y),xytext=offset,textcoords="offset points",ha="center",fontsize=8.5)
+        offset=[(8,-17),(-8,10),(-5,-17),(1,10)][i]
+        alignment=["left","right","center","center"][i]
+        bx.annotate(label,(x,y),xytext=offset,textcoords="offset points",ha=alignment,fontsize=8.5)
         pts.append((x,y))
     pts=np.array(pts);bx.plot(pts[:,0],pts[:,1],color=GRAY,lw=.6,ls="--",zorder=0)
     bx.set(xlim=(3950,5950),ylim=(91.7,101.6),xlabel="平均完整时间 / s",ylabel="累计清除率 / %")

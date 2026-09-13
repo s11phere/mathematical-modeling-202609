@@ -134,7 +134,9 @@ def main() -> None:
     records = []
     for name in ordered:
         original_bytes = (Q4 / name).read_bytes()
-        raw = original_bytes.decode("utf-8-sig")
+        # Keep display copies stable when a checkout uses Windows line endings;
+        # provenance hashes below still describe the original source bytes.
+        raw = original_bytes.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n")
         display, counts = display_copy(raw)
         target = OUTPUT / (name + ".listing.txt")
         target.parent.mkdir(parents=True, exist_ok=True)

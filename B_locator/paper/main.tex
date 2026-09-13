@@ -34,8 +34,8 @@
   {\bgroup\renewcommand{\arraystretch}{1.0}\mcm@oldtabular}%
   {\mcm@endoldtabular\egroup}
 % 章节标题前后距（前距 / 后距，单位 ex；数值越小越紧凑）
-% 字体：各级标题中文用黑体（此前 \bfseries 落到「加粗宋体」），编号/英文保持 Times 加粗，
-% 否则会出现「黑体中文 + 细体数字」的粗细不一致。
+% 各级标题保留西文 Times 粗体；中文粗体在下方统一映射到摘要所用黑体，
+% 黑体自身不再叠加 AutoFakeBold，避免标题比摘要中的强调字更粗。
 \renewcommand\section{\@startsection{section}{1}{\z@}%
   {-2ex \@plus -1ex \@minus -.2ex}%
   {0.8ex \@plus.2ex}%
@@ -48,34 +48,32 @@
   {-1.5ex\@plus -1ex \@minus -.2ex}%
   {0.5ex \@plus .2ex}%
   {\normalfont\heiti\bfseries\normalsize}}
-% 中文字体统一：ctex 在 macOS 上把 CJK 主字体与 \songti(zhsong 家族) 分别指向系统宋体，
-% 会出现「正文一种宋体、摘要段+关键词+图表题注另一种宋体」两套宋体的混排。这里把两者都钉到
-% 自带字体 fonts/simsun.ttc（与模板 \song/\kai 同源）：Windows/MiKTeX 下本就是 SimSun，视觉不变；
-% macOS/Linux 下则消除第二套宋体（Songti SC / 其他系统宋体）。cls 仅改了字体路径。
-\setCJKmainfont[AutoFakeBold,Path=fonts/]{simsun.ttc}
-\setCJKfamilyfont{zhsong}[AutoFakeBold,Path=fonts/]{simsun.ttc}
-% 显式选择黑体，避免 macOS 旧字体别名 STHeiti 无法解析。
+% 正文、\songti 与模板 \song 共用自带宋体；所有 CJK 家族的粗体均用
+% 同一常规黑体。第二个参数提供黑体文件的路径/字库索引。
+\newcommand*\mcm@setupCJKfonts[2]{%
+  \setCJKmainfont[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simsun.ttc}%
+  \setCJKfamilyfont{zhsong}[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simsun.ttc}%
+  \setCJKfamilyfont{song}[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simsun.ttc}%
+  \setCJKsansfont[#2,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{#1}%
+  \setCJKfamilyfont{zhhei}[#2,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{#1}%
+  \setCJKmonofont[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simsun.ttc}%
+  \setCJKfamilyfont{zhkai}[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simkai.ttf}%
+  \setCJKfamilyfont{kai}[Path=fonts/,BoldFont={#1},BoldFeatures={#2},BoldItalicFont={#1},BoldItalicFeatures={#2}]{simkai.ttf}%
+}
+% 显式选择黑体文件，避免 macOS 的旧字体别名 STHeiti 无法解析。
 \IfFileExists{/System/Library/Fonts/STHeiti Medium.ttc}{%
-  \setCJKsansfont[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
-  \setCJKfamilyfont{zhhei}[FontIndex=1,AutoFakeBold,Path=/System/Library/Fonts/]{STHeiti Medium.ttc}
+  \mcm@setupCJKfonts{STHeiti Medium.ttc}{Path=/System/Library/Fonts/,FontIndex=1}%
 }{%
-  \IfFontExistsTF{SimHei}{%
-    \setCJKsansfont[AutoFakeBold]{SimHei}
-    \setCJKfamilyfont{zhhei}[AutoFakeBold]{SimHei}
+  \IfFileExists{C:/Windows/Fonts/simhei.ttf}{%
+    \mcm@setupCJKfonts{simhei.ttf}{Path=C:/Windows/Fonts/}%
   }{%
-    \setCJKsansfont[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
-    \setCJKfamilyfont{zhhei}[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+    \mcm@setupCJKfonts{FandolHei-Regular.otf}{Path=}%
   }
 }
-\setCJKmonofont[AutoFakeBold,Path=fonts/]{simsun.ttc}
 \providecommand{\heiti}{\CJKfamily{zhhei}}
 \providecommand{\songti}{\CJKfamily{zhsong}}
 \providecommand{\kaishu}{\CJKfamily{zhkai}}
-\setCJKfamilyfont{zhkai}[Path=fonts/]{simkai.ttf}
-% 论文标题与「摘要」二字同样用黑体。
-% 「摘要」二字在 \abstract 里，可直接打补丁；论文标题在 \@maketitle 里（其定义含 \par，
-% etoolbox 的 \patchcmd 无法打补丁），改为给 \@maketitle 套一层 \heiti——标题行没有显式
-% 指定中文字族，因此会继承黑体；cls 未改动。
+% 标题中的 \bfseries 仅将西文加粗，中文使用同一黑体的常规字重。
 \let\mcm@orig@maketitle\@maketitle
 \def\@maketitle{\begingroup\heiti\mcm@orig@maketitle\endgroup}
 \patchcmd{\abstract}{\zihao{4}\bfseries \abstractname}{\zihao{4}\heiti \abstractname}%

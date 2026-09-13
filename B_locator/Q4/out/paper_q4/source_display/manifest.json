@@ -11,7 +11,7 @@
     "paper_figures": "scripts/make_paper_figures.py"
   },
   "file_count": 25,
-  "total_source_lines": 9600,
+  "total_source_lines": 9622,
   "listing_path": "paper/sections/q4-source-listings.tex",
   "math_display_map": {
     "°": "{}^{\\circ}",
@@ -263,7 +263,7 @@
         "Q4/src/p3_expect_field.py"
       ],
       "display_path": "out/paper_q4/source_display/src/p3_robot.py.listing.txt",
-      "display_sha256": "afb3c80eafca4467d0059b512fce442a4201501cac3c7aa3a04420b1b96227fd",
+      "display_sha256": "5236737d716305a5ce6ef2b8397a62f6401eb88a1e01b30a42f5d66c6c1ed2ad",
       "display_replacements": {
         "—": 24,
         "λ": 2,
@@ -343,7 +343,7 @@
         "Q4/src/p4_grid.py"
       ],
       "display_path": "out/paper_q4/source_display/src/p4_robot.py.listing.txt",
-      "display_sha256": "f81eda797ef22426515861d7c6c774b56883ac0a847267d245b8d54f0793bd88",
+      "display_sha256": "6b1a920cba13d6b63be4d725952690a0f2fbfec637af7beb222bcf1c5f8e1b68",
       "display_replacements": {
         "√": 1,
         "⚠": 4,
@@ -618,9 +618,9 @@
     },
     {
       "path": "Q4/scripts/make_paper_figures.py",
-      "sha256": "e5afbad563826eccb14e4b47f11faeb921628bace1d253a182ddcf8dd1cf0261",
-      "bytes": 18720,
-      "lines": 357,
+      "sha256": "b8f6f354c116705852506c5783d9b3f0bad2f4bd790cc626d29f0c2e6051f4b1",
+      "bytes": 20012,
+      "lines": 379,
       "included_by": [
         "paper_figures"
       ],
@@ -629,7 +629,7 @@
         "Q4/src/p4_layout_v2.py"
       ],
       "display_path": "out/paper_q4/source_display/scripts/make_paper_figures.py.listing.txt",
-      "display_sha256": "3e9d57bcfff7062eca8efba7d70030dccf92b5810a494d183d07cefc9f49338b",
+      "display_sha256": "3d379ec0ed31009b6086b68a45f315b389bce8f2f195b491160e8d450955dd9e",
       "display_replacements": {
         "→": 5,
         "—": 1
