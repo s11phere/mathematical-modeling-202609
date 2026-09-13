@@ -30,7 +30,7 @@
         "channel": 7,
         "x": 234.77499695694775,
         "y": 1145.3297591613725,
-        "r_recv": 1337.3974327911656,
+        "r_recv": 1337.3974327911658,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -54,7 +54,7 @@
         "channel": 9,
         "x": 1537.9657948113736,
         "y": 299.0895418853861,
-        "r_recv": 1435.989424225903,
+        "r_recv": 1435.9894242259031,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -68,7 +68,7 @@
       },
       {
         "channel": 4,
-        "x": -1460.9148603734736,
+        "x": -1460.9148603734739,
         "y": -991.7730167188537,
         "r_recv": 1174.643321245473,
         "cone_half": 180.0,
@@ -86,7 +86,7 @@
         "channel": 3,
         "x": 1754.7502889933442,
         "y": 283.4336589682746,
-        "r_recv": 1080.8039510433268,
+        "r_recv": 1080.8039510433266,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -102,14 +102,14 @@
         "channel": 20,
         "x": 405.8029594649351,
         "y": 1133.6657101770425,
-        "r_recv": 1457.4872884746505,
+        "r_recv": 1457.4872884746503,
         "cone_half": 180.0,
         "dir_deg": null
       },
       {
         "channel": 1,
         "x": 484.9968531014041,
-        "y": 539.621996838403,
+        "y": 539.6219968384029,
         "r_recv": 1288.4035332770839,
         "cone_half": 180.0,
         "dir_deg": null
@@ -123,7 +123,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "741710e7c47d88f5804497a5505e258ba7256cf15628176d09fe49592054a429",
+    "scene_fingerprint": "2fab4734b128c0c2b08feff4ce99322062d7a5a2743d928464b515fccc4f6e15",
     "error_field": {
       "class": "HashErrorArena",
       "waves": [
@@ -153,7 +153,7 @@
         ],
         [
           -0.0024406947334419836,
-          -0.0025722011946261894,
+          -0.002572201194626189,
           3.964798878355102,
           0.0005643430906428441
         ],
@@ -211,7 +211,7 @@
         "0.0,-1200.0": -0.8652874350674109
       }
     },
-    "error_fingerprint": "656329812a7ffb33dd2dde3ce794375f0d621059cb7a59b417f11da87ade43e2"
+    "error_fingerprint": "941ea3ab6910acd921b6389811358becfefff50fc3e56cf6359626a6f7cf26b1"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2639,7 +2639,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5943.919036205547,
     "avg_clear_time_s": 190.72286688079657,
-    "program_runtime_s": 0.19229698181152344,
+    "program_runtime_s": 0.0379948616027832,
     "budget_kind": "virtual",
     "remaining_budget_s": 354056.08096379443,
     "n_measure": 169,
@@ -6068,7 +6068,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.2107689999993454,
+    "wall_s": 0.04187133300001733,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6112,7 +6112,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "9243fd2efae20925652ebb20c10356d5cd185b29d9ace067967557bc0d973eec",
+    "raw_payload_sha256": "89bdcd4615923fe51e5ef98eb1ee77cc5ee6989ebf7d97cbe834502fa643fae4",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

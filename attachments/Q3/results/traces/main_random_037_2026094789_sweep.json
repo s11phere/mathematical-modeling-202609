@@ -54,7 +54,7 @@
         "channel": 4,
         "x": 1070.1157653833623,
         "y": 622.4488896103982,
-        "r_recv": 1285.1874814842272,
+        "r_recv": 1285.187481484227,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -93,13 +93,13 @@
       {
         "channel": 8,
         "x": 467.7842524246673,
-        "y": -894.5181779120513,
+        "y": -894.5181779120512,
         "r_recv": 1323.7541062291261,
         "cone_half": 180.0,
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "9319f2d71a5c577cfcd7fbe98e17161f159a76dd002116f94a161e241ad69ee4",
+    "scene_fingerprint": "b6a9538a8c5e847bcb0d8b5302c47d33dd106e2c827861eb98fc70525a6a1f78",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -140,10 +140,10 @@
           0.0003138018255184442
         ],
         [
-          0.0009022885055755849,
-          0.00287546416609059,
+          0.0009022885055755851,
+          0.002875464166090591,
           0.9550052601063215,
-          0.00047964607129092094
+          0.00047964607129092105
         ],
         [
           0.0011084237301319756,
@@ -164,10 +164,10 @@
           0.00021212401165136247
         ],
         [
-          -0.005119202799319078,
-          0.000551580342350619,
+          -0.005119202799319077,
+          0.0005515803423506189,
           3.9315668135233897,
-          0.0008194621753896357
+          0.0008194621753896356
         ],
         [
           0.0013578022037446834,
@@ -176,18 +176,18 @@
           0.00022330523606394381
         ]
       ],
-      "scale": 0.0025542455010331253,
+      "scale": 0.0025542455010331257,
       "local_w": 0.25,
       "local_seed": 787213,
       "probes": {
         "0.0,0.0": 0.26319596623767316,
-        "500.0,-500.0": 0.22016586927461104,
-        "-500.0,500.0": 0.31303749816747706,
-        "1200.0,0.0": 0.09169018287744587,
-        "0.0,-1200.0": 0.0990747455741064
+        "500.0,-500.0": 0.22016586927461096,
+        "-500.0,500.0": 0.3130374981674767,
+        "1200.0,0.0": 0.0916901828774456,
+        "0.0,-1200.0": 0.09907474557410648
       }
     },
-    "error_fingerprint": "399fe74f85eed4648372805979ddea498603834b75960df7f0dfb0ff7979a346"
+    "error_fingerprint": "3b002c59fd724d443bc0e1e3eee11ad2f3589471d5e929426228f48909d9998d"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -909,9 +909,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 174.3807102406395,
-      "dist_m": 841.9035512031975,
+      "y": 777.8174593052022,
+      "dt": 174.38071024063947,
+      "dist_m": 841.9035512031974,
       "virtual_time_s": 633.3807102406395,
       "channel": 10,
       "measure_result": "no_signal",
@@ -921,7 +921,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 639.3807102406395,
@@ -933,7 +933,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 645.3807102406395,
@@ -945,7 +945,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 651.3807102406395,
@@ -957,7 +957,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 657.3807102406395,
@@ -969,7 +969,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 663.3807102406395,
@@ -981,7 +981,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 669.3807102406395,
@@ -993,7 +993,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 675.3807102406395,
@@ -1005,7 +1005,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 681.3807102406395,
@@ -1017,7 +1017,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 687.3807102406395,
@@ -1029,7 +1029,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 693.3807102406395,
@@ -1041,7 +1041,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 699.3807102406395,
@@ -1053,7 +1053,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 705.3807102406395,
@@ -1065,7 +1065,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 711.3807102406395,
@@ -1077,7 +1077,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 717.3807102406395,
@@ -1089,7 +1089,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 723.3807102406395,
@@ -1101,7 +1101,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 729.3807102406395,
@@ -1114,9 +1114,9 @@
       "kind": "measure",
       "x": 634.8099,
       "y": 576.5422,
-      "dt": 55.381329276076556,
-      "dist_m": 246.9066463803828,
-      "virtual_time_s": 784.7620395167161,
+      "dt": 55.38132927607654,
+      "dist_m": 246.9066463803827,
+      "virtual_time_s": 784.762039516716,
       "channel": 5,
       "measure_result": "near",
       "svd_deg": null,
@@ -1128,7 +1128,7 @@
       "y": 576.5422,
       "dt": 5.0,
       "dist_m": 0.0,
-      "virtual_time_s": 789.7620395167161,
+      "virtual_time_s": 789.762039516716,
       "channel": 5,
       "clear_result": "success"
     },
@@ -1138,7 +1138,7 @@
       "y": 1100.0,
       "dt": 170.55900795992298,
       "dist_m": 822.7950397996149,
-      "virtual_time_s": 960.321047476639,
+      "virtual_time_s": 960.3210474766389,
       "channel": 7,
       "measure_result": "direction",
       "svd_deg": 66.26,
@@ -1150,7 +1150,7 @@
       "y": 1100.0,
       "dt": 6.0,
       "dist_m": 0.0,
-      "virtual_time_s": 966.321047476639,
+      "virtual_time_s": 966.3210474766389,
       "channel": 10,
       "measure_result": "no_signal",
       "svd_deg": null,
@@ -1162,7 +1162,7 @@
       "y": 1100.0,
       "dt": 6.0,
       "dist_m": 0.0,
-      "virtual_time_s": 972.321047476639,
+      "virtual_time_s": 972.3210474766389,
       "channel": 13,
       "measure_result": "no_signal",
       "svd_deg": null,
@@ -1174,7 +1174,7 @@
       "y": 1100.0,
       "dt": 6.0,
       "dist_m": 0.0,
-      "virtual_time_s": 978.321047476639,
+      "virtual_time_s": 978.3210474766389,
       "channel": 14,
       "measure_result": "direction",
       "svd_deg": 198.73,
@@ -1186,7 +1186,7 @@
       "y": 1100.0,
       "dt": 6.0,
       "dist_m": 0.0,
-      "virtual_time_s": 984.321047476639,
+      "virtual_time_s": 984.3210474766389,
       "channel": 16,
       "measure_result": "direction",
       "svd_deg": 239.07,
@@ -2166,7 +2166,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4023.1299072856414,
     "avg_clear_time_s": 364.64817338960376,
-    "program_runtime_s": 0.16311216354370117,
+    "program_runtime_s": 0.03316926956176758,
     "budget_kind": "virtual",
     "remaining_budget_s": 355976.8700927144,
     "n_measure": 128,
@@ -3078,10 +3078,10 @@
         "independent_before_s": 459.0,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031975,
+        "distance_m": 841.9035512031974,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.3807102406395,
+        "expected_dt": 174.38071024063947,
         "dt_error": 0.0,
         "expected_cumulative": 633.3807102406395,
         "reported_time": 633.3807102406395,
@@ -3350,35 +3350,35 @@
         "independent_before_s": 729.3807102406395,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 246.9066463803828,
+        "distance_m": 246.9066463803827,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 55.381329276076556,
+        "expected_dt": 55.38132927607654,
         "dt_error": 0.0,
-        "expected_cumulative": 784.7620395167161,
-        "reported_time": 784.7620395167161,
+        "expected_cumulative": 784.762039516716,
+        "reported_time": 784.762039516716,
         "cumulative_error": 0.0,
         "measuring_channel_after": 5
       },
       {
         "index": 59,
         "kind": "clear",
-        "independent_before_s": 784.7620395167161,
+        "independent_before_s": 784.762039516716,
         "measuring_channel_before": 5,
         "distance_m": 0.0,
         "distance_error_m": 0.0,
         "expected_switch_s": 0.0,
         "expected_dt": 5.0,
         "dt_error": 0.0,
-        "expected_cumulative": 789.7620395167161,
-        "reported_time": 789.7620395167161,
+        "expected_cumulative": 789.762039516716,
+        "reported_time": 789.762039516716,
         "cumulative_error": 0.0,
         "measuring_channel_after": 5
       },
       {
         "index": 60,
         "kind": "measure",
-        "independent_before_s": 789.7620395167161,
+        "independent_before_s": 789.762039516716,
         "measuring_channel_before": 5,
         "switch_error_s": 0.0,
         "distance_m": 822.7950397996149,
@@ -3386,15 +3386,15 @@
         "expected_switch_s": 1.0,
         "expected_dt": 170.55900795992298,
         "dt_error": 0.0,
-        "expected_cumulative": 960.321047476639,
-        "reported_time": 960.321047476639,
+        "expected_cumulative": 960.3210474766389,
+        "reported_time": 960.3210474766389,
         "cumulative_error": 0.0,
         "measuring_channel_after": 7
       },
       {
         "index": 61,
         "kind": "measure",
-        "independent_before_s": 960.321047476639,
+        "independent_before_s": 960.3210474766389,
         "measuring_channel_before": 7,
         "switch_error_s": 0.0,
         "distance_m": 0.0,
@@ -3402,15 +3402,15 @@
         "expected_switch_s": 1.0,
         "expected_dt": 6.0,
         "dt_error": 0.0,
-        "expected_cumulative": 966.321047476639,
-        "reported_time": 966.321047476639,
+        "expected_cumulative": 966.3210474766389,
+        "reported_time": 966.3210474766389,
         "cumulative_error": 0.0,
         "measuring_channel_after": 10
       },
       {
         "index": 62,
         "kind": "measure",
-        "independent_before_s": 966.321047476639,
+        "independent_before_s": 966.3210474766389,
         "measuring_channel_before": 10,
         "switch_error_s": 0.0,
         "distance_m": 0.0,
@@ -3418,15 +3418,15 @@
         "expected_switch_s": 1.0,
         "expected_dt": 6.0,
         "dt_error": 0.0,
-        "expected_cumulative": 972.321047476639,
-        "reported_time": 972.321047476639,
+        "expected_cumulative": 972.3210474766389,
+        "reported_time": 972.3210474766389,
         "cumulative_error": 0.0,
         "measuring_channel_after": 13
       },
       {
         "index": 63,
         "kind": "measure",
-        "independent_before_s": 972.321047476639,
+        "independent_before_s": 972.3210474766389,
         "measuring_channel_before": 13,
         "switch_error_s": 0.0,
         "distance_m": 0.0,
@@ -3434,15 +3434,15 @@
         "expected_switch_s": 1.0,
         "expected_dt": 6.0,
         "dt_error": 0.0,
-        "expected_cumulative": 978.321047476639,
-        "reported_time": 978.321047476639,
+        "expected_cumulative": 978.3210474766389,
+        "reported_time": 978.3210474766389,
         "cumulative_error": 0.0,
         "measuring_channel_after": 14
       },
       {
         "index": 64,
         "kind": "measure",
-        "independent_before_s": 978.321047476639,
+        "independent_before_s": 978.3210474766389,
         "measuring_channel_before": 14,
         "switch_error_s": 0.0,
         "distance_m": 0.0,
@@ -3450,15 +3450,15 @@
         "expected_switch_s": 1.0,
         "expected_dt": 6.0,
         "dt_error": 0.0,
-        "expected_cumulative": 984.321047476639,
-        "reported_time": 984.321047476639,
+        "expected_cumulative": 984.3210474766389,
+        "reported_time": 984.3210474766389,
         "cumulative_error": 0.0,
         "measuring_channel_after": 16
       },
       {
         "index": 65,
         "kind": "measure",
-        "independent_before_s": 984.321047476639,
+        "independent_before_s": 984.3210474766389,
         "measuring_channel_before": 16,
         "switch_error_s": 0.0,
         "distance_m": 841.9035512031975,
@@ -4772,7 +4772,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.1748965999995562,
+    "wall_s": 0.03586712499964051,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4816,7 +4816,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "2b2a4dd761e1e7246d02d67132821e6d11cdec64c9aca86c5516695576aefc8e",
+    "raw_payload_sha256": "db73c694683709e155abd17293b93166ce14b099df4979af5813099f9957a90a",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

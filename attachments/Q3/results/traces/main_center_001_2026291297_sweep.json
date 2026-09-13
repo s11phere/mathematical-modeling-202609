@@ -22,7 +22,7 @@
         "channel": 2,
         "x": -91.86758885043339,
         "y": -104.20049287368256,
-        "r_recv": 1389.6357543230556,
+        "r_recv": 1389.6357543230554,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -54,7 +54,7 @@
         "channel": 6,
         "x": 1.0870782692529184,
         "y": -4.788919677431577,
-        "r_recv": 1098.1692937597154,
+        "r_recv": 1098.1692937597152,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -107,7 +107,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "9cbde9eb71b4c4f36bbfcd0ba4e2fd142412c076682cec05717e681daeebb107",
+    "scene_fingerprint": "7cad2c75f02158b25636554ba668646541b05255205fbb2e0ffbd14f99e160b3",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -189,13 +189,13 @@
       "local_seed": 43721,
       "probes": {
         "0.0,0.0": 0.8663832890569394,
-        "500.0,-500.0": 0.24071319457472998,
+        "500.0,-500.0": 0.24071319457472987,
         "-500.0,500.0": -0.2553963624887695,
         "1200.0,0.0": -0.4774821178695721,
         "0.0,-1200.0": -0.7185873061241577
       }
     },
-    "error_fingerprint": "6ddaefccbf08c95fa64cd6277432f67f1811bd39fe5e5f548e95a3cb649bf89f"
+    "error_fingerprint": "35692311a0544c6a0deb5b17d15c29450eda96877da8b5b9a17b982657a8aeb6"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -915,9 +915,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 174.3807102406395,
-      "dist_m": 841.9035512031975,
+      "y": 777.8174593052022,
+      "dt": 174.38071024063947,
+      "dist_m": 841.9035512031974,
       "virtual_time_s": 632.3807102406395,
       "channel": 1,
       "measure_result": "no_signal",
@@ -927,7 +927,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 638.3807102406395,
@@ -939,7 +939,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 644.3807102406395,
@@ -951,7 +951,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 650.3807102406395,
@@ -963,7 +963,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 656.3807102406395,
@@ -975,7 +975,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 662.3807102406395,
@@ -987,7 +987,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 668.3807102406395,
@@ -999,7 +999,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 674.3807102406395,
@@ -1011,7 +1011,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 680.3807102406395,
@@ -1023,7 +1023,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 686.3807102406395,
@@ -1035,7 +1035,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 692.3807102406395,
@@ -1047,7 +1047,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 698.3807102406395,
@@ -1060,8 +1060,8 @@
       "kind": "measure",
       "x": 6.735557395310443e-14,
       "y": 1100.0,
-      "dt": 174.38071024063947,
-      "dist_m": 841.9035512031974,
+      "dt": 174.3807102406395,
+      "dist_m": 841.9035512031975,
       "virtual_time_s": 872.761420481279,
       "channel": 1,
       "measure_result": "direction",
@@ -2107,7 +2107,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 2593.813899385037,
     "avg_clear_time_s": 216.1511582820864,
-    "program_runtime_s": 0.2280745506286621,
+    "program_runtime_s": 0.049404144287109375,
     "budget_kind": "virtual",
     "remaining_budget_s": 357406.18610061496,
     "n_measure": 121,
@@ -3025,10 +3025,10 @@
         "independent_before_s": 458.0,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031975,
+        "distance_m": 841.9035512031974,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.3807102406395,
+        "expected_dt": 174.38071024063947,
         "dt_error": 0.0,
         "expected_cumulative": 632.3807102406395,
         "reported_time": 632.3807102406395,
@@ -3217,10 +3217,10 @@
         "independent_before_s": 698.3807102406395,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031974,
+        "distance_m": 841.9035512031975,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.38071024063947,
+        "expected_dt": 174.3807102406395,
         "dt_error": 0.0,
         "expected_cumulative": 872.761420481279,
         "reported_time": 872.761420481279,
@@ -4624,7 +4624,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.2445661999990989,
+    "wall_s": 0.052610041999287205,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4668,7 +4668,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "6173b85aa2d4c616e347430626f5a422cd4f2fc618dcfc7d6d2c8aed53503118",
+    "raw_payload_sha256": "be0e4bb335c6d0a8a07c059f43c2c511eb426b57dc589557f48f40e88aae7da7",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

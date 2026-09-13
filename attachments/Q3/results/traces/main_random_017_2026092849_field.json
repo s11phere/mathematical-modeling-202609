@@ -21,7 +21,7 @@
       {
         "channel": 7,
         "x": -912.4864460792835,
-        "y": 524.7602457687179,
+        "y": 524.760245768718,
         "r_recv": 1054.8972752196241,
         "cone_half": 180.0,
         "dir_deg": null
@@ -62,7 +62,7 @@
         "channel": 19,
         "x": -84.63381798364247,
         "y": -556.2547662506144,
-        "r_recv": 1368.385378912602,
+        "r_recv": 1368.3853789126017,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -85,7 +85,7 @@
       {
         "channel": 2,
         "x": 1274.3098754262408,
-        "y": 1128.263401118026,
+        "y": 1128.2634011180262,
         "r_recv": 1169.475628129154,
         "cone_half": 180.0,
         "dir_deg": null
@@ -131,7 +131,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "fedaf3a8cd642a8c5526e9cc8b72c4eb742ac1826b71f2b0217e270114a5d8e8",
+    "scene_fingerprint": "23bbc66ec64b5a572421ddea2d8b52257b9affccaf768b3d3a3eb09d784691fa",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -2600,7 +2600,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5402.88592618783,
     "avg_clear_time_s": 236.29421678565132,
-    "program_runtime_s": 0.14455246925354004,
+    "program_runtime_s": 0.038161277770996094,
     "budget_kind": "virtual",
     "remaining_budget_s": 354597.11407381215,
     "n_measure": 162,
@@ -5979,7 +5979,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.164013800000248,
+    "wall_s": 0.042908041999908164,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6023,7 +6023,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "2592b68c1fc0a1d259b9c7456a71328addc5267c82eed3d67d611706ada2da6b",
+    "raw_payload_sha256": "607bbd8351310344798a399d7a23cb63eb218be1452666bdd13907fecc2da6d6",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

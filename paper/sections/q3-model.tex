@@ -87,7 +87,7 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
  \Delta L(p)=\|a-p\|+\|p-b\|-\|a-b\|;
  \quad\text{末尾插入时为 }\|a-p\|.
 \end{equation}
-按最小增量插入目标，再以保持骨架角向顺序的 2-opt 改善航路。搜索与清除由此合并，但固定测站和离散覆盖判据仍限制搜索完备性。
+按最小增量插入目标，再以保持骨架角向顺序的 2-opt 改善航路。搜索与清除由此合并，但固定测站和离散覆盖判据仍限制搜索完备性。 两代策略的局部补测采用中心射线面积权重 $w(t)\propto t$ 作启发式估价，省略了问题二图族的接收半径存活因子；该近似仅影响选点，不用于缩小保守定位区域。
 \begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q3-route-field-sweep-tour}
 \caption{随机首组的前三代轨迹，均清除 12 源；点线为八站骨架，源位仅作事后标注}\label{fig:q3-fst}\end{figure}

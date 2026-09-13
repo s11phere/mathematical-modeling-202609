@@ -168,10 +168,10 @@
           0.0001907903338369568
         ],
         [
-          -7.432730160426197e-05,
-          -0.001479016208685146,
+          -7.432730160426199e-05,
+          -0.0014790162086851463,
           1.2753687397071036,
-          0.00023568979766130742
+          0.00023568979766130747
         ],
         [
           0.0012329259363465786,
@@ -203,7 +203,7 @@
         "0.0,-1200.0": 0.11696395537631138
       }
     },
-    "error_fingerprint": "c80d7cbcc25c46cfeb976223ce250b31a7cba66fc143ec3e2607ecc92ea7a2d1"
+    "error_fingerprint": "77bd049d2ccadd8280e99ce9bd192fa18c53735505d604ecb9e636849ca03464"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2794,7 +2794,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5508.484235602185,
     "avg_clear_time_s": 329.627404951234,
-    "program_runtime_s": 0.15047621726989746,
+    "program_runtime_s": 0.040001869201660156,
     "budget_kind": "virtual",
     "remaining_budget_s": 354491.5157643978,
     "n_measure": 179,
@@ -6443,7 +6443,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.16957170000023325,
+    "wall_s": 0.044245084001886426,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6487,7 +6487,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "297d9bbc28bedec0ec972111546ca03a56d57991d7cc61b02caffe558f47b1da",
+    "raw_payload_sha256": "06e5df01bac8b28b7b6a60277581fe316a9b5500cff4e11918ece136fc473543",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

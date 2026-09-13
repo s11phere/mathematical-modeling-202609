@@ -12,7 +12,7 @@
     "sources": [
       {
         "channel": 15,
-        "x": -198.75595343451914,
+        "x": -198.75595343451917,
         "y": -1285.041053617054,
         "r_recv": 1164.085339131585,
         "cone_half": 180.0,
@@ -53,7 +53,7 @@
       {
         "channel": 3,
         "x": 1230.6412918421918,
-        "y": -1311.3406328548824,
+        "y": -1311.3406328548826,
         "r_recv": 1391.31202273141,
         "cone_half": 180.0,
         "dir_deg": null
@@ -102,7 +102,7 @@
         "channel": 10,
         "x": 1169.6155079238513,
         "y": -549.9256944193659,
-        "r_recv": 1364.5245745969887,
+        "r_recv": 1364.524574596989,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -110,12 +110,12 @@
         "channel": 2,
         "x": -376.98080713930887,
         "y": 1414.416105306402,
-        "r_recv": 1320.7818535808383,
+        "r_recv": 1320.781853580838,
         "cone_half": 180.0,
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "91ac8f57d522e4c895fb3205f17093dd68d05ebaa815b5be1195b56121ee0888",
+    "scene_fingerprint": "ed829d59c81230717de655194ca377807546f0ed48792a62499b1b37a553272c",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -2878,7 +2878,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 6179.7827173051155,
     "avg_clear_time_s": 372.00241183479926,
-    "program_runtime_s": 0.16025686264038086,
+    "program_runtime_s": 0.0397639274597168,
     "budget_kind": "virtual",
     "remaining_budget_s": 353820.2172826949,
     "n_measure": 191,
@@ -6628,7 +6628,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.17755229999966105,
+    "wall_s": 0.04413574999853154,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6672,7 +6672,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "b924ea8711fb4032804a002648df30c3c7570502a5920fed48fd562a4f8e9e66",
+    "raw_payload_sha256": "90b3996025f8ef5116c5335439578fe2e9f3bdfe8ab1c220a536d00109ca404e",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

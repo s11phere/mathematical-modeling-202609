@@ -10,6 +10,8 @@ paper/                         论文 LaTeX、已用图片、字体、编译与�
 attachments/                   可编辑、可独立运行的评审材料
   Q1/ Q2/ Q3/ Q4/              同结构的问题代码、数据、结果和图册
   formal-tests/                六份正式测试原始日志、结果汇总与来源说明
+  AI工具使用详情.pdf           AI使用目的、过程和人工核验说明
+  VALIDATION.md                本次完整复现与核验范围
   fonts/                       共用制图字体
   reviewer-attachments.zip     由当前材料导出的评审包（生成文件，不入 Git）
 ```
@@ -19,7 +21,7 @@ attachments/                   可编辑、可独立运行的评审材料
 - 修改论文：编辑 `paper/sections/`，运行 `bash paper/build.sh`。排版约定见 `paper/FORMAT-GUIDE.md`。
 - 修改算法：编辑对应 `attachments/Qn/code/`，使用 `reproduce.py --dev --smoke` 或 `--dev --full` 在新目录试跑。开发模式只用于新实验，不能用来证明原论文数据。
 - 核对原实验：运行各题 `reproduce.py --audit-only`。普通模式检查清单及历史来源，保留旧数据，便于对照。
-- 修改图件：用各题 `--figures` 生成到新目录；核对后同步相应 `attachments/Qn/figures/` 和 `paper/figures/`。问题三、四的论文目录仅留 PDF，附件另保留 PNG。
+- 修改图件：用各题 `--figures` 生成到新目录；核对后同步相应 `attachments/Qn/figures/` 和 `paper/figures/`。问题三、四论文和附件均保留正文 PDF；PNG 与完整轨迹图册按需生成。
 
 本机已保留被 Git 忽略的 Python 环境和离线 LaTeX 缓存。可直接运行：
 
@@ -41,7 +43,7 @@ python3 paper/maintain.py check
 python3 paper/maintain.py pack
 ```
 
-`refresh` 只记录当前文件状态，不会把修改后的代码认证为历史算法。采用新实验前，应更新对应结果、来源说明、补充图册和论文图表，再进行独立审计；不要只改论文中的数字。问题四跨平台路径差异仍保留在其复现说明中。
+`refresh` 只记录当前文件状态，不会把修改后的代码认证为历史算法。采用新实验前，应更新对应结果、来源说明、补充图册和论文图表，再进行独立审计；不要只改论文中的数字。问题三、四已采用本次全量重跑结果，完整动作与独立审计见各题 results/；新平台的启发式路径仍可能有差异。
 
 ## 交付前
 

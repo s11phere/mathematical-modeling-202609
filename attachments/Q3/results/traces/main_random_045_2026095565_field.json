@@ -108,10 +108,10 @@
           0.0002759461834856196
         ],
         [
-          0.008198292534207589,
-          0.00345265591452121,
+          0.00819829253420759,
+          0.0034526559145212103,
           4.989007195536867,
-          0.0014157888559945615
+          0.0014157888559945618
         ],
         [
           -0.0013961496981343166,
@@ -172,14 +172,14 @@
       "local_w": 0.25,
       "local_seed": 305863,
       "probes": {
-        "0.0,0.0": -0.19024851485265912,
-        "500.0,-500.0": 0.49328844703379876,
-        "-500.0,500.0": 0.13871721098794876,
-        "1200.0,0.0": 0.028828278972981833,
-        "0.0,-1200.0": 0.5204470532878351
+        "0.0,0.0": -0.19024851485265915,
+        "500.0,-500.0": 0.4932884470337989,
+        "-500.0,500.0": 0.1387172109879489,
+        "1200.0,0.0": 0.028828278972981194,
+        "0.0,-1200.0": 0.520447053287835
       }
     },
-    "error_fingerprint": "dae7829b5a621c4131f86458231550c74244fea0189b9aae6d28dc88154604b1"
+    "error_fingerprint": "81ad6ec47f30ffc7aab8b44afd2190dbaa62f2fb6a61ac24fa94bff714b3aa6e"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2969,7 +2969,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5419.161905487943,
     "avg_clear_time_s": 380.25642606480284,
-    "program_runtime_s": 0.15701937675476074,
+    "program_runtime_s": 0.03613901138305664,
     "budget_kind": "virtual",
     "remaining_budget_s": 354580.83809451206,
     "n_measure": 204,
@@ -6850,7 +6850,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.17123829999945883,
+    "wall_s": 0.03914716700091958,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6894,7 +6894,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "593a2a41ed5ec2e904c8e3ab49844d828dfad7efdc5dca580a1fa72f8ccd04d4",
+    "raw_payload_sha256": "f87018522815688130eca05ba439bc3a30ba1b2206ac1644e31a1ac423a89d74",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

@@ -21,7 +21,7 @@
       {
         "channel": 6,
         "x": -972.346574233263,
-        "y": 1133.7384656899098,
+        "y": 1133.73846568991,
         "r_recv": 1088.4547225166782,
         "cone_half": 180.0,
         "dir_deg": null
@@ -69,7 +69,7 @@
       {
         "channel": 5,
         "x": -931.7597923100271,
-        "y": -1064.6400015473087,
+        "y": -1064.6400015473084,
         "r_recv": 1065.9429576880389,
         "cone_half": 180.0,
         "dir_deg": null
@@ -99,7 +99,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "eb6e2a1020b10ab62aa3067386b2631e248f461d9fe9b13c9bdd3b6cd195dbac",
+    "scene_fingerprint": "da22e62a08025326da84c05e26bb1be958e5b78ab0db02e4f1e6bbc33b4dc6c3",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -909,9 +909,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 174.3807102406395,
-      "dist_m": 841.9035512031975,
+      "y": 777.8174593052022,
+      "dt": 174.38071024063947,
+      "dist_m": 841.9035512031974,
       "virtual_time_s": 633.3807102406395,
       "channel": 1,
       "measure_result": "no_signal",
@@ -921,7 +921,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 639.3807102406395,
@@ -933,7 +933,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 645.3807102406395,
@@ -945,7 +945,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 651.3807102406395,
@@ -957,7 +957,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 657.3807102406395,
@@ -969,7 +969,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 663.3807102406395,
@@ -981,7 +981,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 669.3807102406395,
@@ -993,7 +993,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 675.3807102406395,
@@ -1005,7 +1005,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 681.3807102406395,
@@ -1017,7 +1017,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 687.3807102406395,
@@ -1029,7 +1029,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 693.3807102406395,
@@ -1041,7 +1041,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 699.3807102406395,
@@ -1053,7 +1053,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 705.3807102406395,
@@ -1065,7 +1065,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 711.3807102406395,
@@ -1077,7 +1077,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 717.3807102406395,
@@ -1089,7 +1089,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 723.3807102406395,
@@ -1102,8 +1102,8 @@
       "kind": "measure",
       "x": 573.4328,
       "y": 713.2593,
-      "dt": 48.86763109488532,
-      "dist_m": 214.3381554744266,
+      "dt": 48.86763109488531,
+      "dist_m": 214.33815547442657,
       "virtual_time_s": 772.2483413355247,
       "channel": 14,
       "measure_result": "direction",
@@ -2298,7 +2298,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4299.7794504473,
     "avg_clear_time_s": 390.8890409497546,
-    "program_runtime_s": 0.18320655822753906,
+    "program_runtime_s": 0.04492330551147461,
     "budget_kind": "virtual",
     "remaining_budget_s": 355700.2205495527,
     "n_measure": 139,
@@ -3230,10 +3230,10 @@
         "independent_before_s": 459.0,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031975,
+        "distance_m": 841.9035512031974,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.3807102406395,
+        "expected_dt": 174.38071024063947,
         "dt_error": 0.0,
         "expected_cumulative": 633.3807102406395,
         "reported_time": 633.3807102406395,
@@ -3486,10 +3486,10 @@
         "independent_before_s": 723.3807102406395,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 214.3381554744266,
+        "distance_m": 214.33815547442657,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 48.86763109488532,
+        "expected_dt": 48.86763109488531,
         "dt_error": 0.0,
         "expected_cumulative": 772.2483413355247,
         "reported_time": 772.2483413355247,
@@ -5099,7 +5099,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.1967356999994081,
+    "wall_s": 0.04825804099891684,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -5143,7 +5143,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "81b4062db3c698a9302c25e3adcfddd5c10ceaa6a789719ce85ce37e7e9ec69a",
+    "raw_payload_sha256": "d7d7ffda65a241e934789c22b0c1a59fd19bfd2584714cf86a5756bdf6fbd9bd",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

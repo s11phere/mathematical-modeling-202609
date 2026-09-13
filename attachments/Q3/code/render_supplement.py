@@ -42,7 +42,7 @@ def render(output: Path, data: Path, figures):
                 print(f"补充图册：{page}/140 页", flush=True)
         for index in range(20):
             grouped = {"joint": baseline[index], **ablations[index]}
-            traces = {policy: json.loads((data / grouped[policy]["trace_file"]).read_text())
+            traces = {policy: json.loads((data / grouped[policy]["trace_file"].replace("\\", "/")).read_text())
                       for policy, _, _ in choices}
             for field in ("scene_fingerprint", "error_fingerprint"):
                 if len({t["scene_manifest"][field] for t in traces.values()}) != 1:

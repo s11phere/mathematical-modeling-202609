@@ -60,15 +60,15 @@
       },
       {
         "channel": 11,
-        "x": -655.6191994628387,
-        "y": 1062.193755651282,
+        "x": -655.6191994628388,
+        "y": 1062.1937556512817,
         "r_recv": 1077.546461932603,
         "cone_half": 180.0,
         "dir_deg": null
       },
       {
         "channel": 7,
-        "x": 256.2989677880933,
+        "x": 256.29896778809336,
         "y": -1583.7667578717394,
         "r_recv": 1133.196783951833,
         "cone_half": 180.0,
@@ -107,7 +107,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "7731fb22417f1a8b4b76c2cd6eb6b51690452be593305819819d65ca08d38697",
+    "scene_fingerprint": "cb765a588ffe13ca15cd5abcc8988fca7279bb09d55164739cfbaf5ed81d3724",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -2849,7 +2849,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5382.697318699189,
     "avg_clear_time_s": 291.05051794164723,
-    "program_runtime_s": 0.1454939842224121,
+    "program_runtime_s": 0.041899919509887695,
     "budget_kind": "virtual",
     "remaining_budget_s": 354617.3026813008,
     "n_measure": 189,
@@ -6567,7 +6567,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.16148969999994733,
+    "wall_s": 0.047281250001105946,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6611,7 +6611,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "26a02f7062a1ac42e69bae50ea8ffb8513f321d22731442b75564956125138ff",
+    "raw_payload_sha256": "25cb5fdfa8c78e424b9432337620278fee0c30cf1c45df24a575341afe0a549c",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

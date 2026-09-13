@@ -43,7 +43,7 @@ def load_groups(data: Path) -> list[tuple[tuple[str, int, int], dict]]:
 def load_traces(data: Path, rows: dict) -> dict:
     traces = {}
     for policy in POLICIES:
-        source = Path(rows[policy]["trace_file"])
+        source = Path(rows[policy]["trace_file"].replace("\\", "/"))
         if not source.is_absolute():
             source = data / source
         trace = json.loads(source.read_text(encoding="utf-8"))

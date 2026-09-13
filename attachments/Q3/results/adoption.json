@@ -1,0 +1,20 @@
+{
+  "record_kind": "paper-adopted complete rerun",
+  "adopted_date": "2026-09-13",
+  "runs": 680,
+  "execution_environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "invocation": "python -B Q3/reproduce.py --dev --full --out <new directory>",
+  "development_flag_explanation": "The invocation allowed reporting/path-adapter changes while package checks still verified all 14 algorithm dependencies and 11 field files. These 680 newly executed runs are now the paper data. The original run manifest and development_source_changes.json are preserved.",
+  "algorithm_and_field_hashes_equal_previous_fixed_definition": true,
+  "source_snapshot_delivery": "SHA256.json retains all run-time input hashes. Algorithm and data files are supplied once in Q3/code and Q3/data; exact run-time wrappers are retained here because reporting adapters may be maintained after execution. Full original run output and the previous results are retained outside the delivery package.",
+  "previous_data_policy": "Replaced as a whole; no mixing of old and new run rows. Previous results retained in the repository local archive, outside the review package.",
+  "files": {
+    "paired_results.json": "189c86004b18bfef09b9a483a46290ae6416a43408c0c814b59060a7b6fca5c8",
+    "summary.json": "a4671fb824666f8eb025466a40938908d9ed23d7e4d3eb43305798d2e7e272c5",
+    "manifest.json": "ae7fa3f45a4f02e2becb1dfe90cde77e2a41ede24b1b23196bdafb0baa31a290"
+  }
+}

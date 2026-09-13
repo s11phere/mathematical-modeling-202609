@@ -7,6 +7,6 @@ test_positive_observations_cannot_certify_absence (__main__.AdaptiveChecks.test_
 test_rounded_extreme_bearings_contain_truth (__main__.AdaptiveChecks.test_rounded_extreme_bearings_contain_truth) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 1.349s
+Ran 7 tests in 0.876s
 
 OK

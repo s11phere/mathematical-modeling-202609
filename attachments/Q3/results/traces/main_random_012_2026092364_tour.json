@@ -20,7 +20,7 @@
       },
       {
         "channel": 8,
-        "x": -787.7316630713257,
+        "x": -787.7316630713258,
         "y": 1216.0529153237335,
         "r_recv": 1282.1134180652575,
         "cone_half": 180.0,
@@ -60,7 +60,7 @@
       },
       {
         "channel": 1,
-        "x": -425.22934436466744,
+        "x": -425.2293443646675,
         "y": 466.83978705744784,
         "r_recv": 1375.6179764454992,
         "cone_half": 180.0,
@@ -107,7 +107,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "ba655ad556fde3f62f25a02e9ebe7dab960f4cccb4ffa481e05d25a0ce8e1d32",
+    "scene_fingerprint": "9a2db0b2c1184f1e5f9eafed24522354a8a606018444de0d3ed5664383bd37e8",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -2311,7 +2311,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 63.947499520276985,
       "dist_m": 289.7374976013849,
       "virtual_time_s": 3021.186421600709,
@@ -2323,7 +2323,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3027.186421600709,
@@ -2335,7 +2335,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3033.186421600709,
@@ -2347,7 +2347,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3039.186421600709,
@@ -2359,7 +2359,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3045.186421600709,
@@ -2371,7 +2371,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3051.186421600709,
@@ -2383,7 +2383,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3057.186421600709,
@@ -2395,7 +2395,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3063.186421600709,
@@ -2407,7 +2407,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3069.186421600709,
@@ -2419,7 +2419,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3075.186421600709,
@@ -2432,8 +2432,8 @@
       "kind": "measure",
       "x": 456.5485,
       "y": 1008.7282,
-      "dt": 84.42319365039837,
-      "dist_m": 392.1159682519919,
+      "dt": 84.4231936503984,
+      "dist_m": 392.115968251992,
       "virtual_time_s": 3159.6096152511072,
       "channel": 2,
       "measure_result": "direction",
@@ -2799,7 +2799,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3688.370339193049,
     "avg_clear_time_s": 307.36419493275406,
-    "program_runtime_s": 0.6145553588867188,
+    "program_runtime_s": 0.12937307357788086,
     "budget_kind": "virtual",
     "remaining_budget_s": 356311.62966080697,
     "n_measure": 166,
@@ -5566,10 +5566,10 @@
         "independent_before_s": 3075.186421600709,
         "measuring_channel_before": 17,
         "switch_error_s": 0.0,
-        "distance_m": 392.1159682519919,
+        "distance_m": 392.115968251992,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 84.42319365039837,
+        "expected_dt": 84.4231936503984,
         "dt_error": 0.0,
         "expected_cumulative": 3159.6096152511072,
         "reported_time": 3159.6096152511072,
@@ -6054,7 +6054,7 @@
     "full_clear": true,
     "completion_kind": "tour",
     "complete_proof": true,
-    "wall_s": 0.6367307000000437,
+    "wall_s": 0.13378074999855016,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6098,7 +6098,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "f320131341fb7156727b8614a0a178931b81232c39df64dd39479f8527e10eb4",
+    "raw_payload_sha256": "7194e97b000364ade137f1a23844d7a0f46e3a932f71559cb0d5f4be7bcec067",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

@@ -28,7 +28,7 @@
       },
       {
         "channel": 17,
-        "x": 602.4431272731648,
+        "x": 602.4431272731647,
         "y": 663.7422290940442,
         "r_recv": 1257.9905330056558,
         "cone_half": 180.0,
@@ -99,13 +99,13 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "82ed71c65d40d46b9157d431e2895498197007dabfb14d4c8083a9f11694c51a",
+    "scene_fingerprint": "0f8349e08bfd5e6ba157d5586902955d15f80b9773c20cf729e2e9c30011eaa0",
     "error_field": {
       "class": "MockArena",
       "waves": [
         [
           -0.0012235614964920302,
-          0.00118992618024704,
+          0.0011899261802470402,
           0.7622100761099151,
           0.0002716391672337767
         ],
@@ -141,7 +141,7 @@
         ],
         [
           0.0015115719459787573,
-          -0.00020234223688262663,
+          -0.00020234223688262665,
           5.983069669649605,
           0.0002427200091595145
         ],
@@ -181,13 +181,13 @@
       "local_seed": 543733,
       "probes": {
         "0.0,0.0": -0.1636159011918201,
-        "500.0,-500.0": -0.0012632886800189452,
+        "500.0,-500.0": -0.0012632886800189591,
         "-500.0,500.0": 0.3574832411639188,
         "1200.0,0.0": -0.33074304281532685,
         "0.0,-1200.0": 0.20055880551164915
       }
     },
-    "error_fingerprint": "e3dbd7d2ddfc30543e7f5cbd1651bbfa10ffd8fc5203ace7b7ab1aba71ce39c7"
+    "error_fingerprint": "e8c364a7ff3a220350a66e772ec9455553b336ad57a5896bee1d58ab899fe0c4"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -931,9 +931,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 117.66248832397511,
-      "dist_m": 558.3124416198756,
+      "y": 777.8174593052022,
+      "dt": 117.6624883239751,
+      "dist_m": 558.3124416198755,
       "virtual_time_s": 657.5368458262349,
       "channel": 2,
       "measure_result": "no_signal",
@@ -943,7 +943,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 663.5368458262349,
@@ -955,7 +955,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 669.5368458262349,
@@ -967,7 +967,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 675.5368458262349,
@@ -979,7 +979,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 681.5368458262349,
@@ -992,8 +992,8 @@
       "kind": "measure",
       "x": 598.4438,
       "y": 656.0607,
-      "dt": 49.35879061461182,
-      "dist_m": 216.7939530730591,
+      "dt": 49.358790614611806,
+      "dist_m": 216.79395307305904,
       "virtual_time_s": 730.8956364408467,
       "channel": 17,
       "measure_result": "direction",
@@ -2010,7 +2010,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3706.600379897744,
     "avg_clear_time_s": 336.9636708997949,
-    "program_runtime_s": 0.1499786376953125,
+    "program_runtime_s": 0.032858848571777344,
     "budget_kind": "virtual",
     "remaining_budget_s": 356293.39962010225,
     "n_measure": 115,
@@ -2953,10 +2953,10 @@
         "independent_before_s": 539.8743575022597,
         "measuring_channel_before": 4,
         "switch_error_s": 0.0,
-        "distance_m": 558.3124416198756,
+        "distance_m": 558.3124416198755,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 117.66248832397511,
+        "expected_dt": 117.6624883239751,
         "dt_error": 0.0,
         "expected_cumulative": 657.5368458262349,
         "reported_time": 657.5368458262349,
@@ -3033,10 +3033,10 @@
         "independent_before_s": 681.5368458262349,
         "measuring_channel_before": 18,
         "switch_error_s": 0.0,
-        "distance_m": 216.7939530730591,
+        "distance_m": 216.79395307305904,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 49.35879061461182,
+        "expected_dt": 49.358790614611806,
         "dt_error": 0.0,
         "expected_cumulative": 730.8956364408467,
         "reported_time": 730.8956364408467,
@@ -4408,7 +4408,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.16440549999970244,
+    "wall_s": 0.03593520799768157,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4452,7 +4452,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "35eff0882a8ca31fe29326e3fc13da816a2cc18d830385344480fe2e405ad34e",
+    "raw_payload_sha256": "7b1572778e9994428e12b9779a44b4a1b6d18fb5fcf76fe65844d5280fe741b2",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

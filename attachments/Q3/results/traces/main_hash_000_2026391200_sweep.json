@@ -44,7 +44,7 @@
       },
       {
         "channel": 3,
-        "x": -718.7525905055707,
+        "x": -718.7525905055708,
         "y": -1438.075347898475,
         "r_recv": 1255.0092448782043,
         "cone_half": 180.0,
@@ -91,7 +91,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "f45b9ceb0ef48c9dd4de60cb24ac7558934a55e909b6f47ac0f05a16e6288f27",
+    "scene_fingerprint": "675a8fc964d35b67721dd7fae45c7d8e35061506db7b51b632dcb48d010eb960",
     "error_field": {
       "class": "HashErrorArena",
       "waves": [
@@ -108,10 +108,10 @@
           0.00021719192442448028
         ],
         [
-          0.005133156118434019,
-          -0.0012024901113393662,
+          0.00513315611843402,
+          -0.0012024901113393664,
           5.618806596417175,
-          0.0008390843345607888
+          0.000839084334560789
         ],
         [
           0.0016669037805165591,
@@ -179,7 +179,7 @@
         "0.0,-1200.0": -0.7161606900477424
       }
     },
-    "error_fingerprint": "5878416ae83650145db4ba685055dc9912de9046789d068f2f10019f19bdd547"
+    "error_fingerprint": "f2258a3ff065718046d6a7d121a8dd16c9e404b950186b46605fd8d468873a76"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -901,9 +901,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 174.3807102406395,
-      "dist_m": 841.9035512031975,
+      "y": 777.8174593052022,
+      "dt": 174.38071024063947,
+      "dist_m": 841.9035512031974,
       "virtual_time_s": 633.3807102406395,
       "channel": 10,
       "measure_result": "no_signal",
@@ -913,7 +913,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 639.3807102406395,
@@ -925,7 +925,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 645.3807102406395,
@@ -937,19 +937,19 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 651.3807102406395,
       "channel": 20,
       "measure_result": "direction",
-      "svd_deg": 330.43,
+      "svd_deg": 331.64,
       "switch_s": 1.0
     },
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 657.3807102406395,
@@ -961,7 +961,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 663.3807102406395,
@@ -973,7 +973,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 669.3807102406395,
@@ -985,7 +985,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 675.3807102406395,
@@ -997,7 +997,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 681.3807102406395,
@@ -1009,7 +1009,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 687.3807102406395,
@@ -1021,7 +1021,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 693.3807102406395,
@@ -1033,7 +1033,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 699.3807102406395,
@@ -1045,7 +1045,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 705.3807102406395,
@@ -1057,7 +1057,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 711.3807102406395,
@@ -1069,7 +1069,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 717.3807102406395,
@@ -1081,7 +1081,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 723.3807102406395,
@@ -1093,7 +1093,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 729.3807102406395,
@@ -1105,7 +1105,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 735.3807102406395,
@@ -1117,7 +1117,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 741.3807102406395,
@@ -1130,8 +1130,8 @@
       "kind": "measure",
       "x": 6.735557395310443e-14,
       "y": 1100.0,
-      "dt": 174.38071024063947,
-      "dist_m": 841.9035512031974,
+      "dt": 174.3807102406395,
+      "dist_m": 841.9035512031975,
       "virtual_time_s": 915.761420481279,
       "channel": 10,
       "measure_result": "no_signal",
@@ -2214,29 +2214,29 @@
     },
     {
       "kind": "measure",
-      "x": 1600.8541,
-      "y": 311.2527,
-      "dt": 263.64332253581034,
-      "dist_m": 1288.2166126790517,
-      "virtual_time_s": 3974.1205653914276,
+      "x": 1620.4252,
+      "y": 323.4148,
+      "dt": 264.93550339747924,
+      "dist_m": 1294.6775169873963,
+      "virtual_time_s": 3975.4127462530964,
       "channel": 20,
-      "measure_result": "near",
-      "svd_deg": null,
+      "measure_result": "direction",
+      "svd_deg": 202.83,
       "switch_s": 1.0
     },
     {
       "kind": "clear",
-      "x": 1600.8541,
-      "y": 311.2527,
-      "dt": 5.0,
-      "dist_m": 0.0,
-      "virtual_time_s": 3979.1205653914276,
+      "x": 1610.2461,
+      "y": 319.3372,
+      "dt": 7.193088220478116,
+      "dist_m": 10.965441102390582,
+      "virtual_time_s": 3982.6058344735748,
       "channel": 20,
       "clear_result": "success"
     },
     {
       "kind": "exit",
-      "virtual_time_s": 3979.1205653914276
+      "virtual_time_s": 3982.6058344735748
     }
   ],
   "post_exit_truth": {
@@ -2319,13 +2319,13 @@
     "cleared": 10,
     "n_sources": 10,
     "clear_ratio": 1.0,
-    "virtual_time_s": 3979.1205653914276,
-    "avg_clear_time_s": 397.9120565391428,
-    "program_runtime_s": 0.15987253189086914,
+    "virtual_time_s": 3982.6058344735748,
+    "avg_clear_time_s": 398.2605834473575,
+    "program_runtime_s": 0.035051584243774414,
     "budget_kind": "virtual",
-    "remaining_budget_s": 356020.87943460856,
+    "remaining_budget_s": 356017.39416552644,
     "n_measure": 143,
-    "n_bearings": 29,
+    "n_bearings": 30,
     "n_clear": 10,
     "n_clear_fail": 0,
     "n_scan_rounds": 9,
@@ -2334,14 +2334,14 @@
     "n_replans": 10,
     "n_midphase_targets": 3,
     "n_rejected": 0,
-    "travel_m": 15370.60282695714,
+    "travel_m": 15388.029172367877,
     "mock_stats": {
       "n_measure": 143,
       "n_clear": 10,
       "n_clear_fail": 0,
-      "travel_m": 15370.60282695714,
-      "n_direction": 29,
-      "n_near": 2,
+      "travel_m": 15388.029172367877,
+      "n_direction": 30,
+      "n_near": 1,
       "n_no_signal": 112
     },
     "n_sweep_aborted": 0,
@@ -2464,12 +2464,12 @@
         "r_star_m": 9.1272
       },
       "20": {
-        "n_bearings": 2,
+        "n_bearings": 3,
         "cleared": true,
         "no_signal": 1,
-        "near": 1,
+        "near": 0,
         "status": "bounded",
-        "r_star_m": 26.4749
+        "r_star_m": 10.9655
       }
     },
     "truth": {
@@ -3210,10 +3210,10 @@
         "independent_before_s": 459.0,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031975,
+        "distance_m": 841.9035512031974,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.3807102406395,
+        "expected_dt": 174.38071024063947,
         "dt_error": 0.0,
         "expected_cumulative": 633.3807102406395,
         "reported_time": 633.3807102406395,
@@ -3514,10 +3514,10 @@
         "independent_before_s": 741.3807102406395,
         "measuring_channel_before": 19,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031974,
+        "distance_m": 841.9035512031975,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.38071024063947,
+        "expected_dt": 174.3807102406395,
         "dt_error": 0.0,
         "expected_cumulative": 915.761420481279,
         "reported_time": 915.761420481279,
@@ -4977,38 +4977,38 @@
         "independent_before_s": 3710.477242855617,
         "measuring_channel_before": 2,
         "switch_error_s": 0.0,
-        "distance_m": 1288.2166126790517,
+        "distance_m": 1294.6775169873963,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 263.64332253581034,
+        "expected_dt": 264.93550339747924,
         "dt_error": 0.0,
-        "expected_cumulative": 3974.1205653914276,
-        "reported_time": 3974.1205653914276,
+        "expected_cumulative": 3975.4127462530964,
+        "reported_time": 3975.4127462530964,
         "cumulative_error": 0.0,
         "measuring_channel_after": 20
       },
       {
         "index": 153,
         "kind": "clear",
-        "independent_before_s": 3974.1205653914276,
+        "independent_before_s": 3975.4127462530964,
         "measuring_channel_before": 20,
-        "distance_m": 0.0,
+        "distance_m": 10.965441102390582,
         "distance_error_m": 0.0,
         "expected_switch_s": 0.0,
-        "expected_dt": 5.0,
+        "expected_dt": 7.193088220478116,
         "dt_error": 0.0,
-        "expected_cumulative": 3979.1205653914276,
-        "reported_time": 3979.1205653914276,
+        "expected_cumulative": 3982.6058344735748,
+        "reported_time": 3982.6058344735748,
         "cumulative_error": 0.0,
         "measuring_channel_after": 20
       },
       {
         "index": 154,
         "kind": "exit",
-        "independent_before_s": 3979.1205653914276,
+        "independent_before_s": 3982.6058344735748,
         "measuring_channel_before": 20,
-        "expected_cumulative": 3979.1205653914276,
-        "reported_time": 3979.1205653914276,
+        "expected_cumulative": 3982.6058344735748,
+        "reported_time": 3982.6058344735748,
         "cumulative_error": 0.0,
         "measuring_channel_after": 20
       }
@@ -5042,22 +5042,22 @@
       "truth.n_sources": 0
     },
     "cost_pieces": {
-      "travel_s": 3074.120565391428,
+      "travel_s": 3077.605834473575,
       "measure_s": 715.0,
       "switch_s": 140.0,
       "clear_s": 50.0
     },
-    "independent_exit_s": 3979.1205653914276,
-    "independent_last_clear_s": 3979.1205653914276,
-    "independent_travel_m": 15370.60282695714,
+    "independent_exit_s": 3982.6058344735748,
+    "independent_last_clear_s": 3982.6058344735748,
+    "independent_travel_m": 15388.029172367877,
     "counts": {
       "enter": 1,
       "measure": 143,
       "switch": 140,
       "no_signal": 112,
-      "direction": 29,
+      "direction": 30,
       "clear_success": 10,
-      "near": 2,
+      "near": 1,
       "exit": 1
     },
     "cleared_channels": [
@@ -5097,28 +5097,28 @@
     "exit_called": true,
     "truth_calls": [
       {
-        "virtual_time_s": 3979.1205653914276,
+        "virtual_time_s": 3982.6058344735748,
         "exit_called": true
       },
       {
-        "virtual_time_s": 3979.1205653914276,
+        "virtual_time_s": 3982.6058344735748,
         "exit_called": true
       }
     ],
     "forced_harness_exit": false
   },
   "metrics": {
-    "exit_s": 3979.1205653914276,
-    "last_clear_s": 3979.1205653914276,
+    "exit_s": 3982.6058344735748,
+    "last_clear_s": 3982.6058344735748,
     "tail_s": 0.0,
-    "exit_per_source_s": 397.9120565391428,
-    "last_clear_per_source_s": 397.9120565391428,
-    "travel_m": 15370.60282695714,
+    "exit_per_source_s": 398.2605834473575,
+    "last_clear_per_source_s": 398.2605834473575,
+    "travel_m": 15388.029172367877,
     "n_measure": 143,
     "n_switch": 140,
     "n_clear_success": 10,
     "n_clear_failure": 0,
-    "t_travel_s": 3074.120565391428,
+    "t_travel_s": 3077.605834473575,
     "t_measure_s": 715.0,
     "t_switch_s": 140.0,
     "t_clear_s": 50.0,
@@ -5128,7 +5128,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.17167040000094858,
+    "wall_s": 0.03778224999769009,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -5172,7 +5172,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "42f6a49877b016050bfc5b1047b4249764ca7eb9ce723a192f540da59c676933",
+    "raw_payload_sha256": "7779b3d196fc35ea11742610cffd5fdee95329c4e741d135cd3a222ee7922497",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

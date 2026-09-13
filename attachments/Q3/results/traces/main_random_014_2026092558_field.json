@@ -157,7 +157,7 @@
         ],
         [
           -0.0012282092724962626,
-          0.001330349638371537,
+          0.0013303496383715375,
           1.5793325207740074,
           0.0002881683931741354
         ],
@@ -179,7 +179,7 @@
         "0.0,-1200.0": -0.33491987795611644
       }
     },
-    "error_fingerprint": "5fdff273b1e393b96059e1a4cbb7aa9dd51d1202b424d6bbee7b49391a779b88"
+    "error_fingerprint": "7aa2cc073aa563adb1a2ac3c94078454226534bf06fc8f665dbba15e323d4f11"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2871,7 +2871,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5196.527554910999,
     "avg_clear_time_s": 378.59322485210555,
-    "program_runtime_s": 0.17338848114013672,
+    "program_runtime_s": 0.0387270450592041,
     "budget_kind": "virtual",
     "remaining_budget_s": 354803.472445089,
     "n_measure": 195,
@@ -6623,7 +6623,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.18905239999912737,
+    "wall_s": 0.04243458400014788,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6667,7 +6667,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "072e9664cab7a5dc5a99aca7c6f072dd21525460afde3c946cf4527a076bb233",
+    "raw_payload_sha256": "d4e208e251a1a44c1fb6b173db15d78e44a05beceaf2c36e9634022fde2cb3b7",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

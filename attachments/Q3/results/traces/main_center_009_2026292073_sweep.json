@@ -190,12 +190,12 @@
       "probes": {
         "0.0,0.0": -0.35873613444646585,
         "500.0,-500.0": 0.42451798106614835,
-        "-500.0,500.0": 0.22116341344198434,
+        "-500.0,500.0": 0.22116341344198429,
         "1200.0,0.0": -0.2784532079939761,
-        "0.0,-1200.0": -0.3747623330449125
+        "0.0,-1200.0": -0.37476233304491247
       }
     },
-    "error_fingerprint": "eb9577d383a8eea84dc6fc8b8d52b9b54c19f261f0caf0baed986b109813b7a9"
+    "error_fingerprint": "b50b003aa5efada62c95730aad6d1dee3ac100a62e8adffc894eef41c5b7f77d"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -917,9 +917,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 174.3807102406395,
-      "dist_m": 841.9035512031975,
+      "y": 777.8174593052022,
+      "dt": 174.38071024063947,
+      "dist_m": 841.9035512031974,
       "virtual_time_s": 633.3807102406395,
       "channel": 7,
       "measure_result": "no_signal",
@@ -929,7 +929,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 639.3807102406395,
@@ -941,7 +941,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 645.3807102406395,
@@ -953,7 +953,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 651.3807102406395,
@@ -965,7 +965,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 657.3807102406395,
@@ -977,7 +977,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 663.3807102406395,
@@ -989,7 +989,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 669.3807102406395,
@@ -1001,7 +1001,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 675.3807102406395,
@@ -1013,7 +1013,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 681.3807102406395,
@@ -1026,8 +1026,8 @@
       "kind": "measure",
       "x": 6.735557395310443e-14,
       "y": 1100.0,
-      "dt": 174.38071024063947,
-      "dist_m": 841.9035512031974,
+      "dt": 174.3807102406395,
+      "dist_m": 841.9035512031975,
       "virtual_time_s": 855.761420481279,
       "channel": 7,
       "measure_result": "no_signal",
@@ -1975,7 +1975,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 2543.911896267455,
     "avg_clear_time_s": 211.99265802228794,
-    "program_runtime_s": 0.2503490447998047,
+    "program_runtime_s": 0.0512850284576416,
     "budget_kind": "virtual",
     "remaining_budget_s": 357456.08810373256,
     "n_measure": 110,
@@ -2894,10 +2894,10 @@
         "independent_before_s": 459.0,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031975,
+        "distance_m": 841.9035512031974,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.3807102406395,
+        "expected_dt": 174.38071024063947,
         "dt_error": 0.0,
         "expected_cumulative": 633.3807102406395,
         "reported_time": 633.3807102406395,
@@ -3038,10 +3038,10 @@
         "independent_before_s": 681.3807102406395,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031974,
+        "distance_m": 841.9035512031975,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.38071024063947,
+        "expected_dt": 174.3807102406395,
         "dt_error": 0.0,
         "expected_cumulative": 855.761420481279,
         "reported_time": 855.761420481279,
@@ -4316,7 +4316,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.26387740000063786,
+    "wall_s": 0.054374332998122554,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4360,7 +4360,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "44646d305cb135e121b0285948f9f5a88600f6413f9ebc0c7de3e3104cdb2afb",
+    "raw_payload_sha256": "b40925214b646979343bd05ef765ff79886a88e43ff50fccbfefcbfd2597af21",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

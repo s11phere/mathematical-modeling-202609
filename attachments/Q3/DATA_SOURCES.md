@@ -11,18 +11,13 @@
 靶区、误差界、接收半径、频道、移动速度及动作费用构造；源位与误差场由下述公开
 种子生成。冻结实验 ID 为 `d4a4b6cbe0d6459b370e`，定义指纹为
 `d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605`。
-本次冻结结果按修正后的源位先验（见下）重跑，`results/manifest.json` 与
-`data/` 中的期望场哈希同步更新。
+论文采用 2026-09-13 在 macOS arm64、Python 3.12.14、NumPy 2.3.5 下完整执行的 680 次新结果；批次采纳说明及结果文件哈希见 `results/adoption.json`。实验定义、算法与场输入不变，旧批结果完整移出交付目录，统计不混合两批运行。
 
 `data/` 输入和 `code/` 算法 → 种子生成场景 → `results/traces/` 原始动作及退出后真值
 → `paired_results.json/.csv` 逐局结果 → `summary.json` 汇总 → `figures/`、正文表格和摘要。
 
 `SOURCE_MANIFEST.json` 为每个文件记录原工程来源、当前 SHA256 及改动说明。
-原工程路径仅用于追溯，运行无需访问。14 个必要算法与场景依赖文件逐字节匹配历史
-`results/manifest.json` 对应哈希；全部 11 个期望场输入文件同样匹配。
-历史 `manifest.json` 还列有当时目录内未被本实验使用的诊断脚本，本附件没有复制
-这些脚本；新复现使用仅含必要依赖的定义指纹，不能用整个历史目录的指纹替代其
-运行标识。该差异仅是文件清单和路径变化，算法、场景、参数及统计函数未改动。
+原工程路径仅用于追溯，运行无需访问。14 个必要算法与场景依赖文件及 11 个期望场输入文件均与本批 `results/manifest.json` 中的哈希一致。此次运行使用 `--dev` 仅容许已登记的路径适配和报告脚本变化，全部算法依赖与场数据仍经严格核验，原运行标志及 `development_source_changes.json` 保留。`results/source_snapshot/SHA256.json` 记录完整运行输入：算法和场文件在 `code/`、`data/` 各保留一份，运行时的入口及适配器另保留快照。
 
 ## 实际输入文件与字段
 
@@ -38,6 +33,8 @@
 条件期望。回退 CSV 另含距离、方位、可检测概率、权重和可用性等诊断列。
 历史列名 `E_diam_mixed_mm` 的末尾 `mm` 是旧命名，代码计算量仍为米；本题载入
 明确使用 `E_diam_given_detectable_m`，不读取该列作为策略目标。
+
+图族与局部补测采用不同精度的估价：图族使用 `w ∝ t·P(ρ≥t)`，`p3_expect_field.ray_source_samples` 在 sweep/tour 的局部补测中保留 `w ∝ t` 面积近似。局部近似只影响候选点排序，不缩小保守定位区域。统一自检的 T6 将直接积分参考权重调整为与图族相同，再检查插值精度；结束后恢复局部策略采样器，不改实际策略。
 
 需要独立重建图族时，在本题目录运行以下命令，另写输出以保护原始输入：
 
@@ -96,9 +93,7 @@ python3 -B code/p3_expect_field.py --build-family --family-step 40 --family-nt 2
 置信区间采用 4000 次场景配对自助重采样，固定种子 20260912，每次比较重新初始化。
 消融耗时增长率取相反数。最后一次清除时间和退出尾程是解释性诊断，不替代完整 T。
 
-所有模拟的虚拟上限为 360000 s。历史运行记录了本地策略构造与执行墙钟时间，但
-没有强制 1200 s 看门狗；当前复现入口对新运行设置 1200 s 现实计时器，超时保留为
-失败局。墙钟时间依赖设备和负载，不能据此声称正式在线评测通过。
+所有模拟的虚拟上限为 360000 s。本批完整重跑通过当前复现入口设置 1200 s 现实计时器，超时将保留为失败局；本批无超时或错误状态。墙钟时间记录策略构造和执行，依赖设备与并行负载，不用于替代正式测试的实际运行时间。
 
 ## 论文数字、图表和程序对应
 
@@ -106,7 +101,7 @@ python3 -B code/p3_expect_field.py --build-family --family-step 40 --family-nt 2
 
 | 论文内容 | 权威结果或原始证据 | 实现与生成方法 |
 | --- | --- | --- |
-| 随机 50 组核心比较表、摘要中 42.6% 降幅 | `summary.json#/scenarios/random`；其中 `paired_vs_field/joint` 的节省与区间；`table_provenance.json#/generated` | `make_paper_tables.py` 从冻结汇总生成 `q3-core-rows.tex`、`q3-numbers.tex`、摘要片段。 |
+| 随机 50 组核心比较表、完整退出均值 3066.7 s 与 42.8% 降幅 | `summary.json#/scenarios/random`；其中 `paired_vs_field/joint` 的节省与区间；`table_provenance.json#/generated` | `make_paper_tables.py` 从当前批次汇总生成 `q3-core-rows.tex`、`q3-numbers.tex`，摘要文案由论文维护。 |
 | 五代策略全清率、完整退出时间及单源时间 | `paired_results.json` 主实验行与 `summary.json#/scenarios`、`#/overall` | `run_p3_paper.py::aggregate/summarize`；所有场景均保留。 |
 | 连续覆盖几何与测站滑移，`q3-geometry-certificate` | 确定性示意图；不是实验统计 | `make_paper_figures.py::fig1_geometry`；对应 `p3_coverage.py` 连续单元判据及 `p3_joint.py` 测站精修。 |
 | `q3-route-field-sweep-tour`、`q3-route-tour-adaptive-joint` | `random/index=0/seed=2026091200` 的五份 `main_random_000_2026091200_<policy>.json` | `route_comparison`，由日志绘制位置、测点、清除事件、完整 T 和行程 L。首局事先固定，不按表现挑图。 |
@@ -115,19 +110,15 @@ python3 -B code/p3_expect_field.py --build-family --family-step 40 --family-nt 2
 | 四项消融表与补充统计 | `summary.json#/ablations/random`、`table_provenance.json` | `make_paper_tables.py` 生成完整消融、耗时消融和场景补充表。 |
 | 680 次独立动作与真值隔离审计 | `audit_report.json`、全部 trace 的 `actions`、`guard`、`action_audit` | `run_p3_paper.py::action_audit/static_policy_audit/audit_all`。 |
 | 320 个连续覆盖声明 | `coverage_audit.json#/audits` 和 `#/counts` | 独立重建 5 m 数值网格及 50 m 闭单元证书。细网格通过本身不是连续证明。 |
-| `supplement.pdf` 第 1–120 页 | 主实验全部 120 组 × 5 策略 | 依次为随机 50、外圈 20、中心 10、非平滑误差 20、最小接收半径 20；每页标注种子。 |
-| `supplement.pdf` 第 121–140 页 | 四项消融全部 80 次，加对应的 20 次完整 `joint` | 同页共用种子与场景；完整基准轨迹重复展示便于直接比较。 |
+| 按需生成 `supplement.pdf` 第 1–120 页 | 主实验全部 120 组 × 5 策略 | 依次为随机 50、外圈 20、中心 10、非平滑误差 20、最小接收半径 20；每页标注种子。 |
+| 按需生成 `supplement.pdf` 第 121–140 页 | 四项消融全部 80 次，加对应的 20 次完整 `joint` | 同页共用种子与场景；完整基准轨迹重复展示便于直接比较。 |
 
-## 冻结结果与新复现结果的区别
+## 本批固定记录与独立复现
 
-`results/`、`data/` 和五幅 `figures/` 是复制的冻结证据；SHA256 可核对原始来源。
-`supplement.pdf` 是此次用这些冻结日志重新生成的完整图册，增加了原图册没有逐局
-展示的 80 次消融，图册不产生或更改任何实验数据。
+`results/` 完整收录本次 680 次新实验的逐动作证据、逐局数据、统计、参数和审计；`figures/` 的五幅 PDF 及正文表格均从该批记录生成。采纳前的旧结果保留在工程本地归档中，不进入交付包。完整轨迹图册按需生成，不另占交付空间。
 
-所有 `reproduce.py` 模式先核验哈希，随后只写指定的新目录。审计先复制原始日志再
-重算，原始动作载荷不变；新审计元数据可以变化。`--smoke` 和 `--full` 才新运行策略；
-比较新旧结果时按场景、种子和策略配对，算法动作、源位、配置应一致，墙钟耗时允许
-变化。新输出中 `source_snapshot/` 是实际运行依赖的快照，不需要旧研究目录。
+所有 `reproduce.py` 模式先核验哈希，再写入指定的新目录。审计先复制动作证据并重算，其原始动作载荷保持不变；新审计元数据可以变化。`--smoke` 和 `--full` 才实际运行策略。比较两次运行时须按场景、种子、策略配对；源位、配置和算法输入应核对，墙钟耗时不要求相同。
 
-独立复核只支持论文定义的静止全向源和明确接收下界；本地合成误差与有限样本不能
-覆盖所有物理环境，也不能证明策略对每个合法场景都能迅速完成。
+跨平台浮点差异可能改变启发式分支，因而不承诺新平台的动作与虚拟时间逐位相同。`--audit-only` 可从本批完整证据精确重建论文数值，`--full` 可独立运行同一实验矩阵。此次采纳已完成全部 680 次新运行及覆盖审计，验证记录见 `results/package_validation.json`。
+
+独立复核支持论文定义的静止全向源和明确接收下界；有限的合成场景不能证明任意物理环境下都能快速全清。

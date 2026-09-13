@@ -1,24 +1,15 @@
 {
-  "kind": "new packaging verification, not historical simulation data",
+  "kind": "verification of complete rerun adopted for the final paper",
   "date": "2026-09-13",
-  "environment": {
-    "python": "3.13.15",
-    "numpy": "2.5.3",
-    "matplotlib": "3.11.1"
+  "execution_environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
   },
-  "commands_run": [
-    "reproduce.py --audit-only --out <new directory>",
-    "reproduce.py --smoke --out <new directory>",
-    "reproduce.py --figures --out <new directory>"
-  ],
-  "relocated_package_test": {
-    "working_directory": "/private/tmp/q3-portability-check-20260913",
-    "modes_passed": [
-      "audit-only",
-      "smoke"
-    ],
-    "original_project_data_and_source_required": false
-  },
+  "plotting_matplotlib": "3.11.2",
+  "full_680_policy_rerun_performed": true,
+  "algorithm_dependencies_verified": 14,
+  "field_files_verified": 11,
   "audit": {
     "runs": 680,
     "action_audit_pass": 680,
@@ -35,13 +26,11 @@
       "observation_cache_hits": 1992
     }
   },
-  "replayed_summary_exactly_equal_frozen": true,
+  "replayed_summary_exactly_equal_adopted_results": true,
   "smoke_comparison": [
     {
-      "split": "main",
       "policy": "field",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -50,10 +39,8 @@
       }
     },
     {
-      "split": "main",
       "policy": "sweep",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -62,10 +49,8 @@
       }
     },
     {
-      "split": "main",
       "policy": "tour",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -74,10 +59,8 @@
       }
     },
     {
-      "split": "main",
       "policy": "adaptive",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -86,10 +69,8 @@
       }
     },
     {
-      "split": "main",
       "policy": "joint",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -98,10 +79,8 @@
       }
     },
     {
-      "split": "ablation",
       "policy": "joint_no_after_service",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -110,10 +89,8 @@
       }
     },
     {
-      "split": "ablation",
       "policy": "joint_single_plan",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -122,10 +99,8 @@
       }
     },
     {
-      "split": "ablation",
       "policy": "joint_no_cover_polish",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -134,10 +109,8 @@
       }
     },
     {
-      "split": "ablation",
       "policy": "joint_no_probability_gate",
-      "seed": 2026091200,
-      "equal_frozen_fields": {
+      "equal_fields": {
         "actions": true,
         "requested_config": true,
         "effective_config": true,
@@ -146,20 +119,19 @@
       }
     }
   ],
-  "figures": {
-    "paper_figures": 5,
-    "formats": [
-      "pdf",
-      "png"
-    ],
-    "supplement_pages": 140,
-    "main_scenes": 120,
-    "ablation_scenes": 20,
-    "unique_runs_shown": 680,
-    "representative_pages_rendered_and_visually_checked": [
-      1,
-      121
-    ]
+  "checks": {
+    "selftest": 40,
+    "adaptive": 7,
+    "joint": 12,
+    "all_passed": true,
+    "field_interpolation_reference": "same t*P(rho>=t) prior as delivered maps; local policy sampler restored before end-to-end tests"
   },
-  "full_680_policy_rerun_performed_during_packaging": false
+  "figures": {
+    "body_pdfs": 5,
+    "paper_files_byte_equal": true,
+    "all_five_visually_checked": true,
+    "all_generated_table_files_equal_paper": true,
+    "supplement_delivery": "omitted from package; reproduction generates 140 pages on demand"
+  },
+  "prior_results": "Previous batch retained outside delivery package; adoption.json describes the complete replacement."
 }

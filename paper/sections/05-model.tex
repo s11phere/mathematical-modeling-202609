@@ -292,7 +292,7 @@ $\mathrm{rad}\ll1$），故在源点处两次探测束的横向宽度分别为
     \label{eq:D-parallelogram}
 \end{equation}
 该式有直接的几何解释：下标 1、2 的两项分别对应两次探测各自的束宽，
-交叉项 $2w_1w_2\cos\alpha$ 则来自两组对边之间的夹角。
+交叉项 $2w_1w_2\lvert\cos\alpha\rvert$ 则来自两组对边之间的夹角。
 
 把式~\eqref{eq:beam-width}、\eqref{eq:sin-alpha} 与 \eqref{eq:cos-alpha} 代入式
 ~\eqref{eq:D-parallelogram}，即可消去 $w_1,w_2,\alpha$，将直径完全显式化为
@@ -302,17 +302,15 @@ $x_T^2+r_{2T}^2+2x_T\lvert x_T-a\rvert$，于是
     \begin{aligned}
         D(x_T,a,b)
         &=\frac{\Delta\theta\,r_{2T}}{|b|}
-        \sqrt{x_T^2+r_{2T}^2+2x_T(x_T-a)}\\[2pt]
+        \sqrt{x_T^2+r_{2T}^2+2x_T\lvert x_T-a\rvert}\\[2pt]
         &=\frac{\Delta\theta}{|b|}
         \sqrt{(x_T-a)^2+b^2}\;\sqrt{\bigl(x_T+\lvert x_T-a\rvert\bigr)^2+b^2},
     \end{aligned}
     \label{eq:D-exact}
 \end{equation}
-其中第一个根式即式~\eqref{eq:sin-alpha} 中的 $r_{2T}=|S_2T|$，第二个根式是源点到
-点 $(a/2,-b/2)$ 之距离的两倍。定位区域直径由这两个几何量的乘积与 $|b|$ 之比给出。
+其中第一个根式即式~\eqref{eq:sin-alpha} 中的 $r_{2T}=|S_2T|$，当 $x_T\ge a$ 时，第二个根式是源点到点 $(a/2,-b/2)$ 之距离的两倍；当 $x_T<a$ 时，该根式为 $\sqrt{a^2+b^2}$。定位区域直径由这两个几何量的乘积与 $|b|$ 之比给出。
 
-式~\eqref{eq:D-exact} 的合理性可由两个极限情形检验：当第二个检测点正落在第一个
-视线方向附近（$a\to x_T,\;b\to0$）时交角趋于 $90^\circ$，此时
+式~\eqref{eq:D-exact} 的合理性可由两个极限情形检验：固定 $a=x_T$ 并令 $b\to0$ 时，交角保持为 $90^\circ$，此时
 $D\to\Delta\theta\,x_T=w_1$，恰为定位区域沿垂向的宽度；当 $b\to0$ 且
 $x_T\neq a$ 时两视线共线、$\sin\alpha\to0$，$D\to\infty$，与式
 \eqref{eq:sin-alpha} 的退化判据一致。

@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-13",
+  "source": "full 230-run rerun adopted at the team request",
+  "run_count": 230,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "workers": 2
+  },
+  "algorithm_changed": false,
+  "formal_tests_changed": false,
+  "previous_data": "Previous Windows results retained only in local archive; all current paper Q4 figures and statistics use this full rerun.",
+  "audit": {
+    "trace_files_verified": 230,
+    "action_records_verified": 65173,
+    "unique_paired_scenarios": 60,
+    "all_source_definitions_match": true,
+    "all_time_ledgers_match": true,
+    "all_trace_hashes_match": true,
+    "groups_verified": 19,
+    "paired_comparisons_verified": 17,
+    "representative_traces_verified": 3,
+    "summary_statistics_exactly_equal_frozen": true,
+    "cohorts": {
+      "stress": 90,
+      "speed": 30,
+      "ablation": 20,
+      "main": 90
+    },
+    "audit_scope": "Independent action/source replay plus frozen aggregation; no policy execution, no new continuous-geometry proof."
+  },
+  "strict_cases": 120,
+  "strict_full_clear_cases": 120,
+  "strict_continuous_certified_cases": 120
+}

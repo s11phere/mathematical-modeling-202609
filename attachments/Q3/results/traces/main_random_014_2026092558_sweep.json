@@ -157,7 +157,7 @@
         ],
         [
           -0.0012282092724962626,
-          0.001330349638371537,
+          0.0013303496383715375,
           1.5793325207740074,
           0.0002881683931741354
         ],
@@ -179,7 +179,7 @@
         "0.0,-1200.0": -0.33491987795611644
       }
     },
-    "error_fingerprint": "5fdff273b1e393b96059e1a4cbb7aa9dd51d1202b424d6bbee7b49391a779b88"
+    "error_fingerprint": "7aa2cc073aa563adb1a2ac3c94078454226534bf06fc8f665dbba15e323d4f11"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -923,9 +923,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 147.89535531426367,
-      "dist_m": 709.4767765713183,
+      "y": 777.8174593052022,
+      "dt": 147.89535531426364,
+      "dist_m": 709.4767765713182,
       "virtual_time_s": 646.1881248621817,
       "channel": 3,
       "measure_result": "no_signal",
@@ -935,7 +935,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 652.1881248621817,
@@ -947,7 +947,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 658.1881248621817,
@@ -959,7 +959,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 664.1881248621817,
@@ -971,7 +971,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 670.1881248621817,
@@ -984,8 +984,8 @@
       "kind": "measure",
       "x": 6.735557395310443e-14,
       "y": 1100.0,
-      "dt": 174.38071024063947,
-      "dist_m": 841.9035512031974,
+      "dt": 174.3807102406395,
+      "dist_m": 841.9035512031975,
       "virtual_time_s": 844.5688351028211,
       "channel": 1,
       "measure_result": "no_signal",
@@ -2069,7 +2069,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3701.8880873144017,
     "avg_clear_time_s": 370.1888087314402,
-    "program_runtime_s": 0.13248229026794434,
+    "program_runtime_s": 0.029467105865478516,
     "budget_kind": "virtual",
     "remaining_budget_s": 356298.1119126856,
     "n_measure": 122,
@@ -2989,10 +2989,10 @@
         "independent_before_s": 498.29276954791806,
         "measuring_channel_before": 13,
         "switch_error_s": 0.0,
-        "distance_m": 709.4767765713183,
+        "distance_m": 709.4767765713182,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 147.89535531426367,
+        "expected_dt": 147.89535531426364,
         "dt_error": 0.0,
         "expected_cumulative": 646.1881248621817,
         "reported_time": 646.1881248621817,
@@ -3069,10 +3069,10 @@
         "independent_before_s": 670.1881248621817,
         "measuring_channel_before": 17,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031974,
+        "distance_m": 841.9035512031975,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.38071024063947,
+        "expected_dt": 174.3807102406395,
         "dt_error": 0.0,
         "expected_cumulative": 844.5688351028211,
         "reported_time": 844.5688351028211,
@@ -4540,7 +4540,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.14452170000004116,
+    "wall_s": 0.032179707999603124,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4584,7 +4584,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "7646e25dc8028bab341eb1503a43566edf8094bc7004cab6ae0fc5241c76b1f7",
+    "raw_payload_sha256": "059ddb4f3bf33c26b7ac78ec85e01588f610d7c5ecb70b7bbc3cba3b80692147",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

@@ -44,7 +44,7 @@
       },
       {
         "channel": 1,
-        "x": -124.92499801681102,
+        "x": -124.92499801681105,
         "y": -129.6000064604708,
         "r_recv": 1000.0,
         "cone_half": 180.0,
@@ -60,8 +60,8 @@
       },
       {
         "channel": 14,
-        "x": -1467.5790769633204,
-        "y": 884.8648321493879,
+        "x": -1467.5790769633206,
+        "y": 884.864832149388,
         "r_recv": 1000.0,
         "cone_half": 180.0,
         "dir_deg": null
@@ -123,7 +123,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "640cb91611f6489ca211a4ddc98a557c6762292e1d044e3740eb5779aba7da0d",
+    "scene_fingerprint": "6dec5d74d2cba6a6b59acf07757ffa0598189b2dcdc6eebfbff66fa3dec70e0e",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -208,10 +208,10 @@
         "500.0,-500.0": -0.07848986371123173,
         "-500.0,500.0": 0.17894692593131092,
         "1200.0,0.0": 0.1474502451959953,
-        "0.0,-1200.0": 0.15675529651798764
+        "0.0,-1200.0": 0.15675529651798759
       }
     },
-    "error_fingerprint": "c5cd76bd61636e32c3f4ab353262fd09ef3d6f863f0062aebca5b3c640b353f9"
+    "error_fingerprint": "63b4b6ae8f9ab267e62a8111d3161de15c82f06d379416a5e8935d3582833e80"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2925,7 +2925,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4818.47128981184,
     "avg_clear_time_s": 260.85894758800083,
-    "program_runtime_s": 0.1373307704925537,
+    "program_runtime_s": 0.03147721290588379,
     "budget_kind": "virtual",
     "remaining_budget_s": 355181.52871018817,
     "n_measure": 192,
@@ -6738,7 +6738,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.1535516000003554,
+    "wall_s": 0.03518749999784632,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6782,7 +6782,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "d582619e6f0bc68e2897a77ee80b43b12a715e38df7d7b913536a1add10b6ac7",
+    "raw_payload_sha256": "770dd8560b61a1a8e806a865015df0da886be578d5e00a7594cbc8ce09134334",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

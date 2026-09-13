@@ -84,7 +84,7 @@
       },
       {
         "channel": 3,
-        "x": -879.5596804347166,
+        "x": -879.5596804347167,
         "y": 998.0055275658661,
         "r_recv": 1462.59890210086,
         "cone_half": 180.0,
@@ -107,7 +107,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "c29560003229171bfc66d255428a859ec6d8c6fdacb0aac7b653ad3fc5bc7736",
+    "scene_fingerprint": "dd2d827342a1b6959b0264c8c675b72b9ffe8bfb83c46e39554b892afd68781b",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -160,10 +160,10 @@
           0.0007859182972288054
         ],
         [
-          0.0039795607951220065,
-          0.010575070113157314,
+          0.003979560795122006,
+          0.010575070113157312,
           6.015035513966478,
-          0.0017983030481777199
+          0.0017983030481777194
         ],
         [
           8.30861605494663e-05,
@@ -184,18 +184,18 @@
           0.00023861886491603098
         ]
       ],
-      "scale": 0.0064287870824835894,
+      "scale": 0.006428787082483588,
       "local_w": 0.25,
       "local_seed": 307094,
       "probes": {
-        "0.0,0.0": -0.6902506882518302,
-        "500.0,-500.0": -0.024023254816737095,
-        "-500.0,500.0": -0.23911908964306888,
-        "1200.0,0.0": -0.35303361667490524,
-        "0.0,-1200.0": -0.38834484252507584
+        "0.0,0.0": -0.6902506882518304,
+        "500.0,-500.0": -0.024023254816737227,
+        "-500.0,500.0": -0.23911908964306847,
+        "1200.0,0.0": -0.35303361667490535,
+        "0.0,-1200.0": -0.3883448425250754
       }
     },
-    "error_fingerprint": "b5c4863bf7ce96f2c58c8accd16eb0335042920d1e4c2f0fa518f51ccb132aac"
+    "error_fingerprint": "afbae16344a51f76a3147c817fe49ea8be5cf8ddee12afe7ac4069206d2513fb"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -939,7 +939,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 120.15544950978301,
       "dist_m": 570.777247548915,
       "virtual_time_s": 652.4437378238282,
@@ -951,7 +951,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 658.4437378238282,
@@ -963,7 +963,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 664.4437378238282,
@@ -976,8 +976,8 @@
       "kind": "measure",
       "x": 678.7504,
       "y": 583.9324,
-      "dt": 49.545699425390914,
-      "dist_m": 217.72849712695458,
+      "dt": 49.5456994253909,
+      "dist_m": 217.7284971269545,
       "virtual_time_s": 713.9894372492191,
       "channel": 16,
       "measure_result": "direction",
@@ -2119,7 +2119,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3853.580029068658,
     "avg_clear_time_s": 321.1316690890548,
-    "program_runtime_s": 0.31639742851257324,
+    "program_runtime_s": 0.04386401176452637,
     "budget_kind": "virtual",
     "remaining_budget_s": 356146.41997093137,
     "n_measure": 122,
@@ -3117,10 +3117,10 @@
         "independent_before_s": 664.4437378238282,
         "measuring_channel_before": 15,
         "switch_error_s": 0.0,
-        "distance_m": 217.72849712695458,
+        "distance_m": 217.7284971269545,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 49.545699425390914,
+        "expected_dt": 49.5456994253909,
         "dt_error": 0.0,
         "expected_cumulative": 713.9894372492191,
         "reported_time": 713.9894372492191,
@@ -4652,7 +4652,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.33554999999978463,
+    "wall_s": 0.0473668339982396,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4696,7 +4696,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "f40a246438809ed3c530afdb4cceff2571a18a2708c79caee7f5c885980da741",
+    "raw_payload_sha256": "67620fa262f4ae1253e7de37b855ddec2a86d35830e24b8931a0641b605fd8cf",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

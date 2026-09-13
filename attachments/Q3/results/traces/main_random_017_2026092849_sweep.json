@@ -21,7 +21,7 @@
       {
         "channel": 7,
         "x": -912.4864460792835,
-        "y": 524.7602457687179,
+        "y": 524.760245768718,
         "r_recv": 1054.8972752196241,
         "cone_half": 180.0,
         "dir_deg": null
@@ -62,7 +62,7 @@
         "channel": 19,
         "x": -84.63381798364247,
         "y": -556.2547662506144,
-        "r_recv": 1368.385378912602,
+        "r_recv": 1368.3853789126017,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -85,7 +85,7 @@
       {
         "channel": 2,
         "x": 1274.3098754262408,
-        "y": 1128.263401118026,
+        "y": 1128.2634011180262,
         "r_recv": 1169.475628129154,
         "cone_half": 180.0,
         "dir_deg": null
@@ -131,7 +131,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "fedaf3a8cd642a8c5526e9cc8b72c4eb742ac1826b71f2b0217e270114a5d8e8",
+    "scene_fingerprint": "23bbc66ec64b5a572421ddea2d8b52257b9affccaf768b3d3a3eb09d784691fa",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -963,9 +963,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 185.5462349498859,
-      "dist_m": 897.7311747494296,
+      "dist_m": 897.7311747494294,
       "virtual_time_s": 714.9672710651216,
       "channel": 2,
       "measure_result": "direction",
@@ -975,7 +975,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 720.9672710651216,
@@ -987,7 +987,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 726.9672710651216,
@@ -1000,8 +1000,8 @@
       "kind": "measure",
       "x": 551.9054,
       "y": 861.243,
-      "dt": 54.16475033870169,
-      "dist_m": 240.82375169350843,
+      "dt": 54.164750338701694,
+      "dist_m": 240.82375169350848,
       "virtual_time_s": 781.1320214038233,
       "channel": 17,
       "measure_result": "direction",
@@ -2230,7 +2230,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4425.172575822311,
     "avg_clear_time_s": 295.01150505482076,
-    "program_runtime_s": 0.2305469512939453,
+    "program_runtime_s": 0.04928016662597656,
     "budget_kind": "virtual",
     "remaining_budget_s": 355574.82742417767,
     "n_measure": 125,
@@ -3233,7 +3233,7 @@
         "independent_before_s": 529.4210361152358,
         "measuring_channel_before": 14,
         "switch_error_s": 0.0,
-        "distance_m": 897.7311747494296,
+        "distance_m": 897.7311747494294,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
         "expected_dt": 185.5462349498859,
@@ -3281,10 +3281,10 @@
         "independent_before_s": 726.9672710651216,
         "measuring_channel_before": 12,
         "switch_error_s": 0.0,
-        "distance_m": 240.82375169350843,
+        "distance_m": 240.82375169350848,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 54.16475033870169,
+        "expected_dt": 54.164750338701694,
         "dt_error": 0.0,
         "expected_cumulative": 781.1320214038233,
         "reported_time": 781.1320214038233,
@@ -4912,7 +4912,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.24843930000133696,
+    "wall_s": 0.053894374999799766,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4956,7 +4956,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "a45ac9a23664d710dedeae4f7cb3b63c632e26cc1f41aaabe5b4442b7105287d",
+    "raw_payload_sha256": "9d176fc6bf3500d6a9bc5a5e1638194b9c43abfb813084ea3795e5de51907d4b",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

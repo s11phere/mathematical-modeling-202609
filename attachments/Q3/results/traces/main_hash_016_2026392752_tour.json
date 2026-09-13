@@ -38,7 +38,7 @@
         "channel": 8,
         "x": -29.31539910667383,
         "y": 519.5871159234918,
-        "r_recv": 1323.0540013482337,
+        "r_recv": 1323.0540013482334,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -68,7 +68,7 @@
       },
       {
         "channel": 7,
-        "x": -1250.8825872875357,
+        "x": -1250.882587287536,
         "y": 764.126811568378,
         "r_recv": 1438.1998000268131,
         "cone_half": 180.0,
@@ -94,7 +94,7 @@
         "channel": 1,
         "x": -771.7012447206936,
         "y": 219.56695386030077,
-        "r_recv": 1427.2763818264011,
+        "r_recv": 1427.276381826401,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -125,13 +125,13 @@
       {
         "channel": 18,
         "x": -768.1701314743216,
-        "y": 742.9312297115806,
+        "y": 742.9312297115807,
         "r_recv": 1277.5020260857227,
         "cone_half": 180.0,
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "a7b9c51e59a4d115393f6f4f8b0b91a5d733693a65f104060b39fc24b254d64a",
+    "scene_fingerprint": "7f47340c9c6c431ab7f36168dbb84797356ea6776d3e0ced649187174589113b",
     "error_field": {
       "class": "HashErrorArena",
       "waves": [
@@ -148,16 +148,16 @@
           0.00024047008043480054
         ],
         [
-          -0.0013189040474388385,
+          -0.0013189040474388387,
           0.0007280067814790098,
           1.6208073461799786,
           0.00023976478297743726
         ],
         [
-          0.0005338756838144404,
-          0.004506228820673338,
+          0.0005338756838144405,
+          0.0045062288206733385,
           1.154391561824078,
-          0.0007222044024745157
+          0.0007222044024745158
         ],
         [
           -0.0006912764987266069,
@@ -208,7 +208,7 @@
           0.00021599396380223384
         ]
       ],
-      "scale": 0.004473522004353363,
+      "scale": 0.004473522004353362,
       "local_w": 0.25,
       "local_seed": 575625,
       "probes": {
@@ -219,7 +219,7 @@
         "0.0,-1200.0": -0.095937123981284
       }
     },
-    "error_fingerprint": "f20e58277404036733394c215dfe774c27ec808d7e87c5ac0dcd7b3b16cc193a"
+    "error_fingerprint": "b96345018e888ce7dbf16482c28c083062ab9496b5a69da6f0201fc2a1abb036"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2267,9 +2267,9 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
-      "dt": 154.7159923690737,
-      "dist_m": 743.5799618453684,
+      "y": 707.1067811865474,
+      "dt": 154.71599236907366,
+      "dist_m": 743.5799618453683,
       "virtual_time_s": 2985.405168981201,
       "channel": 5,
       "measure_result": "no_signal",
@@ -2279,7 +2279,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2991.405168981201,
@@ -2291,7 +2291,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2997.405168981201,
@@ -2303,7 +2303,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3003.405168981201,
@@ -2315,7 +2315,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3009.405168981201,
@@ -2328,8 +2328,8 @@
       "kind": "measure",
       "x": 478.1534,
       "y": 550.5224,
-      "dt": 61.47551502719974,
-      "dist_m": 277.3775751359987,
+      "dt": 61.475515027199734,
+      "dist_m": 277.37757513599865,
       "virtual_time_s": 3070.8806840084007,
       "channel": 3,
       "measure_result": "direction",
@@ -2658,7 +2658,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3745.1558388650974,
     "avg_clear_time_s": 249.67705592433984,
-    "program_runtime_s": 0.5591020584106445,
+    "program_runtime_s": 0.11403799057006836,
     "budget_kind": "virtual",
     "remaining_budget_s": 356254.8441611349,
     "n_measure": 148,
@@ -5216,10 +5216,10 @@
         "independent_before_s": 2830.689176612127,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 743.5799618453684,
+        "distance_m": 743.5799618453683,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 154.7159923690737,
+        "expected_dt": 154.71599236907366,
         "dt_error": 0.0,
         "expected_cumulative": 2985.405168981201,
         "reported_time": 2985.405168981201,
@@ -5296,10 +5296,10 @@
         "independent_before_s": 3009.405168981201,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 277.3775751359987,
+        "distance_m": 277.37757513599865,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 61.47551502719974,
+        "expected_dt": 61.475515027199734,
         "dt_error": 0.0,
         "expected_cumulative": 3070.8806840084007,
         "reported_time": 3070.8806840084007,
@@ -5717,7 +5717,7 @@
     "full_clear": true,
     "completion_kind": "tour",
     "complete_proof": true,
-    "wall_s": 0.590510500000164,
+    "wall_s": 0.11925437500030966,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -5761,7 +5761,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "36dcb680af5bbf425686dba60d5f5288cd3627a944b1deef2afcec7146a74a40",
+    "raw_payload_sha256": "2c197cb43447877d3181c6d39553a8d6e2cf92baa9e5289e7f2fff5ad6ac0c69",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

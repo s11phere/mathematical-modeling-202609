@@ -1,10 +1,19 @@
 {
   "trace_files_verified": 230,
-  "action_records_verified": 65229,
+  "action_records_verified": 65173,
   "unique_paired_scenarios": 60,
   "all_source_definitions_match": true,
   "all_time_ledgers_match": true,
   "all_trace_hashes_match": true,
-  "all_source_hashes_match_manifest": true,
-  "rejected_total": 0
+  "groups_verified": 19,
+  "paired_comparisons_verified": 17,
+  "representative_traces_verified": 3,
+  "summary_statistics_exactly_equal_frozen": true,
+  "cohorts": {
+    "stress": 90,
+    "speed": 30,
+    "ablation": 20,
+    "main": 90
+  },
+  "audit_scope": "Independent action/source replay plus frozen aggregation; no policy execution, no new continuous-geometry proof."
 }

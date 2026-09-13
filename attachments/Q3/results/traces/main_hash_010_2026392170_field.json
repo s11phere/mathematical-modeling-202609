@@ -108,7 +108,7 @@
           0.00023919642234787136
         ],
         [
-          -0.00201588961044911,
+          -0.0020158896104491095,
           0.0007248535529143359,
           1.4192016847656017,
           0.0003409492508472683
@@ -120,10 +120,10 @@
           0.0010511773352939243
         ],
         [
-          -0.0008295996295530704,
-          0.0028354589303133675,
+          -0.0008295996295530702,
+          0.002835458930313367,
           1.6446895907108807,
-          0.00047019614604054504
+          0.00047019614604054493
         ],
         [
           -0.000766102598227329,
@@ -179,7 +179,7 @@
         "0.0,-1200.0": 0.7569006974980093
       }
     },
-    "error_fingerprint": "303d5aa863800b331873ce472bc80b6fc92f1cdbec21dafeb7bf7e5e6b3e51e0"
+    "error_fingerprint": "f9a47922e1596682c06978f88815176426c34719faf00f5c784be8295c2fa6e3"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2959,7 +2959,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5626.436526707781,
     "avg_clear_time_s": 389.48401963000816,
-    "program_runtime_s": 0.1595289707183838,
+    "program_runtime_s": 0.0334620475769043,
     "budget_kind": "virtual",
     "remaining_budget_s": 354373.5634732922,
     "n_measure": 204,
@@ -6824,7 +6824,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.17399990000012622,
+    "wall_s": 0.03648845799762057,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6868,7 +6868,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "82b47e543e1588d4b60f9461f66293683037bb7b4fe5abab668ebf37143089b9",
+    "raw_payload_sha256": "629d4a2bba9e177bbcff61b2cdd765cf510f339bf53b576bf210bb75382471da",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

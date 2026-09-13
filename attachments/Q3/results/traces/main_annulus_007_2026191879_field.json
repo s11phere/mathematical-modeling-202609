@@ -21,7 +21,7 @@
       {
         "channel": 16,
         "x": 1489.284731238265,
-        "y": -919.7313458390845,
+        "y": -919.7313458390844,
         "r_recv": 1110.2386306716064,
         "cone_half": 180.0,
         "dir_deg": null
@@ -29,7 +29,7 @@
       {
         "channel": 8,
         "x": 321.82341821949115,
-        "y": -1697.8650777160012,
+        "y": -1697.865077716001,
         "r_recv": 1125.6968775643447,
         "cone_half": 180.0,
         "dir_deg": null
@@ -102,12 +102,12 @@
         "channel": 9,
         "x": -926.9616636992996,
         "y": 1106.7281828819646,
-        "r_recv": 1459.6297134966171,
+        "r_recv": 1459.6297134966173,
         "cone_half": 180.0,
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "e5356e149ceaa6e0a97896442122dd19a124fcbc50880ded1c6f9ec19d5c1ad8",
+    "scene_fingerprint": "00331ba6846ab5d7df12b9a3ddae8cea7908eb4fb7bb72a482aa7c7e1bba20af",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -160,10 +160,10 @@
           0.0010849155876145667
         ],
         [
-          -0.005571969203135951,
-          -0.006039213641037506,
+          -0.005571969203135952,
+          -0.006039213641037507,
           0.6227619680795226,
-          0.0013077747457289014
+          0.0013077747457289016
         ],
         [
           -8.127470441404868e-05,
@@ -191,11 +191,11 @@
         "0.0,0.0": 0.4465058348500913,
         "500.0,-500.0": 0.7298076580302595,
         "-500.0,500.0": -0.1508141767904433,
-        "1200.0,0.0": 0.04084385261890792,
-        "0.0,-1200.0": 0.004862860037962602
+        "1200.0,0.0": 0.040843852618907724,
+        "0.0,-1200.0": 0.004862860037962657
       }
     },
-    "error_fingerprint": "ab55c936fe9c715de677a1d218a9fb3f0be4b22c807f247270151de2e2a6b5b8"
+    "error_fingerprint": "f3b787ead5406b155d8234fa2d40d922d42fb864ccc12bd7d87907bf673aff72"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -3161,7 +3161,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4718.593203872671,
     "avg_clear_time_s": 304.2482739956661,
-    "program_runtime_s": 0.1479358673095703,
+    "program_runtime_s": 0.03267097473144531,
     "budget_kind": "virtual",
     "remaining_budget_s": 355281.4067961273,
     "n_measure": 215,
@@ -7295,7 +7295,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.16513750000012806,
+    "wall_s": 0.035891667001124006,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -7339,7 +7339,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "a7f148a68f06f59d989ef132a0491ff7d2b0c18debc80f87687956cfeba841bb",
+    "raw_payload_sha256": "0cf339ecb8f7cd825c84ae8c5a3db6646f9165398e9d5524c83b038db3ffa15b",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

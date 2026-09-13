@@ -108,10 +108,10 @@
           0.0002759461834856196
         ],
         [
-          0.008198292534207589,
-          0.00345265591452121,
+          0.00819829253420759,
+          0.0034526559145212103,
           4.989007195536867,
-          0.0014157888559945615
+          0.0014157888559945618
         ],
         [
           -0.0013961496981343166,
@@ -172,14 +172,14 @@
       "local_w": 0.25,
       "local_seed": 305863,
       "probes": {
-        "0.0,0.0": -0.19024851485265912,
-        "500.0,-500.0": 0.49328844703379876,
-        "-500.0,500.0": 0.13871721098794876,
-        "1200.0,0.0": 0.028828278972981833,
-        "0.0,-1200.0": 0.5204470532878351
+        "0.0,0.0": -0.19024851485265915,
+        "500.0,-500.0": 0.4932884470337989,
+        "-500.0,500.0": 0.1387172109879489,
+        "1200.0,0.0": 0.028828278972981194,
+        "0.0,-1200.0": 0.520447053287835
       }
     },
-    "error_fingerprint": "dae7829b5a621c4131f86458231550c74244fea0189b9aae6d28dc88154604b1"
+    "error_fingerprint": "81ad6ec47f30ffc7aab8b44afd2190dbaa62f2fb6a61ac24fa94bff714b3aa6e"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -923,9 +923,9 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
-      "dt": 160.53644815466302,
-      "dist_m": 772.6822407733151,
+      "y": 777.8174593052022,
+      "dt": 160.536448154663,
+      "dist_m": 772.682240773315,
       "virtual_time_s": 700.0621846049305,
       "channel": 3,
       "measure_result": "no_signal",
@@ -935,7 +935,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 706.0621846049305,
@@ -947,7 +947,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 712.0621846049305,
@@ -959,7 +959,7 @@
     {
       "kind": "measure",
       "x": 777.8174593052023,
-      "y": 777.8174593052023,
+      "y": 777.8174593052022,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 718.0621846049305,
@@ -972,8 +972,8 @@
       "kind": "measure",
       "x": 6.735557395310443e-14,
       "y": 1100.0,
-      "dt": 174.38071024063947,
-      "dist_m": 841.9035512031974,
+      "dt": 174.3807102406395,
+      "dist_m": 841.9035512031975,
       "virtual_time_s": 892.44289484557,
       "channel": 1,
       "measure_result": "no_signal",
@@ -2141,7 +2141,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 3995.6707405377474,
     "avg_clear_time_s": 399.5670740537747,
-    "program_runtime_s": 0.1384134292602539,
+    "program_runtime_s": 0.027892112731933594,
     "budget_kind": "virtual",
     "remaining_budget_s": 356004.32925946225,
     "n_measure": 128,
@@ -3077,10 +3077,10 @@
         "independent_before_s": 539.5257364502675,
         "measuring_channel_before": 11,
         "switch_error_s": 0.0,
-        "distance_m": 772.6822407733151,
+        "distance_m": 772.682240773315,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 160.53644815466302,
+        "expected_dt": 160.536448154663,
         "dt_error": 0.0,
         "expected_cumulative": 700.0621846049305,
         "reported_time": 700.0621846049305,
@@ -3141,10 +3141,10 @@
         "independent_before_s": 718.0621846049305,
         "measuring_channel_before": 10,
         "switch_error_s": 0.0,
-        "distance_m": 841.9035512031974,
+        "distance_m": 841.9035512031975,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 174.38071024063947,
+        "expected_dt": 174.3807102406395,
         "dt_error": 0.0,
         "expected_cumulative": 892.44289484557,
         "reported_time": 892.44289484557,
@@ -4724,7 +4724,7 @@
     "full_clear": true,
     "completion_kind": "sweep",
     "complete_proof": null,
-    "wall_s": 0.1534575000005134,
+    "wall_s": 0.030435083001066232,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -4768,7 +4768,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "f74bb15f7e57198cf0c137df5acd00a462dc66d23a2f0176996703ad138708bb",
+    "raw_payload_sha256": "726c18a7a5d3a16f3ba48dd5df9bbe3a94346a4f545d810b5beb8794f90457da",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

@@ -12,6 +12,6 @@ test_service_scan_occurs_after_clear_at_actual_endpoint (__main__.JointChecks.te
 test_two_and_three_target_route_is_exact (__main__.JointChecks.test_two_and_three_target_route_is_exact) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 3.004s
+Ran 12 tests in 2.400s
 
 OK

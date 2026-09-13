@@ -3303,9 +3303,9 @@
       "opportunistic_receive_probability": 0.0
     }
   },
-  "python_at_audit": "3.13.1",
+  "python_at_audit": "3.12.14",
   "numpy_at_audit": "2.3.5",
-  "platform_at_audit": "Windows-10-10.0.19045-SP0",
+  "platform_at_audit": "macOS-26.6.2-arm64-arm-64bit",
   "execution_runtime_recorded": {
     "python": null,
     "numpy": null
@@ -3338,8 +3338,9 @@
     "future_runs": "1200 s POSIX timer around construction + run; timeouts retained as error rows.",
     "limitations": "Wall time is local diagnostic timing, excludes source generation/base-map loading and independent audit; host load is uncontrolled. No formal online evaluation."
   },
-  "provenance_note": "Algorithm/field hashes are checked against frozen records. Reporting-script revisions do not rerun algorithms. Earlier runner-hash metadata had been refreshed after reporting edits, so it is not treated as a byte-exact execution-script snapshot.",
+  "provenance_note": "Development experiment using the current editable code. Source hashes record this run and enforce unchanged inputs on resume; they do not certify equality with the paper's frozen algorithms or results.",
   "primary_metric": "complete exit_s, reported as mean and P90; all status values retained",
   "per_source_metric": "mean across cases of exit_s / cleared; undefined when cleared=0; defined-value count disclosed",
-  "coverage_note": "5 m sampled-disk audit is numerical evidence, not a continuous proof. The 50 m square-cell certificate is separately reconstructed from no_signal actions."
+  "coverage_note": "5 m sampled-disk audit is numerical evidence, not a continuous proof. The 50 m square-cell certificate is separately reconstructed from no_signal actions.",
+  "development_run": true
 }

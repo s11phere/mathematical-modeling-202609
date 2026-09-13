@@ -53,7 +53,7 @@
       {
         "channel": 7,
         "x": 1098.0501692475525,
-        "y": -705.4838207431636,
+        "y": -705.4838207431637,
         "r_recv": 1000.0,
         "cone_half": 180.0,
         "dir_deg": null
@@ -107,7 +107,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "b43697eae60209704180983fec2c548d402ad7760e4f004e1474ae1b76fdb907",
+    "scene_fingerprint": "8039dc2530f63e513765e87d8cd3b5baca667e039a062f9523542b4eea49dcc2",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -192,10 +192,10 @@
         "500.0,-500.0": -0.4977422029884203,
         "-500.0,500.0": 0.8519702856929015,
         "1200.0,0.0": 0.40267583048787614,
-        "0.0,-1200.0": -0.23845508221528872
+        "0.0,-1200.0": -0.2384550822152887
       }
     },
-    "error_fingerprint": "287824b599bd0283f5ca252a5983a95e12ee16cfba883750ae6ee19d71e84b80"
+    "error_fingerprint": "5e3ea1ffb2ab58d98254762db71c79c4a6a161157cfa56eee458ca0ed3ca2407"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2479,9 +2479,9 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
-      "dt": 92.34823688043558,
-      "dist_m": 431.7411844021779,
+      "y": 707.1067811865474,
+      "dt": 92.34823688043556,
+      "dist_m": 431.74118440217785,
       "virtual_time_s": 2974.4999534290887,
       "channel": 4,
       "measure_result": "no_signal",
@@ -2491,7 +2491,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2980.4999534290887,
@@ -2503,7 +2503,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2986.4999534290887,
@@ -2515,7 +2515,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2992.4999534290887,
@@ -2527,7 +2527,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 2998.4999534290887,
@@ -2539,7 +2539,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3004.4999534290887,
@@ -2551,7 +2551,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3010.4999534290887,
@@ -2563,7 +2563,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3016.4999534290887,
@@ -2575,7 +2575,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3022.4999534290887,
@@ -2587,7 +2587,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3028.4999534290887,
@@ -2599,7 +2599,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3034.4999534290887,
@@ -2611,7 +2611,7 @@
     {
       "kind": "measure",
       "x": 707.1067811865476,
-      "y": 707.1067811865476,
+      "y": 707.1067811865474,
       "dt": 6.0,
       "dist_m": 0.0,
       "virtual_time_s": 3040.4999534290887,
@@ -2624,8 +2624,8 @@
       "kind": "measure",
       "x": 601.0407640085655,
       "y": 813.1727983645296,
-      "dt": 35.999999999999986,
-      "dist_m": 149.99999999999991,
+      "dt": 36.0,
+      "dist_m": 150.0,
       "virtual_time_s": 3076.4999534290887,
       "channel": 13,
       "measure_result": "no_signal",
@@ -3497,7 +3497,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4553.3123978037265,
     "avg_clear_time_s": 379.4426998169772,
-    "program_runtime_s": 0.7258977890014648,
+    "program_runtime_s": 0.14636802673339844,
     "budget_kind": "virtual",
     "remaining_budget_s": 355446.6876021963,
     "n_measure": 220,
@@ -6318,10 +6318,10 @@
         "independent_before_s": 2882.151716548653,
         "measuring_channel_before": 17,
         "switch_error_s": 0.0,
-        "distance_m": 431.7411844021779,
+        "distance_m": 431.74118440217785,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 92.34823688043558,
+        "expected_dt": 92.34823688043556,
         "dt_error": 0.0,
         "expected_cumulative": 2974.4999534290887,
         "reported_time": 2974.4999534290887,
@@ -6510,10 +6510,10 @@
         "independent_before_s": 3040.4999534290887,
         "measuring_channel_before": 20,
         "switch_error_s": 0.0,
-        "distance_m": 149.99999999999991,
+        "distance_m": 150.0,
         "distance_error_m": 0.0,
         "expected_switch_s": 1.0,
-        "expected_dt": 35.999999999999986,
+        "expected_dt": 36.0,
         "dt_error": 0.0,
         "expected_cumulative": 3076.4999534290887,
         "reported_time": 3076.4999534290887,
@@ -7691,7 +7691,7 @@
     "full_clear": true,
     "completion_kind": "tour",
     "complete_proof": true,
-    "wall_s": 0.756104599999162,
+    "wall_s": 0.15100900000106776,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -7735,7 +7735,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "4531259d917ad283f01a091652cae5ad161a4f0fed173cdd2f0425ca26255663",
+    "raw_payload_sha256": "21d0c47a5f132c34d55c23af8055a63a60959bbc2fc2f6cd2620ecff163f0fb4",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

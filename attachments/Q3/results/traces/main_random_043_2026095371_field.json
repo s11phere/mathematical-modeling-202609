@@ -44,9 +44,9 @@
       },
       {
         "channel": 12,
-        "x": 402.18475589284213,
+        "x": 402.1847558928422,
         "y": -543.3892547188143,
-        "r_recv": 1106.339932869706,
+        "r_recv": 1106.3399328697062,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -99,7 +99,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "c512c322a61611ac955b43ea50209b42f9b75d52c62796f0bb706c23eb111011",
+    "scene_fingerprint": "10d9a70122eb3c7d262e3cb9260356cc6cc7bd8a3f4874fb8a4a4084d2eeb4d8",
     "error_field": {
       "class": "MockArena",
       "waves": [
@@ -116,10 +116,10 @@
           0.00039469793514262697
         ],
         [
-          0.002104170105669281,
-          0.005714336969953408,
+          0.0021041701056692813,
+          0.005714336969953409,
           2.690594016818581,
-          0.0009691631610439184
+          0.0009691631610439186
         ],
         [
           0.00016871460553979765,
@@ -181,13 +181,13 @@
       "local_seed": 126336,
       "probes": {
         "0.0,0.0": 0.2224862666137606,
-        "500.0,-500.0": 0.45147207892373364,
-        "-500.0,500.0": 0.038422285843070086,
+        "500.0,-500.0": 0.4514720789237337,
+        "-500.0,500.0": 0.038422285843069955,
         "1200.0,0.0": -0.08857888216247572,
         "0.0,-1200.0": 0.5814328706939604
       }
     },
-    "error_fingerprint": "0b40aac739495f65127b67be7ac6d1708af3d2d2d6c00a806fe1df02d4207c7c"
+    "error_fingerprint": "d346f097deb0bd1b3cde94bd0d7ca68fd30886973628cc5908b6ca258005f863"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2674,7 +2674,7 @@
     "clear_ratio": 0.9090909090909091,
     "virtual_time_s": 4961.428946704005,
     "avg_clear_time_s": 229.71971003285117,
-    "program_runtime_s": 0.18075776100158691,
+    "program_runtime_s": 0.0401608943939209,
     "budget_kind": "virtual",
     "remaining_budget_s": 355038.571053296,
     "n_measure": 179,
@@ -6154,7 +6154,7 @@
     "full_clear": false,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.19436470000073314,
+    "wall_s": 0.043179792002774775,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6198,7 +6198,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "68a3c594e84b64e67cd8edb487daca1d236000a1ffde31e72229bb7132eafb30",
+    "raw_payload_sha256": "bf94845b1122ac42c69e1d5597ae2b8a4b0524a7b336099de5c5d00c8f92b182",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

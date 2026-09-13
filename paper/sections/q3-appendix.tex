@@ -1,21 +1,6 @@
-\section{问题三参数、补测概率与复现材料}\label{app:q3repro}
-\subsection{补测的中心射线近似}\label{app:q3prob}
-设首个有信号测站为 $S_0$，示向度为 $\theta_0$。沿 $x(t)=S_0+t\,u(\theta_0)$ 在 $5\sim1500$ m 上等距取 151 个样本。用极坐标面积元中的 $t$ 为位置权重，并采用接收半径在 $[1000,1500]$ 上均匀的建模近似。正观测要求 $\rho\ge t$，历史负观测 $S_j$ 要求 $\rho<\|x(t)-S_j\|$，因此
-\[
- \ell(t)=\max(1000,t),\qquad
- H(t)=\min\{1500,\min_{j\in I^-}\|x(t)-S_j\|\}.
-\]
-$I^-$ 是负观测索引；为空时内层最小值取正无穷。令 $[a]_+=\max(a,0)$，分母把可能的接收半径区间长度求和，分子进一步要求能在候选站 $p$ 接收：
-\begin{equation}\label{eq:q3-prob}
- \widehat P_{\rm recv}(p)=
- \frac{\sum_t t\,\mathbf1_\Omega(x(t))
- [H(t)-\max\{\ell(t),\|x(t)-p\|\}]_+}
- {\sum_t t\,\mathbf1_\Omega(x(t))[H(t)-\ell(t)]_+}.
-\end{equation}
-分母为零时不施加此概率门槛，交由后续几何筛选。它是中心射线上的离散近似，不是完整角楔上的贝叶斯后验。单方位点估计另取 301 个射线样本，剔除靶区外及历史负观测 1000 m 圆盘内样本，作 $t$ 加权平均；该操作不用于缩小保守外包。
-
-\subsection{算法参数与实验设置}
-\begin{table}[!htbp]\centering
+\subsection{问题三：算法参数、补测概率与复现数据}\label{app:q3repro}
+\subsubsection{算法参数}
+\begin{table}[H]\centering
 \caption{问题三算法参数}
 \begin{tabular}{@{}p{.32\textwidth}p{.60\textwidth}@{}}\toprule
 参数 & 默认取值与含义\\\midrule
@@ -37,43 +22,44 @@ joint 覆盖候选 & 1050、1200、1350、1500 m 四圈，各 72 方向\\
 \end{tabular}\end{table}
 各策略使用自身默认配置；最终两代的有效覆盖半径为证书半径。构造性自检不参与性能统计。
 
-\subsection{补充统计}
-随机场景的源数均匀取 $10\sim16$，源位按圆域面积均匀分布；外圈和中心组均固定 12 源，其半径分别在 $1300\sim1800$ m 和 $0\sim260$ m 内均匀取值。接收半径通常在 $[1000,1500]$ m 内均匀分布，最小接收组固定为 1000 m；非平滑组采用有界位置哈希误差，同地误差固定且不超过 $1^\circ$。按正文场景顺序编号 $s=0,\ldots,4$，第 $i$ 组种子为 $2026091200+100000s+97i$，$i$ 从 0 起计。
+\subsubsection{补测的中心射线近似}\label{app:q3prob}
+设首个有信号测站为 $S_0$，示向度为 $\theta_0$。沿 $x(t)=S_0+t\,u(\theta_0)$ 在 $5\sim1500$ m 上等距取 151 个样本。用极坐标面积元中的 $t$ 为位置权重，并采用接收半径在 $[1000,1500]$ 上均匀的建模近似。正观测要求 $\rho\ge t$，历史负观测 $S_j$ 要求 $\rho<\|x(t)-S_j\|$，因此
+\[
+ \ell(t)=\max(1000,t),\qquad
+ H(t)=\min\{1500,\min_{j\in I^-}\|x(t)-S_j\|\}.
+\]
+$I^-$ 是负观测索引；为空时内层最小值取正无穷。令 $[a]_+=\max(a,0)$，分母把可能的接收半径区间长度求和，分子进一步要求能在候选站 $p$ 接收：
+\begin{equation}\label{eq:q3-prob}
+ \widehat P_{\rm recv}(p)=
+ \frac{\sum_t t\,\mathbf1_\Omega(x(t))
+ [H(t)-\max\{\ell(t),\|x(t)-p\|\}]_+}
+ {\sum_t t\,\mathbf1_\Omega(x(t))[H(t)-\ell(t)]_+}.
+\end{equation}
+分母为零时不施加此概率门槛，交由后续几何筛选。它是中心射线上的离散近似，不是完整角楔上的贝叶斯后验。单方位点估计另取 301 个射线样本，剔除靶区外及历史负观测 1000 m 圆盘内样本，作 $t$ 加权平均；该操作不用于缩小保守外包。
+
+\subsubsection{固定实验定义与补充统计}
+随机场景的源数均匀取 $10\sim16$，源位按圆域面积均匀分布；外圈和中心组均固定 12 源，外圈组按 $1300\sim1800$ m 环带内面积均匀分布，中心组半径在 $0\sim260$ m 内均匀取值。接收半径通常在 $[1000,1500]$ m 内均匀分布，最小接收组固定为 1000 m；非平滑组采用有界位置哈希误差，同地误差固定且不超过 $1^\circ$。按正文场景顺序编号 $s=0,\ldots,4$，第 $i$ 组种子为 $2026091200+100000s+97i$，$i$ 从 0 起计。
 
 下表时间单位为 s，行程为 km；每源列为逐组比值平均，计算列为策略运行的本地实测耗时，不含场景生成与数据分析。
-\begingroup
+\begingroup\small
 \setlength{\tabcolsep}{3pt}
 \begin{longtable}{@{}lrrrrrrrr@{}}
-\caption{全部场景的完整成本与清除结果}\\
+\caption{问题三全部场景的完整成本与清除结果}\\
 \toprule 场景/策略 & 清除比例 & 全清 & 时间均值 & P90 & 每源 & 行程 & 检测 & 计算\\\midrule\endfirsthead
 \toprule 场景/策略 & 清除比例 & 全清 & 时间均值 & P90 & 每源 & 行程 & 检测 & 计算\\\midrule\endhead
 \input{sections/q3-supplement-rows.tex}\\
 \bottomrule\end{longtable}
 \endgroup
 四项消融只用随机场景前 20 组，完整策略均值 \QThreeAblationBase\ s。下表增长率定义为“消融均值/完整策略均值$-1$”，区间是同一组种子重采样的 4000 次配对 bootstrap，未进行多重比较校正；结论限于这组机制比较。
-\begin{table}[!htbp]\centering
-\caption{单因素消融的成本变化及配对区间}
+\begin{table}[H]\centering
+\caption{问题三单因素消融的成本变化及配对区间}
 \begin{tabular}{@{}lrrrrrr@{}}\toprule
 消融 & 时间/s & 增长/\% & 95\% 区间/\% & 行程/km & 检测 & 计算/s\\\midrule
 \input{sections/q3-ablation-rows.tex}\\
 \bottomrule\end{tabular}\end{table}
-\begin{table}[!htbp]\centering
-\caption{消融子集的清除结果与完整时间分布}
+\begin{table}[H]\centering
+\caption{问题三消融子集的清除结果与完整时间分布}
 \begin{tabular}{@{}lrrrrr@{}}\toprule
 策略 & 清除比例 & 全清 & 时间均值/s & P90/s & 每源耗时/s\\\midrule
 \input{sections/q3-ablation-complete-rows.tex}\\
 \bottomrule\end{tabular}\end{table}
-
-\subsection{支撑材料索引}
-附件目录、数据来源及四类运行命令统一见附录~\ref{app:files}。
-逐组结果与完整动作记录分别存于 \path{Q3/results/} 和 \path{Q3/results/traces/}；
-正文图、完整补充图册分别为 \path{Q3/figures/} 和 \path{Q3/supplement.pdf}。
-运行环境与已完成核验见 \path{Q3/README.md}，论文数字及图表的证据对应见
-\path{Q3/DATA_SOURCES.md}。各程序均通过 \path{Q3/reproduce.py} 调用。
-
-\section{问题三最终策略核心代码}\label{app:q3code}
-问题三的完整可运行代码、输入数据和结果汇总均放在附件
-\texttt{Q3/} 中。为保持附录紧凑，这里只列出最终
-\textrm{joint} 策略的核心调度代码；其中调用的公共定位、覆盖和模拟器模块可在附件
-\texttt{code/} 中按同名文件取得，文件校验值见附件的清单。
-\lstinputlisting[language=python,caption={问题三最终 \textrm{joint} 策略核心代码}]{../attachments/Q3/code/p3_joint.py}

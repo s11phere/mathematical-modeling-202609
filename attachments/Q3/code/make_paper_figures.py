@@ -145,7 +145,7 @@ def trace_path(row: dict[str, Any], data_dir: Path) -> Path | None:
     p = row.get("trace_file")
     if not p:
         return None
-    q = Path(str(p))
+    q = Path(str(p).replace("\\", "/"))
     return q if q.is_absolute() else data_dir / q
 
 

@@ -190,12 +190,12 @@
       "probes": {
         "0.0,0.0": -0.35873613444646585,
         "500.0,-500.0": 0.42451798106614835,
-        "-500.0,500.0": 0.22116341344198434,
+        "-500.0,500.0": 0.22116341344198429,
         "1200.0,0.0": -0.2784532079939761,
-        "0.0,-1200.0": -0.3747623330449125
+        "0.0,-1200.0": -0.37476233304491247
       }
     },
-    "error_fingerprint": "eb9577d383a8eea84dc6fc8b8d52b9b54c19f261f0caf0baed986b109813b7a9"
+    "error_fingerprint": "b50b003aa5efada62c95730aad6d1dee3ac100a62e8adffc894eef41c5b7f77d"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2625,7 +2625,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 4284.884521306874,
     "avg_clear_time_s": 53.32812431875354,
-    "program_runtime_s": 0.17420697212219238,
+    "program_runtime_s": 0.0377349853515625,
     "budget_kind": "virtual",
     "remaining_budget_s": 355715.1154786931,
     "n_measure": 172,
@@ -6040,7 +6040,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.1893861000007746,
+    "wall_s": 0.04099829099868657,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6084,7 +6084,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "5daf8b5adf2a5b48e69338f790ef3483251206f471cadf62379a8f06a5ec116f",
+    "raw_payload_sha256": "47d8600e6a778a8a5a0bae4e556b17a1530d0eb5054fd7290499255f684fc7bd",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

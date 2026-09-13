@@ -33,7 +33,7 @@ def main():
         values[f'QThreeFirst{title}Time']=f"{first['exit_s']:.0f}"
         values[f'QThreeFirst{title}Travel']=f"{first['travel_m']/1000:.2f}"
         values[f'QThreeFirst{title}Measure']=str(first['n_measure'])
-        trace=json.loads((DATA/first['trace_file']).read_text())
+        trace=json.loads((DATA/first['trace_file'].replace('\\', '/')).read_text())
         clears=[a['virtual_time_s'] for a in trace['actions']
                 if a.get('kind')=='clear' and a.get('clear_result')=='success']
         values[f'QThreeFirst{title}FourthClear']=f"{clears[3]:.0f}"
@@ -44,13 +44,8 @@ def main():
     for suffix, policy in [('After','joint_no_after_service'),('Multi','joint_single_plan'),('Polish','joint_no_cover_polish'),('Prob','joint_no_probability_gate')]:
         values[f'QThreeAblation{suffix}Increase']=f"{-100*summary['ablations']['random']['paired_vs_joint'][policy]['saving']:.2f}"
     (SECTIONS/'q3-numbers.tex').write_text('% Generated from the frozen Q3 data; do not hand edit.\n'+''.join('\\newcommand{\\'+k+'}{'+v+'}\n' for k,v in values.items()))
-    abstract=(r'{\heiti 针对问题三}\songti，建立{\heiti 联合覆盖、定位与清除模型}\songti，'
-              '以保守定位控制清除风险，以连续覆盖判据验证任务完成，并逐步引入共用航路、沿途定位和逐频道检测调度。'
-              '在 120 组场景开展五策略配对实验，另作 80 次单因素消融。随机 50 组中，'
-              '最终的联合调度策略全部清除，完整退出时间均值 '
-              +f"{random['joint']['mean_exit_s']:.0f}"+r' s，{\heiti 较初代减少 '
-              +values['QThreeSaving']+r'\%}\songti。结果表明，联合规划能同时减少行程与检测成本。'+'\n')
-    (SECTIONS/'q3-abstract.tex').write_text('% Generated Q3 abstract from frozen data.\n'+abstract)
+    # Abstract prose is maintained in the paper; only numeric tables and macros
+    # are generated here so reproduction never overwrites the edited abstract.
     lines=[]
     for kind in SCENARIOS:
         for p in POLICIES:

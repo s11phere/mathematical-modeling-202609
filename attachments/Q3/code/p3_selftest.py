@@ -1,7 +1,7 @@
 """B 题问题 3：统一自检入口（决策场 + 接口层 + 在线策略）。
 
-    python src/p3_selftest.py            # 全部自检，输出到 review/out_p3_selftest.txt
-    python src/p3_selftest.py --quick    # 跳过端到端演练（只做结构与几何检查）
+    python code/p3_selftest.py --out /path/to/out_p3_selftest.txt
+    python code/p3_selftest.py --quick    # 跳过端到端演练（只做结构与几何检查）
 
 三层自检
 --------
@@ -21,6 +21,7 @@ import argparse
 import json
 import os
 import sys
+import tempfile
 import time
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,13 +40,35 @@ for _s in (sys.stdout, sys.stderr):
 
 import p3_arena  # noqa: E402
 import p3_expect_field  # noqa: E402
+# Use the delivered fields before p3_robot binds its loader defaults.
+p3_expect_field.DEFAULT_BASE_CSV = os.path.normpath(os.path.join(_HERE, "..", "data", "p2_grid_map.csv"))
+p3_expect_field.DEFAULT_FAMILY_DIR = os.path.normpath(os.path.join(_HERE, "..", "data"))
 import p3_robot  # noqa: E402
 
 
 def run_all(quick=False, verbose=True):
     t0 = time.time()
     blocks = []
-    res_field = p3_expect_field.selfcheck(verbose=verbose)
+    # The delivered field family uses t * P(rho >= t), whereas the frozen
+    # sweep/tour local heuristic deliberately uses area-only weights t.
+    # T6 tests interpolation against a direct geometric integral, so its
+    # reference must use the same prior as the field being tested. Restore
+    # the policy sampler before all end-to-end checks; no policy is changed.
+    original_sampler = p3_expect_field.ray_source_samples
+
+    def field_reference_samples(*args, **kwargs):
+        import numpy as np
+        ts, weights, high = original_sampler(*args, **kwargs)
+        if ts.size:
+            weights = weights * (1.0 - np.clip((ts - 1000.0) / 500.0, 0.0, 1.0))
+            weights = weights / weights.sum()
+        return ts, weights, high
+
+    try:
+        p3_expect_field.ray_source_samples = field_reference_samples
+        res_field = p3_expect_field.selfcheck(base_csv=p3_expect_field.DEFAULT_BASE_CSV, verbose=verbose)
+    finally:
+        p3_expect_field.ray_source_samples = original_sampler
     blocks.append(("决策场 p3_expect_field", res_field))
     if verbose:
         print()
@@ -86,8 +109,7 @@ def run_all(quick=False, verbose=True):
 def main():
     ap = argparse.ArgumentParser(description="问题3 自检")
     ap.add_argument("--quick", action="store_true")
-    ap.add_argument("--out", default=os.path.normpath(
-        os.path.join(_HERE, "..", "review", "out_p3_selftest.txt")))
+    ap.add_argument("--out", default=os.path.join(tempfile.gettempdir(), "q3-selftest.txt"))
     args = ap.parse_args()
     import io
     buf = io.StringIO()

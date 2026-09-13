@@ -12,7 +12,7 @@
 `SOURCE_MANIFEST.json` 逐文件记录原路径、源文件 SHA256、当前 SHA256 和适配说明。
 原路径只作为来源元数据，不是运行依赖。
 
-`results/manifest.json` 是历史实验定义，含所有任务、源码哈希、种子、环境和启动参数。
+`results/manifest.json` 是当前全量重跑的实验定义，含所有任务、源码哈希、种子、环境和启动参数。
 其完整源目录清单还包括未被这次实验使用的诊断脚本，本附件仅收录必要依赖与对应
 专项检查。`results/runs.jsonl` 是权威逐局表，230 行分别指向一份
 `results/traces/*.json.gz`，并记录压缩文件 SHA256。压缩日志含完整精度的源参数、
@@ -23,10 +23,7 @@
 摘录，供正文案例图使用；审计同时检查其与对应压缩轨迹一致。它们不是另一批实验，
 也不是策略提前知道的真值输入。本题实验无需外部 CSV，场景在运行时按下述规则生成。
 
-原始冻结实验在 Windows、Python 3.12.14、NumPy 2.3.5 下完成，时间范围为
-`2026-09-12T14:43:56.952046+00:00` 至 `2026-09-12T14:44:57.607688+00:00`。
-原始数字只取这批 230 次记录，不混用旧优化报告。新平台重跑与历史结果的差异单独
-保存在 `package_validation.json`，不改写冻结数据。
+本文采用 2026-09-13 在 macOS、Python 3.12.14、NumPy 2.3.5 下完整重跑的 230 次结果（两个工作进程）。所有当前正文图表与数值均取该批记录，替换先前 Windows 批次；正式测试独立保留。采纳来源与核验范围见 `results/adoption.json`、`package_validation.json`。
 
 ## 场景生成与实验矩阵
 
@@ -93,11 +90,11 @@
 `last_s` 为最后成功清除时刻，`tail_s=exit_s-last_s`。`exit_per_cleared` 和
 `last_per_cleared` 均先逐局除以成功清除数再取均值；
 `pooled_exit_per_cleared=sum(exit_s)/sum(cleared)` 是另一种统计，不能混用。
-零清除时逐局比值为 null；本批冻结记录没有零清除局。清除率为成功源总数除以源
+零清除时逐局比值为 null；本批本批记录没有零清除局。清除率为成功源总数除以源
 总数，全清率按完整场景计算。失败、漏清和全部成功清除尝试均保留。
 
 `certified` 是原策略的完成标志，只有同时满足 `certification_mode='continuous'`
-才计入连续认证。冻结的两个严格版本共 120 次均全清且认证；最终 `compact` 的
+才计入连续认证。本批两个严格版本共 120 次均全清且认证；最终 `compact` 的
 60 次共清除 779/779 个源。只读动作审计核对原记录及统计，不把重放动作误称为
 重新证明全部连续几何条件；覆盖证明实现及已有专项检查单独提供。
 
@@ -114,7 +111,7 @@
 
 | 论文内容 | 来源与核对位置 |
 | --- | --- |
-| 主集完整退出均值 5819.1 s、比 `joint` 降低 11.25% | `summary.json#/groups` 的 main/mixed_uniform/compact_strict；`comparisons` 中 main 的 joint_strict → compact_strict；`table_provenance.json#/numbers`。 |
+| 主集完整退出均值 5840.0 s、比 `joint` 降低 10.40% | `summary.json#/groups` 的 main/mixed_uniform/compact_strict；`comparisons` 中 main 的 joint_strict → compact_strict；`table_provenance.json#/numbers`。 |
 | 最终策略清除 779/779、60 次连续认证 | `runs.jsonl` 中 `policy=compact_strict` 的全部 60 行；逐行 `cleared,total,certified,certification_mode`。 |
 | 主比较表及 P90 | 均值取 `summary.groups`；P90 由 `make_paper_tables.py` 对对应 `runs.jsonl` 的 `exit_s` 计算。 |
 | 压力场景、消融与速度档表 | `summary.groups` 与 `comparisons` 对应的 experiment；消融/速度完整基线严格限于主集前 10 例。 |
@@ -127,7 +124,7 @@
 | 连续位置/朝向证书、21 站布局 | `p4_certificate.py`、`p4_layout_v2.py`、`p4_compact.py`；六组检查与 `results/checks_summary.json`。 |
 | 定位外包、负观测与清除兜底 | `p4_homing.py`；后验中心不替代保守外包和清除兜底。 |
 | 后验近似、信息代价排路 | `p4_posterior.py`、`p4_route_v2.py`；对应两项单因素消融。 |
-| `supplement.pdf` 第 1–30 页 | 随机主集全部 30 组的三代策略。 |
+| `--figures` 生成的 `supplement.pdf` 第 1–30 页 | 随机主集全部 30 组的三代策略。 |
 | 第 31–40、41–50、51–60 页 | 分别为最小接收半径、贴边朝外、全向压力集，每类 10 组。 |
 | 第 61–70 页 | 主集前 10 组的完整 `compact` 与两项消融。 |
 | 第 71–80 页 | 同样前 10 组的完整 `compact` 与 fast99/95/90。 |
@@ -136,16 +133,8 @@
 图册显示全部运行、失败清除和未清源，不按成功率筛图；额外比较页重复展示完整
 基准以方便观察，230 次唯一运行均已覆盖。
 
-## 冻结证据与新输出
+## 当前证据与新输出
 
-`results/` 的历史 manifest、runs、summary、audit、table_provenance 及压缩日志均为
-原始文件副本；`data/` 为其可读摘录。`supplement.pdf` 是本次从这些日志新绘制的
-完整补充图册，不产生新实验数据。`results/package_validation.json` 记录此次审计、
-试运行、绘图及迁移测试，须与历史实验记录区分。
+`results/` 的 manifest、runs、summary 和完整压缩日志来自本次采纳的 230 次全量重跑，`data/` 是对应第一例的可读摘录；独立审计记录为 `audit.json`。正文图表全部读取当前批次，`--figures` 还可生成完整轨迹图册。`adoption.json` 和 `package_validation.json` 记录采纳来源及核验范围。
 
-复现入口先核验交付文件和已收录冻结源码哈希。只读审计重建的所有历史统计与区间
-完全一致；图表仍读取冻结记录。新平台运行存在路径与完整虚拟时间的差异：本次
-macOS 的 17 次试运行中 5 次与 Windows 冻结时间相差超过 `1e-6` s，最大约 950.06 s；
-另外 12 次在该容差内一致。请求配置及源码均匹配，部分生成源坐标存在末位浮点差；
-在相同 Python/NumPy 版本下仍可复现差异，全部分支原因尚未定位。因此不声称
-跨平台逐动作一致。差异清单原样公开，论文数据未被新结果替换。
+当前批次中，两个严格版本共 120 次均全清且连续认证，65173 条动作账本与全部统计通过独立重放。复现入口核验交付文件和本批实验的源码哈希，`--audit-only` 精确重建保存统计，`--full` 在新目录运行相同矩阵。跨平台运算可能影响启发式分支，因此应逐组比较新输出，不能将不同批次的数值混合。旧 Windows 批次不再用于当前论文。

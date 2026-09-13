@@ -124,10 +124,10 @@
           0.0005107044350455859
         ],
         [
-          -0.0013334683027154228,
-          0.0004482719987988356,
+          -0.001333468302715423,
+          0.0004482719987988357,
           0.44055710675738335,
-          0.00022389913204040533
+          0.00022389913204040536
         ],
         [
           0.0007540815533650919,
@@ -189,13 +189,13 @@
       "local_seed": 122058,
       "probes": {
         "0.0,0.0": 0.5195886412526772,
-        "500.0,-500.0": 0.06263667174677945,
+        "500.0,-500.0": 0.06263667174677948,
         "-500.0,500.0": 0.3409115205999179,
         "1200.0,0.0": 0.41531823322171585,
         "0.0,-1200.0": -0.10477086107508644
       }
     },
-    "error_fingerprint": "917af58f606c56e7571ad8eeda3296ca73b27142d33396b61cf952bdd9201dde"
+    "error_fingerprint": "e0cec53886e8a9d91a30b73449b550ff2875ff443e866860ca105ff8bd8e67b6"
   },
   "requested_config": {
     "grid_step": 100.0,
@@ -2925,7 +2925,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5207.752142375037,
     "avg_clear_time_s": 318.55205842635576,
-    "program_runtime_s": 0.141387939453125,
+    "program_runtime_s": 0.03302812576293945,
     "budget_kind": "virtual",
     "remaining_budget_s": 354792.24785762496,
     "n_measure": 197,
@@ -6740,7 +6740,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.15620740000122169,
+    "wall_s": 0.03626350000195089,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6784,7 +6784,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "6d492255e6d0c1ca00723f7389b0d49545b021b11646d81d87605c510c041273",
+    "raw_payload_sha256": "1667f98eda485b6f8a824ad8c1262a7eb15e672f192a094600f5ec9f77d81831",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

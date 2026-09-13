@@ -12,7 +12,7 @@
     "sources": [
       {
         "channel": 6,
-        "x": -1015.203415945945,
+        "x": -1015.2034159459449,
         "y": -729.974039788504,
         "r_recv": 1000.947147163342,
         "cone_half": 180.0,
@@ -99,7 +99,7 @@
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "ea297623f286997b813785f922b3be4f8ee46f53ac4c81bcb4457f943a3e2754",
+    "scene_fingerprint": "495a290d61e0c12c1ffe3fabcfca1d6aeb3b7ebb7c272b6ae3473b65219e53ea",
     "error_field": {
       "class": "HashErrorArena",
       "waves": [
@@ -3116,7 +3116,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5115.918508681856,
     "avg_clear_time_s": 356.29945038056525,
-    "program_runtime_s": 0.1616966724395752,
+    "program_runtime_s": 0.03232908248901367,
     "budget_kind": "virtual",
     "remaining_budget_s": 354884.0814913181,
     "n_measure": 215,
@@ -7188,7 +7188,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.17643949999910546,
+    "wall_s": 0.035211541999160545,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -7232,7 +7232,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "7c6a0bfc9849b9ed81c08aba69078c3c2bc22b28e817fea14940dab1cf1c11c4",
+    "raw_payload_sha256": "0faefebb181502970355d3c71b6d711606a9566cdf1587c8f5f8ea2eec6e0c06",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {

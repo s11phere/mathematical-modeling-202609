@@ -1,7 +1,7 @@
 % =====================================================================
 %  附录（页数不限）
-%  依据 2026 规范：附录必须包含支撑材料的文件列表、建模所用全部完整可运行的
-%  源程序代码；如确无程序须注明“本论文没有用到程序”。
+%  文件清单与简要复现方法集中列出；四问各展示一段核心源码，
+%  完整可运行程序与复现数据保存在支撑材料中。
 % =====================================================================
 \begin{appendices}
 \renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
@@ -10,146 +10,61 @@
         keepspaces=true, showstringspaces=false, basicstyle=\ttfamily\footnotesize}
 
 \section{支撑材料文件列表与复现说明}\label{app:files}
-附件为独立评审包，以下路径均相对于解压后的附件根目录。问题一至问题四分别存放于
-\path{Q1/}、\path{Q2/}、\path{Q3/}、\path{Q4/}，四题均采用
-\path{code/}（必要程序）、\path{data/}（输入数据）、\path{results/}（实验结果）和
-\path{figures/}（正文图片）四个主目录；问题三、四的逐动作记录统一存于
-\path{results/traces/}。每题另有 \path{reproduce.py}、\path{README.md}、
-\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json} 和 \path{supplement.pdf}，
-分别提供统一入口、运行说明、数据来源、文件校验及补充图册。绘图共用根目录
-\path{fonts/} 中的中文字体。六份正式测试原始日志集中于独立目录
-\path{formal-tests/}，与离线实验记录分别保存，详见附录~\ref{app:formal}。
-原工程的历史探索、重复源码树和缓存不纳入评审包。
+\begingroup
+\raggedright
+\setlength{\emergencystretch}{3em}
+以下均为附件相对路径。公共文件为 \path{README.md}、\path{requirements.txt}、\path{SHA256SUMS.txt}、\path{VALIDATION.md}、\path{fonts/simsun.ttc} 及\texttt{AI工具使用详情.pdf}。
+各题统一入口支持 \texttt{--audit-only} 核验、\texttt{--smoke} 试运行、\texttt{--full} 完整重跑和 \texttt{--figures} 制图；完整源码清单见各题 \path{SOURCE_MANIFEST.json}。
 
 \subsection{问题一：角楔交会与几何覆盖}
-{\heiti 程序与文件结构。}必要程序集中在 \path{Q1/code/}：
-\path{p1_intersection.py} 实现交会、直径及覆盖判定，
-\path{p1_experiments.py} 生成算例并作固定种子扫描；绘图脚本重绘三幅正文图及补充图册。
-\path{Q1/data/} 保存五组输入 CSV 和真值文件，\path{Q1/results/} 保存逐例结果与四组扫描汇总。
-
-{\heiti 数据与图件依据。}算例是按题设误差界构造的几何实验，随机扫描采用固定种子；
-输入字段、生成参数、样本分母及图表对应关系列于 \path{Q1/DATA_SOURCES.md}。
-三幅正文图集中于 \path{Q1/figures/}，\path{Q1/supplement.pdf} 的四页图件展示全部五组定位区域和四组扫描统计，失败样本未剔除。
-
-{\heiti 复现方法。}从附件根目录运行：
-\begin{lstlisting}[language=bash,caption={问题一的核验与复现入口}]
-python3 -B Q1/reproduce.py --audit-only
-python3 -B Q1/reproduce.py --smoke --out ../q1-smoke
-python3 -B Q1/reproduce.py --figures --out ../q1-figures
-python3 -B Q1/reproduce.py --full --out ../q1-full
-\end{lstlisting}
-依次核对五组保存结果、试运行算例、重绘图件及重跑全部扫描。
+\begin{enumerate}[label=\arabic*.]
+\item \path{Q1/reproduce.py}、\path{README.md}、\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json}：入口、说明和清单（后三项位于 \path{Q1/} 内，下同）。
+\item \path{Q1/code/}：\path{p1_intersection.py}、\path{p1_experiments.py}、\path{make_figures.py}、\path{review_figures.py}。
+\item \path{Q1/data/p1_case01} 至 \path{p1_case05} 的 \path{.csv} 与 \path{.truth.json}；\path{Q1/results/p1_results.jsonl}、\path{p1_summary.json}、\path{package_validation.json}。
+\item \path{Q1/figures/}：三幅正文图；\path{Q1/supplement.pdf}：四页几何补图。
+\end{enumerate}
+运行 \texttt{python3 -B Q1/reproduce.py --full --out ../q1-full}，重建五组算例及四组固定种子扫描；改用 \texttt{--audit-only} 可核对保存算例的直径、覆盖及真值包含性。
 
 \subsection{问题二：第二检测点的期望定位尺度}
-{\heiti 程序与文件结构。}\path{Q2/code/} 集中保存理论中点求积、Python 数值模拟及绘图程序；
-\path{p2_grid_expectation.py} 使用的公共几何模块也在同一目录。
-原 Mathematica 理论程序 \path{Q2_theory_corrected.wl} 保留，理论网格由该程序导出；
-统一入口仅对保存结果抽点核验，不再用 Python 复算理论网格。
-\path{Q2/data/} 为两套网格 CSV，\path{Q2/results/} 为汇总与自检结果。
-
-{\heiti 数据与图件依据。}理论网格含 36960 点，采用 200 点中点加权求积；
-数值网格含 11168 点，采用论文所述位置先验、接收约束与离散积分。
-计算域、步长、字段与正文数字的对应见 \path{Q2/DATA_SOURCES.md}。
-三幅正文图位于 \path{Q2/figures/}，四页 \path{Q2/supplement.pdf} 补充展示两类期望尺度、可检测比例及测向误差平均结果。
-
-{\heiti 复现方法。}从附件根目录运行：
-\begin{lstlisting}[language=bash,caption={问题二的核验与复现入口}]
-python3 -B Q2/reproduce.py --audit-only
-python3 -B Q2/reproduce.py --smoke --out ../q2-smoke
-python3 -B Q2/reproduce.py --figures --out ../q2-figures
-python3 -B Q2/reproduce.py --full --out ../q2-full
-\end{lstlisting}
-依次抽点复算两套保存网格、运行小规模网格、重绘图件及重算数值网格。
-抽点复算与制图无需安装 Mathematica；如需重建理论网格，则运行上述
-\path{Q2_theory_corrected.wl}。
+\begin{enumerate}[label=\arabic*.]
+\item \path{Q2/reproduce.py}、\path{README.md}、\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json}。
+\item \path{Q2/code/}：\path{Q2_theory_corrected.wl}、\path{p2_grid_expectation.py}、\path{p1_intersection.py} 及四个绘图脚本。
+\item \path{Q2/data/Q2_expected_diameter_data.csv}、\path{p2_grid_map.csv}；\path{Q2/results/p2_grid_report.json}、\path{p2_grid_selftest.json}、\path{package_validation.json}。
+\item \path{Q2/figures/}：三幅正文图；\path{Q2/supplement.pdf}：四页期望场补图。
+\end{enumerate}
+运行 \texttt{python3 -B Q2/reproduce.py --full --out ../q2-full} 重建数值网格；理论网格由 \path{Q2_theory_corrected.wl} 在 Mathematica 中导出，\texttt{--audit-only} 无需 Mathematica 即可按同一公式抽点核验两套网格。
 
 \subsection{问题三：多源定位与全域排除}
-{\heiti 程序与文件结构。}\path{Q3/code/} 集中保存五代策略、公共定位与覆盖模块、
-离线模拟器、实验及审计程序，最终策略为 \path{p3_joint.py}。
-\path{Q3/data/} 保存实际使用的期望场与参数，\path{Q3/results/} 保存逐组指标、
-汇总、参数和覆盖核验；680 份完整动作记录均可由逐组结果直接定位。
-
-{\heiti 数据与图件依据。}120 组场景的五策略比较与前 20 组的四项单因素消融共计 680 次运行，
-保留全部失败及漏清结果。场景种子、误差场、成本口径、覆盖证据和论文图表索引见
-\path{Q3/DATA_SOURCES.md}。五幅正文图位于 \path{Q3/figures/}；
-\path{Q3/supplement.pdf} 共 140 页，其中 120 页为五策略配对轨迹，20 页为完整策略与消融比较，覆盖全部运行。
-
-{\heiti 复现方法。}从附件根目录运行：
-\begin{lstlisting}[language=bash,caption={问题三的核验与复现入口}]
-python3 -B Q3/reproduce.py --audit-only
-python3 -B Q3/reproduce.py --smoke --out ../q3-smoke
-python3 -B Q3/reproduce.py --figures --out ../q3-figures
-python3 -B Q3/reproduce.py --full --out ../q3-full
-\end{lstlisting}
-依次重放动作并重建覆盖证据、进行九次固定场景试运行、重绘图表及重跑全部 680 次实验。
-历史研究目录不是运行依赖，完整实验支持中断续跑。
+\begin{enumerate}[label=\arabic*.]
+\item \path{Q3/reproduce.py}、\path{README.md}、\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json}。
+\item \path{Q3/code/}：最终策略 \path{p3_joint.py}，五代策略与公共几何、覆盖模块，\path{run_p3_paper.py} 及审计、制图程序。
+\item \path{Q3/data/p2_grid_map*.csv}、\path{p2_grid_family.json}、\path{p2_grid_report.json}；\path{Q3/results/paired_results.json}、\path{paired_results.csv}、\path{summary.json}、\path{manifest.json} 及审计记录，\path{results/traces/} 含 680 份动作日志。
+\item \path{Q3/figures/}：五幅正文图；完整轨迹图册可由 \texttt{--figures} 生成。
+\end{enumerate}
+运行 \texttt{python3 -B Q3/reproduce.py --full --out ../q3-full} 重跑 680 次实验，支持中断续跑；\texttt{--audit-only} 重放保存动作并重建覆盖证据。
 
 \subsection{问题四：定向源定位与连续朝向认证}
-{\heiti 程序与文件结构。}\path{Q4/code/} 集中保存三代策略、连续覆盖认证、
-定位清除、后验估计、航路优化及离线实验程序，最终策略为 \path{p4_compact.py}。
-\path{Q4/data/} 保存预先指定场景的代表记录；\path{Q4/results/} 保存逐组指标、
-汇总、配置与审计，\path{Q4/results/traces/} 保存 230 份完整压缩动作记录。
-
-{\heiti 数据与图件依据。}随机混合 30 组和三类压力场景各 10 组均比较三代策略；
-另在随机混合前 10 组比较两项消融与三项快速策略，共 230 次运行。
-配对比较复用对应完整策略基线，不把复用记录重复计为新实验。
-场景生成、数据字段、源位核验与图表来源见 \path{Q4/DATA_SOURCES.md}。
-五幅正文图位于 \path{Q4/figures/}；\path{Q4/supplement.pdf} 共 80 页，
-包括 60 组基准轨迹、10 组消融和 10 组快速策略比较，保留漏清场景。
-
-{\heiti 复现方法。}从附件根目录运行：
-\begin{lstlisting}[language=bash,caption={问题四的核验与复现入口}]
-python3 -B Q4/reproduce.py --audit-only
-python3 -B Q4/reproduce.py --smoke --out ../q4-smoke
-python3 -B Q4/reproduce.py --figures --out ../q4-figures
-python3 -B Q4/reproduce.py --full --out ../q4-full
-\end{lstlisting}
-依次核验保存动作及分组统计、进行 17 次小规模试运行、重绘图表及重跑全部 230 次实验。
-
-四题运行均需 Python、NumPy，制图另需 Matplotlib，根目录 \path{requirements.txt}
-给出依赖范围；实际交付核验环境为 Python 3.13.15、NumPy 2.5.3 和 Matplotlib 3.11.1。
-各题 \path{README.md} 区分已执行的核验、试运行与完整实验，
-\path{SOURCE_MANIFEST.json} 记录文件来源、校验值和路径适配。
-以上输出目录位于附件之外，重算不覆盖本文保存结果。
-上述运行入口用于复核离线实验；正式测试的原始记录单独说明如下。
+\begin{enumerate}[label=\arabic*.]
+\item \path{Q4/reproduce.py}、\path{README.md}、\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json}。
+\item \path{Q4/code/}：最终策略 \path{p4_compact.py}，三代策略与连续覆盖、定位清除、后验及航路模块，\path{run_paper_q4.py} 和审计、制图程序。
+\item \path{Q4/data/representative_*.json}；\path{Q4/results/runs.jsonl}、\path{summary.json}、\path{manifest.json} 及审计记录，\path{results/traces/} 含 230 份压缩动作日志。
+\item \path{Q4/figures/}：五幅正文图；完整轨迹图册可由 \texttt{--figures} 生成。
+\end{enumerate}
+运行 \texttt{python3 -B Q4/reproduce.py --full --out ../q4-full} 重跑 230 次实验；\texttt{--audit-only} 核验保存动作及论文统计，跨平台重跑的路径差异见本题运行说明。
 
 \subsection{正式测试日志与结果来源}\label{app:formal}
-\path{formal-tests/} 平铺保存问题三、四各三份官方导出的 \path{.jlog} 原始日志，
-文件名和内容均保持导出时原样。\path{README.md} 说明数据来源与计时口径，
-\path{results.csv} 汇总案例编码、清除数、总定位清除时间、每源平均时间及程序运行时间，
-并逐行列出原始日志文件名；根目录 \path{SHA256SUMS.txt} 提供完整性校验值。
-具体文件与表~\ref{tab:q3-formal}、表~\ref{tab:q4-formal} 逐行对应：
-\begin{quote}
-\path{formal-p3-1-FRH9-74AG-H8YG-EWCW.jlog}\\
-\path{formal-p3-2-6ZVG-RY3R-D98N-WDWS.jlog}\\
-\path{formal-p3-3-CNE9-55RW-U77J-JKRH.jlog}\\
-\path{formal-p4-1-52QB-X7CY-4E7T-7V4V.jlog}\\
-\path{formal-p4-2-JKH4-56UU-UGQG-Q4XM.jlog}\\
-\path{formal-p4-3-CVQX-CFWV-3AJS-SVJ7.jlog}
-\end{quote}
-正式测试的清除数及总定位清除时间由测试者提供，平均时间按总时间除以清除数计算并保留三位小数。
-起止时间由测试者提供的正式系统历史记录转录。
-程序运行时间按对应案例的结束时间减开始时间计算，系统时间戳的显示精度为 1 s；
-问题三三次为 6、11、5 s，问题四三次为 8、7、6 s。
-汇总文件同时保留各案例的起止时间，便于逐项复核。
-日志公开文件头中的问题编号、测试序号与案例编码已核对一致；行为载荷由官方加密，
-本地复现程序不解密或改写该载荷，结果数值不声称已由日志独立复算。
-评审时可按表中编码定位原始文件，并由官方工具验核正式记录。
+以下文件均位于 \path{formal-tests/}，六份原始日志与表~\ref{tab:q3-formal}、表~\ref{tab:q4-formal} 逐行对应。
+\begin{enumerate}[label=\arabic*.]
+\item \path{formal-p3-1-FRH9-74AG-H8YG-EWCW.jlog}。
+\item \path{formal-p3-2-6ZVG-RY3R-D98N-WDWS.jlog}。
+\item \path{formal-p3-3-CNE9-55RW-U77J-JKRH.jlog}。
+\item \path{formal-p4-1-52QB-X7CY-4E7T-7V4V.jlog}。
+\item \path{formal-p4-2-JKH4-56UU-UGQG-Q4XM.jlog}。
+\item \path{formal-p4-3-CVQX-CFWV-3AJS-SVJ7.jlog}。
+\item \path{results.csv}、\path{README.md}、\path{SHA256SUMS.txt}：结果汇总、计时来源及校验值。
+\end{enumerate}
+各表数据由测试者提供，平均时间按总时间除以清除数计算，运行时间取系统起止时间差（精度 1 s）。六份原始日志的公开头部和校验值已核对，加密载荷由官方工具验核。
 
-\section{问题一完整源程序}\label{app:code}
-以下代码直接从对应支撑材料文件载入，各程序按所列文件名保存并保持目录结构即可运行。
-\subsection{角楔交会、直径与覆盖判定}
-\lstinputlisting[language=python, caption={Q1/code/p1\_intersection.py}]{../attachments/Q1/code/p1_intersection.py}
-
-\section{问题二主要源程序}\label{app:q2code}
-以下列出问题二理论计算的 Mathematica 源程序。程序直接实现式~\eqref{eq:value-integral}
-的中点加权求积并导出 $15$ m 网格数据；Python 数值模拟程序保留在支撑材料路径中。
-
-\subsection{理论公式的 Mathematica 中点求积}
-程序运行后在自身目录生成 \texttt{Q2\_expected\_diameter\_data.csv}。
-\lstinputlisting[language={}, caption={Q2/code/Q2\_theory\_corrected.wl}]{../attachments/Q2/code/Q2_theory_corrected.wl}
-
-\input{sections/q3-appendix.tex}
-
-\input{sections/q4-appendix.tex}
+\endgroup
+\input{sections/core-code.tex}
 \end{appendices}

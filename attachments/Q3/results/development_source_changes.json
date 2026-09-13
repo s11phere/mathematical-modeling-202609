@@ -1,0 +1,15 @@
+{
+  "mode": "development",
+  "package_files_verified": 736,
+  "package_files_present": 741,
+  "modified_code": [
+    "code/make_paper_figures.py",
+    "code/make_paper_tables.py",
+    "code/make_paper_trajectory_atlas.py",
+    "code/package_runtime.py",
+    "code/render_supplement.py"
+  ],
+  "shared_fonts_and_manifest_verified": 2,
+  "frozen_algorithm_dependencies_verified": 14,
+  "frozen_field_files_verified": 11
+}

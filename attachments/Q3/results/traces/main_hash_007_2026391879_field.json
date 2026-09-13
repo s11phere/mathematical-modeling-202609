@@ -46,7 +46,7 @@
         "channel": 7,
         "x": 3.1715019184831332,
         "y": 1682.8499863436393,
-        "r_recv": 1463.2749234967923,
+        "r_recv": 1463.2749234967926,
         "cone_half": 180.0,
         "dir_deg": null
       },
@@ -110,12 +110,12 @@
         "channel": 15,
         "x": -327.5234393024005,
         "y": -1391.0241997559274,
-        "r_recv": 1140.9810355104314,
+        "r_recv": 1140.9810355104312,
         "cone_half": 180.0,
         "dir_deg": null
       }
     ],
-    "scene_fingerprint": "9fcb3d0c85d1bc242e9feceecbbce07c21e27d237226148d21d6ecfcc5615cac",
+    "scene_fingerprint": "07176f06c638d1012cb823975c359bf7007f8bf6d65848518f3b73eaa58661eb",
     "error_field": {
       "class": "HashErrorArena",
       "waves": [
@@ -2926,7 +2926,7 @@
     "clear_ratio": 1.0,
     "virtual_time_s": 5167.268394231014,
     "avg_clear_time_s": 284.77179921175633,
-    "program_runtime_s": 0.14419078826904297,
+    "program_runtime_s": 0.035735130310058594,
     "budget_kind": "virtual",
     "remaining_budget_s": 354832.73160576896,
     "n_measure": 195,
@@ -6740,7 +6740,7 @@
     "full_clear": true,
     "completion_kind": "field",
     "complete_proof": null,
-    "wall_s": 0.1608438000002934,
+    "wall_s": 0.03986783399886917,
     "wall_within_1200s": true,
     "n_rejected": 0,
     "status": "ok",
@@ -6784,7 +6784,7 @@
   "audit_provenance": {
     "audit_version": "q3-independent-audit-v2",
     "runner_sha256": "a18e53790a3bb1d99793ba46b769627c05594a4d7244e72f2f8690571c53c766",
-    "raw_payload_sha256": "e2643a208e575f9108baa4ef01bc659dec94ced921c732717a8b749af9032916",
+    "raw_payload_sha256": "5f8b4a9466912356170f5a5eec8036ab9d87544bf6b833ff174b16865623c743",
     "definition_fingerprint": "d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605",
     "execution_algorithms_unchanged": true,
     "verified_source_sha256": {
