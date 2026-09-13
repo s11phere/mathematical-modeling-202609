@@ -19,13 +19,13 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/make_paper_figures.py": {
-      "sha256": "dd330e4474944f9ad716146589414ed0220ad9e3986a9448477fd49eebf91610",
+      "sha256": "8058e901f84c6ed750486275c624d8c7625997ab1551b27bfe8e012dee0c1fd0",
       "source": "B_locator/Q4/scripts/make_paper_figures.py",
       "source_sha256": "f25bbca18b4036482269350ab6494c2ead9de7c4d1fe906fff6e3753029c16ba",
       "adaptation": "Attachment code/results/data/font paths; original plotting mathematics and frozen inputs retained.",
-      "bytes": 19163,
+      "bytes": 19162,
       "package_revision_before_maintenance": "a6f76fef3e3f0a62635845f27dbc9409fe9b8218430a8e53d6ec839969ebd273",
-      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+      "maintenance_note": "修复图 16 脚注与 x 轴标签重叠；仅调整版面边距与脚注位置，数据、统计口径与算法未变。"
     },
     "code/make_paper_tables.py": {
       "sha256": "a3a1be6d97d43e133d34e1acfe2ce556ffa7ab16c48ac6faa3b0d7c5dc023da5",
@@ -271,19 +271,21 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "figures/q4-ablation-tradeoff.pdf": {
-      "sha256": "7c09e561d819238584c0c56ca0e565b042e98e7c38c4db98914c5ec42b97676d",
+      "sha256": "e05e2510512053a5189e7bdf370e4a902a8835e781a0ae81ba5a398b69142b3f",
       "source": "B_locator/paper/figures/q4-ablation-tradeoff.pdf",
       "source_sha256": "e1cc79c2d741ec4a7f26829608b4ea1fa55f645b22811b4c433499a97b7227f6",
       "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
-      "bytes": 39154,
+      "bytes": 38298,
       "package_revision_before_maintenance": "e1cc79c2d741ec4a7f26829608b4ea1fa55f645b22811b4c433499a97b7227f6",
-      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+      "maintenance_note": "修复图 16 脚注与 x 轴标签重叠；仅调整版面边距与脚注位置，数据、统计口径与算法未变。"
     },
     "figures/q4-ablation-tradeoff.png": {
       "source": "current editable review package",
       "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "2dce91e4c4504f2d5126f6faafe69380623c9a9fba3c94ef4c5607b98cbfd7e3",
-      "bytes": 86962
+      "sha256": "301cb9040cb51d7ac0487c9f28f622fa7288e11f6a6876d811b3897eafc7eeb0",
+      "bytes": 88023,
+      "package_revision_before_maintenance": "2dce91e4c4504f2d5126f6faafe69380623c9a9fba3c94ef4c5607b98cbfd7e3",
+      "maintenance_note": "修复图 16 脚注与 x 轴标签重叠；仅调整版面边距与脚注位置，数据、统计口径与算法未变。"
     },
     "figures/q4-geometry-certificate.pdf": {
       "sha256": "b9c4c5733599af61a38cdce8cef53b10c1fda1ddab27b4e5fe3ac00ad10b77aa",

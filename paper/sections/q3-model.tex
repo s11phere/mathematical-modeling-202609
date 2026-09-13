@@ -78,9 +78,9 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
 \end{tabular}\end{table}
 
 \paragraph{\textbf{(a)}\hspace{0.2em}第一代：期望场选点 field}
-利用问题二的期望直径场评价补测位置。\cref{fig:p2-mma-py} 中的低值区对应有利交会位置；将各方位对应的场旋转、平移并汇总为 $\overline E[D](g)$，在当前位置 $s$ 选取使下式最小的候选点 $g$：
+利用问题二的期望直径场评价补测位置。\cref{fig:p2-mma-py} 中的低值区对应有利交会位置；将各方位对应的场旋转、平移并汇总为 $\overline E[D](p)$，在当前位置 $s$ 选取使下式最小的候选点 $p$：
 \begin{equation}\label{eq:q3-field}
- F(g)=\overline E[D](g)/1500+\lambda\|g-s\|/3600,\qquad\lambda=1.5.
+ F(p)=\overline E[D](p)/1500+\lambda\|p-s\|/3600,\qquad\lambda=1.5.
 \end{equation}
 两项分别反映定位不确定性和移动代价，缺失的场值取 1500 m。目标清除顺序先由最近邻确定，再用 2-opt\cite{croes1958} 交换两条边以缩短航路。该策略侧重已知方位的定位收益，对未发现源仍需额外搜索。
 
@@ -122,7 +122,7 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
 \end{equation}
 其中 $\kappa$ 调节覆盖收益偏好，$\nu$ 调节检测成本；$30=5(5+1)$ 将检测和切频的 6 s 折算为行程，100 m 为代价下限。已有目标点亦可承担检测任务，其插入增量为零。选中后仅从规划用集合中扣除覆盖单元，实际排除仍须等待负观测。
 
-\textrm{adaptive} 使用 $(\kappa,\nu)=(2,0.3)$；\textrm{joint} 比较五组权重生成的航路，具体参数见附录。为计入同站检测不同频道的成本，对航路 $\pi=(p_1,\ldots,p_m)$ 逐站更新各频道的剩余集合 $U_c^{(j)}$，以
+\textrm{joint} 比较五组权重生成的航路，具体参数见附录。为计入同站检测不同频道的成本，对航路 $\pi=(p_1,\ldots,p_m)$ 逐站更新各频道的剩余集合 $U_c^{(j)}$，以
 \begin{equation}\label{eq:q3-plan}
  \widehat T(\pi)=L(\pi)/5+6\sum_{j,c}
  \mathbf1\{j\text{ 承担检测任务},\ U_c^{(j-1)}\cap B(p_j,r_{\rm cert})\ne\varnothing\}

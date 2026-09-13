@@ -335,7 +335,7 @@ def fig_results(summary):
 def fig_ablation(summary):
     """Render only the two mechanism ablations used in the paper."""
     fig, ax = plt.subplots(figsize=(FIG_W, 55*MM))
-    fig.subplots_adjust(left=.22,right=.96,bottom=.28,top=.84)
+    fig.subplots_adjust(left=.22,right=.96,bottom=.33,top=.84)
     variants=["compact_no_posterior","compact_no_information"]
     labels=["取消后验估计","取消信息排路"]
     for i,p in enumerate(variants):
@@ -348,7 +348,7 @@ def fig_ablation(summary):
     ax.set(xlim=(-180,850),ylim=(1.6,-.65),xlabel="相对 compact 的退出时间变化 / s")
     ax.set_xticks([0,400,800]);ax.grid(axis="x",alpha=.16,lw=.4)
     ax.set_title("随机混合前10组：机制单因素消融",pad=10)
-    fig.text(.5,.075,"误差线为整局配对重采样的95%区间；信息代价区间跨零，后验中心区间位于零线右侧。",ha="center",fontsize=8.3)
+    fig.text(.5,.05,"误差线为整局配对重采样的95%区间；信息代价区间跨零，后验中心区间位于零线右侧。",ha="center",fontsize=8.3)
     save(fig,"q4-ablation-tradeoff")
 
 def main():

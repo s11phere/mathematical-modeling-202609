@@ -1,30 +1,26 @@
 \clearpage
 \section{核心代码}\label{app:core}
-以下四段均直接摘录支撑材料中的对应源文件，分别展示四问的关键计算或判定；调用的辅助函数、完整策略与运行入口见附录~\ref{app:files}。
+以下四份为四问所选核心脚本的完整源码，直接取自支撑材料中的同名文件；调用的辅助模块、完整策略族与运行入口见附录~\ref{app:files}。
 
-\noindent\begin{minipage}{\linewidth}
 \subsection{问题一：角楔交会与凸包构造}\label{app:code}
-\path{Q1/code/p1_intersection.py} 将角楔转为半平面，枚举边界交点并筛选可行顶点。下列片段对应定位区域的构造；区域状态、直径与覆盖判定由同文件的 \texttt{analyse()} 汇总。
-\lstinputlisting[language=python,firstline=123,lastline=138,caption={问题一：可行顶点筛选}]{../attachments/Q1/code/p1_intersection.py}
-\end{minipage}\par\medskip
+\path{Q1/code/p1_intersection.py} 将角楔转为半平面，枚举边界交点并筛选可行顶点，并由 \texttt{analyse()} 汇总区域状态、直径与覆盖判定。全文如下。
+\lstinputlisting[language=python,caption={问题一：\texttt{p1\_intersection.py} 全文（角楔交会、直径与覆盖判定）}]{../attachments/Q1/code/p1_intersection.py}
+\par\medskip
 
-\noindent\begin{minipage}{\linewidth}
 \subsection{问题二：期望定位尺度的加权求积}\label{app:q2code}
-\path{Q2/code/Q2_theory_corrected.wl} 用 200 个中点计算式~\eqref{eq:value-integral}；其中 $h=1500$、$n=200$，\texttt{d} 为理论直径函数，权重同时计入面积先验与接收概率。
-\lstinputlisting[language={},firstline=24,lastline=28,caption={问题二：中点加权求积}]{../attachments/Q2/code/Q2_theory_corrected.wl}
-\end{minipage}\par\medskip
+\path{Q2/code/Q2_theory_corrected.wl} 用 200 个中点计算式~\eqref{eq:value-integral}；其中 $h=1500$、$n=200$，\texttt{d} 为理论直径函数，权重同时计入面积先验与接收概率。全文如下。
+\lstinputlisting[language={},caption={问题二：\texttt{Q2\_theory\_corrected.wl} 全文（理论中点加权求积）}]{../attachments/Q2/code/Q2_theory_corrected.wl}
+\par\medskip
 
-\noindent\begin{minipage}{\linewidth}
 \subsection{问题三：覆盖与清除航路的联合选择}\label{app:q3code}
-\path{Q3/code/p3_joint.py} 在五组覆盖收益与检测成本权重下生成候选航路，再按行程时间与所需检测时间之和选取方案；后续执行测站精修与沿途补测。
-\lstinputlisting[language=python,firstline=54,lastline=67,caption={问题三：多候选航路择优}]{../attachments/Q3/code/p3_joint.py}
-\end{minipage}\par\medskip
+\path{Q3/code/p3_joint.py} 在五组覆盖收益与检测成本权重下生成候选航路，再按行程时间与所需检测时间之和选取方案；后续执行测站精修与沿途补测。全文如下。
+\lstinputlisting[language=python,caption={问题三：\texttt{p3\_joint.py} 全文（覆盖与清除航路联合选择）}]{../attachments/Q3/code/p3_joint.py}
+\par\medskip
 
-\noindent\begin{minipage}{\linewidth}
 \subsection{问题四：逐频道连续覆盖认证}\label{app:q4code}
-\path{Q4/code/p4_compact.py} 以已成功清除或实际负观测形成的连续覆盖证书判定频道完成。\texttt{adaptive\_complete} 由 \path{p4_layout_v2.py} 实现，覆盖全部位置与连续朝向；后验估计仅影响行动选择。
-\lstinputlisting[language=python,firstline=86,lastline=94,caption={问题四：残留目标终止认证}]{../attachments/Q4/code/p4_compact.py}
-\end{minipage}\par\medskip
+\path{Q4/code/p4_compact.py} 以已成功清除或实际负观测形成的连续覆盖证书判定频道完成。\texttt{adaptive\_complete} 由 \path{p4_layout_v2.py} 实现，覆盖全部位置与连续朝向；后验估计仅影响行动选择。全文如下。
+\lstinputlisting[language=python,caption={问题四：\texttt{p4\_compact.py} 全文（逐频道连续覆盖认证）}]{../attachments/Q4/code/p4_compact.py}
+\par\medskip
 
 \clearpage
 \section{参数、补测概率与复现数据}\label{app:repro}
