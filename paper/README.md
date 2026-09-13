@@ -2,6 +2,8 @@
 
 在仓库根目录执行 `bash paper/build.sh`，或在本目录执行 `bash build.sh`。优先使用 XeLaTeX，否则使用 Tectonic；本机 Tectonic 的离线缓存位于被 Git 忽略的 `.local/tectonic-cache/`。检查无缺字、编译错误和失效引用后才替换 `main.pdf`，编译日志写入系统临时目录。
 
+2026-09-13 集中修订已基于远程 `main` 的 `7ef5b67` 完成。问题二及正式测试沿用该版本的已验证数据；本次修订不重跑主实验。处理范围、验证和文献取舍见 `集中修订说明.md`、`references_核对说明.md`。当前 PDF 共 39 页，参考文献结束于第 30 页，附录从第 31 页开始。
+
 ## 修改位置
 
 | 内容 | 位置 |
@@ -24,4 +26,6 @@
 
 `maintain.py` 提供当前文件清单核验、更新和评审包导出，命令见根目录 README。它不运行算法、不修改冻结实验数据。尚在修改期，请保留全部 LaTeX、字体、已用图件及源码依赖；最后提交仅取 `main.pdf`。
 
-AI 声明位于 `sections/06-ai-statement.tex`，在参考文献之前。`tools/build_ai_usage.py` 生成附件根目录的 `AI工具使用详情.pdf`，需 ReportLab。问题三、四全部图表与统计已切换至本次完整重跑；制表器不再生成摘要文案。
+附件使用字节级哈希，根目录 `.gitattributes` 禁止 Git 自动转换 `attachments/` 的换行符，以保证跨平台检出后的校验一致。修改制图、制表或复现说明后，先核对内容，再执行 `python paper/maintain.py refresh` 和 `python paper/maintain.py check`；历史来源哈希与当前交付哈希分别保留。
+
+AI 声明位于 `sections/06-ai-statement.tex`，在参考文献之前。`tools/build_ai_usage.py` 生成附件根目录的 `AI工具使用详情.pdf`，需 ReportLab。问题三、四图表与统计沿用远程主分支的完整实验结果；本次仅从保存数据重绘相关结果图，制表器不生成摘要文案。

@@ -4,19 +4,21 @@
   "files": {
     "DATA_SOURCES.md": {
       "source": "created for this review package",
-      "sha256": "4ecf2f45372bca1fcf305dbee02317b562544034b5f62cdfebfa40ce16002890",
-      "bytes": 4828,
+      "sha256": "f1172024c4ba10b27ed63ef92c8b5c779191f8c5dd614a4bd491ef075d51500a",
+      "bytes": 5636,
       "generated_from": [
         "data/",
         "results/",
         "code/"
       ],
-      "adaptation": "Review documentation describing supplied sources and tested commands."
+      "adaptation": "Review documentation describing supplied sources and tested commands.",
+      "package_revision_before_maintenance": "4ecf2f45372bca1fcf305dbee02317b562544034b5f62cdfebfa40ce16002890",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "README.md": {
       "source": "created for this review package",
-      "sha256": "20ffb76e7834ce610e3b7c6152577c820fea5660f89e8d9da2c04017c8eccbae",
-      "bytes": 4661,
+      "sha256": "09430dbf692b15c55c7f95d7cd01d0d812940827b088343bde759936f8c4d5fb",
+      "bytes": 5071,
       "generated_from": [
         "data/",
         "results/",
@@ -24,7 +26,7 @@
       ],
       "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
       "package_revision_before_maintenance": "9358c9dbba0f5795c7d9db81bb3c90044b282c385036ba91ff111b37c2d5dd27",
-      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/Q2_theory_corrected.wl": {
       "source": "B_locator/Q2/MMAcode/Q2_theory_corrected.wl",

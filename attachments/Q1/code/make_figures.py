@@ -107,7 +107,7 @@ def wedge_diagram():
     sensors = np.array([[-900., -250.], [700., -450.], [300., 850.]])
     bearings = [P.bearing(s, T) for s in sensors]
     vertices, _ = P.region_from_bearings(sensors, bearings)
-    fig, ax = plt.subplots(figsize=(6.3, 5.7))
+    fig, ax = plt.subplots(figsize=(8.1, 5.7))
     ax.set(xlim=(-1200, 1200), ylim=(-900, 1100), xlabel="$x$ / m", ylabel="$y$ / m")
     ax.set_aspect("equal")
     for i, (s, theta, color) in enumerate(zip(sensors, bearings, [BLUE, ORANGE, "#49864e"]), 1):
@@ -116,13 +116,25 @@ def wedge_diagram():
         ax.add_patch(Polygon(np.vstack([s, ends]), facecolor=color, alpha=0.15))
         for end in ends:
             ax.plot([s[0], end[0]], [s[1], end[1]], color=color, lw=0.8)
+        central = s + 2200 * np.array([np.cos(np.deg2rad(theta)), np.sin(np.deg2rad(theta))])
+        ax.plot([s[0], central[0]], [s[1], central[1]], color=color, lw=.6, ls='--')
         ax.scatter(*s, color=color, s=30, zorder=4)
         ax.annotate(f"$S_{i}$", s, xytext=(6, 6), textcoords="offset points", color=color)
     ax.scatter(*T, color=RED, s=18, zorder=6)
     ax.annotate("$T$", T, xytext=(-12, 8), textcoords="offset points")
     ax.add_patch(Polygon(vertices, facecolor=RED, edgecolor=RED))
-    inset = ax.inset_axes([0.57, 0.045, 0.40, 0.40])
+    inset = ax.inset_axes([1.02, 0.08, 0.46, 0.46])
     draw_region(inset, vertices, labels=False)
+    inset.patches[0].set_facecolor((.95, .82, .81, .25))
+    for s, theta, color in zip(sensors, bearings, [BLUE, ORANGE, '#49864e']):
+        angles = np.deg2rad([theta - P.BEARING_ERR, theta + P.BEARING_ERR])
+        ends = s + 2200 * np.column_stack([np.cos(angles), np.sin(angles)])
+        inset.add_patch(Polygon(np.vstack([s, ends]), facecolor=color, alpha=.10, zorder=0))
+        for end in ends:
+            inset.plot([s[0], end[0]], [s[1], end[1]], color=color, lw=.8, zorder=1)
+        central = s + 2200 * np.array([np.cos(np.deg2rad(theta)), np.sin(np.deg2rad(theta))])
+        inset.plot([s[0], central[0]], [s[1], central[1]], color=color, lw=.6, ls='--', zorder=1)
+    inset.plot(*T, marker='.', color=RED, zorder=6)
     for i, v in enumerate(vertices, 1):
         inset.annotate(f"$V_{i}$", v, xytext=(3, 4), textcoords="offset points", fontsize=8)
     _, (A, B) = P.diameter(vertices)

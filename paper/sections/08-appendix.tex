@@ -3,6 +3,7 @@
 %  文件清单与简要复现方法集中列出；四问各展示一段核心源码，
 %  完整可运行程序与复现数据保存在支撑材料中。
 % =====================================================================
+\clearpage
 \begin{appendices}
 \renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
 \renewcommand{\lstlistingname}{程序}
@@ -41,16 +42,16 @@
 \item \path{Q3/data/p2_grid_map*.csv}、\path{p2_grid_family.json}、\path{p2_grid_report.json}；\path{Q3/results/paired_results.json}、\path{paired_results.csv}、\path{summary.json}、\path{manifest.json} 及审计记录，\path{results/traces/} 含 680 份动作日志。
 \item \path{Q3/figures/}：五幅正文图；完整轨迹图册可由 \texttt{--figures} 生成。
 \end{enumerate}
-运行 \texttt{python3 -B Q3/reproduce.py --full --out ../q3-full} 重跑 680 次实验，支持中断续跑；\texttt{--audit-only} 重放保存动作并重建覆盖证据。
+运行 \texttt{python3 -B Q3/reproduce.py --figures --out ../q3-figures} 从冻结数据重建图表；\texttt{--full --out ../q3-full} 重跑 680 次实验并在同一新目录后处理，支持中断续跑；\texttt{--audit-only} 重放动作并重建覆盖证据。
 
 \subsection{问题四：定向源定位与连续朝向认证}
 \begin{enumerate}[label=\arabic*.]
 \item \path{Q4/reproduce.py}、\path{README.md}、\path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json}。
 \item \path{Q4/code/}：最终策略 \path{p4_compact.py}，三代策略与连续覆盖、定位清除、后验及航路模块，\path{run_paper_q4.py} 和审计、制图程序。
-\item \path{Q4/data/representative_*.json}；\path{Q4/results/runs.jsonl}、\path{summary.json}、\path{manifest.json} 及审计记录，\path{results/traces/} 含 230 份压缩动作日志。
+\item \path{Q4/data/representative_*.json}；\path{Q4/results/runs.jsonl}、\path{summary.json}、\path{manifest.json} 及审计记录，\path{results/traces/} 含 230 份压缩动作日志（本文统计筛选其中 200 次非速度档）。
 \item \path{Q4/figures/}：五幅正文图；完整轨迹图册可由 \texttt{--figures} 生成。
 \end{enumerate}
-运行 \texttt{python3 -B Q4/reproduce.py --full --out ../q4-full} 重跑 230 次实验；\texttt{--audit-only} 核验保存动作及论文统计，跨平台重跑的路径差异见本题运行说明。
+运行 \texttt{python3 -B Q4/reproduce.py --figures --out ../q4-figures} 从冻结结果重建图表；\texttt{--audit-only} 核验保存动作及统计。\texttt{--full --out ../q4-full} 将全部 230 次历史实验矩阵重跑到新目录，本文仅分析其中 200 次非速度档。新实验的制图应将 \texttt{make\_paper\_figures.py --data ../q4-full --out ../q4-new-figures} 指向同一结果目录，不能用默认冻结结果代替。
 
 \subsection{正式测试日志与结果来源}\label{app:formal}
 以下文件均位于 \path{formal-tests/}，六份原始日志与表~\ref{tab:q3-formal}、表~\ref{tab:q4-formal} 逐行对应。

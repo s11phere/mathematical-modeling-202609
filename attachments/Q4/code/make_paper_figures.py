@@ -12,6 +12,7 @@ text uses the paper's embedded SimSun font.
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import math
 from pathlib import Path
@@ -244,7 +245,13 @@ def group(summary,experiment,policy,scenario="mixed_uniform"):
 
 
 def fig_routes(data):
-    traces={p:json.loads((ROOT/"data"/f"representative_{p}.json").read_text(encoding="utf-8")) for p in POLS}
+    rows = [json.loads(line) for line in (data / 'runs.jsonl').read_text(encoding='utf-8').splitlines()]
+    traces = {}
+    for policy in POLS:
+        row = min((r for r in rows if r['cohort'] == 'main' and r['policy'] == policy),
+                  key=lambda r: (r['case_index'], r['seed']))
+        with gzip.open(data / row['trace'], 'rt', encoding='utf-8') as stream:
+            traces[policy] = json.load(stream)
     assert len({t["row"]["source_sha256"] for t in traces.values()})==1
     fig,axes=plt.subplots(1,3,figsize=(FIG_W,76*MM))
     fig.subplots_adjust(left=.095,right=.985,bottom=.30,top=.76,wspace=.11)
@@ -301,7 +308,7 @@ def fig_results(summary):
         ax.barh(np.arange(3),values[:,j],left=left,color=c,label=l,height=.5);left+=values[:,j]
     for y,v in enumerate(left):ax.text(v+100,y,f"{v:.0f}",va="center",fontsize=8.4)
     ax.set_yticks(range(3),[LABEL[p] for p in POLS]);ax.invert_yaxis()
-    ax.set(xlim=(0,10000),xlabel="平均完整时间 / s")
+    ax.set(xlim=(0,10000),xlabel="平均退出时间 / s")
     ax.set_xticks([0,4000,8000]);ax.grid(axis="x",alpha=.16,lw=.4)
     ax.set_title("(a) 随机混合30组：动作时间分解",pad=10)
     fig.legend(*ax.get_legend_handles_labels(),loc="lower center",bbox_to_anchor=(.31,.095),ncol=4,frameon=False,
@@ -315,19 +322,20 @@ def fig_results(summary):
         bx.errorbar(xx,yy,xerr=[lo,hi],fmt=["s","^","o"][j],ms=4,color=COLOR[p],
                     lw=.9,capsize=2,label=LABEL[p])
     bx.set_yticks(range(3),names);bx.invert_yaxis();bx.set_ylim(2.55,-.5)
-    bx.set(xlim=(4600,15900),xlabel="平均完整时间 / s")
+    bx.set(xlim=(4600,15900),xlabel="平均退出时间 / s")
     bx.set_xticks([5000,9000,13000]);bx.grid(axis="x",alpha=.16,lw=.4)
     bx.set_title("(b) 压力场景：各10组",pad=10)
     fig.legend(*bx.get_legend_handles_labels(),loc="lower center",bbox_to_anchor=(.79,.095),ncol=3,frameon=False,
               columnspacing=.75,handlelength=1.0,handletextpad=.3,fontsize=8.3)
-    fig.text(.5,.035,"压力图误差线为95% bootstrap区间；grid 在贴边朝外场景仅清除94.81%，其余组均全清。",
+    fig.text(.5,.035,"压力图误差线为95% bootstrap区间；grid 在贴边朝外场景仅4/10组全清，其余组均全清。",
              ha="center",fontsize=8.3)
     save(fig,"q4-results-cost")
 
 
 def fig_ablation(summary):
-    fig,(ax,bx)=plt.subplots(1,2,figsize=(FIG_W,71*MM),gridspec_kw={"width_ratios":[1.06,1]})
-    fig.subplots_adjust(left=.17,right=.97,bottom=.27,top=.85,wspace=.49)
+    """Render only the two mechanism ablations used in the paper."""
+    fig, ax = plt.subplots(figsize=(FIG_W, 55*MM))
+    fig.subplots_adjust(left=.22,right=.96,bottom=.28,top=.84)
     variants=["compact_no_posterior","compact_no_information"]
     labels=["取消后验估计","取消信息排路"]
     for i,p in enumerate(variants):
@@ -335,31 +343,13 @@ def fig_ablation(summary):
         v=r["saved_s"];lo,hi=r["saved_s_ci"]
         ax.errorbar(v,i,xerr=[[v-lo],[hi-v]],fmt="o",color=BLUE,ecolor=INK,ms=5,capsize=3,lw=1)
         ax.annotate(f"{v:+.0f} s",(v,i),xytext=(0,12),textcoords="offset points",ha="center",fontsize=8.6)
-    ax.axvline(0,lw=.7,color=GRAY);ax.set_yticks([0,1],labels);ax.invert_yaxis()
-    ax.set(xlim=(-180,850),ylim=(1.6,-.65),xlabel="相对 compact 的耗时增加 / s")
+    ax.axvline(0,lw=.7,color=GRAY)
+    ax.set_yticks([0,1],labels);ax.invert_yaxis()
+    ax.set(xlim=(-180,850),ylim=(1.6,-.65),xlabel="相对 compact 的退出时间变化 / s")
     ax.set_xticks([0,400,800]);ax.grid(axis="x",alpha=.16,lw=.4)
-    ax.set_title("(a) 配对10组：组件消融",pad=10)
-    tiers=["compact_fast90","compact_fast95","compact_fast99","compact_strict"]
-    pts=[]
-    for i,p in enumerate(tiers):
-        r=group(summary,"speed",p);x=r["exit_s"];y=100*r["clearance_rate"]
-        lo,hi=np.array(r["clearance_rate_ci"])*100
-        c=[GOLD,BLUE,"#7656a6",TEAL][i]
-        bx.errorbar(x,y,yerr=[[y-lo],[hi-y]],fmt="o",ms=4.5,color=c,capsize=3,lw=.9)
-        label=p.removeprefix("compact_").replace("strict","连续认证")
-        offset=[(8,-17),(-8,10),(-5,-17),(1,10)][i]
-        alignment=["left","right","center","center"][i]
-        bx.annotate(label,(x,y),xytext=offset,textcoords="offset points",ha=alignment,fontsize=8.5)
-        pts.append((x,y))
-    pts=np.array(pts);bx.plot(pts[:,0],pts[:,1],color=GRAY,lw=.6,ls="--",zorder=0)
-    bx.set(xlim=(3950,5950),ylim=(91.7,101.6),xlabel="平均完整时间 / s",ylabel="累计清除率 / %")
-    bx.set_xticks([4000,4800,5600]);bx.set_yticks([92,96,100]);bx.grid(alpha=.16,lw=.4)
-    bx.set_title("(b) 同一10组：覆盖与耗时",pad=10)
-    fig.text(.5,.090,"误差线：整局配对/重采样的95%区间。消融区间跨零，表示此样本尚不能确认该组件的独立收益。",
-             ha="center",fontsize=8.3)
-    fig.text(.5,.028,"快速策略名称是配置标签；样本清除率不能替代 完整覆盖策略的连续完成认证。",ha="center",fontsize=8.5)
+    ax.set_title("随机混合前10组：机制单因素消融",pad=10)
+    fig.text(.5,.075,"误差线为整局配对重采样的95%区间；信息代价区间跨零，后验中心区间位于零线右侧。",ha="center",fontsize=8.3)
     save(fig,"q4-ablation-tradeoff")
-
 
 def main():
     global OUT

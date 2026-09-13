@@ -12,35 +12,41 @@
 问题三的源数未知，而每个频道至多对应一个静止全向源，因此，完成任务不仅要求清除已发现目标，还须排除其余频道存在残留源的可能。为此，先建立统一时间成本，再分别描述目标定位与区域排除的约束。
 
 \paragraph{\textbf{(a)}\hspace{0.2em}任务成本与评价指标}
-设靶区 $\Omega=\{x:\|x\|\le1800\}$，频道集合 $\mathcal C=\{1,\ldots,20\}$，源接收半径 $\rho_c\in[1000,1500]$ m。机器人从原点出发，速度为 5 m/s；测量耗时 5 s，切频耗时 1 s。清除需先进行 3 s 光学定位，成功时另需 2 s。令 $L=\sum_k\|s_k-s_{k-1}\|$ 为相邻动作终点间的总行程，$N$ 为对应动作次数，则完整退出时间为
+设靶区 $\Omega=\{x:\|x\|\le1800\}$，频道集合 $\mathcal C=\{1,\ldots,20\}$，源接收半径 $\rho_c\in[1000,1500]$ m。机器人从原点出发，速度为 5 m/s；测量耗时 5 s，切频耗时 1 s。清除需先进行 3 s 光学定位，成功时另需 2 s。令 $L=\sum_k\|s_k-s_{k-1}\|$ 为相邻动作终点间的总行程，各类动作次数分别以下标区分，则退出时间为
 \begin{equation}\label{eq:q3-cost}
  T_{\rm exit}=\frac L5+5N_{\rm measure}+N_{\rm switch}
        +5N_{\rm clear,ok}+3N_{\rm clear,fail}.
 \end{equation}
-测向机初始频道为 1，清除不改变频道；进入和退出操作不增加上述时间。以 $T_{\rm exit}$ 为主要指标，同时报告清除比例及各次实验的 $T_{\rm exit}/N_{\rm clear,ok}$，避免将漏清造成的提前退出视为效率提高。末次清除时刻记为 $T_{\rm last}$，两者之差表示验证其余频道所需的时间。
+测向机初始频道为 1，清除不改变频道；进入和退出操作不增加上述时间。以 $T_{\rm exit}$ 为主要指标，同时报告清除比例及各次实验的 $T_{\rm exit}/N_{\rm clear,ok}$，避免将漏清造成的提前退出视为效率提高。末次清除时刻记为 $T_{\rm last}$，两者之差为末次清除后的搜索时间。只有满足后述连续完成判据时，退出时间才作为已认证的完整任务成本。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}观测约束与保守定位区域}
 将收到示向度的测量称为正观测，无信号测量称为负观测；近场观测则表明源距测点不超过 5 m，可原地清除并确认结果。正观测用于定位，负观测用于排除，两类信息共同构成逐频道状态。
 
-沿用问题一的角楔交会方法，令 $u(\theta)=(\cos\theta,\sin\theta)$，$\operatorname{cross}(a,b)=a_xb_y-a_yb_x$。对测站 $S_i$ 和示向度 $\theta_i$，取含舍入余量的误差半宽 $\eta=(1.005+10^{-9})^\circ$，得到
+沿用问题一的角楔交会方法，令 $u(\theta)=(\cos\theta,\sin\theta)$，$\operatorname{cross}(a,b)=a_xb_y-a_yb_x$；以度给出的角量代入三角函数前均乘 $\pi/180$ 转为弧度。设备误差为 $1^\circ$，两位小数读数的最大舍入误差为 $0.005^\circ$，故理论误差半宽取 $\eta=1.005^\circ$。测站 $S_i$ 和示向度 $\theta_i$ 对应的闭角楔为
 \begin{equation}\label{eq:q3-wedge}
- W_i=\{x:\operatorname{cross}(u(\theta_i-\eta),x-S_i)\ge0,\quad
+ \mathcal W_i=\{x:\operatorname{cross}(u(\theta_i-\eta),x-S_i)\ge0,\quad
           \operatorname{cross}(u(\theta_i+\eta),x-S_i)\le0\}.
 \end{equation}
-记 $B(s,r)$ 为以 $s$ 为中心、半径为 $r$ 的闭圆盘，$I_c^+$ 为频道 $c$ 的正观测索引。结合靶区及接收范围，有
+第一个不等式保留下边界射线左侧的点，第二个保留上边界射线右侧的点，二者交集即测向允许的方向范围。实现将半宽再外扩 $\tau_\theta=10^{-9}\,{}^\circ$，仅用于浮点边界保护，不作为额外测量误差。记 $B(s,r)$ 为以 $s$ 为中心、半径为 $r$ 的闭圆盘，$I_c^+$ 为频道 $c$ 的正观测索引。结合靶区及接收范围，有
 \begin{equation}\label{eq:q3-region}
- P_c=\Omega\cap\bigcap_{i\in I_c^+}\bigl(B(S_i,1500)\cap W_i\bigr)
+ P_c=\Omega\cap\bigcap_{i\in I_c^+}\bigl(B(S_i,1500)\cap\mathcal W_i\bigr)
        \subseteq\widetilde P_c .
 \end{equation}
-其中 $\widetilde P_c$ 是包含所有相容源位的保守外包：以每圆 32 条外切半平面代替圆域，再与角楔求交。该构造延续\cref{fig:p1-wedge} 中的多角楔交会，并加入接收范围与靶区边界。相对估计中心 $\hat x_c$，令 $r_c$ 为其到外包多边形各顶点的最大距离，即有 $P_c\subseteq B(\hat x_c,r_c)$。\cref{fig:p1-coverage}(b) 所示的直径圆越界现象说明，此处须按包围半径判断清除条件：当 $r_c\le20$ m 时，到中心清除具有保证；否则仍须补测或试探。负观测可修正点估计，但不用于缩小这一凸外包。
+其中 $\widetilde P_c$ 是包含所有相容源位的保守外包：以每圆 32 条外切半平面代替圆域，再与角楔求交。该构造延续\cref{fig:p1-wedge} 中的多角楔交会，并加入接收范围与靶区边界。最终两代策略默认将外包多边形的最小包围圆圆心作为估计中心 $\hat x_c$；仅有一条方位时，在中心射线上取 301 个样本，按靶区和历史负观测筛选后作距离加权平均，样本全部被筛除则保留默认圆心，具体见附录~\ref{app:q3prob}。负观测只修正点估计，不缩小凸外包；中心每次更新后均重算
+\[
+ r_c=\max_{v\in\operatorname{vert}(\widetilde P_c)}\|v-\hat x_c\|,
+ \qquad P_c\subseteq\widetilde P_c\subseteq B(\hat x_c,r_c).
+\]
+\cref{fig:p1-coverage}(b) 所示的直径圆越界现象说明，此处须按包围半径判断清除条件：当 $r_c\le20$ m 时，到中心清除具有保证；否则中心清除可能失败，仍需继续定位。
 
 \paragraph{\textbf{(c)}\hspace{0.2em}连续覆盖与任务完成判据}
+覆盖路径规划可通过区域分解组织搜索\cite{galceran2013,choset2000}。本文采用闭方格和尺寸余量证明接收覆盖，并使用实际逐频道回复判定无残留。
 定位解决已发现目标的位置不确定性；对未发现频道，还需判断是否存在未被检测的区域。用边长 $h$ 的闭方格覆盖靶区，保留所有与圆域相交的单元，包括中心位于圆外的边界单元。如\cref{fig:q3-cert}(a) 所示，单元内点 $x$ 到中心 $q$ 的距离至多为 $h/\sqrt2$；从接收半径下界中扣除这一余量，才能由中心被覆盖推出整格被覆盖，故取
 \begin{equation}\label{eq:q3-cert-radius}
  r_{\rm cert}=1000-\frac h{\sqrt2}-\delta_r,\qquad
  h=50\ \mathrm{m},\quad\delta_r=10^{-6}\ \mathrm{m}.
 \end{equation}
-若频道 $c$ 在 $s$ 处无信号且 $\|q-s\|\le r_{\rm cert}$，则单元内任一点 $x$ 满足
+其中 $h/\sqrt2$ 是保证整格覆盖的几何余量，$\delta_r$ 是以米为单位的浮点比较保护量，二者不改变接收半径的物理下界。若频道 $c$ 在 $s$ 处无信号且 $\|q-s\|\le r_{\rm cert}$，则单元内任一点 $x$ 满足
 \begin{equation}\label{eq:q3-cert-proof}
  \|x-s\|\le\|x-q\|+\|q-s\|
  \le h/\sqrt2+r_{\rm cert}<1000\le\rho_c.
@@ -64,9 +70,9 @@
 \caption{五代策略的主要机制与局限}\label{tab:q3-generations}
 \begin{tabular}{@{}lp{.44\textwidth}p{.34\textwidth}@{}}\toprule
 策略 & 主要机制 & 局限\\\midrule
-field & 期望场选点、目标航路排序 & 未发现频道搜索耗时较长\\
-sweep & 利用接收下界系统扫圈 & 搜索与清除路径重复\\
-tour & 覆盖与清除共用航路 & 固定骨架、点网格判据\\
+field & 期望场选点、目标航路排序 & 启发式退出，无连续证书\\
+sweep & 利用接收下界系统扫圈 & 路径重复，无连续证书\\
+tour & 覆盖与清除共用航路 & 固定骨架，仅有点网格判据\\
 adaptive & 沿途定位、动态覆盖、连续证书 & 清除终点偏离规划路点\\
 joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优化\\\bottomrule
 \end{tabular}\end{table}
@@ -76,7 +82,7 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
 \begin{equation}\label{eq:q3-field}
  F(g)=\overline E[D](g)/1500+\lambda\|g-s\|/3600,\qquad\lambda=1.5.
 \end{equation}
-两项分别反映定位不确定性和移动代价，缺失的场值取 1500 m。目标清除顺序先由最近邻确定，再用 2-opt 交换两条边以缩短航路。该策略侧重已知方位的定位收益，对未发现源仍需额外搜索。
+两项分别反映定位不确定性和移动代价，缺失的场值取 1500 m。目标清除顺序先由最近邻确定，再用 2-opt\cite{croes1958} 交换两条边以缩短航路。该策略侧重已知方位的定位收益，对未发现源仍需额外搜索。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}第二代：系统覆盖 sweep}
 为提高未发现源的检测机会，原点扫描后，在半径 1100 m 的圆周上设置八个候选测站，利用接收半径下界进行系统搜索。覆盖扩大后再集中清除目标，但两个阶段可能重复经过同一区域，由此产生航路合并的需求。
@@ -132,12 +138,12 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
  t_{\max}=\min\left\{1,\min_{q\in Q}
  \frac{-b_q+\sqrt{b_q^2-4ac_q}}{2a}\right\}.
 \end{equation}
-实际步长留 $10^{-8}$ 余量，仅接受缩短航路的移动。若 $a=0$ 则不移动；若 $Q$ 为空，则删除覆盖站或取消目标点的检测任务。
+实际步长从 $t_{\max}$ 扣除 $10^{-8}$ 的无量纲浮点保护量并截在 $[0,1]$ 内，仅接受缩短航路的移动。若 $a=0$ 则不移动；若 $Q$ 为空，则删除覆盖站或取消目标点的检测任务。
 \begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q3-geometry-certificate}
 \caption{单元整体排除与保留独占覆盖单元的测站移动}\label{fig:q3-cert}\end{figure}
 
-执行时，每轮仅访问首站，再按新观测重规划。目标站先定位清除；若承担覆盖任务，再以实际终点评估未发现频道的检测收益。覆盖站直接逐频道测量。至少两条方位且 $r_c\le400$ m 时允许试探中心，失败后原地补测并继续定位；只有 $r_c\le20$ m 时清除才有保证。
+执行时，每轮仅访问首站，再按新观测重规划。目标站先定位清除；若承担覆盖任务，再以实际终点评估未发现频道的检测收益。覆盖站直接逐频道测量。至少两条方位且 $r_c\le400$ m、剩余预算足够时，移动至估计中心并执行一次清除；失败时支付 3 s 光学定位成本，在实际到达位置补测并继续定位。只有 $r_c\le20$ m 时，该次中心清除才有几何保证。
 
 对沿途可选补测，还需兼顾接收可能性。沿首条中心射线抽样并结合负观测，估计接收概率 $\widehat P_{\rm recv}$（附录~\ref{app:q3prob}）。仅在该概率不低于 0.5，且移动基线与已有视线的锐角不小于 $25^\circ$ 时补测；这一近似只筛选可选测量，不删除待清除目标。最近邻、2-opt 和贪心选点均为启发式方法，不保证全局最优。
 \begin{figure}[!htbp]\centering
@@ -148,27 +154,27 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
 
 \subsubsection{数据分析}
 \paragraph{\textbf{(a)}\hspace{0.2em}实验设计与总体表现}
-设置随机、外圈、中心聚集、非平滑固定位置误差及最小接收半径五类场景，分别为 50、20、10、20、20 组。五种策略使用各自默认参数，在相同源位、接收半径和误差场下独立运行，共 600 次；分布与种子见附录。所有轨迹图均取随机集第一组，统计包含未全清实验；P90 表示完整时间的 90\% 分位数。
+设置随机、外圈、中心聚集、非平滑固定位置误差及最小接收半径五类场景，分别为 50、20、10、20、20 组。五种策略使用各自默认参数，在相同源位、接收半径和误差场下独立运行，共 600 次；分布与种子见附录。所有轨迹图均取随机集第一组，统计包含未全清实验；P90 表示退出时间的 90\% 分位数。
 \begin{table}[!htbp]\centering
-\caption{随机 50 组场景的清除结果与完整时间}\label{tab:q3-core}
+\caption{随机 50 组场景的清除结果与退出时间}\label{tab:q3-core}
 \begin{tabular}{@{}lrrrrr@{}}\toprule
 策略 & 清除比例 & 全清组数 & $\overline T_{\rm exit}$/s & P90/s & 每源耗时/s\\\midrule
 \input{sections/q3-core-rows.tex}\\
 \bottomrule\end{tabular}\end{table}
-\cref{tab:q3-core} 中，清除比例按总源数加权，每源耗时为各组比值的算术平均。全部 120 组中，\textrm{tour}、\textrm{adaptive} 和 \textrm{joint} 均全清，\textrm{field}、\textrm{sweep} 分别全清 \QThreeFieldFull、\QThreeSweepFull\ 组。
+\cref{tab:q3-core} 中，清除比例按总源数加权，每源耗时为各组比值的算术平均。全部 120 组中，\textrm{tour}、\textrm{adaptive} 和 \textrm{joint} 均全清，\textrm{field}、\textrm{sweep} 分别全清 \QThreeFieldFull、\QThreeSweepFull\ 组。各代停止条件并不相同：前两代采用启发式退出；\textrm{tour} 有 115/120 组通过其点网格判据，该判据仍不能认证连续区域；\textrm{adaptive}、\textrm{joint} 各有 120/120 组取得连续证书。因此，前三代用于说明历史策略的清除表现与退出成本，完整任务效率的同标准比较以最后两代为准。
 \begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q3-time-cost-clearance}
 \caption{随机集平均时间分解与第一组场景的累计清除过程}\label{fig:q3-time}\end{figure}
-随机集上，\textrm{joint} 较 \textrm{field} 的完整时间均值降低 \QThreeSaving\%，配对 bootstrap 95\% 区间为 $[\QThreeSavingLow,\QThreeSavingHigh]\%$。\cref{fig:q3-time}(a) 的时间分解表明，下降主要来自移动与检测两部分：行程由 \QThreeRandomFieldTravel\ km 降至 \QThreeRandomJointTravel\ km，检测由 \QThreeRandomFieldMeasure\ 次降至 \QThreeRandomJointMeasure\ 次。
+随机集上，\textrm{joint} 较历史 \textrm{field} 的退出时间均值降低 \QThreeSaving\%，配对 bootstrap\cite{efron1993} 95\% 区间为 $[\QThreeSavingLow,\QThreeSavingHigh]\%$；此数值描述版本间的观测成本差异，不视为同一停止标准下的净提速。相较同样取得连续证书的 \textrm{adaptive}，\textrm{joint} 的完整任务时间均值降低 8.4\%，已有 50 组配对区间为 $[6.9,9.8]\%$。\cref{fig:q3-time}(a) 的时间分解表明，相对初代的成本下降主要来自移动与检测两部分：行程由 \QThreeRandomFieldTravel\ km 降至 \QThreeRandomJointTravel\ km，检测由 \QThreeRandomFieldMeasure\ 次降至 \QThreeRandomJointMeasure\ 次。
 
-\cref{fig:q3-time}(b) 的第一组清除进度揭示了清除与搜索的时间分配：\textrm{field} 在 \QThreeFirstFieldFourthClear\ s 内已清除 4 源，但末次清除后仍搜索 \QThreeFirstFieldTail\ s，因而退出最晚。\textrm{sweep} 前期优先完成扫圈，清除进展较慢，却在 \QThreeFirstSweepTime\ s 完成清除并退出，早于 \textrm{field}；\textrm{joint} 则较早推进清除且缩短剩余搜索，最终最先退出。这说明早期清除速度不能单独代表完整任务效率。
+\cref{fig:q3-time}(b) 的第一组清除进度揭示了清除与搜索的时间分配：\textrm{field} 在 \QThreeFirstFieldFourthClear\ s 内已清除 4 源，但末次清除后仍搜索 \QThreeFirstFieldTail\ s，因而退出最晚。\textrm{sweep} 前期优先完成扫圈，清除进展较慢，却在 \QThreeFirstSweepTime\ s 清除该组全部源后退出，早于 \textrm{field}；\textrm{joint} 则较早推进清除、取得连续证书并最先退出。前三代该组全清由退出后的真值确认，不能据此补出在线连续证书；早期清除速度也不能单独代表完整任务效率。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}场景差异与机制消融}
 \cref{fig:q3-cross}(a) 中，\textrm{joint} 在五类场景的平均耗时均最低，星号同时标记存在未全清实验的策略与场景组合。最小接收半径组的 \textrm{sweep} 仅 7/20 组全清，说明固定扫圈仍有漏清风险；中心聚集组的 \textrm{adaptive} 耗时 \QThreeCenterAdaptiveTime\ s，略高于 \textrm{tour} 的 \QThreeCenterTourTime\ s，表明改进收益具有场景依赖性。
 \begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q3-scenarios-ablation}
 \caption{跨场景时间比较与四项单因素消融的配对区间}\label{fig:q3-cross}\end{figure}
-在随机前 20 组分别取消清除后扫描、多方案规划、测站精修和概率筛选，新增 80 次实验。相对完整 \textrm{joint}，平均时间分别增加 \QThreeAblationAfterIncrease\%、\QThreeAblationMultiIncrease\%、\QThreeAblationPolishIncrease\%、\QThreeAblationProbIncrease\%，各组均全清。\cref{fig:q3-cross}(b) 中，第一项的 95\% 配对区间跨零，尚不足以确认其速度收益；其余三项区间为正，支持相应机制的有效性。
+在随机前 20 组分别取消清除后扫描、多方案规划、测站精修和概率筛选，新增 80 次实验。相对完整 \textrm{joint}，平均时间分别增加 \QThreeAblationAfterIncrease\%、\QThreeAblationMultiIncrease\%、\QThreeAblationPolishIncrease\%、\QThreeAblationProbIncrease\%，各组均全清且取得连续证书。\cref{fig:q3-cross}(b) 中，第一项的 95\% 配对区间跨零，尚不足以确认其速度收益；其余三项区间为正，支持相应机制的有效性。
 
 由此可见，保守定位与连续覆盖为任务完成提供依据，共用航路和逐频道调度则降低完整成本。上述结论限于所测离线分布，不能推及任意误差场下的快速全清。
 

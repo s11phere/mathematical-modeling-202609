@@ -21,7 +21,7 @@ def sha(path: Path) -> str:
 
 def files(folder: Path):
     """Exclude local environments, caches and generated archives from delivery."""
-    for path in sorted(folder.rglob('*')):
+    for path in sorted(folder.rglob('*'), key=lambda p: p.relative_to(folder).as_posix()):
         relative = path.relative_to(folder)
         if any(part.startswith('.') or part == '__pycache__' for part in relative.parts):
             continue
@@ -60,6 +60,9 @@ def refresh():
             previous = record.get('sha256')
             if previous and previous != current:
                 record.setdefault('package_revision_before_maintenance', previous)
+                if record.get('adaptation') == 'none; byte-for-byte copy':
+                    record['adaptation'] = ('Maintained presentation or reproduction file; '
+                                            'source_sha256 retains the historical source hash.')
                 record['maintenance_note'] = ('Updated in the editable package; original source/hash '
                                               'fields retain historical provenance. See Git history.')
             record.update(sha256=current, bytes=path.stat().st_size)
@@ -70,10 +73,10 @@ def refresh():
             'note': 'Original B_locator paths are provenance at this revision, not runtime dependencies.'}
         prepared.append((folder / 'SOURCE_MANIFEST.json', data))
     for path, data in prepared:
-        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
     rows = [f'{sha(path)}  {path.relative_to(ATTACHMENTS).as_posix()}'
             for path in files(ATTACHMENTS) if path.name != 'SHA256SUMS.txt']
-    (ATTACHMENTS / 'SHA256SUMS.txt').write_text('\n'.join(rows) + '\n', encoding='utf-8')
+    (ATTACHMENTS / 'SHA256SUMS.txt').write_text('\n'.join(rows) + '\n', encoding='utf-8', newline='\n')
     print('已更新当前交付文件的清单；历史实验、来源哈希和统计结果未改写。')
 
 

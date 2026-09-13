@@ -1,0 +1,7 @@
+[6] Torrieri, D. J. Statistical theory of passive location systems [J]. IEEE Transactions on Aerospace and Electronic Systems, 1984, 20(2): 183-198. 
+[3] Toussaint, G. T. Solving geometric problems with the rotating calipers [C]//Proc. IEEE MELECON. 1983, 83: A10. (旋轉卡殼算法原創論文，用於計算凸多邊形直徑)
+[7] Bishop, A. N., Fidan, B., Anderson, B. D., et al. Optimal geometry analysis for bearing-only localization in 2D [J]. Automatica, 2010, 46(2): 378-384. (僅測向定位中最佳第二測點/測向角對定位尺度的影響)
+[9] Galceran, E., & Carreras, P. A survey on coverage path planning for robotics [J]. Robotics and Autonomous Systems, 2013, 61(12): 1258-1276. (機器人區域覆蓋路徑規劃 CPP 綜述)
+[11] Carlsson, J. G., & Jia, X. Coordinated search and target tracking with uncertain sensing ranges [J]. INFORMS Journal on Computing, 2020. (不確定接收半徑下的多源搜索與動態路徑調度)
+[12] Choset, H. Coverage of known spaces: The Boustrophedon cellular decomposition [J]. Autonomous Robots, 2000, 9(3): 247-253. (基於方格/胞腔分解的連續空間覆蓋與無殘留證明)
+[13] Song, C., & Zhang, J. Bearing-only target localization and path planning for directional signal sources [J]. IEEE Transactions on Signal Processing, 2019, 67(15): 3910-3922. (定向信號源的測向定位與路徑選擇)

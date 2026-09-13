@@ -5,7 +5,7 @@ import os
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'results'
+OUT = Path(os.environ.get('Q4_REVIEW_DATA', ROOT / 'results'))
 TEX = Path(os.environ['Q4_REVIEW_OUT']) / 'tables'
 TEX.mkdir(parents=True,exist_ok=True)
 summary = json.loads((OUT / 'summary.json').read_text(encoding='utf-8'))

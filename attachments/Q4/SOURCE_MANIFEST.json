@@ -19,18 +19,22 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/make_paper_figures.py": {
-      "sha256": "a6f76fef3e3f0a62635845f27dbc9409fe9b8218430a8e53d6ec839969ebd273",
+      "sha256": "dd330e4474944f9ad716146589414ed0220ad9e3986a9448477fd49eebf91610",
       "source": "B_locator/Q4/scripts/make_paper_figures.py",
       "source_sha256": "f25bbca18b4036482269350ab6494c2ead9de7c4d1fe906fff6e3753029c16ba",
       "adaptation": "Attachment code/results/data/font paths; original plotting mathematics and frozen inputs retained.",
-      "bytes": 20007
+      "bytes": 19163,
+      "package_revision_before_maintenance": "a6f76fef3e3f0a62635845f27dbc9409fe9b8218430a8e53d6ec839969ebd273",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/make_paper_tables.py": {
-      "sha256": "ed8aff689ab50fbf10ecc103996f9b4e7d6c16546ed5aaced0793ff06588d112",
+      "sha256": "a3a1be6d97d43e133d34e1acfe2ce556ffa7ab16c48ac6faa3b0d7c5dc023da5",
       "source": "B_locator/Q4/make_paper_tables.py",
       "source_sha256": "ddfb3c9bbb2cb0abcb61455977a6526b848b49aa50e3d263fab724fd6cf78558",
       "adaptation": "Input changed to attachment results; output uses Q4_REVIEW_OUT/tables; algorithm and statistics unchanged.",
-      "bytes": 4682
+      "bytes": 4722,
+      "package_revision_before_maintenance": "ed8aff689ab50fbf10ecc103996f9b4e7d6c16546ed5aaced0793ff06588d112",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/p1_intersection.py": {
       "sha256": "ef4e3d3c83f2cfbf878f9803b33bc8969e5e8fa172bcf384b106dab8e77cd0b5",
@@ -222,12 +226,12 @@
       "bytes": 1840
     },
     "code/review_tools.py": {
-      "sha256": "982d6f850e6b3c53bc7efc9d786fd87a59cfb0309fd0fa752f519d6a82c5bb1a",
+      "sha256": "d3541ffeb004bd09555c113b42ca9176fa1d59739da8b2fe13cc0df99528fba2",
       "source": "Authored from the included frozen evidence for this reviewer package",
       "adaptation": "Reporting/reproduction documentation only; no algorithm changes",
       "package_revision_before_maintenance": "f2fd407e244a86e22f964809fe35a0264ddd40939fbe0c436e0e565c822f6c8e",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history.",
-      "bytes": 13525
+      "bytes": 13844
     },
     "code/run_paper_q4.py": {
       "sha256": "f61b0b30f36298d500b161c52b9b87d66171d6c38b3e892d46be75a7fade369b",
@@ -267,13 +271,19 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "figures/q4-ablation-tradeoff.pdf": {
-      "sha256": "1b77d5939112439cdcd61ba0612be403d9c808cdd5b019182d5014e82881fc57",
+      "sha256": "7c09e561d819238584c0c56ca0e565b042e98e7c38c4db98914c5ec42b97676d",
       "source": "B_locator/paper/figures/q4-ablation-tradeoff.pdf",
       "source_sha256": "e1cc79c2d741ec4a7f26829608b4ea1fa55f645b22811b4c433499a97b7227f6",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 38545,
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 39154,
       "package_revision_before_maintenance": "e1cc79c2d741ec4a7f26829608b4ea1fa55f645b22811b4c433499a97b7227f6",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q4-ablation-tradeoff.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "2dce91e4c4504f2d5126f6faafe69380623c9a9fba3c94ef4c5607b98cbfd7e3",
+      "bytes": 86962
     },
     "figures/q4-geometry-certificate.pdf": {
       "sha256": "b9c4c5733599af61a38cdce8cef53b10c1fda1ddab27b4e5fe3ac00ad10b77aa",
@@ -294,13 +304,19 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "figures/q4-results-cost.pdf": {
-      "sha256": "7c91f7989864e1e0d76583f8ca2e4ea8e200089883bfbc27f95446fb0a3d10de",
+      "sha256": "9f2ce6c2eaff821aa9b999a152bd18af336d50765c04721747d401004a684beb",
       "source": "B_locator/paper/figures/q4-results-cost.pdf",
       "source_sha256": "6963e611e540473bd94a09b090a9a3125dbe764be2487f0706869879e4db46ed",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 37131,
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 45648,
       "package_revision_before_maintenance": "6963e611e540473bd94a09b090a9a3125dbe764be2487f0706869879e4db46ed",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q4-results-cost.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "15f621a83929c9eb77fdb1363593b4f67421241a67fef0ce37297ff79647c191",
+      "bytes": 124855
     },
     "figures/q4-route-generations.pdf": {
       "sha256": "1db546cec38e6f4ac6c0f55c01056f4220f9c6fd27502281e47ec291a30cb3aa",

@@ -23,9 +23,9 @@
     "code/make_paper_figures.py": {
       "source": "B_locator/Q3/research_archive/scripts/make_paper_figures.py",
       "source_sha256": "c672383ed6e0c7aba96ce5c167a7569bb39058f3394729322d30cebba0dbeae3",
-      "sha256": "2b68b3f670dfe51782531bb0fe24988fb81bebe032d84018bf14eb48e716a96c",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 24066,
+      "sha256": "34f8d88524bdeccc90d7ef9d857b25784047249066c32b994cb1a28e06245818",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 24071,
       "package_revision_before_maintenance": "c672383ed6e0c7aba96ce5c167a7569bb39058f3394729322d30cebba0dbeae3",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
@@ -314,38 +314,62 @@
     "figures/q3-route-field-sweep-tour.pdf": {
       "source": "B_locator/paper/figures/q3-route-field-sweep-tour.pdf",
       "source_sha256": "b03a589e28764e6e6d634dc84c944175db48027d09cdc3c24b37526bd87a0742",
-      "sha256": "a3a7dbbf1f309e63899b9cee1dd6c2a5e3601f6c038efba1b0e46b0e26fe487b",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 49373,
+      "sha256": "03e8a7b2c0d6640c6c29fde730872e6c954fd574a5308863a4c8f554c298079f",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 38612,
       "package_revision_before_maintenance": "b03a589e28764e6e6d634dc84c944175db48027d09cdc3c24b37526bd87a0742",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q3-route-field-sweep-tour.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "9694c61ab2d7b37c469976a7ff393e0869e5c894ba740efd6539013d1b08ecd9",
+      "bytes": 262193
     },
     "figures/q3-route-tour-adaptive-joint.pdf": {
       "source": "B_locator/paper/figures/q3-route-tour-adaptive-joint.pdf",
       "source_sha256": "6d81f23dc034b2bbe49e6ceb57cc8dfd315a5fe44f737f8f9c2c0568ad872793",
-      "sha256": "d523a41c174f6dac74d63720520a274b640a1b928a9020446e029e4f7ad53df3",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 48516,
+      "sha256": "c6e175e5eaa11076b24e5113ce2e70b29de630652f80fc9d91a1d7a3f518b95c",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 37270,
       "package_revision_before_maintenance": "6d81f23dc034b2bbe49e6ceb57cc8dfd315a5fe44f737f8f9c2c0568ad872793",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q3-route-tour-adaptive-joint.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "52faf6bdf507b1cb13899ae8aabff0162690c8414239fd8114dff714bad1f6ea",
+      "bytes": 242886
     },
     "figures/q3-scenarios-ablation.pdf": {
       "source": "B_locator/paper/figures/q3-scenarios-ablation.pdf",
       "source_sha256": "1f5b64db02910537597e15991c59325fa43c9a651e32ba0785356046c9a6163d",
-      "sha256": "a261ddf28938262e305ad67595bbf0ef23d7243f5992d20639f36b445fae69bc",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 42375,
+      "sha256": "42c2674a6f183e2345a8cb98af036b76570b24586688b47b69a1cf20809c47bf",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 30827,
       "package_revision_before_maintenance": "1f5b64db02910537597e15991c59325fa43c9a651e32ba0785356046c9a6163d",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q3-scenarios-ablation.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "5f8c71adaa1945c8ffb9d05dbaba0f0a6b9396606e5ea92f5f0671d479dcbe00",
+      "bytes": 209142
     },
     "figures/q3-time-cost-clearance.pdf": {
       "source": "B_locator/paper/figures/q3-time-cost-clearance.pdf",
       "source_sha256": "9fb602b00feabadc2dfb74f764d7417a70e46a12eb2df484f76b1ab4693795c8",
-      "sha256": "f8e35e886dd2efa4a81a8904e82bcf151ad90eaa1f4b301e9478700afb48e03d",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 35403,
+      "sha256": "b7ed8ea67b8668cea394c64af8a04b2370b2659171f157212018323b60980877",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 22735,
       "package_revision_before_maintenance": "9fb602b00feabadc2dfb74f764d7417a70e46a12eb2df484f76b1ab4693795c8",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "figures/q3-time-cost-clearance.png": {
+      "source": "current editable review package",
+      "adaptation": "New maintained file; see Git history for changes.",
+      "sha256": "4f4a944dc685897ff9706f7d19d004b280f8d547790c60099dcbafd86a81161b",
+      "bytes": 126166
     },
     "reproduce.py": {
       "source": "Generated for this portable review package",

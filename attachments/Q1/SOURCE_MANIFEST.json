@@ -19,9 +19,11 @@
     "code/make_figures.py": {
       "source": "B_locator/Q1/make_figures.py",
       "source_sha256": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
-      "sha256": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 6403
+      "sha256": "966ef6dcbb0e34ec675f7f563b983b436b26e484e46e16e800c75d088fb232ff",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 7315,
+      "package_revision_before_maintenance": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "code/p1_experiments.py": {
       "source": "B_locator/Q1/p1_experiments.py",
@@ -116,9 +118,11 @@
     "figures/multi_sensor_wedge_diagram.png": {
       "source": "B_locator/paper/figures/multi_sensor_wedge_diagram.png",
       "source_sha256": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
-      "sha256": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
-      "adaptation": "none; byte-for-byte copy",
-      "bytes": 174326
+      "sha256": "9598da8c3c08867a42aa15227ed37ea8e6ba737baa45f4ed1b7cb18c20eb32a9",
+      "adaptation": "Maintained presentation or reproduction file; source_sha256 retains the historical source hash.",
+      "bytes": 322190,
+      "package_revision_before_maintenance": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "figures/p1-algorithm-flow.png": {
       "source": "B_locator/paper/figures/p1-algorithm-flow.png",

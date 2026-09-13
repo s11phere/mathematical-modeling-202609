@@ -17,10 +17,10 @@ def verify_package(dev=False):
             modified.add(relative)
         else:checked+=1
     expected_files=set(manifest['files'])|{'SOURCE_MANIFEST.json'}
-    extra=sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob('*')
+    extra=sorted(p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*')
                  if p.is_file() and p.name!='.DS_Store'
                  and '__pycache__' not in p.relative_to(ROOT).parts
-                 and str(p.relative_to(ROOT)) not in expected_files)
+                 and p.relative_to(ROOT).as_posix() not in expected_files)
     if extra:raise RuntimeError(f'附件存在未登记文件：{", ".join(extra)}')
     shared={}
     index=ROOT.parent/'SHA256SUMS.txt'
@@ -42,7 +42,12 @@ def verify_package(dev=False):
         shared['fonts/simsun.ttc']=expected
     frozen=json.loads((ROOT/'results/manifest.json').read_text(encoding='utf-8'))['source_sha256']
     count=0
+    # Presentation and verification files are checked against the maintained
+    # package manifest above, independently of the frozen policy dependencies.
+    maintained_tools={'make_paper_figures.py','make_paper_tables.py','review_tools.py'}
     for path in (ROOT/'code').glob('*.py'):
+        if path.name in maintained_tools:
+            continue
         key='../run_paper_q4.py' if path.name=='run_paper_q4.py' else path.name
         if key in frozen:
             if hashlib.sha256(path.read_bytes()).hexdigest()!=frozen[key]:

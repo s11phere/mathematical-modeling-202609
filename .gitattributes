@@ -1,0 +1,2 @@
+# Frozen attachments use byte-level hashes. Preserve repository bytes on every OS.
+attachments/** -text

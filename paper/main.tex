@@ -15,7 +15,7 @@
 
 % =====================================================================
 % 排版紧凑化（适中档）：覆盖模板默认的宽松参数，使整体更紧凑。
-%   - 正文行距 1.38 -> 1.25
+%   - 正文行距 1.38 -> 1.18
 %   - 三线表行距 1.38 -> 1.0
 %   - 列表顶部间距收紧（topsep -> 0）
 %   - 章节标题前后距收紧
@@ -26,7 +26,7 @@
 % 关键词：2026 规范为「关键词」（模板默认「关键字」）
 \renewcommand*{\mcm@cap@keywordsname}{关键词}
 % 正文行距
-\renewcommand*{\baselinestretch}{1.25}
+\renewcommand*{\baselinestretch}{1.18}
 % 为含较长行内公式的段落保留断行余量。
 \setlength{\emergencystretch}{1.5em}
 % 三线表行距（复用模板保存的原始 tabular）
@@ -64,8 +64,8 @@
 \IfFileExists{/System/Library/Fonts/STHeiti Medium.ttc}{%
   \mcm@setupCJKfonts{STHeiti Medium.ttc}{Path=/System/Library/Fonts/,FontIndex=1}%
 }{%
-  \IfFileExists{C:/Windows/Fonts/simhei.ttf}{%
-    \mcm@setupCJKfonts{simhei.ttf}{Path=C:/Windows/Fonts/}%
+  \IfFileExists{fonts/simhei.ttf}{%
+    \mcm@setupCJKfonts{simhei.ttf}{Path=fonts/}%
   }{%
     \mcm@setupCJKfonts{FandolHei-Regular.otf}{Path=}%
   }

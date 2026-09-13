@@ -230,7 +230,7 @@ def draw_route(ax, trace: dict[str, Any], color: str, title: str,
     t = met.get('exit_s', trace.get('report', {}).get('virtual_time_s', 0))
     length = met.get('travel_m', trace.get('report', {}).get('travel_m', 0))
     n = met.get('cleared', 0); total = met.get('n_sources', 0)
-    metric = f'$T={t:.0f}$ s; $L={length/1000:.2f}$ km'
+    metric = f'$T_{{\\rm exit}}={t:.0f}$ s; $L={length/1000:.2f}$ km'
     ax.set_title(title, fontsize=9.2, pad=16 if compact else 26)
     ax.text(.5, 1.025, metric if compact else f'{metric}\n清除 {n}/{total}',
             transform=ax.transAxes, ha='center', va='bottom', fontsize=8.5,
@@ -322,7 +322,7 @@ def route_comparison(rows, data_dir, selected, stem):
             if not all(np.min(np.linalg.norm(measured-q,axis=1))<.01 for q in ring[:-1]):
                 raise ValueError('The annotated ring must consist of observed measuring stations')
             ax.plot(ring[:,0],ring[:,1],ls=':',lw=1.15,color=POLICY_COLOR[pol],alpha=.65,zorder=2)
-            ax.text(-1540,-1690,'八站覆盖骨架',fontsize=8.2,color='#596773',alpha=.88)
+            ax.text(-1700,-1430,'八站覆盖\n骨架',fontsize=8.5,color='#374151',va='top')
         else:
             pts=action_points(trs[pol])
             if len(pts)>3:
@@ -339,7 +339,7 @@ def route_comparison(rows, data_dir, selected, stem):
                            'adaptive':(-1710,-1710),'joint':(-1710,-1710)}[pol]
                 label={'field':'收尾搜索','tour':'局部折返',
                        'adaptive':'共享横向基线','joint':'收尾排除'}[pol]
-                ax.text(*label_pos,label,fontsize=8.2,color='#596773',alpha=.88)
+                ax.text(*label_pos,label,fontsize=8.5,color='#374151')
     fig.legend(handles=route_legend(),loc='lower center',ncol=5,frameon=False,
                bbox_to_anchor=(.52,.001),columnspacing=.8,handletextpad=.4,handlelength=1.0)
     save_figure(fig,stem)
@@ -384,7 +384,7 @@ def fig4_cost_and_clear(rows: list[dict[str, Any]], data_dir: Path) -> None:
         ax.barh(y,means[:,k],left=left,color=cols[k],label=labels[k],height=.60); left+=means[:,k]
     for i,t in enumerate(left):ax.text(t+60,i,f'{t:.0f}',va='center',fontsize=8.5)
     ax.set_yticks(y,POLICIES);ax.invert_yaxis();ax.set_xlim(0,left.max()*1.18)
-    ax.set_xlabel('平均完整时间 / s');ax.set_title('(a) 随机50局：动作时间分解',fontsize=9.5)
+    ax.set_xlabel('平均退出时间 / s');ax.set_title('(a) 随机50局：动作时间分解',fontsize=9.5)
     ax.grid(axis='x',alpha=.16,lw=.4)
     ax.legend(frameon=False,ncol=2,loc='upper center',
               bbox_to_anchor=(.46,-.26),columnspacing=1.0,handlelength=.9,handletextpad=.4)
@@ -429,7 +429,7 @@ def fig5_scenarios_ablation(rows: list[dict[str,Any]]) -> None:
     norm=TwoSlopeNorm(vmin=min(.7,float(ratio.min())),vcenter=1.,vmax=max(1.5,float(ratio.max())))
     cmap=plt.get_cmap('RdYlBu_r');im=ax.imshow(ratio,cmap=cmap,norm=norm,aspect='auto')
     ax.set_xticks(range(5),POLICIES);ax.set_yticks(range(5),[SCENE_LABEL[s] for s in scenes])
-    ax.set_title('(a) 五类场景：平均完整时间（s）',fontsize=9.5,pad=6)
+    ax.set_title('(a) 五类场景：平均退出时间（s）',fontsize=9.5,pad=6)
     for i in range(5):
         for j in range(5):
             rgba=cmap(norm(ratio[i,j]));lum=.299*rgba[0]+.587*rgba[1]+.114*rgba[2]
