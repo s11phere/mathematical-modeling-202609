@@ -9,6 +9,7 @@ paper/                         论文 LaTeX、已用图片、字体、编译与�
   reference/                   B题题面、接口说明、官方格式规范
 attachments/                   可编辑、可独立运行的评审材料
   Q1/ Q2/ Q3/ Q4/              同结构的问题代码、数据、结果和图册
+  formal-tests/                六份正式测试原始日志、结果汇总与来源说明
   fonts/                       共用制图字体
   reviewer-attachments.zip     由当前材料导出的评审包（生成文件，不入 Git）
 ```
@@ -44,6 +45,6 @@ python3 paper/maintain.py pack
 
 ## 交付前
 
-最终电子材料取 `paper/main.pdf` 和 `attachments/reviewer-attachments.zip`，不用提交整个仓库。现在保留 LaTeX、制图和算法源程序便于修改；交付时论文目录只需 PDF，评审包仍须包含可复现源码。正式测试记录与参考文献中的待补内容需完成后重新核验。
+最终电子材料取 `paper/main.pdf` 和 `attachments/reviewer-attachments.zip`，不用提交整个仓库。现在保留 LaTeX、制图和算法源程序便于修改；交付时论文目录只需 PDF，评审包仍须包含可复现源码。六次正式测试的原始日志和结果集中于 `attachments/formal-tests/`；程序运行时间按系统历史记录的起止时间差计算，问题三为 6、11、5 s，问题四为 8、7、6 s，时间戳显示精度为 1 s。参考文献中的待补内容仍需完成后重新核验。
 
 清理前完整工程保存在 Git 提交 `15bea8b`（“整理评审包”）。旧 `B_locator/`、A/C题、历史探索和多层研究归档可从该提交恢复；现有源码清单中的历史路径也相对于该提交，已不构成运行依赖。

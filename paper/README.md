@@ -12,10 +12,13 @@
 | 评价、文献、统一附件说明 | `sections/06-evaluation.tex` 至 `08-appendix.tex` |
 | 分题参数、统计与代码附录 | `sections/q3-appendix.tex`、`q4-appendix.tex` |
 | 数值与表格行 | `sections/q3-*-rows.tex`、`q4-*-rows.tex`、`q3-numbers.tex`、`q4-numbers.tex` |
+| 三次正式测试 | 两题 `q3-model.tex`、`q4-model.tex` 末尾；来源为 `../attachments/formal-tests/results.csv` |
 | 正文图片 | `figures/`，只保留已使用的16幅图 |
 | 全篇字体与间距 | `main.tex`；详细约定见 `FORMAT-GUIDE.md` |
 
 附录直接载入 `../attachments/Qn/code/` 的实际源码，编译时保留 `paper/` 与 `attachments/` 同级。算法、实验、制图工具均在附件中维护，本目录不再存放代码副本或旧版全文代码清单。
+
+正式测试原始日志及汇总统一存于 `../attachments/formal-tests/`，附录 A 列出六个原始日志名并说明计时来源。两张表按题干要求列四项指标：平均定位清除时间按测试者提供的总时间除以清除数计算，程序运行时间按系统历史记录的结束时间减开始时间计算，时间戳显示精度为 1 s。后续修订时同步 CSV、两张论文表格及来源说明。
 
 `reference/` 只保留 B 题题面、两份官方附件及论文格式规范，用于后续核对题设和接口；不进入电子论文或评审压缩包。纸质承诺书模板和其他题目资料可从 Git 清理前提交 `15bea8b` 找回。
 

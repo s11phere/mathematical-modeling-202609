@@ -210,5 +210,21 @@ $t_k$ 来自面积先验的极坐标权重。\cref{fig:q4-homing}(b) 对比仅�
 \includegraphics[width=\textwidth]{q4-ablation-tradeoff}
 \caption{两项单因素消融的时间变化区间及减少测站后的清除率与时间取舍}\label{fig:q4-robustness}
 \end{figure}
-快速策略通过减少扫描站提前结束搜索，仍清除已发现目标，却不要求全域证书。\cref{fig:q4-robustness}(b) 以清除比例和完整时间为两轴，显示缩短搜索时间同时可能遗漏目标。\textrm{fast99}、\textrm{fast95}、\textrm{fast90} 仅为策略名称，其中数字不能代表单次实验的真实清除比例或未来全清保证；源分布未知时应采用要求全域认证的策略。本节为离线仿真，正式模拟器三次测试数据尚未取得。
+快速策略通过减少扫描站提前结束搜索，仍清除已发现目标，却不要求全域证书。\cref{fig:q4-robustness}(b) 以清除比例和完整时间为两轴，显示缩短搜索时间同时可能遗漏目标。\textrm{fast99}、\textrm{fast95}、\textrm{fast90} 仅为策略名称，其中数字不能代表单次实验的真实清除比例或未来全清保证；源分布未知时应采用要求全域认证的策略。以上比较均来自离线仿真。
+
+\paragraph{\textbf{(c)}\hspace{0.2em}正式测试结果}
+三次正式测试结果见\cref{tab:q4-formal}，计时口径与问题三一致，原始日志见附录~\ref{app:formal}。
+
+\begin{table}[!htbp]\centering
+\caption{问题四三次正式测试结果}\label{tab:q4-formal}
+\begin{tabular}{@{}lccc@{}}\toprule
+测试案例编码 & 清除干扰源个数 & \shortstack{平均定位清除\\时间/s} & \shortstack{程序运行\\时间/s}\\\midrule
+52QB-X7CY-4E7T-7V4V & 13 & 435.160 & 8\\
+JKH4-56UU-UGQG-Q4XM & 10 & 564.812 & 7\\
+CVQX-CFWV-3AJS-SVJ7 & 16 & 344.622 & 6\\\bottomrule
+\end{tabular}
+\par\smallskip{\footnotesize 注：程序运行时间按系统历史记录的起止时间差计算，时间戳显示精度为 1 s。}
+\end{table}
+
+三次测试平均清除 13 个干扰源，每源耗时为 $344.622\sim564.812$ s；第三次较第二次多清除 6 个源且总耗时略低，说明评价清除效率需同时考虑清除数与耗时。由于正式场景的源数和构成未公开，这些结果仅用于描述对应案例的表现。
 \endgroup

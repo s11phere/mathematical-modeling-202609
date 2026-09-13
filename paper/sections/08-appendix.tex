@@ -17,7 +17,9 @@
 \path{results/traces/}。每题另有 \path{reproduce.py}、\path{README.md}、
 \path{DATA_SOURCES.md}、\path{SOURCE_MANIFEST.json} 和 \path{supplement.pdf}，
 分别提供统一入口、运行说明、数据来源、文件校验及补充图册。绘图共用根目录
-\path{fonts/} 中的中文字体。原工程的历史探索、重复源码树和缓存不纳入评审包。
+\path{fonts/} 中的中文字体。六份正式测试原始日志集中于独立目录
+\path{formal-tests/}，与离线实验记录分别保存，详见附录~\ref{app:formal}。
+原工程的历史探索、重复源码树和缓存不纳入评审包。
 
 \subsection{问题一：角楔交会与几何覆盖}
 {\heiti 程序与文件结构。}必要程序集中在 \path{Q1/code/}：
@@ -107,7 +109,30 @@ python3 -B Q4/reproduce.py --full --out ../q4-full
 各题 \path{README.md} 区分已执行的核验、试运行与完整实验，
 \path{SOURCE_MANIFEST.json} 记录文件来源、校验值和路径适配。
 以上输出目录位于附件之外，重算不覆盖本文保存结果。
-这些材料支持离线实验复核，不将离线仿真冒充正式在线测试。
+上述运行入口用于复核离线实验；正式测试的原始记录单独说明如下。
+
+\subsection{正式测试日志与结果来源}\label{app:formal}
+\path{formal-tests/} 平铺保存问题三、四各三份官方导出的 \path{.jlog} 原始日志，
+文件名和内容均保持导出时原样。\path{README.md} 说明数据来源与计时口径，
+\path{results.csv} 汇总案例编码、清除数、总定位清除时间、每源平均时间及程序运行时间，
+并逐行列出原始日志文件名；根目录 \path{SHA256SUMS.txt} 提供完整性校验值。
+具体文件与表~\ref{tab:q3-formal}、表~\ref{tab:q4-formal} 逐行对应：
+\begin{quote}
+\path{formal-p3-1-FRH9-74AG-H8YG-EWCW.jlog}\\
+\path{formal-p3-2-6ZVG-RY3R-D98N-WDWS.jlog}\\
+\path{formal-p3-3-CNE9-55RW-U77J-JKRH.jlog}\\
+\path{formal-p4-1-52QB-X7CY-4E7T-7V4V.jlog}\\
+\path{formal-p4-2-JKH4-56UU-UGQG-Q4XM.jlog}\\
+\path{formal-p4-3-CVQX-CFWV-3AJS-SVJ7.jlog}
+\end{quote}
+正式测试的清除数及总定位清除时间由测试者提供，平均时间按总时间除以清除数计算并保留三位小数。
+起止时间由测试者提供的正式系统历史记录转录。
+程序运行时间按对应案例的结束时间减开始时间计算，系统时间戳的显示精度为 1 s；
+问题三三次为 6、11、5 s，问题四三次为 8、7、6 s。
+汇总文件同时保留各案例的起止时间，便于逐项复核。
+日志公开文件头中的问题编号、测试序号与案例编码已核对一致；行为载荷由官方加密，
+本地复现程序不解密或改写该载荷，结果数值不声称已由日志独立复算。
+评审时可按表中编码定位原始文件，并由官方工具验核正式记录。
 
 \section{问题一完整源程序}\label{app:code}
 以下代码直接从对应支撑材料文件载入，各程序按所列文件名保存并保持目录结构即可运行。
@@ -126,6 +151,3 @@ python3 -B Q4/reproduce.py --full --out ../q4-full
 
 \input{sections/q4-appendix.tex}
 \end{appendices}
-
-
-

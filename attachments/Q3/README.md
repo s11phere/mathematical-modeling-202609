@@ -4,6 +4,8 @@
 `DATA_SOURCES.md` 的论文证据索引，再看 `figures/` 和 `supplement.pdf`，最后按需要
 阅读 `code/`。最终策略为 `joint`；其余四代策略与四项单因素消融均保留。
 
+三次正式测试结果及官方原始日志另存于共享的 [formal-tests/](../formal-tests/README.md)，按论文案例编码查阅；本题复现入口用于离线实验。
+
 ## 文件结构
 
 | 路径 | 评审用途 |

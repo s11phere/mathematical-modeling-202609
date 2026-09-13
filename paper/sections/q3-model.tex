@@ -170,13 +170,21 @@ joint & 联合选择航路、测站与检测时机 & 有限候选的启发式优
 \caption{跨场景时间比较与四项单因素消融的配对区间}\label{fig:q3-cross}\end{figure}
 在随机前 20 组分别取消清除后扫描、多方案规划、测站精修和概率筛选，新增 80 次实验。相对完整 \textrm{joint}，平均时间分别增加 \QThreeAblationAfterIncrease\%、\QThreeAblationMultiIncrease\%、\QThreeAblationPolishIncrease\%、\QThreeAblationProbIncrease\%，各组均全清。\cref{fig:q3-cross}(b) 中，第一项的 95\% 配对区间跨零，尚不足以确认其速度收益；其余三项区间为正，支持相应机制的有效性。
 
-由此可见，保守定位与连续覆盖为任务完成提供依据，共用航路和逐频道调度则降低完整成本。上述结论限于所测离线分布，不能推及任意误差场下的快速全清；计算时间和补充统计见附录，正式测试结果见表~\ref{tab:q3-formal}。
+由此可见，保守定位与连续覆盖为任务完成提供依据，共用航路和逐频道调度则降低完整成本。上述结论限于所测离线分布，不能推及任意误差场下的快速全清。
+
+\paragraph{\textbf{(c)}\hspace{0.2em}正式测试结果}
+三次正式测试结果见\cref{tab:q3-formal}。按题设，平均定位清除时间为总定位清除时间除以清除个数，程序运行时间为实际耗时，两者分别计量；原始日志与数据来源见附录~\ref{app:formal}。
+
 \begin{table}[!htbp]\centering
-\caption{问题三正式测试结果（待补）}\label{tab:q3-formal}
+\caption{问题三三次正式测试结果}\label{tab:q3-formal}
 \begin{tabular}{@{}lccc@{}}\toprule
-测试案例编码 & 清除干扰源个数 & 平均定位清除时间 & 程序运行时间\\\midrule
-测试 1 案例编码（待补） & 待补 & 待补 & 待补\\
-测试 2 案例编码（待补） & 待补 & 待补 & 待补\\
-测试 3 案例编码（待补） & 待补 & 待补 & 待补\\\bottomrule
-\end{tabular}\end{table}
+测试案例编码 & 清除干扰源个数 & \shortstack{平均定位清除\\时间/s} & \shortstack{程序运行\\时间/s}\\\midrule
+FRH9-74AG-H8YG-EWCW & 15 & 207.490 & 6\\
+6ZVG-RY3R-D98N-WDWS & 16 & 175.522 & 11\\
+CNE9-55RW-U77J-JKRH & 14 & 235.986 & 5\\\bottomrule
+\end{tabular}
+\par\smallskip{\footnotesize 注：程序运行时间按系统历史记录的起止时间差计算，时间戳显示精度为 1 s。}
+\end{table}
+
+三次测试平均清除 15 个干扰源，每源耗时为 $175.522\sim235.986$ s，其中第二次清除数最多且每源耗时最低。正式测试不公开干扰源总数，因此不据此计算清除比例或判定全清。
 \endgroup

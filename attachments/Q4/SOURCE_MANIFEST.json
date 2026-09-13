@@ -3,16 +3,18 @@
   "problem": "问题四",
   "files": {
     "DATA_SOURCES.md": {
-      "sha256": "30f9a0bb9827373c97c42b7bb60f467d477a18da77daeaac22a3f3e5c6e11a4f",
+      "sha256": "639cc00aea82cc166525e2b70c0992fd046b33b9b81a5a2bf281104e0e57d6d9",
       "source": "Authored from the included frozen evidence for this reviewer package",
       "adaptation": "Reporting/reproduction documentation only; no algorithm changes",
-      "bytes": 11838
+      "bytes": 12051,
+      "package_revision_before_maintenance": "30f9a0bb9827373c97c42b7bb60f467d477a18da77daeaac22a3f3e5c6e11a4f",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "README.md": {
-      "sha256": "54efdb9b1db6822f777c5a5541a612ea38891603ebff94338a209145687c24c7",
+      "sha256": "eefe62506a291f2d83839388768302418f97547f9fee78a961a6d4e0eb8a21e6",
       "source": "Authored from the included frozen evidence for this reviewer package",
       "adaptation": "Reporting/reproduction documentation only; no algorithm changes",
-      "bytes": 6321,
+      "bytes": 6501,
       "package_revision_before_maintenance": "c3f1dc7fdcc4ca4ec1257bc2de8bf6b86f4616fb772ce42cd0d4245603552c52",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },

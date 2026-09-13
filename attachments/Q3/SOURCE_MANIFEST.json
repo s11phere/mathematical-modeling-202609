@@ -6,15 +6,17 @@
   "files": {
     "DATA_SOURCES.md": {
       "source": "Generated for this portable review package",
-      "sha256": "3b58d30867b8f62d84e9bb3a5f133a2b8b8f6640ab32aa51f6ecfa19e0e0a643",
+      "sha256": "3aa08274d4266980f8c068ecdf1e451a0e4247c29502800d531253412aad9bfb",
       "adaptation": "Authored from the included frozen evidence",
-      "bytes": 10972
+      "bytes": 11203,
+      "package_revision_before_maintenance": "3b58d30867b8f62d84e9bb3a5f133a2b8b8f6640ab32aa51f6ecfa19e0e0a643",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "README.md": {
       "source": "Generated for this portable review package",
-      "sha256": "3be542e6c3c3a1e0fa272a6fb1c929911bb43d62208c8f375d6ed94910b0da9f",
+      "sha256": "1292d92073748ca7212be40d82a3cae6e7acc789c7d62cf12e2ea723a476e6d5",
       "adaptation": "Authored from the included frozen evidence",
-      "bytes": 6105,
+      "bytes": 6285,
       "package_revision_before_maintenance": "55a0feeab7b869ad5e58f3ca20b5d00c763038f7116fb1bed92180e95c649dcc",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
