@@ -17,8 +17,8 @@
     },
     "README.md": {
       "source": "created for this review package",
-      "sha256": "09430dbf692b15c55c7f95d7cd01d0d812940827b088343bde759936f8c4d5fb",
-      "bytes": 5071,
+      "sha256": "549ec06e2263ebd00866133753f7935379c387d924ed2e915bc133ca997e4aad",
+      "bytes": 5097,
       "generated_from": [
         "data/",
         "results/",
@@ -193,7 +193,8 @@
   "font_dependency": {
     "default": "../fonts/simsun.ttc",
     "sha256": "7a368113c36d516aac1a825acc4bbbc9906c4d197f7c649e7fe0f6f31e7475dd",
-    "alternative": "--font /path/to/chinese-font.ttf; no font needed for audit or numerical experiments"
+    "alternative": "--font /path/to/chinese-font.ttf; the font is not shipped in the 20 MB package, and no font is needed for audit, smoke or numerical experiments.",
+    "shipped": false
   },
   "validation": {
     "date": "2026-09-13",

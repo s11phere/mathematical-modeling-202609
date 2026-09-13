@@ -12,7 +12,7 @@
 
 ## 环境与复现
 
-本批计算环境为 macOS、Python 3.12.14、NumPy 2.3.5，两个工作进程。Python 3.12 以上环境安装附件根目录的 `requirements.txt`；制图共用 `../fonts/simsun.ttc`。计算无需网络服务、LaTeX 或原研究目录。
+本批计算环境为 macOS、Python 3.12.14、NumPy 2.3.5，两个工作进程。Python 3.12 以上环境安装附件根目录的 `requirements.txt`；制图需用 `--font` 指定中文字体（共享字体不随包提交以控制支撑材料体积）。计算无需网络服务、LaTeX 或原研究目录。
 
 在本题目录运行：
 

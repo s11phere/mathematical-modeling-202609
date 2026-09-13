@@ -10,9 +10,9 @@
     },
     "README.md": {
       "source": "authored for the portable review package",
-      "sha256": "3fcefe33c0e86d88678230a792e6725e626d46d71373c264e98ac8b4a85b2a5b",
+      "sha256": "5b21d4b8111af539acafac0f5abceb6a957b72355eafc7b4afe0b3a40ab37827",
       "adaptation": "Reviewer instructions and actual execution results.",
-      "bytes": 4024,
+      "bytes": 4029,
       "package_revision_before_maintenance": "7c9bf7f03909c37a52dd2e13a0f8d5551ef7ba008909a600d5128b048bd9438d",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
@@ -176,7 +176,8 @@
   "shared_plotting_font": {
     "path": "../fonts/simsun.ttc",
     "sha256": "7a368113c36d516aac1a825acc4bbbc9906c4d197f7c649e7fe0f6f31e7475dd",
-    "required_for": "Default figures mode only; --font supports moving Q1 independently."
+    "required_for": "Optional and not shipped in the 20 MB package. Figures mode then needs --font /path/to/chinese-font.ttf; audit, smoke and full runs need no font. sha256 records the font used to build the shipped figures.",
+    "shipped": false
   },
   "manifest_note": "This manifest excludes itself to avoid a recursive hash; source paths are provenance labels, not runtime dependencies.",
   "historical_source_paths": {

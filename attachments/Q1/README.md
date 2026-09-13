@@ -43,8 +43,8 @@ python3 -B reproduce.py --full --out ../reproduction-q1-full
 `--full` 的完整汇总为 `results/p1_summary.json`；`--figures` 输出 `figures/` 和
 `supplement.pdf`。小规模试运行不替代完整扫描结论。
 
-制图时本题目录可与同级 `fonts/` 一起移动。若只复制本题目录，计算仍可独立运行，
-制图可另行指定中文字体：
+共享中文字体不随包提交以控制支撑材料体积。计算、审计与完整重跑都不需要字体，
+仅制图需显式指定中文字体：
 
 ```bash
 python3 -B reproduce.py --figures --font /path/to/chinese-font.ttf --out ../reproduction-q1-figures

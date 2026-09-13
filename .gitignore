@@ -32,6 +32,10 @@ desktop.ini
 _q2_reweight/
 _q3_reweight/
 
+# PDF 校对的离线依赖解包与构建临时产物，始终不入库
+_build_deps/
+_build_tmp/
+
 # Preserved local output preference from the pre-sync checkout.
 B_locator/out
 tmp/

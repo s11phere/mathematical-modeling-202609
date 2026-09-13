@@ -11,10 +11,10 @@
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
     "README.md": {
-      "sha256": "391741a8765cfbc1c32ae1a81b833d231088dd32aee17f249ea8a7f272c84abe",
+      "sha256": "74ec330421f2214eb1392d487e154e5b500afab2f80700dc596af7d365b41641",
       "source": "Authored from the included frozen evidence for this reviewer package",
       "adaptation": "Reporting/reproduction documentation only; no algorithm changes",
-      "bytes": 3305,
+      "bytes": 3371,
       "package_revision_before_maintenance": "c3f1dc7fdcc4ca4ec1257bc2de8bf6b86f4616fb772ce42cd0d4245603552c52",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
@@ -279,14 +279,6 @@
       "package_revision_before_maintenance": "e1cc79c2d741ec4a7f26829608b4ea1fa55f645b22811b4c433499a97b7227f6",
       "maintenance_note": "修复图 16 脚注与 x 轴标签重叠；仅调整版面边距与脚注位置，数据、统计口径与算法未变。"
     },
-    "figures/q4-ablation-tradeoff.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "301cb9040cb51d7ac0487c9f28f622fa7288e11f6a6876d811b3897eafc7eeb0",
-      "bytes": 88023,
-      "package_revision_before_maintenance": "2dce91e4c4504f2d5126f6faafe69380623c9a9fba3c94ef4c5607b98cbfd7e3",
-      "maintenance_note": "修复图 16 脚注与 x 轴标签重叠；仅调整版面边距与脚注位置，数据、统计口径与算法未变。"
-    },
     "figures/q4-geometry-certificate.pdf": {
       "sha256": "b9c4c5733599af61a38cdce8cef53b10c1fda1ddab27b4e5fe3ac00ad10b77aa",
       "source": "B_locator/paper/figures/q4-geometry-certificate.pdf",
@@ -313,12 +305,6 @@
       "bytes": 45648,
       "package_revision_before_maintenance": "6963e611e540473bd94a09b090a9a3125dbe764be2487f0706869879e4db46ed",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
-    },
-    "figures/q4-results-cost.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "15f621a83929c9eb77fdb1363593b4f67421241a67fef0ce37297ff79647c191",
-      "bytes": 124855
     },
     "figures/q4-route-generations.pdf": {
       "sha256": "1db546cec38e6f4ac6c0f55c01056f4220f9c6fd27502281e47ec291a30cb3aa",
@@ -2760,7 +2746,11 @@
     }
   },
   "source_contract": "All included frozen algorithm and simulator bytes are preserved. Historical manifest contains unused development modules not copied here. Public entry point provides portable paths and output protection. The two report renderers have documented path adaptations; review_tools independently replays actions and correctly reuses the first ten compact baselines for extra comparisons.",
-  "shared_font": "../fonts/simsun.ttc",
+  "shared_font": {
+    "default": "../fonts/simsun.ttc",
+    "shipped": false,
+    "note": "Not shipped in the 20 MB package; figures mode needs --font. Audit, smoke and full runs need no font."
+  },
   "reproduction_note": "New macOS runs are not guaranteed to reproduce historical Windows action sequences; see DATA_SOURCES.md and results/package_validation.json. Frozen action replay and all statistics match.",
   "historical_source_paths": {
     "git_revision": "15bea8b",
@@ -2768,8 +2758,8 @@
   },
   "previous_files_not_in_current_delivery": {
     "figures/q4-ablation-tradeoff.png": {
-      "sha256": "bc7c0b79891d00d33185e610ab318c4a585dbd96b71506c5217f0f48979aae94",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "301cb9040cb51d7ac0487c9f28f622fa7288e11f6a6876d811b3897eafc7eeb0",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "figures/q4-geometry-certificate.png": {
       "sha256": "0c57d2f3cd8dec7dacc682dc58d919bf5dd6286c277248d5e191ab6948a606c2",
@@ -2780,8 +2770,8 @@
       "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
     },
     "figures/q4-results-cost.png": {
-      "sha256": "d7b7696df5c13bcde6f591419ea5c2572216f0af910dd1ed36b250b564e1ca04",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "15f621a83929c9eb77fdb1363593b4f67421241a67fef0ce37297ff79647c191",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "figures/q4-route-generations.png": {
       "sha256": "1466d77e3f0f859e056aa08bd9261b9513ead28ba46345dbdb04f156d96b94e4",

@@ -49,7 +49,7 @@ python3 -B reproduce.py --full --out ../reproduction-q2-full
 制图输出为 `figures/` 和 `supplement.pdf`。除三幅正文图外，还输出两幅单独的热力图，
 补充 PDF 已集中展示这些结果及另外两个诊断场。附件 `figures/` 只保留论文原图，避免重复。
 
-本题目录可与同级 `fonts/` 一起移动。单独复制本题时计算仍可运行；制图可显式指定中文字体：
+共享中文字体不随包提交以控制支撑材料体积。计算、审计与数值实验都不需要字体；仅制图需显式指定中文字体：
 
 ```bash
 python3 -B reproduce.py --figures --font /path/to/chinese-font.ttf --out ../reproduction-q2-figures

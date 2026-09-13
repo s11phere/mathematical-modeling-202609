@@ -14,9 +14,9 @@
     },
     "README.md": {
       "source": "Generated for this portable review package",
-      "sha256": "90e5daeb13b4ba9c80e1a42671c862210cbba64e3880c97d0a9d880475fdc2bf",
+      "sha256": "3b4895a981d2c48786927007090e9c1a3403dabd302e55f95db778c89b3793db",
       "adaptation": "Authored from the included frozen evidence",
-      "bytes": 3726,
+      "bytes": 3811,
       "package_revision_before_maintenance": "55a0feeab7b869ad5e58f3ca20b5d00c763038f7116fb1bed92180e95c649dcc",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
@@ -320,12 +320,6 @@
       "package_revision_before_maintenance": "b03a589e28764e6e6d634dc84c944175db48027d09cdc3c24b37526bd87a0742",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
-    "figures/q3-route-field-sweep-tour.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "9694c61ab2d7b37c469976a7ff393e0869e5c894ba740efd6539013d1b08ecd9",
-      "bytes": 262193
-    },
     "figures/q3-route-tour-adaptive-joint.pdf": {
       "source": "B_locator/paper/figures/q3-route-tour-adaptive-joint.pdf",
       "source_sha256": "6d81f23dc034b2bbe49e6ceb57cc8dfd315a5fe44f737f8f9c2c0568ad872793",
@@ -334,12 +328,6 @@
       "bytes": 37270,
       "package_revision_before_maintenance": "6d81f23dc034b2bbe49e6ceb57cc8dfd315a5fe44f737f8f9c2c0568ad872793",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
-    },
-    "figures/q3-route-tour-adaptive-joint.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "52faf6bdf507b1cb13899ae8aabff0162690c8414239fd8114dff714bad1f6ea",
-      "bytes": 242886
     },
     "figures/q3-scenarios-ablation.pdf": {
       "source": "B_locator/paper/figures/q3-scenarios-ablation.pdf",
@@ -350,12 +338,6 @@
       "package_revision_before_maintenance": "1f5b64db02910537597e15991c59325fa43c9a651e32ba0785356046c9a6163d",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
     },
-    "figures/q3-scenarios-ablation.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "5f8c71adaa1945c8ffb9d05dbaba0f0a6b9396606e5ea92f5f0671d479dcbe00",
-      "bytes": 209142
-    },
     "figures/q3-time-cost-clearance.pdf": {
       "source": "B_locator/paper/figures/q3-time-cost-clearance.pdf",
       "source_sha256": "9fb602b00feabadc2dfb74f764d7417a70e46a12eb2df484f76b1ab4693795c8",
@@ -364,12 +346,6 @@
       "bytes": 22735,
       "package_revision_before_maintenance": "9fb602b00feabadc2dfb74f764d7417a70e46a12eb2df484f76b1ab4693795c8",
       "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
-    },
-    "figures/q3-time-cost-clearance.png": {
-      "source": "current editable review package",
-      "adaptation": "New maintained file; see Git history for changes.",
-      "sha256": "4f4a944dc685897ff9706f7d19d004b280f8d547790c60099dcbafd86a81161b",
-      "bytes": 126166
     },
     "reproduce.py": {
       "source": "Generated for this portable review package",
@@ -7335,7 +7311,7 @@
       "current_source": "2026-09-13 adopted complete rerun; see results/adoption.json"
     }
   },
-  "path_adaptation": "The original algorithms and reporting scripts are byte-for-byte copies. code/package_runtime.py supplies code/data/results locations at import time; the public reproduce.py protects frozen results and directs every generated file to a separate output directory. Historical src/ paths in results/manifest.json map to code/ for included files; old diagnostic modules that are not needed by the experiment are intentionally excluded. The portable execution manifest hashes only the included dependency set and has a separate definition fingerprint. Shared Chinese font: ../fonts/simsun.ttc; a --font argument can supply a font if Q3 is moved alone.",
+  "path_adaptation": "The original algorithms and reporting scripts are byte-for-byte copies. code/package_runtime.py supplies code/data/results locations at import time; the public reproduce.py protects frozen results and directs every generated file to a separate output directory. Historical src/ paths in results/manifest.json map to code/ for included files; old diagnostic modules that are not needed by the experiment are intentionally excluded. The portable execution manifest hashes only the included dependency set and has a separate definition fingerprint. The shared Chinese font is not shipped in the 20 MB package; figures mode needs --font /path/to/chinese-font.ttf, while audit, smoke and full runs need no font.",
   "historical_source_paths": {
     "git_revision": "15bea8b",
     "note": "Original B_locator paths are provenance at this revision, not runtime dependencies."
@@ -7346,20 +7322,20 @@
       "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
     },
     "figures/q3-route-field-sweep-tour.png": {
-      "sha256": "5614509a85191300eff8822f59aa9e5f62ed1ac565022861031bcc08fa33d482",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "9694c61ab2d7b37c469976a7ff393e0869e5c894ba740efd6539013d1b08ecd9",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "figures/q3-route-tour-adaptive-joint.png": {
-      "sha256": "55a027b1b9d657d649383c5ce8534421b877909b3041b2b3ae8ffca78ec2bbff",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "52faf6bdf507b1cb13899ae8aabff0162690c8414239fd8114dff714bad1f6ea",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "figures/q3-scenarios-ablation.png": {
-      "sha256": "d84bb1af3756be82d7fafbe123ad48d29b89ec898a05da835d6686d361ca99da",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "5f8c71adaa1945c8ffb9d05dbaba0f0a6b9396606e5ea92f5f0671d479dcbe00",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "figures/q3-time-cost-clearance.png": {
-      "sha256": "829218d59299daebbb3e9f61f19d4d57252102813a55781998e60a1abf865284",
-      "reason": "Derived display omitted or previous experiment metadata superseded; current complete run evidence is retained."
+      "sha256": "4f4a944dc685897ff9706f7d19d004b280f8d547790c60099dcbafd86a81161b",
+      "reason": "Duplicate PNG of the PDF figure already shipped in figures/; removed from the delivery package to stay within the 20 MB support-material limit. The PDF remains the referenced paper figure and can be redrawn with --figures."
     },
     "supplement.pdf": {
       "sha256": "7b46a515bab715e8ec4869e89111b3741f6189bfd021a9799a0f4fe04f4733b3",
