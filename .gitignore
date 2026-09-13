@@ -24,6 +24,10 @@ desktop.ini
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-paper/*.log
-paper/*.out
-paper/*.toc
+**/paper/**/*.log
+**/paper/**/*.out
+**/paper/**/*.toc
+
+# 数值/图件重算用的临时工作目录，始终不入库
+_q2_reweight/
+_q3_reweight/

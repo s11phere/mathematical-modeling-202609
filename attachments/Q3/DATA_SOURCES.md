@@ -9,8 +9,10 @@
 正文另列的三次正式测试结果及对应原始日志见 [正式测试说明](../formal-tests/README.md)
 和 [结果汇总](../formal-tests/results.csv)，不计入下述 680 次离线运行。模拟器按题设的
 靶区、误差界、接收半径、频道、移动速度及动作费用构造；源位与误差场由下述公开
-种子生成。冻结实验 ID 为 `544eee966fe270395af7`，历史定义指纹为
-`0ada3086f2e8384f6cfb7a8cfc1b14c907f232f67e9c874b8e10c7b4e867b70e`。
+种子生成。冻结实验 ID 为 `d4a4b6cbe0d6459b370e`，定义指纹为
+`d4a4b6cbe0d6459b370eb0464624e803e7d512f678f7f7916b3ad70b359ab605`。
+本次冻结结果按修正后的源位先验（见下）重跑，`results/manifest.json` 与
+`data/` 中的期望场哈希同步更新。
 
 `data/` 输入和 `code/` 算法 → 种子生成场景 → `results/traces/` 原始动作及退出后真值
 → `paired_results.json/.csv` 逐局结果 → `summary.json` 汇总 → `figures/`、正文表格和摘要。
@@ -26,9 +28,9 @@
 
 | 文件 | 生成方式、参数与用途 |
 | --- | --- |
-| `data/p2_grid_map_thi*.csv`，共 9 张 | `p3_expect_field.py::BaseMapFamily.build` 调用 `p2_grid_expectation.py` 的确定性积分。测站为原点、首次测向为 0°，源距先验 `[5,t_hi]`；`t_hi` 依次为 150、250、350、450、600、800、1000、1250、1500 m。网格步长 40 m、径向积分样本 200，靶区半径 1800 m。不是随机抽样数据。 |
+| `data/p2_grid_map_thi*.csv`，共 9 张 | `p3_expect_field.py::BaseMapFamily.build` 调用 `p2_grid_expectation.py` 的确定性积分。测站为原点、首次测向为 0°，源距先验 `[5,t_hi]`（权函数 `w ∝ t·P(x_max≥t)`，`x_max~U[1000,1500]`；`t≤1000` m 时即 `w ∝ t`）；`t_hi` 依次为 150、250、350、450、600、800、1000、1250、1500 m。网格步长 40 m、径向积分样本 200，靶区半径 1800 m。不是随机抽样数据。 |
 | `data/p2_grid_family.json` | 上述图族的文件名、外径列表、网格步长和积分数。策略根据当前位置和方位变换这些基准场。 |
-| `data/p2_grid_map.csv` | 回退基准场，来自问题二网格期望计算。首次测向 0°，测向误差界 1°，面积均匀先验，步长 20 m、径向样本 500，源距 `[5,1500]` m。图族完整时优先载入图族，不触发回退。 |
+| `data/p2_grid_map.csv` | 回退基准场，来自问题二网格期望计算。首次测向 0°，测向误差界 1°，先验同为 `w ∝ t·P(x_max≥t)`，步长 20 m、径向样本 500，源距 `[5,1500]` m。图族完整时优先载入图族，不触发回退。 |
 | `data/p2_grid_report.json` | 回退基准场的完整生成参数、可检测门控、输入域、检查结果及汇总。 |
 
 九张图族 CSV 的字段为 `x_m`、`y_m`、`E_diam_given_detectable_m`，分别为检测候选点

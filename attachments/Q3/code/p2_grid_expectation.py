@@ -315,10 +315,12 @@ def sector_ray_exit(S1, a_deg, R=R_ARENA):
 
 def source_samples(S1, theta1, err=EPS_DEG, n_t=DEF_N_T, r_arena=R_ARENA,
                    r_recv_max=R_RECV_MAX, near=NEAR_R):
-    """x 轴上的源位采样（面积均匀权重）。
+    """x 轴上的源位采样（面积均匀 + 接收半径不确定性权重）。
 
     来源：干扰源在扇形内面积均匀 -> ``dA = r dr dtheta``，
-    对角向积分后 ``w(r) ∝ r``，故 ``w_i ∝ t_i``（归一化后即离散先验）。
+    对角向积分后 ``w(r) ∝ r``。再乘有效接收半径 ``x_max ~ U[1000, 1500]`` 的
+    存活因子 ``P(x_max >= t)``：``t < 1000`` 时为 1，``1000 <= t <= 1500`` 时为
+    ``1 - (t-1000)/500``。
     ``t_hi = min(r_recv_max, 沿 theta1 到靶区边界的距离)``。
     """
     S1 = np.asarray(S1, float)
@@ -327,10 +329,16 @@ def source_samples(S1, theta1, err=EPS_DEG, n_t=DEF_N_T, r_arena=R_ARENA,
     if t_hi <= t_lo:
         return np.zeros(0), np.zeros(0), {"t_lo": t_lo, "t_hi": t_hi, "n_t": 0}
     ts = np.linspace(t_lo, t_hi, int(n_t))
-    w_area = ts / float(ts.sum())
+    # 权函数：面积先验 w ∝ t，乘存活因子 P(x_max >= t)，x_max ~ U[1000, 1500]（题目附录 2(2)）
+    #   t < 1000            -> w ∝ t
+    #   1000 <= t <= 1500   -> w ∝ t (1 - (t-1000)/500)
+    taper = 1.0 - np.clip((ts - R_RECV_MIN) / (R_RECV_MAX - R_RECV_MIN), 0.0, 1.0)
+    w_area = ts * taper
+    w_area = w_area / float(w_area.sum())
     info = {"t_lo": float(t_lo), "t_hi": float(t_hi), "n_t": int(n_t),
             "weight": "area",
-            "t_peak_note": "w(t) ∝ t（面积均匀退化的严格结果）",
+            "t_peak_note": ("w(t) ∝ t·P(x_max≥t)，x_max~U[1000,1500]："
+                            "t<1000 时 ∝ t，1000≤t≤1500 时 ∝ t(1-(t-1000)/500)"),
             "sector_half_angle_deg": float(err),
             "sector_full_width_at_t_hi_m": float(2.0 * t_hi * math.tan(math.radians(err)))}
     return ts, w_area, info

@@ -47,10 +47,10 @@ def verify_package(dev=False):
         else:
             checked += 1
     expected_files = set(manifest["files"]) | {"SOURCE_MANIFEST.json"}
-    extra = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*")
+    extra = sorted(p.relative_to(ROOT).as_posix() for p in ROOT.rglob("*")
                    if p.is_file() and p.name != ".DS_Store"
                    and "__pycache__" not in p.relative_to(ROOT).parts
-                   and str(p.relative_to(ROOT)) not in expected_files)
+                   and p.relative_to(ROOT).as_posix() not in expected_files)
     if extra:
         raise RuntimeError(f"附件存在未登记文件：{', '.join(extra)}")
     # A question may travel alone for numerical work. Verify shared files when
@@ -78,7 +78,11 @@ def verify_package(dev=False):
     historical = json.loads((FROZEN / "manifest.json").read_text(encoding="utf-8"))
     frozen_verified = 0
     for filename in DEPENDENCIES:
-        expected = historical["source_sha256"]["src/" + filename]
+        # 冻结清单沿用原工程布局的键（src/…），包内重跑写出的清单用 code/…，两者等价。
+        src = historical["source_sha256"]
+        expected = src.get("src/" + filename, src.get("code/" + filename))
+        if expected is None:
+            raise RuntimeError(f"冻结记录缺少算法哈希：{filename}")
         if sha(CODE / filename) != expected:
             if not dev:
                 raise RuntimeError(f"算法与论文冻结记录不一致：{filename}")
