@@ -15,23 +15,25 @@
     },
     "README.md": {
       "source": "created for this review package",
-      "sha256": "e77bbbaa7206aaba5beaaf90514a72e17e29d0b50c987a528504af78c841a2ab",
-      "bytes": 4552,
+      "sha256": "20ffb76e7834ce610e3b7c6152577c820fea5660f89e8d9da2c04017c8eccbae",
+      "bytes": 4661,
       "generated_from": [
         "data/",
         "results/",
         "code/"
       ],
-      "adaptation": "Review documentation describing supplied sources and tested commands.",
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
       "package_revision_before_maintenance": "9358c9dbba0f5795c7d9db81bb3c90044b282c385036ba91ff111b37c2d5dd27",
-      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "code/Q2_theory_corrected.wl": {
       "source": "B_locator/Q2/MMAcode/Q2_theory_corrected.wl",
       "source_sha256": "ea3e283bec1e1aff9ea846977f8b2380c61df92913319210a1b8a1312aab79ac",
-      "sha256": "ea3e283bec1e1aff9ea846977f8b2380c61df92913319210a1b8a1312aab79ac",
-      "bytes": 1201,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "d8512d1caf897b1c487ef237d004fa05a1aad8b2f17f48d7d696345a21fc15e5",
+      "bytes": 1582,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "ea3e283bec1e1aff9ea846977f8b2380c61df92913319210a1b8a1312aab79ac",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "code/illustration_plot_Q2.py": {
       "source": "B_locator/Q2/illustration_plot_Q2.py",
@@ -43,16 +45,20 @@
     "code/make_q2_figures.py": {
       "source": "B_locator/Q2/make_q2_figures.py",
       "source_sha256": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
-      "sha256": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
-      "bytes": 14613,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "0b5a47fe0a6e943b4769786d86fdb042e705640f20f197c7896ec1e4084e3972",
+      "bytes": 14641,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "code/make_q2_paper_figures.py": {
       "source": "B_locator/Q2/make_q2_paper_figures.py",
       "source_sha256": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
-      "sha256": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
+      "sha256": "796ed53b0e74d3c3774ecf5d3752e4572a0fd451040b0f49f8df278edbd59d4f",
       "bytes": 8944,
-      "adaptation": "none; byte-for-byte copy"
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "code/p1_intersection.py": {
       "source": "B_locator/Q1/p1_intersection.py",
@@ -63,14 +69,16 @@
     },
     "code/p2_grid_expectation.py": {
       "source": "created for this review package",
-      "sha256": "de433e03700f88233c1a4fe7428eee73e820f84cf503e2caff981d4b2854dcb5",
-      "bytes": 57728,
+      "sha256": "56a587d7482f1c3cab925cc26d0176d1562be6b56007e72465616c72545f2132",
+      "bytes": 58623,
       "generated_from": [
         "data/",
         "results/",
         "code/"
       ],
-      "adaptation": "Review documentation describing supplied sources and tested commands."
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "de433e03700f88233c1a4fe7428eee73e820f84cf503e2caff981d4b2854dcb5",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "code/review_figures.py": {
       "source": "created for this review package",
@@ -85,56 +93,68 @@
     "data/Q2_expected_diameter_data.csv": {
       "source": "B_locator/Q2/MMAcode/Q2_expected_diameter_data.csv",
       "source_sha256": "519fde7652ca088aa7944cb3ad1bfbc7c33b6cb111254cb896798cd5020482d0",
-      "sha256": "519fde7652ca088aa7944cb3ad1bfbc7c33b6cb111254cb896798cd5020482d0",
-      "bytes": 1020488,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "c28803621ca8dea540e7e4ea70e00f38e594523dcf310c5e23a6752cea91fda4",
+      "bytes": 1019524,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "519fde7652ca088aa7944cb3ad1bfbc7c33b6cb111254cb896798cd5020482d0",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "data/p2_grid_map.csv": {
       "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_map.csv",
       "source_sha256": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86",
-      "sha256": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86",
-      "bytes": 1196516,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "098c9f63c827204ca5de7ea0bd7b152b6cfbb01e313bfa169ef39faa9194451e",
+      "bytes": 1193313,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "figures/p2-contour60.png": {
       "source": "B_locator/paper/figures/p2-contour60.png",
       "source_sha256": "4eb523a535e48191462de00e06162fa5cadd8dd7bf70c1e2c7aabb189361ac03",
-      "sha256": "4eb523a535e48191462de00e06162fa5cadd8dd7bf70c1e2c7aabb189361ac03",
-      "bytes": 120368,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "481620e544cc5ceee84e78a282e48b1becd3034cfd7136d642b75cc088df9b73",
+      "bytes": 131305,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "4eb523a535e48191462de00e06162fa5cadd8dd7bf70c1e2c7aabb189361ac03",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "figures/p2-mma-vs-pysim.png": {
       "source": "B_locator/paper/figures/p2-mma-vs-pysim.png",
       "source_sha256": "49955aaf9048e3824e9654a6ed08adfb61612419e65790d43b1aa24016b489e3",
-      "sha256": "49955aaf9048e3824e9654a6ed08adfb61612419e65790d43b1aa24016b489e3",
-      "bytes": 270009,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "0ed8a39706b3d6516b3f12a6ca1576e0ab4b4774dd9766654a21a3496abcafc6",
+      "bytes": 238893,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "49955aaf9048e3824e9654a6ed08adfb61612419e65790d43b1aa24016b489e3",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "figures/p2-wedge-geometry.png": {
       "source": "B_locator/paper/figures/p2-wedge-geometry.png",
       "source_sha256": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
-      "sha256": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
-      "bytes": 254556,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "8f239dbd3a8c0c0a6de19aff4147cddb1fa96e1c519cf104253d844688296e17",
+      "bytes": 237856,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "reproduce.py": {
       "source": "created for this review package",
-      "sha256": "0a2cd0466851cea04f789e8b18257e92f8a7bd14c77efa222a6eadf52a1a881a",
-      "bytes": 6506,
+      "sha256": "589d2391bd01be9c7d1b01be6f66936a373d2b44308f10efb2d1d9a5c357b0e3",
+      "bytes": 5991,
       "generated_from": [
         "code/p2_grid_expectation.py",
         "code/Q2_theory_corrected.wl"
       ],
-      "adaptation": "Portable command entry and saved-result checks; original algorithms unchanged.",
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
       "package_revision_before_maintenance": "325158b859cb672cd356b6f8427927eb54e41083fc2e46f86990650cfcf7afc9",
-      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "results/p2_grid_report.json": {
       "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_report.json",
       "source_sha256": "3f05d3916667342ffff94621b6268bb112618557e6ee354a34484d66d2050899",
-      "sha256": "3f05d3916667342ffff94621b6268bb112618557e6ee354a34484d66d2050899",
-      "bytes": 7476,
-      "adaptation": "none; byte-for-byte copy"
+      "sha256": "575b5e3d225a0bd341eb0d9419e58cdd9748294068ee5f91b5e9913fa0367b60",
+      "bytes": 7542,
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "3f05d3916667342ffff94621b6268bb112618557e6ee354a34484d66d2050899",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     },
     "results/p2_grid_selftest.json": {
       "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_selftest.json",
@@ -155,14 +175,16 @@
     },
     "supplement.pdf": {
       "source": "created for this review package",
-      "sha256": "c18b5ce49d2e789f4abd09ca78e028d0764e413b40f445b1bdc1c2295191442f",
-      "bytes": 83146,
+      "sha256": "9324f82447f89f61361857d660005ab9b2cfd9120a9fa806369d8688b5e4e85b",
+      "bytes": 89945,
       "generated_from": [
         "code/review_figures.py",
         "data/Q2_expected_diameter_data.csv",
         "data/p2_grid_map.csv"
       ],
-      "adaptation": "Generated four-page supplementary figure atlas; no new experiment or altered result."
+      "adaptation": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance.",
+      "package_revision_before_maintenance": "c18b5ce49d2e789f4abd09ca78e028d0764e413b40f445b1bdc1c2295191442f",
+      "maintenance_note": "Recomputed in the maintained package with the corrected source prior w(x) ∝ x·P(x_max ≥ x), x_max ~ U[1000, 1500] m (competition appendix 2(2)); historical source path and hash kept for provenance."
     }
   },
   "scope": "All delivered files except this manifest; original source paths are provenance only and are not runtime dependencies.",

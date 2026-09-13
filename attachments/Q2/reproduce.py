@@ -61,7 +61,7 @@ def check():
     import numpy as np
     import p2_grid_expectation as model
     mma=np.genfromtxt(ROOT/'data/Q2_expected_diameter_data.csv',delimiter=',',names=True,encoding='utf-8-sig')
-    x=1500*(np.arange(200)+.5)/200;w=x/x.sum()
+    x=1500*(np.arange(200)+.5)/200;w=x*(1-np.clip((x-1000)/500,0,1));w=w/w.sum()
     max_error=0.
     for i in np.linspace(0,len(mma)-1,41,dtype=int):
         row=mma[i];a,b=float(row['a']),float(row['b'])
@@ -76,18 +76,6 @@ def check():
     saved=np.array([float(rows[i]['E_diam_given_detectable_m']) for i in ids])
     assert np.allclose(computed,saved,rtol=1e-8,atol=1e-6,equal_nan=True)
     print(f'问题二：理论网格{len(mma)}点、数值网格{len(rows)}点；各41点独立重算通过，理论最大误差{max_error:.2g} m。')
-
-def theory(out):
-    import numpy as np
-    out.mkdir(parents=True,exist_ok=True)
-    xs=1500*(np.arange(200)+.5)/200;w=xs/xs.sum()
-    with (out/'Q2_expected_diameter_data.csv').open('w',newline='') as f:
-        writer=csv.writer(f);writer.writerow(['a','b','d_m'])
-        for b in range(-1800,1801,15):
-            if b==0:continue
-            for a in range(-500,1796,15):
-                d=np.pi/90/abs(b)*np.sqrt((xs-a)**2+b*b)*np.sqrt((xs+abs(xs-a))**2+b*b)
-                writer.writerow([a,b,float(w@d)])
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);g=p.add_mutually_exclusive_group()
@@ -106,7 +94,6 @@ def main():
         if a.out.resolve() in [(ROOT/'data').resolve(),(ROOT/'results').resolve()]:raise SystemExit('请将重跑结果写入新的目录。')
         import p2_grid_expectation as model
         a.out.mkdir(parents=True,exist_ok=True)
-        if a.full:theory(a.out)
         model.main(['--step','30' if a.full else '300','--n-t','300' if a.full else '30','--n-e','200' if a.full else '10','--no-figures','--out',str(a.out)])
     else:check()
 if __name__=='__main__':main()

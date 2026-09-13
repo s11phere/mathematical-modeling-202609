@@ -43,7 +43,8 @@ python3 -B Q1/reproduce.py --full --out ../q1-full
 \subsection{问题二：第二检测点的期望定位尺度}
 {\heiti 程序与文件结构。}\path{Q2/code/} 集中保存理论中点求积、Python 数值模拟及绘图程序；
 \path{p2_grid_expectation.py} 使用的公共几何模块也在同一目录。
-原 Mathematica 理论程序 \path{Q2_theory_corrected.wl} 保留，统一入口另提供相同中点求积公式的 Python 实现。
+原 Mathematica 理论程序 \path{Q2_theory_corrected.wl} 保留，理论网格由该程序导出；
+统一入口仅对保存结果抽点核验，不再用 Python 复算理论网格。
 \path{Q2/data/} 为两套网格 CSV，\path{Q2/results/} 为汇总与自检结果。
 
 {\heiti 数据与图件依据。}理论网格含 36960 点，采用 200 点中点加权求积；
@@ -58,8 +59,9 @@ python3 -B Q2/reproduce.py --smoke --out ../q2-smoke
 python3 -B Q2/reproduce.py --figures --out ../q2-figures
 python3 -B Q2/reproduce.py --full --out ../q2-full
 \end{lstlisting}
-依次抽点复算两套保存网格、运行小规模网格、重绘图件及重算全部网格。
-默认入口无需安装 Mathematica。
+依次抽点复算两套保存网格、运行小规模网格、重绘图件及重算数值网格。
+抽点复算与制图无需安装 Mathematica；如需重建理论网格，则运行上述
+\path{Q2_theory_corrected.wl}。
 
 \subsection{问题三：多源定位与全域排除}
 {\heiti 程序与文件结构。}\path{Q3/code/} 集中保存五代策略、公共定位与覆盖模块、

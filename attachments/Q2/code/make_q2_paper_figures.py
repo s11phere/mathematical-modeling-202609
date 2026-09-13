@@ -127,7 +127,7 @@ def fig_mma_vs_pysim(plt, cmap, norm, mma, py, out):
                  "（b）数值模拟（Python，30 m 网格）", show_ylabel=False)
     cb = fig.colorbar(im2, ax=axes, shrink=0.92, pad=0.015, ticks=CB_TICKS,
                       fraction=0.030)
-    cb.set_label("$E[D]$ (m)    $>$1000 与 1000 同色", fontsize=FS_CBAR)
+    cb.set_label("$E[D]$ (m)    $>$1000 绘制为白色", fontsize=FS_CBAR)
     cb.ax.tick_params(labelsize=FS_TICK)
     fig.savefig(out, dpi=330, bbox_inches="tight")
     plt.close(fig)
@@ -140,7 +140,7 @@ def fig_mma_heatmap(plt, cmap, norm, mma, out):
                 dict(x=mma["a"][k], y=mma["b"][k], v=mma["d"][k]),
                 "根据理论闭式解的 $E[D]$ 分布（Mathematica）")
     cb = fig.colorbar(im, ax=ax, shrink=0.90, pad=0.02, ticks=CB_TICKS)
-    cb.set_label("$E[D]$ (m)    $>$1000 与 1000 同色", fontsize=FS_CBAR)
+    cb.set_label("$E[D]$ (m)    $>$1000 绘制为白色", fontsize=FS_CBAR)
     cb.ax.tick_params(labelsize=FS_TICK)
     fig.tight_layout(); fig.savefig(out, dpi=330, bbox_inches="tight")
     plt.close(fig)
@@ -153,7 +153,7 @@ def fig_pysim_heatmap(plt, cmap, norm, py, out):
                 dict(x=py["x"][k], y=py["y"][k], v=py["e"][k]),
                 "根据数值模拟的 $E[D]$ 分布（Python）")
     cb = fig.colorbar(im, ax=ax, shrink=0.90, pad=0.02, ticks=CB_TICKS)
-    cb.set_label("$E[D]$ (m)    $>$1000 与 1000 同色", fontsize=FS_CBAR)
+    cb.set_label("$E[D]$ (m)    $>$1000 绘制为白色", fontsize=FS_CBAR)
     cb.ax.tick_params(labelsize=FS_TICK)
     fig.tight_layout(); fig.savefig(out, dpi=330, bbox_inches="tight")
     plt.close(fig)

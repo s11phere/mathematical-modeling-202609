@@ -9,9 +9,12 @@
 
    ``theta1`` 取自当前探测数据（默认 0 deg，即"探测方向为 x 轴正方向"）。
 2. **干扰源均匀分布在扇形内，近似认为都在 x 轴上**：即源位 ``G = (t, 0)``，
-   ``t`` 在 ``[near, t_hi]`` 上取值，权重由"扇形内面积均匀"退化得到：面积元
-   ``dA = r dr dtheta -> w(t) ∝ t``（令 ``--weight area``）；另提供等权（``length``）
-   作为对照。
+   ``t`` 在 ``[near, t_hi]`` 上取值，权重由"扇形内面积均匀"退化得到面积元
+   ``dA = r dr dtheta -> w(t) ∝ t``，再乘有效接收半径不确定性的存活因子
+   ``P(x_max >= t)``（``x_max ~ U[1000, 1500]``，题目附录 2(2)）：即
+   ``t < 1000`` 时 ``w(t) ∝ t``，``1000 <= t <= 1500`` 时
+   ``w(t) ∝ t (1 - (t-1000)/500)``（令 ``--weight area``）；
+   另提供等权（``length``）作为对照。
 3. **网格**：把每个网格点当作第二个检测点 ``S2``。
 4. **交会区域与直径**：给定源位 ``G``，两个检测点各得一条带 ±eps 的示向度锥，
    两者之交是凸四边形 ``R = W1 ∩ W2``，其**直径** D = 区域内任意两点距离的最大值。
@@ -291,10 +294,13 @@ def sector_ray_exit(S1, a_deg, R=R_ARENA):
 
 def source_samples(S1, theta1, err=EPS_DEG, n_t=DEF_N_T, r_arena=R_ARENA,
                   r_recv_max=R_RECV_MAX, near=NEAR_R):
-    """x 轴上的源位采样（面积均匀权重）。
+    """x 轴上的源位采样（面积均匀 + 接收半径不确定性权重）。
 
     来源：干扰源在扇形内面积均匀 -> ``dA = r dr dtheta``，
-    对角向积分后 ``w(r) ∝ r``。故 ``w_i ∝ t_i``（归一化后即为离散先验）。
+    对角向积分后 ``w(r) ∝ r``。再乘有效接收半径 ``x_max ~ U[1000, 1500]`` 的
+    存活因子 ``P(x_max >= t)``：``t < 1000`` 时为 1，``1000 <= t <= 1500`` 时为
+    ``1 - (t-1000)/500``。故
+    ``w(t) ∝ t``（``t < 1000``）与 ``w(t) ∝ t (1 - (t-1000)/500)``（``t >= 1000``）。
     ``t_hi = min(r_recv_max, 沿 theta1 到靶区边界的距离)``，因为能测得示向度
     意味着 ``|S1 G| <= 有效接收半径 <= r_recv_max``，且源在靶区内。
     """
@@ -304,10 +310,16 @@ def source_samples(S1, theta1, err=EPS_DEG, n_t=DEF_N_T, r_arena=R_ARENA,
     if t_hi <= t_lo:
         return np.zeros(0), np.zeros(0), {"t_lo": t_lo, "t_hi": t_hi}
     ts = np.linspace(t_lo, t_hi, int(n_t))
-    w_area = ts.copy()                       # 面积均匀：w ∝ t
+    # 权函数：面积先验 w ∝ t，乘存活因子 P(x_max >= t)，x_max ~ U[1000, 1500]
+    #   t < 1000            -> w ∝ t
+    #   1000 <= t <= 1500   -> w ∝ t (1 - (t-1000)/500)
+    taper = 1.0 - np.clip((ts - R_RECV_MIN) / (R_RECV_MAX - R_RECV_MIN), 0.0, 1.0)
+    w_area = ts * taper
     w_area = w_area / float(w_area.sum())
     info = {"t_lo": float(t_lo), "t_hi": float(t_hi), "n_t": int(n_t),
-            "weight": "area", "t_peak_note": "w(t) ∝ t（面积均匀退化的严格结果）"}
+            "weight": "area",
+            "t_peak_note": ("w(t) ∝ t·P(x_max≥t)，x_max~U[1000,1500]："
+                            "t<1000 时 ∝ t，1000≤t≤1500 时 ∝ t(1-(t-1000)/500)")}
     return ts, w_area, info
 
 
@@ -498,7 +510,7 @@ def expected_diameter_error_avg(X, Y, ts, w, eps=EPS_DEG, n_e=DEF_N_E,
     """辅口径：区域仍取 W1(θ1) ∩ W2(θ2)，但期望**同时对源位 t 与 ±eps 测量误差**取。
 
     设为 ``E_err(X) = E_{e1,e2}[ Σ_i w_i D(X; t_i, e1, e2) · 1{可检测} ]``
-    （对两个读数误差均匀分布取期望，t 按面积均匀先验加权）。
+    （对两个读数误差均匀分布取期望，t 按 w(t) ∝ t·P(x_max≥t) 先验加权）。
 
     实现用**分块蒙特卡洛**：对每一批网格点抽 ``n_e`` 组独立误差 ``(e1,e2)~U[-eps,eps]^2``
     并把第 k 组只作用到该批第 k 个点上 —— 于是每个网格点得到 ``n_e`` 个**独立无偏**估计，
@@ -939,7 +951,7 @@ def make_figures(res, outdir, tag=""):
     im = show(ax, Gm, "viridis_r", ZMIN, ZMAX, norm=lnorm,
               ttl="B-Problem 2: expected intersection-region diameter vs 2nd detection point")
     fig.text(0.5, 0.945,
-             f"log colour scale;  measured bearings;  source prior area-uniform on x-axis;\n"
+             f"log colour scale;  measured bearings;  source prior $w\\propto t\\,P(x_{{max}}\\geq t)$ on x-axis;\n"
              f"$\\varepsilon$={res['eps_deg']}°,  $\\theta_1$={res['theta1']}°,  "
              f"reach gate $|S_2G|\\leq${int(R_RECV_MAX)} m",
              ha="center", va="top", fontsize=9)
@@ -1122,7 +1134,7 @@ def run(theta1=0.0, step=DEF_STEP, n_t=DEF_N_T, n_e=DEF_N_E, weight="area",
     best_det = _pick(E_use)
     best_mix = _pick(meas["E"])
     res["summary"] = {
-        "objective": "E[D | detectable]（|S2G| <= 1500 m 门控后按面积均匀先验加权）",
+        "objective": "E[D | detectable]（|S2G| <= 1500 m 门控后按 w(t) ∝ t·P(x_max≥t) 先验加权）",
         "E_det_min_m": float(np.nanmin(E_use)),
         "E_det_median_m": med,
         "E_det_max_m": float(np.nanmax(meas["E_det"])),
@@ -1180,7 +1192,7 @@ def main(argv=None):
     ap.add_argument("--n-t", type=int, default=DEF_N_T, help="x 轴源位采样数")
     ap.add_argument("--n-e", type=int, default=DEF_N_E, help="误差 MC 采样数")
     ap.add_argument("--weight", choices=["area", "length"], default="area",
-                    help="源位先验权重：area ∝ t（面积均匀，默认）/ length 等权")
+                    help="源位先验权重：area ∝ t·P(x_max≥t)（默认，含接收半径 1000~1500 m 不确定性）/ length 等权")
     ap.add_argument("--domain", choices=["arena", "reach"], default="arena",
                     help="S2 取值范围：整个靶区圆域 / 还要满足 |S2G|<=1500")
     ap.add_argument("--out", default=None, help="输出目录")

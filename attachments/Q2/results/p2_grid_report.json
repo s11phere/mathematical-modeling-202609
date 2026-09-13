@@ -12,7 +12,7 @@
     "t_hi": 1500.0,
     "n_t": 300,
     "weight": "area",
-    "t_peak_note": "w(t) ∝ t（面积均匀退化的严格结果）"
+    "t_peak_note": "w(t) ∝ t·P(x_max≥t)，x_max~U[1000,1500]：t<1000 时 ∝ t，1000≤t≤1500 时 ∝ t(1-(t-1000)/500)"
   },
   "arena_r": 1800.0,
   "r_recv_range": [
@@ -276,30 +276,30 @@
     1800.0
   ],
   "n_err_pairs": 200,
-  "usable_threshold_m": 1377.7244450576598,
+  "usable_threshold_m": 1159.9158280842876,
   "summary": {
-    "objective": "E[D | detectable]（|S2G| <= 1500 m 门控后按面积均匀先验加权）",
-    "E_det_min_m": 57.33586472858968,
-    "E_det_median_m": 137.77244450576598,
-    "E_det_max_m": 63248.34483363278,
+    "objective": "E[D | detectable]（|S2G| <= 1500 m 门控后按 w(t) ∝ t·P(x_max≥t) 先验加权）",
+    "E_det_min_m": 50.23962130887668,
+    "E_det_median_m": 115.99158280842875,
+    "E_det_max_m": 63248.34483363277,
     "E_mixed_min_m": 0.0,
-    "usable_points": 8474,
-    "usable_fraction": 0.7587750716332379,
-    "near_axis_band_points": 510,
-    "near_axis_band_mean_abs_y_m": 95.29411764705883,
+    "usable_points": 8502,
+    "usable_fraction": 0.7612822349570201,
+    "near_axis_band_points": 482,
+    "near_axis_band_mean_abs_y_m": 94.48132780082987,
     "best_det": {
       "S2": [
-        1080.0,
-        -660.0
+        900.0,
+        570.0
       ],
-      "r_m": 1265.7013865837391,
-      "phi_deg": 328.5704343851615,
-      "value_m": 57.33586472858968,
-      "index": 3105,
+      "r_m": 1065.3168542738822,
+      "phi_deg": 32.34744349944203,
+      "value_m": 50.23962130887668,
+      "index": 7790,
       "p_det": 1.0,
-      "E_mixed_m": 57.33586472858968,
-      "E_err_det_m": 56.96297880127549,
-      "E_err_mixed_m": 56.96297880127549
+      "E_mixed_m": 50.23962130887668,
+      "E_err_det_m": 49.79436567432973,
+      "E_err_mixed_m": 49.79436567432973
     },
     "best_mixed": {
       "S2": [
@@ -316,17 +316,17 @@
       "E_err_mixed_m": 0.0
     },
     "best_S2": [
-      1080.0,
-      -660.0
+      900.0,
+      570.0
     ],
-    "best_r_m": 1265.7013865837391,
-    "best_phi_deg": 328.5704343851615,
-    "best_r_over_t": 1.2635953942599725,
-    "mean_source_range_m": 1001.6666666666666,
+    "best_r_m": 1065.3168542738822,
+    "best_phi_deg": 32.34744349944203,
+    "best_r_over_t": 1.2456042707724417,
+    "mean_source_range_m": 855.2610803214754,
     "theory_note": "交会角 90° 时 D 取该基线下的最小值 ≈ 2 tan(eps)·|S1S2|；一般情形 D 随 |S2G| 与近简并程度急剧增大",
-    "x_axis_degenerate": "y≈0 时两示向度近平行(|Δθ|≤2eps) → 交会区域无界、直径=+∞，被 mask_radius 剔除；其邻域(|y| 小)直径可达 10^4-10^5 m，已用 usable_threshold=1377.7 m 标注为不可用带",
+    "x_axis_degenerate": "y≈0 时两示向度近平行(|Δθ|≤2eps) → 交会区域无界、直径=+∞，被 mask_radius 剔除；其邻域(|y| 小)直径可达 10^4-10^5 m，已用 usable_threshold=1159.9 m 标注为不可用带",
     "reach_gate": "|S2G| > 有效接收半径上界 1500 m 的源位样本不可检测，不计入 E[D|可检测]；混口径 E[D·1{可检测}] 另列",
-    "runtime_s": 73.169
+    "runtime_s": 62.253
   },
   "checks": [
     {
@@ -382,7 +382,7 @@
     {
       "check": "T9 E[D|可检测] 与逐点加权平均一致",
       "ok": true,
-      "detail": "manual=[112.9408, 85.6838, 363.6517, nan], batch=[112.9408, 85.6838, 363.6517, nan]"
+      "detail": "manual=[84.3574, 66.9546, 276.3409, nan], batch=[84.3574, 66.9546, 276.3409, nan]"
     }
   ],
   "csv": "p2_grid_map.csv"

@@ -20,13 +20,13 @@ y=-45 -> 342.9，y=-30 -> 874.5，y=-15 -> 5764.4，y=0 附近可达 4.7e4，
 
 处理方式：把 ``E[D] > CLIP_LEVEL``（默认 1000 m）的格点掩掉。
 - 不引入任何人为的 |b| 带宽，边界即为 1000 m 等值线，形态自然；
-- 视觉上零损失：色标本来就规定 >1000 与 1000 同色，被掩掉的部分原本
+- 视觉上零损失：色标本来就规定 >1000 的格点掩为白色，被掩掉的部分原本
   也是一片均匀深红，掩掉后只去掉那块"假色斑"。
 
 着色方案（连续渐变，重点展示 55~100）
 --------------------------------------
     55 深蓝 -> 65 蓝 -> 75 青 -> 85 绿 -> 93 黄 -> 100 橙
-      -> 300 红 -> 1000 深红（>1000 与 1000 同色）
+      -> 300 红 -> 1000 深红（>1000 绘制为白色）
 色标位置非线性：55~100 占前 23%，使该段的过渡清晰可辨。
 
 用法
@@ -71,7 +71,7 @@ COLOR_ANCHORS = [
     (1000.0, "#67000d", 1.00),   # 深红（>1000 全部截断到此处）
 ]
 V_MIN, V_MAX = COLOR_ANCHORS[0][0], COLOR_ANCHORS[-1][0]
-CB_TICKS = [55, 65, 75, 85, 93, 100, 300, 1000]
+CB_TICKS = [50, 65, 75, 85, 93, 100, 300, 1000]
 
 
 def _hex2rgb(h):
@@ -91,7 +91,7 @@ def make_cmap():
 class PiecewiseNorm(Normalize):
     """把数值按 (数值, 位置) 锚点分段线性映射到 [0,1]（非线性色标的关键）。
 
-    超出 [V_MIN, V_MAX] 的值截断到端点（>1000 与 1000 同色）。
+    超出 [V_MIN, V_MAX] 的值截断到端点。（绘图时 >1000 的格点已掩为白色。）
     继承 matplotlib 的 Normalize 以便直接传给 pcolormesh / colorbar。
     """
 
@@ -221,7 +221,7 @@ def fig_mma_heatmap(plt, cmap, norm, extent, out):
     _star(ax, a[k], b[k]); _star(ax, a[k], -b[k])
     _info_box(ax, _min_lines("极小值", d[k], a[k], b[k]))
     cb = fig.colorbar(im, ax=ax, shrink=0.86, pad=0.02, ticks=CB_TICKS)
-    cb.set_label("$E[D]$ (m)    $>$1000 与 1000 同色")
+    cb.set_label("$E[D]$ (m)    $>$1000 绘制为白色")
     fig.tight_layout(); fig.savefig(out, dpi=160, bbox_inches="tight"); plt.close(fig)
     return dict(data="MMA Q2_expected_diameter_data.csv", step=15.0,
                 n_total=int(a.size), n_plotted=int(keep.sum()),
@@ -245,7 +245,7 @@ def fig_py_heatmap(plt, cmap, norm, extent, out):
     _star(ax, x[k], y[k]); _star(ax, x[k], -y[k])
     _info_box(ax, _min_lines("极小值", e[k], x[k], y[k]))
     cb = fig.colorbar(im, ax=ax, shrink=0.86, pad=0.02, ticks=CB_TICKS)
-    cb.set_label("$E[D]$ (m)    $>$1000 与 1000 同色")
+    cb.set_label("$E[D]$ (m)    $>$1000 绘制为白色")
     fig.tight_layout(); fig.savefig(out, dpi=160, bbox_inches="tight"); plt.close(fig)
     return dict(data="pysimulation p2_grid_map.csv", step=30.0,
                 n_total=int(x.size), n_plotted=int(keep.sum()),

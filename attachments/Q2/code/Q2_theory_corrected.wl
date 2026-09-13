@@ -15,10 +15,15 @@ d[x_?NumericQ, a_?NumericQ, b_?NumericQ] :=
     alpha/Abs[b] * Sqrt[(x - a)^2 + b^2] *
       Sqrt[(x + Abs[x - a])^2 + b^2]];
 
-(* p(x)=2 x/h^2; n-point midpoint quadrature on [0,h] *)
+(* 源位先验权函数（有效接收半径 x_max 在 1000~1500 m 之间取均匀分布）：
+     0 <= x < 1000                 : w(x) 正比于 x
+     1000 <= x <= 1500             : w(x) 正比于 x (1 - (x-1000)/500)
+   即面积先验 w 正比于 x 乘上存活因子 P(x_max >= x)。
+   归一化常数 3/2375000 在下面的 Total[w] 中约去。
+   n-point midpoint quadrature on [0,h] *)
 expectedD[a_?NumericQ, b_?NumericQ] := Module[{xs, w},
   xs = Table[h (k + 0.5)/n, {k, 0, n - 1}];
-  w = 2 xs/h^2;
+  w = xs (1 - Clip[(xs - 1000.)/(h - 1000.), {0, 1}]);
   Total[w (d[#, a, b] & /@ xs)]/Total[w]
 ];
 

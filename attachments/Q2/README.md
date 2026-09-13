@@ -35,14 +35,14 @@ python3 -B reproduce.py --smoke --out ../reproduction-q2-smoke
 # 从保存的完整网格重绘正文图与 4 页补充图册。
 python3 -B reproduce.py --figures --out ../reproduction-q2-figures
 
-# 重建理论网格与论文采用的 30 m 数值网格。
+# 重建论文采用的 30 m 数值网格（理论网格由 code/Q2_theory_corrected.wl 在 Mathematica 中导出）。
 python3 -B reproduce.py --full --out ../reproduction-q2-full
 ```
 
-`--full` 以同一解析式在 Python 中重算理论的 200 点中点求积，并以原始数值算法使用
-300 个源位、200 组测向误差。理论计算对应 `code/Q2_theory_corrected.wl`，常规复现
-无需安装 Mathematica。完整数值输出含 CSV、参数报告与自检结果；`--smoke` 为流程检查，
-其粗网格最小值不能代替论文数值。
+`--full` 以原始数值算法使用 300 个源位、200 组测向误差重建 30 m 数值网格；理论网格由
+`code/Q2_theory_corrected.wl` 在 Mathematica 中导出，本附件不再用 Python 复算理论网格
+（`--audit-only` 仍以同一解析式抽 41 点核对保存值）。完整数值输出含 CSV、参数报告与
+自检结果；`--smoke` 为流程检查，其粗网格最小值不能代替论文数值。
 
 制图输出为 `figures/` 和 `supplement.pdf`。除三幅正文图外，还输出两幅单独的热力图，
 补充 PDF 已集中展示这些结果及另外两个诊断场。附件 `figures/` 只保留论文原图，避免重复。
