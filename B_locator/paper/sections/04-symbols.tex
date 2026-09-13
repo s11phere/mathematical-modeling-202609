@@ -4,13 +4,14 @@
 \section{符号说明}
 本文使用的主要符号见表~\ref{tab:symbol}，未列出的符号在首次出现处说明。
 
-\begin{table}[!htbp]
-    \caption{主要符号说明}\label{tab:symbol}
-    \centering
-    \begin{tabular}{lll}
+\begin{longtable}{lll}
+    \caption{主要符号说明}\label{tab:symbol}\\
         \toprule
         符号 & 含义 & 单位 \\
-        \midrule
+        \midrule\endfirsthead
+        \multicolumn{3}{c}{表~\thetable（续）：主要符号说明}\\
+        \toprule 符号 & 含义 & 单位 \\
+        \midrule\endhead
         $S_i=(x_i,y_i),\ \theta_i$ & 第 $i$ 个检测点的坐标与示向度 & m, $^\circ$ \\
         $T=(x_T,y_T),\ T_c$ & 单源及频道 $c$ 干扰源的真实位置 & m \\
         $\Delta(\alpha,\beta)$ & 两方位角之差，归一到 $[-180^\circ,180^\circ)$ & $^\circ$ \\
@@ -36,5 +37,4 @@
         $L$                 & 机器人完成任务的总行程 & m \\
         $T_{\rm exit},\ T_{\rm last}$ & 完整退出时间与末次成功清除时刻 & s \\
         \bottomrule
-    \end{tabular}
-\end{table}
+\end{longtable}

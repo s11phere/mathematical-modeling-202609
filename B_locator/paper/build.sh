@@ -21,8 +21,9 @@ REQUIRED=(
   figures/multi_sensor_wedge_diagram.png figures/p1-algorithm-flow.png
   figures/p1-coverage-contrast.png figures/p2-contour60.png
   figures/p2-wedge-geometry.png figures/p2-mma-vs-pysim.png
-  ../Q1/p1_intersection.py ../Q1/p1_experiments.py ../Q1/make_figures.py
-  ../Q2/pysimulation/src/p2_grid_expectation.py
+  ../attachments/Q1/code/p1_intersection.py
+  ../attachments/Q2/code/Q2_theory_corrected.wl
+  ../attachments/Q3/code/p3_joint.py ../attachments/Q4/code/p4_compact.py
 )
 for source in "${REQUIRED[@]}"; do
   if [[ ! -f "$source" ]]; then

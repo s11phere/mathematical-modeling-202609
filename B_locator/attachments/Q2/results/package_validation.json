@@ -1,0 +1,119 @@
+{
+  "date": "2026-09-13",
+  "python": "3.13.15",
+  "numpy": "2.5.3",
+  "full_experiment_rerun": true,
+  "comparison": [
+    {
+      "file": "Q2_expected_diameter_data.csv",
+      "rows": 36960,
+      "columns": {
+        "a": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "b": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "d_m": {
+          "exact_equal": false,
+          "max_absolute_difference": 1.8189894035458565e-12,
+          "equal_with_tolerance": true
+        }
+      }
+    },
+    {
+      "file": "p2_grid_map.csv",
+      "rows": 11168,
+      "columns": {
+        "x_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "y_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "r_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "phi_deg": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "E_diam_given_detectable_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "E_diam_mixed_mm": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "p_detectable": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "cov_weight": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "Dmin_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "Dmax_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "E_diam_err_given_detectable_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "E_diam_err_mixed_m": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "cov_err": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "n_ok": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "usable": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        },
+        "near_axis_unusable_band": {
+          "exact_equal": true,
+          "max_absolute_difference": 0.0,
+          "equal_with_tolerance": true
+        }
+      }
+    }
+  ],
+  "tolerance": {
+    "rtol": 1e-10,
+    "atol": 1e-09
+  }
+}

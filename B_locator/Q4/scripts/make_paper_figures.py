@@ -213,7 +213,7 @@ def fig_homing():
     bx.grid(alpha=.15,lw=.4)
     bx.legend(loc="upper left",frameon=False,handlelength=1.2,handletextpad=.4,fontsize=8.1)
 
-    fig.text(.839,.91,"(c) 清除圆盘覆盖兜底",ha="center",fontsize=9.3)
+    fig.text(.839,.91,"(c) 清除圆盘覆盖",ha="center",fontsize=9.3)
     geometrical_axes(cx,(-30,85),(-42,89))
     poly=np.array([[-13,-9],[59,5],[49,45],[-4,34]])
     cx.add_patch(Polygon(poly,fc=LIGHT,ec=TEAL,lw=1.1,zorder=3))
@@ -226,7 +226,7 @@ def fig_homing():
     cx.text(28,82,"清除半径20 m",ha="center",fontsize=8.5)
     mixed_figure_text(fig, (.50,.100), ["(a) 误差角示意放大10倍；实际",
         r"$\eta\approx1.005^\circ$", "。 (b) 负测点为(550,180) m，竖线为均值。"])
-    fig.text(.50,.035,"后验均值不缩小保守可行域；兜底依靠清除半径，不依赖信号接收方向。",ha="center",fontsize=8.5)
+    fig.text(.50,.035,"后验均值不缩小保守可行域；清除覆盖依靠清除半径，不依赖信号接收方向。",ha="center",fontsize=8.5)
     save(fig,"q4-homing-posterior")
 
 
@@ -283,7 +283,7 @@ def fig_routes(data):
              Line2D([],[],color=INK,marker="s",ls="",ms=3,label="起点")]
     fig.legend(handles=handles,loc="lower center",bbox_to_anchor=(.5,.092),ncol=5,
                frameon=False,columnspacing=.8,handlelength=1,handletextpad=.35)
-    fig.text(.5,.020,"同一预定首局；源位及箭头均为退出后真值，箭头表示可接收半平面的中心方向。",ha="center",fontsize=8.3)
+    fig.text(.5,.020,"同一预定场景；源位及箭头均为退出后真值，箭头表示可接收半平面的中心方向。",ha="center",fontsize=8.3)
     save(fig,"q4-route-generations")
 
 
@@ -303,7 +303,7 @@ def fig_results(summary):
     ax.set_yticks(range(3),[LABEL[p] for p in POLS]);ax.invert_yaxis()
     ax.set(xlim=(0,10000),xlabel="平均完整时间 / s")
     ax.set_xticks([0,4000,8000]);ax.grid(axis="x",alpha=.16,lw=.4)
-    ax.set_title("(a) 主集30局：动作时间分解",pad=10)
+    ax.set_title("(a) 随机混合30组：动作时间分解",pad=10)
     fig.legend(*ax.get_legend_handles_labels(),loc="lower center",bbox_to_anchor=(.31,.095),ncol=4,frameon=False,
               columnspacing=.65,handlelength=.8,handletextpad=.3,fontsize=8.3)
     scenes=["minrange","edge","omni"];names=["最小接收半径","贴边朝外","全向源"]
@@ -317,7 +317,7 @@ def fig_results(summary):
     bx.set_yticks(range(3),names);bx.invert_yaxis();bx.set_ylim(2.55,-.5)
     bx.set(xlim=(4600,15900),xlabel="平均完整时间 / s")
     bx.set_xticks([5000,9000,13000]);bx.grid(axis="x",alpha=.16,lw=.4)
-    bx.set_title("(b) 压力集：每场景10局",pad=10)
+    bx.set_title("(b) 压力场景：各10组",pad=10)
     fig.legend(*bx.get_legend_handles_labels(),loc="lower center",bbox_to_anchor=(.79,.095),ncol=3,frameon=False,
               columnspacing=.75,handlelength=1.0,handletextpad=.3,fontsize=8.3)
     fig.text(.5,.035,"压力图误差线为95% bootstrap区间；grid 在贴边朝外场景仅清除94.81%，其余组均全清。",
@@ -338,7 +338,7 @@ def fig_ablation(summary):
     ax.axvline(0,lw=.7,color=GRAY);ax.set_yticks([0,1],labels);ax.invert_yaxis()
     ax.set(xlim=(-180,850),ylim=(1.6,-.65),xlabel="相对 compact 的耗时增加 / s")
     ax.set_xticks([0,400,800]);ax.grid(axis="x",alpha=.16,lw=.4)
-    ax.set_title("(a) 配对10局：组件消融",pad=10)
+    ax.set_title("(a) 配对10组：组件消融",pad=10)
     tiers=["compact_fast90","compact_fast95","compact_fast99","compact_strict"]
     pts=[]
     for i,p in enumerate(tiers):
@@ -346,7 +346,7 @@ def fig_ablation(summary):
         lo,hi=np.array(r["clearance_rate_ci"])*100
         c=[GOLD,BLUE,"#7656a6",TEAL][i]
         bx.errorbar(x,y,yerr=[[y-lo],[hi-y]],fmt="o",ms=4.5,color=c,capsize=3,lw=.9)
-        label=p.removeprefix("compact_").replace("strict","strict")
+        label=p.removeprefix("compact_").replace("strict","连续认证")
         offset=[(8,-17),(-8,10),(-5,-17),(1,10)][i]
         alignment=["left","right","center","center"][i]
         bx.annotate(label,(x,y),xytext=offset,textcoords="offset points",ha=alignment,fontsize=8.5)
@@ -354,10 +354,10 @@ def fig_ablation(summary):
     pts=np.array(pts);bx.plot(pts[:,0],pts[:,1],color=GRAY,lw=.6,ls="--",zorder=0)
     bx.set(xlim=(3950,5950),ylim=(91.7,101.6),xlabel="平均完整时间 / s",ylabel="累计清除率 / %")
     bx.set_xticks([4000,4800,5600]);bx.set_yticks([92,96,100]);bx.grid(alpha=.16,lw=.4)
-    bx.set_title("(b) 同一10局：速度档取舍",pad=10)
+    bx.set_title("(b) 同一10组：覆盖与耗时",pad=10)
     fig.text(.5,.090,"误差线：整局配对/重采样的95%区间。消融区间跨零，表示此样本尚不能确认该组件的独立收益。",
              ha="center",fontsize=8.3)
-    fig.text(.5,.028,"速度档名称是配置标签；样本清除率不能替代 strict 的连续完成认证。",ha="center",fontsize=8.5)
+    fig.text(.5,.028,"快速策略名称是配置标签；样本清除率不能替代 完整覆盖策略的连续完成认证。",ha="center",fontsize=8.5)
     save(fig,"q4-ablation-tradeoff")
 
 

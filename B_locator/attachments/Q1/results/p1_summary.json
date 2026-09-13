@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "seed": 20260901,
+    "n_cases": 5,
+    "coverage_tolerance_m": 1e-09,
+    "halfplane_tolerance_m": 1e-06,
+    "arena_radius_m": 1800.0,
+    "bearing_error_bound_deg": 1.0,
+    "r_recv_range_m": [
+      1000.0,
+      1500.0
+    ],
+    "case_files": [
+      "cases/p1_case01.csv",
+      "cases/p1_case02.csv",
+      "cases/p1_case03.csv",
+      "cases/p1_case04.csv",
+      "cases/p1_case05.csv"
+    ],
+    "sweeps": {
+      "two_point": {
+        "n_trials": 20000,
+        "seed": 17,
+        "r_max_m": 1800.0,
+        "with_error": false,
+        "bearing_error_deg": 0.0
+      },
+      "two_point_err": {
+        "n_trials": 20000,
+        "seed": 17,
+        "r_max_m": 1800.0,
+        "with_error": true,
+        "bearing_error_deg": 1.0
+      },
+      "well_conditioned": {
+        "n_trials": 4000,
+        "seed": 5,
+        "min_gap_deg": 3.0,
+        "dist_range_m": [
+          300.0,
+          1500.0
+        ],
+        "m_choices": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "with_error": false,
+        "bearing_error_deg": 0.0
+      },
+      "well_conditioned_err": {
+        "n_trials": 4000,
+        "seed": 5,
+        "min_gap_deg": 3.0,
+        "dist_range_m": [
+          300.0,
+          1500.0
+        ],
+        "m_choices": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "with_error": true,
+        "bearing_error_deg": 1.0
+      }
+    }
+  },
+  "cases_summary": {
+    "n_cases": 5,
+    "n_bounded": 5,
+    "n_unbounded": 0,
+    "n_degenerate": 0,
+    "n_empty": 0,
+    "diameter_m_range": [
+      10.5912,
+      25.6424
+    ],
+    "n_diameter_circle_misses": 2,
+    "min_circle_over_half_diameter_max": 1.005127,
+    "n_truth_inside_region": 5
+  },
+  "per_case": [
+    {
+      "case": "p1_case01.csv",
+      "label": "A1",
+      "n_bearings": 6,
+      "n_vertices": 6,
+      "diameter_m": 17.6414,
+      "circle_radius_m": 8.8207,
+      "max_vertex_dist_m": 8.8207,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 3.673,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case02.csv",
+      "label": "A2",
+      "n_bearings": 5,
+      "n_vertices": 5,
+      "diameter_m": 18.6112,
+      "circle_radius_m": 9.3056,
+      "max_vertex_dist_m": 10.2875,
+      "ratio": 1.105518,
+      "excess_m": 0.9819,
+      "excess_pct": 10.5518,
+      "coverage": false,
+      "min_circle_over_half_diameter": 1.005127,
+      "worst_vertex_angle_deg": 84.21,
+      "center_error_vs_truth_m": 3.568,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case03.csv",
+      "label": "A3",
+      "n_bearings": 4,
+      "n_vertices": 5,
+      "diameter_m": 25.6424,
+      "circle_radius_m": 12.8212,
+      "max_vertex_dist_m": 13.7471,
+      "ratio": 1.072215,
+      "excess_m": 0.9259,
+      "excess_pct": 7.2215,
+      "coverage": false,
+      "min_circle_over_half_diameter": 1.003051,
+      "worst_vertex_angle_deg": 85.53,
+      "center_error_vs_truth_m": 3.675,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case04.csv",
+      "label": "A4",
+      "n_bearings": 5,
+      "n_vertices": 4,
+      "diameter_m": 21.1168,
+      "circle_radius_m": 10.5584,
+      "max_vertex_dist_m": 10.5584,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 1.528,
+      "truth_inside_region": true
+    },
+    {
+      "case": "p1_case05.csv",
+      "label": "A5",
+      "n_bearings": 6,
+      "n_vertices": 5,
+      "diameter_m": 10.5912,
+      "circle_radius_m": 5.2956,
+      "max_vertex_dist_m": 5.2956,
+      "ratio": 1.0,
+      "excess_m": 0.0,
+      "excess_pct": 0.0,
+      "coverage": true,
+      "min_circle_over_half_diameter": 1.0,
+      "worst_vertex_angle_deg": null,
+      "center_error_vs_truth_m": 1.416,
+      "truth_inside_region": true
+    }
+  ],
+  "sweeps": {
+    "two_point": {
+      "n_trials": 20000,
+      "seed": 17,
+      "r_max_m": 1800.0,
+      "with_error": false,
+      "bearing_error_deg": 0.0,
+      "n_bounded": 20000,
+      "n_fail": 231,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "n_rejected_geometry": 0,
+      "fail_pct": 1.155,
+      "worst_ratio": 1.033554,
+      "worst_config": {
+        "S1": [
+          1716.345583134012,
+          507.86877746359784,
+          196.48355060217034
+        ],
+        "S2": [
+          -467.7793222477785,
+          1570.527859110649,
+          286.5860824130208
+        ],
+        "D_m": 84.7682,
+        "max_vertex_dist_m": 43.8062,
+        "ratio": 1.033554,
+        "covers": false
+      }
+    },
+    "two_point_err": {
+      "n_trials": 20000,
+      "seed": 17,
+      "r_max_m": 1800.0,
+      "with_error": true,
+      "bearing_error_deg": 1.0,
+      "n_bounded": 19996,
+      "n_fail": 246,
+      "n_unbounded": 4,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "n_rejected_geometry": 0,
+      "fail_pct": 1.230246049209842,
+      "worst_ratio": 1.034573,
+      "worst_config": {
+        "S1": [
+          1525.4426416151907,
+          130.58579127619635,
+          185.7765544433977
+        ],
+        "S2": [
+          -165.79166955341003,
+          1445.027716841713,
+          275.8274931864338
+        ],
+        "D_m": 74.7537,
+        "max_vertex_dist_m": 38.6691,
+        "ratio": 1.034573,
+        "covers": false
+      }
+    },
+    "well_conditioned": {
+      "n_trials": 4000,
+      "seed": 5,
+      "min_gap_deg": 3.0,
+      "dist_range_m": [
+        300.0,
+        1500.0
+      ],
+      "m_choices": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "with_error": false,
+      "bearing_error_deg": 0.0,
+      "n_bounded": 3472,
+      "n_fail": 113,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "n_rejected_geometry": 528,
+      "fail_pct": 3.2546082949308754,
+      "worst_ratio": 1.030373,
+      "worst_config": {
+        "m": 6,
+        "pts": [
+          [
+            891.4271618154843,
+            347.6239151452268
+          ],
+          [
+            -477.82196180995965,
+            1336.8139681430941
+          ],
+          [
+            -262.6972838586893,
+            -1325.8560569275132
+          ],
+          [
+            28.72897892261706,
+            -1073.4286265893033
+          ],
+          [
+            232.816209318232,
+            -608.9761498471436
+          ],
+          [
+            1024.0059490525764,
+            -480.4027050856579
+          ]
+        ],
+        "svds_deg": [
+          201.30396053266753,
+          289.66858644785,
+          78.79290118475132,
+          91.53308412798629,
+          110.92223512100634,
+          154.8668224770862
+        ],
+        "D_m": 40.3878,
+        "max_vertex_dist_m": 20.8073,
+        "ratio": 1.030373,
+        "covers": false
+      },
+      "per_m": {
+        "3": {
+          "bounded": 966,
+          "fail": 30,
+          "fail_pct": 3.1056
+        },
+        "4": {
+          "bounded": 859,
+          "fail": 24,
+          "fail_pct": 2.7939
+        },
+        "5": {
+          "bounded": 897,
+          "fail": 31,
+          "fail_pct": 3.456
+        },
+        "6": {
+          "bounded": 750,
+          "fail": 28,
+          "fail_pct": 3.7333
+        }
+      }
+    },
+    "well_conditioned_err": {
+      "n_trials": 4000,
+      "seed": 5,
+      "min_gap_deg": 3.0,
+      "dist_range_m": [
+        300.0,
+        1500.0
+      ],
+      "m_choices": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "with_error": true,
+      "bearing_error_deg": 1.0,
+      "n_bounded": 3472,
+      "n_fail": 993,
+      "n_unbounded": 0,
+      "n_empty": 0,
+      "n_degenerate": 0,
+      "n_rejected_geometry": 528,
+      "fail_pct": 28.600230414746544,
+      "worst_ratio": 1.687604,
+      "worst_config": {
+        "m": 4,
+        "pts": [
+          [
+            -610.816097926494,
+            72.90316791603716
+          ],
+          [
+            -652.782622050355,
+            -851.145236414025
+          ],
+          [
+            -134.92205864291296,
+            -695.7326770442602
+          ],
+          [
+            535.7670408885357,
+            -1289.3481695764945
+          ]
+        ],
+        "svds_deg": [
+          353.04395392925613,
+          53.4396636562837,
+          79.1158118049014,
+          111.75186332882583
+        ],
+        "D_m": 17.6168,
+        "max_vertex_dist_m": 14.8651,
+        "ratio": 1.687604,
+        "covers": false
+      },
+      "per_m": {
+        "3": {
+          "bounded": 966,
+          "fail": 164,
+          "fail_pct": 16.9772
+        },
+        "4": {
+          "bounded": 859,
+          "fail": 243,
+          "fail_pct": 28.2887
+        },
+        "5": {
+          "bounded": 897,
+          "fail": 309,
+          "fail_pct": 34.4482
+        },
+        "6": {
+          "bounded": 750,
+          "fail": 277,
+          "fail_pct": 36.9333
+        }
+      }
+    }
+  },
+  "validation": {
+    "cases_checked": 5,
+    "max_vertex_difference_m": 6.440007807413782e-10,
+    "max_diameter_difference_m": 0.0,
+    "azimuth_span_deg_range": [
+      179.97,
+      249.03
+    ],
+    "min_azimuth_gap_deg": 25.11,
+    "source_distance_m_range": [
+      159.668,
+      1294.151
+    ]
+  }
+}

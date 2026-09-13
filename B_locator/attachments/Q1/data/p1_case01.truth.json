@@ -1,0 +1,13 @@
+{
+  "source_xy": [
+    -443.576,
+    -252.667
+  ],
+  "r_recv_m": 1145.303,
+  "type": "omnidirectional",
+  "dir_deg": null,
+  "bearing_error_bound_deg": 1.0,
+  "azimuth_span_deg": 205.71,
+  "min_azimuth_gap_deg": 27.14,
+  "n_detection_points": 6
+}

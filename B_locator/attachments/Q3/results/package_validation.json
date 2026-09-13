@@ -1,0 +1,165 @@
+{
+  "kind": "new packaging verification, not historical simulation data",
+  "date": "2026-09-13",
+  "environment": {
+    "python": "3.13.15",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.1"
+  },
+  "commands_run": [
+    "reproduce.py --audit-only --out <new directory>",
+    "reproduce.py --smoke --out <new directory>",
+    "reproduce.py --figures --out <new directory>"
+  ],
+  "relocated_package_test": {
+    "working_directory": "/private/tmp/q3-portability-check-20260913",
+    "modes_passed": [
+      "audit-only",
+      "smoke"
+    ],
+    "original_project_data_and_source_required": false
+  },
+  "audit": {
+    "runs": 680,
+    "action_audit_pass": 680,
+    "truth_guard_pass": 680,
+    "scene_fingerprint_pass": 680,
+    "pairing_mismatches": [],
+    "configuration_mismatches": [],
+    "all_raw_payloads_unchanged": true,
+    "coverage": {
+      "runs": 320,
+      "numerical_pass": 320,
+      "cell_certificate_pass": 320,
+      "unique_observation_sets": 302,
+      "observation_cache_hits": 1992
+    }
+  },
+  "replayed_summary_exactly_equal_frozen": true,
+  "smoke_comparison": [
+    {
+      "split": "main",
+      "policy": "field",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "main",
+      "policy": "sweep",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "main",
+      "policy": "tour",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "main",
+      "policy": "adaptive",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "main",
+      "policy": "joint",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "ablation",
+      "policy": "joint_no_after_service",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "ablation",
+      "policy": "joint_single_plan",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "ablation",
+      "policy": "joint_no_cover_polish",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    },
+    {
+      "split": "ablation",
+      "policy": "joint_no_probability_gate",
+      "seed": 2026091200,
+      "equal_frozen_fields": {
+        "actions": true,
+        "requested_config": true,
+        "effective_config": true,
+        "scene_manifest": true,
+        "post_exit_truth": true
+      }
+    }
+  ],
+  "figures": {
+    "paper_figures": 5,
+    "formats": [
+      "pdf",
+      "png"
+    ],
+    "supplement_pages": 140,
+    "main_scenes": 120,
+    "ablation_scenes": 20,
+    "unique_runs_shown": 680,
+    "representative_pages_rendered_and_visually_checked": [
+      1,
+      121
+    ]
+  },
+  "full_680_policy_rerun_performed_during_packaging": false
+}

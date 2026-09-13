@@ -1,0 +1,189 @@
+{
+  "package": "Problem 2 portable review materials",
+  "schema": "review-package-v1",
+  "files": {
+    "DATA_SOURCES.md": {
+      "source": "created for this review package",
+      "sha256": "4ecf2f45372bca1fcf305dbee02317b562544034b5f62cdfebfa40ce16002890",
+      "bytes": 4828,
+      "generated_from": [
+        "data/",
+        "results/",
+        "code/"
+      ],
+      "adaptation": "Review documentation describing supplied sources and tested commands."
+    },
+    "README.md": {
+      "source": "created for this review package",
+      "sha256": "9358c9dbba0f5795c7d9db81bb3c90044b282c385036ba91ff111b37c2d5dd27",
+      "bytes": 3827,
+      "generated_from": [
+        "data/",
+        "results/",
+        "code/"
+      ],
+      "adaptation": "Review documentation describing supplied sources and tested commands."
+    },
+    "code/Q2_theory_corrected.wl": {
+      "source": "B_locator/Q2/MMAcode/Q2_theory_corrected.wl",
+      "source_sha256": "ea3e283bec1e1aff9ea846977f8b2380c61df92913319210a1b8a1312aab79ac",
+      "sha256": "ea3e283bec1e1aff9ea846977f8b2380c61df92913319210a1b8a1312aab79ac",
+      "bytes": 1201,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "code/illustration_plot_Q2.py": {
+      "source": "B_locator/Q2/illustration_plot_Q2.py",
+      "source_sha256": "4a0415edb7b4370d83b40c2bc2930dc44d28a7260b5386984db6a4f2d8ef9fe6",
+      "sha256": "4a0415edb7b4370d83b40c2bc2930dc44d28a7260b5386984db6a4f2d8ef9fe6",
+      "bytes": 7094,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "code/make_q2_figures.py": {
+      "source": "B_locator/Q2/make_q2_figures.py",
+      "source_sha256": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
+      "sha256": "7418b53fe26ed4ed9c2271b5fe3dfe03386cf636046b4ea3c6ca925b9be02c85",
+      "bytes": 14613,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "code/make_q2_paper_figures.py": {
+      "source": "B_locator/Q2/make_q2_paper_figures.py",
+      "source_sha256": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
+      "sha256": "9a6b97aa89bf2c75d6a58fecd109a72672da2ddbb352a8ee792ea523598f203e",
+      "bytes": 8944,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "code/p1_intersection.py": {
+      "source": "B_locator/Q1/p1_intersection.py",
+      "source_sha256": "203695b1e797272e03d47aff11d5de9af89a1c7056fc249e414b6d02df591ca2",
+      "sha256": "203695b1e797272e03d47aff11d5de9af89a1c7056fc249e414b6d02df591ca2",
+      "bytes": 13812,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "code/p2_grid_expectation.py": {
+      "source": "created for this review package",
+      "sha256": "de433e03700f88233c1a4fe7428eee73e820f84cf503e2caff981d4b2854dcb5",
+      "bytes": 57728,
+      "generated_from": [
+        "data/",
+        "results/",
+        "code/"
+      ],
+      "adaptation": "Review documentation describing supplied sources and tested commands."
+    },
+    "code/review_figures.py": {
+      "source": "created for this review package",
+      "sha256": "9a8acbf38beddbd18e3a264b5255a2eaffa247991a598406ade7137e3c486741",
+      "bytes": 4191,
+      "generated_from": [
+        "code/make_q2_paper_figures.py",
+        "code/illustration_plot_Q2.py"
+      ],
+      "adaptation": "Portable drawing wrapper and supplementary atlas; output/font paths and presentation only."
+    },
+    "data/Q2_expected_diameter_data.csv": {
+      "source": "B_locator/Q2/MMAcode/Q2_expected_diameter_data.csv",
+      "source_sha256": "519fde7652ca088aa7944cb3ad1bfbc7c33b6cb111254cb896798cd5020482d0",
+      "sha256": "519fde7652ca088aa7944cb3ad1bfbc7c33b6cb111254cb896798cd5020482d0",
+      "bytes": 1020488,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "data/p2_grid_map.csv": {
+      "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_map.csv",
+      "source_sha256": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86",
+      "sha256": "29e61d3962b5e1db1308c6cbf84a19c84fbac6a86f6852acb3a327416d597c86",
+      "bytes": 1196516,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "figures/p2-contour60.png": {
+      "source": "B_locator/paper/figures/p2-contour60.png",
+      "source_sha256": "4eb523a535e48191462de00e06162fa5cadd8dd7bf70c1e2c7aabb189361ac03",
+      "sha256": "4eb523a535e48191462de00e06162fa5cadd8dd7bf70c1e2c7aabb189361ac03",
+      "bytes": 120368,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "figures/p2-mma-vs-pysim.png": {
+      "source": "B_locator/paper/figures/p2-mma-vs-pysim.png",
+      "source_sha256": "49955aaf9048e3824e9654a6ed08adfb61612419e65790d43b1aa24016b489e3",
+      "sha256": "49955aaf9048e3824e9654a6ed08adfb61612419e65790d43b1aa24016b489e3",
+      "bytes": 270009,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "figures/p2-wedge-geometry.png": {
+      "source": "B_locator/paper/figures/p2-wedge-geometry.png",
+      "source_sha256": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
+      "sha256": "08e4f64219e8fc46dc94a2da71092640725b3cb040c62f1e12c5a79a5200f3de",
+      "bytes": 254556,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "reproduce.py": {
+      "source": "created for this review package",
+      "sha256": "325158b859cb672cd356b6f8427927eb54e41083fc2e46f86990650cfcf7afc9",
+      "bytes": 3362,
+      "generated_from": [
+        "code/p2_grid_expectation.py",
+        "code/Q2_theory_corrected.wl"
+      ],
+      "adaptation": "Portable command entry and saved-result checks; original algorithms unchanged."
+    },
+    "results/p2_grid_report.json": {
+      "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_report.json",
+      "source_sha256": "3f05d3916667342ffff94621b6268bb112618557e6ee354a34484d66d2050899",
+      "sha256": "3f05d3916667342ffff94621b6268bb112618557e6ee354a34484d66d2050899",
+      "bytes": 7476,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "results/p2_grid_selftest.json": {
+      "source": "B_locator/Q2/pysimulation/out/p2_grid/p2_grid_selftest.json",
+      "source_sha256": "dba814d9415ee53f11cf538be20a1f338d832efc179c0ec7b674ddadbccdc465",
+      "sha256": "dba814d9415ee53f11cf538be20a1f338d832efc179c0ec7b674ddadbccdc465",
+      "bytes": 2109,
+      "adaptation": "none; byte-for-byte copy"
+    },
+    "supplement.pdf": {
+      "source": "created for this review package",
+      "sha256": "c18b5ce49d2e789f4abd09ca78e028d0764e413b40f445b1bdc1c2295191442f",
+      "bytes": 83146,
+      "generated_from": [
+        "code/review_figures.py",
+        "data/Q2_expected_diameter_data.csv",
+        "data/p2_grid_map.csv"
+      ],
+      "adaptation": "Generated four-page supplementary figure atlas; no new experiment or altered result."
+    },
+    "results/package_validation.json": {
+      "source": "created for this review package",
+      "generated_from": [
+        "full deterministic grid rerun",
+        "data/"
+      ],
+      "adaptation": "Full-grid numerical verification record; frozen evidence unchanged.",
+      "sha256": "c604a72da1b80efacae634b1fdb4530a2ef66e368917d98b851fa9358c86041d",
+      "bytes": 3189
+    }
+  },
+  "scope": "All delivered files except this manifest; original source paths are provenance only and are not runtime dependencies.",
+  "font_dependency": {
+    "default": "../fonts/simsun.ttc",
+    "sha256": "7a368113c36d516aac1a825acc4bbbc9906c4d197f7c649e7fe0f6f31e7475dd",
+    "alternative": "--font /path/to/chinese-font.ttf; no font needed for audit or numerical experiments"
+  },
+  "validation": {
+    "date": "2026-09-13",
+    "python": "3.13.15",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.1",
+    "audit_only": "passed",
+    "smoke": "passed",
+    "figures": "passed",
+    "isolated_copy_audit_smoke_figures": "passed; separate temporary folder, explicit local font, no original project source/data access required",
+    "supplement_pages": 4,
+    "visual_review": "all four pages rendered and inspected",
+    "full_experiment_rerun": false,
+    "theory_grid_rows": 36960,
+    "numerical_grid_rows": 11168,
+    "audit_points_per_grid": 41,
+    "smoke_grid_points": 100,
+    "geometric_selfchecks": 11,
+    "paper_figures": 3
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-13",
+  "python": "3.13.15",
+  "numpy": "2.5.3",
+  "matplotlib": "3.11.1",
+  "audit": {
+    "passed": true,
+    "cases_recomputed": 5
+  },
+  "smoke": {
+    "passed": true,
+    "cases_generated": 5
+  },
+  "full": {
+    "passed": true,
+    "cases_generated": 5,
+    "sweep_trials": 48000,
+    "frozen_summary_comparison": {
+      "cases_summary": "exact match",
+      "per_case": "exact match",
+      "sweeps": "exact match"
+    }
+  },
+  "figures": {
+    "passed": true,
+    "body_figures_generated": 3,
+    "supplement_pages": 4,
+    "missing_glyph_warnings": 0,
+    "visual_qa": "All four pages inspected; no clipping, overlapping text or missing glyphs."
+  },
+  "isolation": {
+    "copied_question_directory_only": true,
+    "working_directory_outside_repository": true,
+    "audit": true,
+    "smoke": true,
+    "figures_with_explicit_font": true
+  },
+  "frozen_inputs_algorithms_results_and_body_figures": "byte-for-byte originals preserved"
+}

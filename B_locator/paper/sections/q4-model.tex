@@ -16,14 +16,19 @@
 \begin{equation}\label{eq:q4-reception}
  H(s;p,\rho_c,\gamma)=\mathbf1\{\|s-p\|\le \rho_c,\ (s-p)^\top d(\gamma)\ge0\}=1.
 \end{equation}
-全向源去掉第二个条件。因此，无信号意味着“距离超出接收半径”或“测站位于发射背面”，不能单独推出 $\|s-p\|>1000$ m。发射方向是待排除的隐变量；实现不必先准确辨别全向、定向类型，便可对两者统一搜索。
+全向源去掉第二个条件。如\cref{fig:q4-certificate}(a) 所示，接收区域为距离圆盘与发射半平面的交集：图中背面的近点虽满足距离条件，仍收不到信号。因此，无信号意味着“距离超出接收半径”或“测站位于发射背面”，不能单独推出 $\|s-p\|>1000$ m。发射方向是待排除的隐变量；无需先准确辨别全向、定向类型，便可对两者统一搜索。
+
+\begin{figure}[!htbp]\centering
+\includegraphics[width=\textwidth]{q4-geometry-certificate}
+\caption{定向接收、带方格余量的朝向排除与测站布局压缩；方格图为几何示意}\label{fig:q4-certificate}
+\end{figure}
 
 动作成本沿用\cref{eq:q3-cost}，优化完整退出时间 $T_{\rm exit}$。同时记录成功清除数 $N_{\rm clear,ok}$、末次清除时刻 $T_{\rm last}$ 及
 \begin{equation}\label{eq:q4-metrics}
  \overline t_{\rm clear}=T_{\rm last}/N_{\rm clear,ok},\qquad
  \overline t_{\rm exit}=T_{\rm exit}/N_{\rm clear,ok}.
 \end{equation}
-前者为末次清除口径，后者为完整任务口径，计入末次清除后的残留搜索；本文主要比较完整任务时间，另报告末次清除口径作为补充。$N_{\rm clear,ok}=0$ 时两者不定义，仍保留该局的清除数与总时间。清除比例与时间必须共同报告，避免把遗漏目标带来的提前退出误判为提速。
+前者按末次清除时刻计算，后者按完整退出时刻计算，计入末次清除后的残留搜索；本文主要比较完整任务时间，另报告前者作为补充。$N_{\rm clear,ok}=0$ 时两者不定义，仍保留该次实验的清除数与总时间。清除比例与时间必须共同报告，避免把遗漏目标带来的提前退出误判为提速。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}从三角格网到任意朝向覆盖}
 先考虑在三角格网顶点检测。若 $p$ 位于三角形 $v_1v_2v_3$ 内，存在 $\lambda_i\ge0$、$\sum_i\lambda_i=1$，使
@@ -37,7 +42,7 @@
 有限格网还存在边界问题：靶区边缘朝外发射的源可能看不到任何域内测站。于是需要外侧站位，但“补一圈”以及只检查径向朝内、朝外两种情况，仍不足以证明覆盖所有位置与方向。更一般地，对候选源位置 $p$，1000 m 内的测站须从各侧围住 $p$，即其相对向量的凸包包含原点，才能保证任意发射半平面均有可接收测站。连续区域的计算判据如下。
 
 \paragraph{\textbf{(c)}\hspace{0.2em}连续位置与朝向的无源证书}
-用闭方格覆盖靶区，保留所有与 $\Omega$ 相交的边界格。设格中心为 $q$、边长为 $h$，格内位置 $p$ 满足 $\|p-q\|\le\delta_h=h/\sqrt2$。若某频道在 $s$ 实际无信号，且
+用闭方格覆盖靶区，保留与 $\Omega$ 相交的边界格。设格中心为 $q$、边长为 $h$，格内位置 $p$ 满足 $\|p-q\|\le\delta_h=h/\sqrt2$。\cref{fig:q4-certificate}(b) 上部以外接圆表示位置余量；距离与朝向条件均预留 $\delta_h$，将格中心判定推广到整格。若频道在 $s$ 实际无信号，且
 \begin{equation}\label{eq:q4-cell}
  \|s-q\|+\delta_h\le1000,\qquad (s-q)^\top d\ge\delta_h,
 \end{equation}
@@ -54,7 +59,7 @@
 \begin{equation}\label{eq:q4-arc}
  I_s(q)=\left[\psi_s-\arccos\frac{\delta_h}{\ell_s},\ \psi_s+\arccos\frac{\delta_h}{\ell_s}\right]\pmod{2\pi}.
 \end{equation}
-其余测站令 $I_s(q)=\varnothing$。记频道 $c$ 的实际无信号测站集合为 $Q_c^-$，将跨过零角的圆弧拆分、按起点排序合并，若每个相交方格都有
+其余测站令 $I_s(q)=\varnothing$。如\cref{fig:q4-certificate}(b) 下部所示，每个测站只排除朝向圆上的一段弧；弧的半宽由方格余量与站心距离之比决定。记频道 $c$ 的实际无信号测站集合为 $Q_c^-$，将跨过零角的圆弧拆分、按起点排序合并，若每个相交方格都有
 \begin{equation}\label{eq:q4-certificate}
  \bigcup_{s\in Q_c^-}I_s(q)=[0,2\pi),
 \end{equation}
@@ -66,15 +71,12 @@
 \end{equation}
 计划测站只能验证布局可行，最终判据必须使用该频道实际获得的负观测。证书成立说明无残留；预算耗尽而证书未成立时，程序退出并标记未完成。
 
-\begin{figure}[htbp]\centering
-\includegraphics[width=\textwidth]{q4-geometry-certificate}
-\caption{定向接收、带方格余量的朝向排除与测站布局压缩；方格图为几何示意}\label{fig:q4-certificate}
-\end{figure}
+
 
 \subsubsection{算法实践}
-在上述模型下，算法由格网启发式演进到有证据的联合搜索，再压缩布局、改进估价。\cref{tab:q4-versions} 中的三版均保留可运行实现，性能比较使用相同场景重新计算。
-\begin{table}[H]\centering
-\caption{问题四三版策略的递进关系}\label{tab:q4-versions}
+在上述模型下，算法由格网启发式演进到有证据的联合搜索，再压缩布局、改进估价。\cref{tab:q4-versions} 概括三代策略的递进关系，性能比较在相同场景下进行。
+\begin{table}[!htbp]\centering
+\caption{问题四三代策略的递进关系}\label{tab:q4-versions}
 \begin{tabular}{@{}lp{.42\textwidth}p{.35\textwidth}@{}}\toprule
 策略 & 主要机制 & 进一步需要解决的问题\\\midrule
 grid & 三角格网补外环、按环推进、发现后清除 & 径向覆盖启发式缺少任意朝向证书\\
@@ -83,20 +85,20 @@ compact & 21 站自适应证书、后验中心、信息代价排路 & 有限候�
 \end{tabular}\end{table}
 
 \paragraph{\textbf{(a)}\hspace{0.2em}由覆盖可行性反求紧凑站位}
-第一版采用边长 1000 m 的域内格网及外环，借鉴问题三按环推进、顺路清除的组织方式。第二版取消径向朝向假设，用\cref{eq:q4-certificate} 核验“原点、950 m 六点环、$950\sqrt3$ m 六点错位环、1900 m 十二点环”，共 25 站，并将待扫描站和待清目标合并排序。
+第一代策略采用边长 1000 m 的域内格网及外环，借鉴问题三按环推进、顺路清除的组织方式。第二代策略取消径向朝向假设，用\cref{eq:q4-certificate} 核验“原点、950 m 六点环、$950\sqrt3$ m 六点错位环、1900 m 十二点环”，共 25 站，并将待扫描站和待清目标合并排序。
 
-在有可靠退出条件后，第三版对同心环的半径、点数和相位进行候选搜索，以站数和开放航程衡量成本，以连续证书约束可行性，最终采用
+在有可靠退出条件后，第三代策略对同心环的半径、点数和相位进行候选搜索，以站数和开放航程衡量成本，以连续证书约束可行性，最终采用
 \begin{equation}\label{eq:q4-layout}
  \begin{aligned}
  \mathcal S={}&\{(0,0)\}\cup\{998\,d(k\pi/4):k=0,\ldots,7\}\\
  &\cup\{1867\,d(\pi/12+k\pi/6):k=0,\ldots,11\}.
  \end{aligned}
 \end{equation}
-外环超过靶区半径是为了检测边缘朝外源，题设允许机器狗在靶区外移动。该布局含原点共 21 站，较第二版减少 16\%；它是已找到的可行方案，并未证明站数最少。
+外环超过靶区半径是为了检测边缘朝外源，题设允许机器狗在靶区外移动。该布局含原点共 21 站，较第二代策略减少 16\%；它是已找到的可行方案，并未证明站数最少。
 
 紧凑布局的几何余量较小，固定粗方格可能无法认证。故从 $h=40$ m 开始，仅将未证明方格四等分，逐层重复圆弧并集检验；最细允许到 0.625 m，本布局在 $40\to20\to10\to5\to2.5$ m 即全部通过。各层未证明格数为 $348,380,252,172,0$；细分后格数增多不意味着覆盖退化，每次接受仍然证明整个方格。这样既减少站数，又保留连续区域的保证。
 
-\cref{fig:q4-certificate} 展示两版布局的相对位置；完整细分计数列于附录。
+\cref{fig:q4-certificate}(c) 中，空心点与实心点分别表示 25 站和 21 站布局，虚线圆为靶区边界。紧凑布局将中间两圈合并，并调整外圈半径与相位；外侧测站仍保留对边缘朝外源的检测作用。完整细分计数列于附录。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}短横向基线与合法负观测约束}
 发现源后，设 $I_c^+$ 为有示向度的正观测索引，$W_i$ 为对应角楔，$\mathcal H_c$ 为已由合法双侧负观测获得的半平面约束集合，构造
@@ -106,12 +108,17 @@ compact & 21 站自适应证书、后验中心、信息代价排路 & 有限候�
 \end{equation}
 其中 $\widetilde P_c$ 将圆域各用 32 条外切半平面近似，仍包含真源；角楔半宽为 $(1.005+10^{-8})^\circ$，其中 $0.005^\circ$ 覆盖读数保留两位小数的舍入误差。它延续问题一的保守定位，但不因单次失去信号而删去距离圆盘。
 
-从最后一个正观测点 $s$ 出发，令示向度单位向量为 $u$、法向为 $n$，估计中心沿射线的非负投影距离为 $a_{\parallel}$；以 $t$、$\ell$ 分别表示纵向步长和横向偏移，构造
+从最后一个正观测点 $s$ 出发，令示向度单位向量为 $u$、法向为 $n$，估计中心沿射线的非负投影距离为 $a_{\parallel}$；以 $t$、$\ell$ 分别表示纵向步长和横向偏移。\cref{fig:q4-homing}(a) 中，两补测点位于中心视线两侧，连成垂直于视线的短横截线段，其位置为
 \begin{equation}\label{eq:q4-baseline}
  s_\pm=s+tu\pm\ell n,\quad t=0.6a_{\parallel},\quad
  \ell=\min\{100,\max(22,0.3\max(a_{\parallel},1))\}\ \mathrm{m}.
 \end{equation}
 横向基线改善交会角；先测较近一侧，若无信号再测另一侧。必要时将 $t,\ell$ 同时缩为 $1/2$、$1/4$，处理越过源或跨出发射半平面的情形。
+
+\begin{figure}[!htbp]\centering
+\includegraphics[width=\textwidth]{q4-homing-posterior}
+\caption{双侧补测、单方位后验中心与清除覆盖；左图误差角放大 10 倍，实际半宽约 $1.005^\circ$}\label{fig:q4-homing}
+\end{figure}
 
 双侧无信号还可能产生严格的纵向上界。设角误差半宽为 $\eta$，当
 \begin{equation}\label{eq:q4-pair-condition}
@@ -126,9 +133,9 @@ compact & 21 站自适应证书、后验中心、信息代价排路 & 有限候�
  &\le\ell^2-t^2+2t\ell\tan\eta\le0,
  \end{aligned}
 \end{equation}
-故该端点也在源的实际接收半径内。如果两端实际均无信号，便可反证排除 $x\ge t$，加入 $u^\top(p-s)\le t$ 的保守截断。程序留数值余量；条件未满足时不加入该约束。
+故该端点也在源的实际接收半径内。如果两端实际均无信号，便可反证排除 $x\ge t$，加入 $u^\top(p-s)\le t$ 的保守截断；\cref{fig:q4-homing}(a) 中横截线右侧的浅橙色角楔即被排除的远端区域。计算时保留数值余量；条件未满足时不加入该约束。
 
-取得至少两条方位后允许试清除中心；若包围半径不超过 20 m 则清除有保证，否则只是试探，失败后继续补测。最多 8 轮逼近后，对外包多边形采用主轴旋转的方格清除点覆盖，网格间距 $h_{\rm clear}=28$ m。由于
+取得至少两条方位后允许试清除中心；若包围半径不超过 20 m 则清除有保证，否则只是试探，失败后继续补测。最多 8 轮逼近后，对外包多边形采用主轴旋转的方格清除点覆盖，网格间距 $h_{\rm clear}=28$ m。\cref{fig:q4-homing}(c) 将每个格点对应的 20 m 清除圆盘叠加，说明如何覆盖整个保守定位区域。由于
 \begin{equation}\label{eq:q4-clear-cover}
  \max_p\min_{z\in h_{\rm clear}\mathbb Z^2}\|p-z\|=h_{\rm clear}/\sqrt2=19.799\ldots<20\ \mathrm{m},
 \end{equation}
@@ -145,13 +152,10 @@ compact & 21 站自适应证书、后验中心、信息代价排路 & 有限候�
  r_c=\max_{v\in\operatorname{vert}(\widetilde P_c)}\|v-\hat x_c\|.
  \end{aligned}
 \end{equation}
-$t_k$ 来自面积先验的极坐标权重。该计算是中心射线上的离散后验近似，仅改变规划中心；完整保守多边形仍被保留，并重算 $r_c$。权重和为零时回退到几何中心。因此，先验不准确会影响效率，却不会改变无源证书的成立条件。
+$t_k$ 来自面积先验的极坐标权重。\cref{fig:q4-homing}(b) 对比仅有正观测与再加入一次负观测时的沿射线密度，两条竖线分别标记均值；负观测通过削弱不相容状态的权重改变目标中心。该计算是中心射线上的离散后验近似，仅改变规划中心；完整保守多边形仍被保留，并重算 $r_c$。权重和为零时回退到几何中心。因此，先验不准确会影响效率，却不会改变无源证书的成立条件。
 
-\begin{figure}[htbp]\centering
-\includegraphics[width=\textwidth]{q4-homing-posterior}
-\caption{双侧补测、单方位后验中心与清除覆盖；左图误差角放大 10 倍，实际半宽约 $1.005^\circ$}\label{fig:q4-homing}
-\end{figure}
-\cref{fig:q4-homing} 中，双侧负观测只在\cref{eq:q4-pair-condition} 成立时截断远端；中图为固定观测构造的估价示例，右图说明清除网格为何能覆盖保守定位区域。
+
+上述三种构造分别利用测向约束、观测相容性与光学清除半径，作用于定位范围、规划中心和最终清除，不能将后验均值视为严格的位置保证。
 
 \paragraph{\textbf{(d)}\hspace{0.2em}将检测收益写入开放航路目标}
 将未访问扫描站与待清目标中心共同组成节点集，从实际位置出发求开放航路 $\pi$。单纯最短距离可能把信息量大的扫描站排到后面，使更多频道在后续各站重复检测。为此，独立生成 1024 个固定参考状态，源位按面积均匀、朝向均匀、接收半径均匀；令 $F_k$ 为前 $k$ 个航路节点及既有扫描点能够接收的参考状态比例，只有扫描节点更新该比例。用
@@ -160,52 +164,51 @@ $t_k$ 来自面积先验的极坐标权重。该计算是中心射线上的离�
  \sum_{k:\pi_k\text{为扫描站}}\omega(F_{k-1}),\qquad
  \omega(F)=0.35+0.65(1-F)
 \end{equation}
-评价方案，$\mathcal C_{\rm unheard}$ 沿用问题三的未发现频道集合，$30=5\times(5+1)$ 将一次测量及切频折算为行程。常数 0.35 为扫描代价下限；参考覆盖比例不是该局真实发现概率，该式也不代替逐动作的实际计时。
+评价方案，$\mathcal C_{\rm unheard}$ 沿用问题三的未发现频道集合，$30=5\times(5+1)$ 将一次测量及切频折算为行程。常数 0.35 为扫描代价下限；参考覆盖比例不是当前场景的真实发现概率，该式也不代替逐动作的实际计时。
 
-求解时，以保留上一轮顺序、最小代价插入新节点的航路热启动，再加至多 5 个最近邻起点；每个候选至多作 4 轮 2-opt 片段翻转和单点移位，按完整目标选优。每轮只执行首个节点，随后用新观测和实际清除落点重规划。扫描站检测所有未发现频道，并为满足距离、基线条件的单方位目标补第二条方位；清除点不默认全频道补扫。严格档保留全部必要扫描站，最终仍逐频道核验\cref{eq:q4-stop}。
+求解时，以保留上一轮顺序、按最小代价插入新节点得到的航路作为初始解，再增加至多 5 个最近邻初始解；每个候选至多作 4 轮 2-opt 片段翻转和单点移位，按完整目标选优。每轮只执行首个节点，随后用新观测和实际清除位置重规划。扫描站检测所有未发现频道，并为满足距离、基线条件的单方位目标补第二条方位；清除点不默认全频道补扫。要求全域认证的策略保留全部必要扫描站，最终仍逐频道核验\cref{eq:q4-stop}。
 
-每轮至多有 20 个剩余扫描站和 20 个目标节点。设节点数为 $n$，每种邻域含 $O(n^2)$ 个候选，完整目标重算需 $O(n)$，故至多 $K=6$ 个起点、$I=4$ 轮的搜索为 $O(KIn^3)$；参考状态的接收掩码可缓存。证书对每个方格合并 $m$ 个测点的圆弧需 $O(m\log m)$，只细分未证明格可减少计算量。两者均适合本题有限规模，计算开销另见附录。
+每轮至多有 20 个剩余扫描站和 20 个目标节点。设节点数为 $n$，每种邻域含 $O(n^2)$ 个候选，完整目标重算需 $O(n)$，故至多 $K=6$ 个初始解、$I=4$ 轮的搜索为 $O(KIn^3)$；各测站能接收的参考状态可预先计算。证书对每个方格合并 $m$ 个测点的圆弧需 $O(m\log m)$，只细分未证明格可减少计算量。两者均适合本题有限规模，计算开销另见附录。
 
 \subsubsection{数据分析}
 \paragraph{\textbf{(a)}\hspace{0.2em}统一实验与版本比较}
-采用 30 组随机混合场景，源数为 $10\sim16$，位置按圆域面积均匀，约一半源为随机朝向的定向源；另设最小接收半径、贴边朝外和全向三类压力场景，各 10 组。三版策略在相同源位、接收半径和固定位置误差下独立运行，共 180 次。主集前 10 组增加两项消融和三个速度档，共计 230 次；种子、参数及逐动作审计见附录~\ref{app:q4repro}。所有数值均来自此次离线重跑。
+采用 30 组随机混合场景，源数为 $10\sim16$，位置按圆域面积均匀，约一半源为随机朝向的定向源；另设最小接收半径、贴边朝外和全向三类压力场景，各 10 组。三代策略在相同源位、接收半径和固定位置误差下独立运行，共 180 次。随机混合场景前 10 组增加两项消融和三种减少测站的快速策略，共计 230 次；随机种子、参数及逐动作核验见附录~\ref{app:q4repro}。所有数值均来自同一批离线配对实验。
 
-\begin{table}[H]\centering
+\begin{table}[!htbp]\centering
 \caption{随机混合 30 组的清除结果与完整退出成本}\label{tab:q4-main}
 \begin{tabular}{@{}lrrrrrr@{}}\toprule
 策略 & 清除比例 & 全清组数 & 时间均值/s & P90/s & 每源/s & 行程/km\\\midrule
 \input{sections/q4-main-rows.tex}\\
 \bottomrule\end{tabular}\end{table}
-每源列为逐局 $T_{\rm exit}/N_{\rm clear,ok}$ 的算术平均，清除比例按总源数加权。相较同样具有连续证书的 \textrm{joint}，\textrm{compact} 的随机集完整时间均值降低 \QFourSaving\%，95\% 配对 bootstrap 区间为 $[\QFourSavingLow,\QFourSavingHigh]\%$；其末次清除口径的每源时间为 \QFourLastPerSource\ s。两个每源口径的差额反映末次清除后继续排除未知频道的成本。
+\cref{tab:q4-main} 的每源列为逐组 $T_{\rm exit}/N_{\rm clear,ok}$ 的算术平均，清除比例按总源数加权。相较同样具有连续证书的 \textrm{joint}，\textrm{compact} 的随机集完整时间均值降低 \QFourSaving\%，95\% 配对 bootstrap 区间为 $[\QFourSavingLow,\QFourSavingHigh]\%$；按末次清除时刻计算的每源时间为 \QFourLastPerSource\ s。两种每源时间的差额反映末次清除后继续排除未知频道的成本。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q4-route-generations}
-\caption{随机混合第一组的三版实际轨迹；源位及朝向仅在实验后用于绘图}\label{fig:q4-routes}
+\caption{随机混合第一组的三代策略实际轨迹；源位及朝向仅在实验后用于绘图}\label{fig:q4-routes}
 \end{figure}
-\cref{fig:q4-routes} 以同一场景展示轨迹差异。布局压缩、定位估计及航路优化共同改变实际行程与动作次数，不能把整版提速全部归因于减少四个测站。
+\cref{fig:q4-routes}(a) 中，\textrm{grid} 先后经过多圈测站，内部清除航段与扫描路径多次交叉；(b) 中的 \textrm{joint} 将搜索与清除交错安排；(c) 中的 \textrm{compact} 进一步减少站位并调整访问顺序。三者清除同一组全部目标，图中行程与退出时间的变化由布局、定位估计和航路优化共同形成，不能把整代策略的提速全部归因于减少四个测站。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q4-results-cost}
-\caption{主集平均动作时间分解与压力场景完整时间的 95\% bootstrap 区间}\label{fig:q4-cost}
+\caption{随机混合场景平均动作时间分解与压力场景完整时间的 95\% bootstrap 区间}\label{fig:q4-cost}
 \end{figure}
-由\cref{fig:q4-cost} 可见，\textrm{compact} 同时减少移动和检测支出。与 \textrm{joint} 相比，随机主集行程从 24.17 km 降至 22.08 km，检测从 275.5 次降至 223.0 次，说明提速并非仅靠缩短几何航程。
+由\cref{fig:q4-cost}(a) 中移动与检测两段柱长的变化可见，\textrm{compact} 同时减少这两类支出。与 \textrm{joint} 相比，随机混合场景的平均行程从 24.17 km 降至 22.08 km，平均检测次数从 275.5 次降至 223.0 次，说明提速并非仅靠缩短几何航程。
 
 \paragraph{\textbf{(b)}\hspace{0.2em}压力场景、机制消融与覆盖取舍}
-\begin{table}[H]\centering
+\begin{table}[!htbp]\centering
 \caption{压力场景下的全清组数及完整时间均值}\label{tab:q4-stress}
 \begin{tabular}{@{}lrrrrrr@{}}\toprule
 & \multicolumn{2}{c}{\textrm{grid}} & \multicolumn{2}{c}{\textrm{joint}} & \multicolumn{2}{c}{\textrm{compact}}\\
 场景 & 全清 & 时间/s & 全清 & 时间/s & 全清 & 时间/s\\\midrule
 \input{sections/q4-stress-rows.tex}\\
 \bottomrule\end{tabular}\end{table}
-贴边朝外组专门检验域外测站的作用，最小半径组固定接收半径为 1000 m，以检验覆盖余量。全部 60 组中，\textrm{compact} 清除 \QFourClearedTotal/\QFourSourceTotal\ 个源，\QFourCertifiedTotal\ 组取得完整证书。经验全清结果验证了所测场景的表现；任意朝向的可靠退出仍由\cref{eq:q4-cell-proof,eq:q4-stop} 支持，不能由有限样本零失败代替证明。
+贴边朝外组专门检验域外测站的作用，最小半径组固定接收半径为 1000 m，以检验覆盖余量。\cref{fig:q4-cost}(b) 将三类压力场景的平均完整时间及其区间并列展示，便于区分场景难度与策略差异；相应全清组数见\cref{tab:q4-stress}。全部 60 组中，\textrm{compact} 清除 \QFourClearedTotal/\QFourSourceTotal\ 个源，\QFourCertifiedTotal\ 组取得完整证书。经验全清结果验证了所测场景的表现；任意朝向的可靠退出仍由\cref{eq:q4-cell-proof,eq:q4-stop} 支持，不能由有限样本零失败代替证明。
 
-分别关闭后验中心和信息代价，主集前 10 组的完整时间相对完整 \textrm{compact} 变化为 \QFourPosteriorChange\% 和 \QFourInformationChange\%。\cref{fig:q4-robustness} 的配对区间显示，后验中心的收益得到支持，信息代价对应的区间跨零，尚不足以单独确认稳定收益。消融仅改变对应开关，几何证书与清除兜底保持一致。
+分别取消后验中心估计和信息代价，随机混合场景前 10 组的完整时间相对完整 \textrm{compact} 变化为 \QFourPosteriorChange\% 和 \QFourInformationChange\%。\cref{fig:q4-robustness}(a) 中，取消后验中心后的配对区间位于零线右侧，支持其时间收益；取消信息代价后的区间跨零，尚不足以单独确认稳定收益。每项消融只取消对应机制，几何证书与光学清除覆盖保持一致。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{q4-ablation-tradeoff}
-\caption{两项单因素消融的时间变化区间及稀疏速度档的清除率与时间取舍}\label{fig:q4-robustness}
+\caption{两项单因素消融的时间变化区间及减少测站后的清除率与时间取舍}\label{fig:q4-robustness}
 \end{figure}
-速度档减少扫描站而提前结束搜索，仍清除已发现目标，却不要求全域证书。\textrm{fast99/fast95/fast90} 是配置名称，不能代表当局真实清除比例或未来全清保证；源分布未知时应选严格档。本节为离线仿真，正式模拟器三次测试数据尚未取得。
+快速策略通过减少扫描站提前结束搜索，仍清除已发现目标，却不要求全域证书。\cref{fig:q4-robustness}(b) 以清除比例和完整时间为两轴，显示缩短搜索时间同时可能遗漏目标。\textrm{fast99}、\textrm{fast95}、\textrm{fast90} 仅为策略名称，其中数字不能代表单次实验的真实清除比例或未来全清保证；源分布未知时应采用要求全域认证的策略。本节为离线仿真，正式模拟器三次测试数据尚未取得。
 \endgroup
-\clearpage
