@@ -1,0 +1,182 @@
+{
+  "package": "Problem 1 portable review materials",
+  "schema": "review-package-v1",
+  "files": {
+    "DATA_SOURCES.md": {
+      "source": "authored for the portable review package",
+      "sha256": "80a3623d7c1b4e6fe7bcec95494b56ca7945d6179e97a3be57d15709411b660f",
+      "adaptation": "Input fields, source locations, fixed seeds and manuscript evidence mapping.",
+      "bytes": 3900
+    },
+    "README.md": {
+      "source": "authored for the portable review package",
+      "sha256": "3fcefe33c0e86d88678230a792e6725e626d46d71373c264e98ac8b4a85b2a5b",
+      "adaptation": "Reviewer instructions and actual execution results.",
+      "bytes": 4024,
+      "package_revision_before_maintenance": "7c9bf7f03909c37a52dd2e13a0f8d5551ef7ba008909a600d5128b048bd9438d",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history."
+    },
+    "code/make_figures.py": {
+      "source": "B_locator/Q1/make_figures.py",
+      "source_sha256": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
+      "sha256": "b2d311098c95a6a8e0fe9d45a58e2565bd130bc16d47dcf0a9b7020f5a8b12e5",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 6403
+    },
+    "code/p1_experiments.py": {
+      "source": "B_locator/Q1/p1_experiments.py",
+      "source_sha256": "6747f9609ae21b485c2d01bc682a5a194cdb60f491084cc894ec9bf4abbc87a2",
+      "sha256": "6747f9609ae21b485c2d01bc682a5a194cdb60f491084cc894ec9bf4abbc87a2",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 22121
+    },
+    "code/p1_intersection.py": {
+      "source": "B_locator/Q1/p1_intersection.py",
+      "source_sha256": "203695b1e797272e03d47aff11d5de9af89a1c7056fc249e414b6d02df591ca2",
+      "sha256": "203695b1e797272e03d47aff11d5de9af89a1c7056fc249e414b6d02df591ca2",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 13812
+    },
+    "code/review_figures.py": {
+      "source": "authored for the portable review package",
+      "sha256": "dbc862dcf9b3073c7100df1082622e61440cfadbc8fcef5c3219afa74383940a",
+      "adaptation": "New plotting adapter for local input paths and CJK/math fonts; four-page atlas includes all five frozen cases and four frozen sweeps.",
+      "bytes": 5673
+    },
+    "data/p1_case01.csv": {
+      "source": "B_locator/Q1/cases/p1_case01.csv",
+      "source_sha256": "abb61949fd0bb2cdf089d9e3e0925469654e842c968a09e4344e2779f4d38821",
+      "sha256": "abb61949fd0bb2cdf089d9e3e0925469654e842c968a09e4344e2779f4d38821",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 359
+    },
+    "data/p1_case01.truth.json": {
+      "source": "B_locator/Q1/cases/p1_case01.truth.json",
+      "source_sha256": "fae55fd966dbaa8af9ca5c959c4e0bd968fa7fab715065f85d71d91dd2896306",
+      "sha256": "fae55fd966dbaa8af9ca5c959c4e0bd968fa7fab715065f85d71d91dd2896306",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 246
+    },
+    "data/p1_case02.csv": {
+      "source": "B_locator/Q1/cases/p1_case02.csv",
+      "source_sha256": "53f369821ca6bfc04e0fbd362a6b9f000057caf24fac699af4463916223add9a",
+      "sha256": "53f369821ca6bfc04e0fbd362a6b9f000057caf24fac699af4463916223add9a",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 304
+    },
+    "data/p1_case02.truth.json": {
+      "source": "B_locator/Q1/cases/p1_case02.truth.json",
+      "source_sha256": "271acf704de7d7d3ec586193cd9a8f30a620aa8baa52563ec110fa5366b7c590",
+      "sha256": "271acf704de7d7d3ec586193cd9a8f30a620aa8baa52563ec110fa5366b7c590",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 244
+    },
+    "data/p1_case03.csv": {
+      "source": "B_locator/Q1/cases/p1_case03.csv",
+      "source_sha256": "e5f42dd0342e3546beb39db20869eb8234f33e02d32431dae359011abf699b9d",
+      "sha256": "e5f42dd0342e3546beb39db20869eb8234f33e02d32431dae359011abf699b9d",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 263
+    },
+    "data/p1_case03.truth.json": {
+      "source": "B_locator/Q1/cases/p1_case03.truth.json",
+      "source_sha256": "07c66a42159654f6de6259c2f0c6b7f333c1114ad238db635884aa123b577deb",
+      "sha256": "07c66a42159654f6de6259c2f0c6b7f333c1114ad238db635884aa123b577deb",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 245
+    },
+    "data/p1_case04.csv": {
+      "source": "B_locator/Q1/cases/p1_case04.csv",
+      "source_sha256": "c9ce9ba4e1abf9a8354cc75dc6464c9583755f4e641b0b55b3f590f0673590ef",
+      "sha256": "c9ce9ba4e1abf9a8354cc75dc6464c9583755f4e641b0b55b3f590f0673590ef",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 302
+    },
+    "data/p1_case04.truth.json": {
+      "source": "B_locator/Q1/cases/p1_case04.truth.json",
+      "source_sha256": "6fa62d2ccb1303f7f544c9ddf736f03607db0cb893cac75f916ad9099ee93d14",
+      "sha256": "6fa62d2ccb1303f7f544c9ddf736f03607db0cb893cac75f916ad9099ee93d14",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 246
+    },
+    "data/p1_case05.csv": {
+      "source": "B_locator/Q1/cases/p1_case05.csv",
+      "source_sha256": "1b9fca3cba3ffdcd81ab7d6d5bb3a12eaf59a8ceca6377ef43c9bc58d0c2d66d",
+      "sha256": "1b9fca3cba3ffdcd81ab7d6d5bb3a12eaf59a8ceca6377ef43c9bc58d0c2d66d",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 354
+    },
+    "data/p1_case05.truth.json": {
+      "source": "B_locator/Q1/cases/p1_case05.truth.json",
+      "source_sha256": "bfa21c499b03c01c3353b3d7886d54bf59533b6e0ea5a69d76da9af3d221eae7",
+      "sha256": "bfa21c499b03c01c3353b3d7886d54bf59533b6e0ea5a69d76da9af3d221eae7",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 244
+    },
+    "figures/multi_sensor_wedge_diagram.png": {
+      "source": "B_locator/paper/figures/multi_sensor_wedge_diagram.png",
+      "source_sha256": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
+      "sha256": "c84a0f680c53ce687288700fa2a2cdd176d76cb8a2fb172723f162208a79bf10",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 174326
+    },
+    "figures/p1-algorithm-flow.png": {
+      "source": "B_locator/paper/figures/p1-algorithm-flow.png",
+      "source_sha256": "02ba6697330b841b03a7d82e6d88b0c83e9ea0e9f6981a9389a4eb2d2e2ce875",
+      "sha256": "02ba6697330b841b03a7d82e6d88b0c83e9ea0e9f6981a9389a4eb2d2e2ce875",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 126463
+    },
+    "figures/p1-coverage-contrast.png": {
+      "source": "B_locator/paper/figures/p1-coverage-contrast.png",
+      "source_sha256": "3181ebb4da221ac0a1dc3b7f40c0b034492e5647cdc95f913531561b0c2b422b",
+      "sha256": "3181ebb4da221ac0a1dc3b7f40c0b034492e5647cdc95f913531561b0c2b422b",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 228601
+    },
+    "reproduce.py": {
+      "source": "authored for the portable review package",
+      "sha256": "3b376c986b0613f21560bbe5e80291ff23a14848b5dc78473694aca442964713",
+      "adaptation": "New portable entry point; local imports, output-directory protection, file hashes, four execution modes and optional font override. Algorithms and default experiment parameters unchanged.",
+      "package_revision_before_maintenance": "b2f9f6290085e867e564927f646cb400a85dc50e700eb3810578844e1acded2e",
+      "maintenance_note": "Updated in the editable package; original source/hash fields retain historical provenance. See Git history.",
+      "bytes": 5387
+    },
+    "results/p1_results.jsonl": {
+      "source": "B_locator/Q1/results/p1_results.jsonl",
+      "source_sha256": "eae751678dfd984ca52f0b461002b2f8a16fa0d02e93953b5899d5fed5a572d3",
+      "sha256": "eae751678dfd984ca52f0b461002b2f8a16fa0d02e93953b5899d5fed5a572d3",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 4265
+    },
+    "results/p1_summary.json": {
+      "source": "B_locator/Q1/results/p1_summary.json",
+      "source_sha256": "3dfca3200a18a58d4c75a23d210b3349da972fe1a8c0fa2edd104b6c1404deb8",
+      "sha256": "3dfca3200a18a58d4c75a23d210b3349da972fe1a8c0fa2edd104b6c1404deb8",
+      "adaptation": "none; byte-for-byte copy",
+      "bytes": 9407
+    },
+    "results/package_validation.json": {
+      "source": "authored for the portable review package",
+      "sha256": "a04741a7d5c411a1d1aee83e0bbaf521f9210779fca240fa374569f5f980576b",
+      "adaptation": "Actual audit, smoke, full-rerun, figure and isolation validation record.",
+      "bytes": 967
+    },
+    "supplement.pdf": {
+      "source": "authored for the portable review package",
+      "sha256": "dde792c63c334d2eb7532fb773aecba4c768fe63a0dac4e131fd382b7c6b1c6e",
+      "adaptation": "Generated by code/review_figures.py from data/p1_case*.csv and results/p1_summary.json; no new experiment samples.",
+      "bytes": 47059
+    }
+  },
+  "shared_plotting_font": {
+    "path": "../fonts/simsun.ttc",
+    "sha256": "7a368113c36d516aac1a825acc4bbbc9906c4d197f7c649e7fe0f6f31e7475dd",
+    "required_for": "Default figures mode only; --font supports moving Q1 independently."
+  },
+  "manifest_note": "This manifest excludes itself to avoid a recursive hash; source paths are provenance labels, not runtime dependencies.",
+  "historical_source_paths": {
+    "git_revision": "15bea8b",
+    "note": "Original B_locator paths are provenance at this revision, not runtime dependencies."
+  }
+}

@@ -1,16 +1,17 @@
-# ---- 第三方 / 本地资源，不入库 ----
-tmp/
-simulator/
+# 本地运行环境和实验输出，不进入竞赛材料
+paper/.local/
+attachments/.local/
+attachments/reviewer-attachments.zip
+.venv/
+venv/
 
-# ---- Python ----
+# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
-.venv/
-venv/
 
-# ---- 编辑器 / 系统 ----
+# 编辑器与系统
 .vscode/
 .idea/
 .DS_Store
@@ -18,26 +19,11 @@ Thumbs.db
 desktop.ini
 *.swp
 
-# ---- 大体积数值中间产物（可由 scripts/ 重新生成）----
-workspace/A_drying/out/*.npz
-workspace/A_drying/out/*_diag.csv
-workspace/A_drying/out/*_meta.json
-workspace/A_drying/out/produce_meta.json
-workspace/A_drying/out/*_table*.csv
-workspace/A_drying/out/result*_tmp.xlsx
-workspace/A_drying/figs/*.png
-
-# 例外：四个交付结果与论文表格必须入库
-!workspace/A_drying/out/result1.xlsx
-!workspace/A_drying/out/result2.xlsx
-!workspace/A_drying/out/result3.xlsx
-!workspace/A_drying/out/result4.xlsx
-!workspace/A_drying/out/tables.md
-!workspace/A_drying/out/tables.json
-!workspace/A_drying/out/sensitivity*.json
-
-# ---- LaTeX 编译中间产物 ----
+# LaTeX 编译中间文件；日志原始证据只存放在 attachments/results 中
 *.aux
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+paper/*.log
+paper/*.out
+paper/*.toc
